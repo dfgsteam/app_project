@@ -9,12 +9,13 @@ import bauernhof.preset.CardColor;
  * Georg-August-Universität in Göttingen
  */
 
-public class Card {
+public class Card implements BetterCard{
     private final String name;
     private final int baseValue;
     private final CardColor color;
     private final String image;
     private final Set<Effect> effect;
+    private boolean blocked;
 
     /**
      * Constructs a Card object with the specified properties.
@@ -98,5 +99,18 @@ public class Card {
                 this.color == otherCard.getColor() &&
                 this.image.equals(otherCard.getImage()) &&
                 this.effect.equals(otherCard.getEffects());
+    }
+
+    public boolean isBlocked() {
+        return this.blocked;
+    }
+
+    public void setBlocked() {
+        this.blocked = true;
+    }
+
+    public List<EffectedCards> getEffectedCards(Card[] list) {
+        EffectedCards ret = null
+        return ret
     }
 }
