@@ -10,7 +10,7 @@ import bauernhof.preset.card.Card;
 
 import java.util.Set;
 
-public interface PlayerHandler extends Player {
+public interface GamePlayer extends Player {
     /**
      * gets Cards in PlayerHand
      *

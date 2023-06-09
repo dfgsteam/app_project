@@ -13,7 +13,7 @@ import bauernhof.preset.card.Card;
 import java.util.HashSet;
 import java.util.Set;
 
-public class LocalPlayer implements PlayerHandler {
+public class LocalPlayer implements GamePlayer {
 
     private String name;
     private ImmutableList<Card> initialDrawPile;
@@ -62,7 +62,7 @@ public class LocalPlayer implements PlayerHandler {
     @Override
     public Set<Card> getCards() {
         final Set<Card> cards = new HashSet<>();
-        for (byte i = 0; i < cards.size(); i++) cards.add(initialDrawPile.get(0));
+        for (byte i = 0; i < cards.size(); i++) cards.add(initialDrawPile.get(i));
         return cards;
     }
 
