@@ -19,7 +19,7 @@ public class LocalPlayer implements PlayerHandler {
     private ImmutableList<Card> initialDrawPile;
     private GameConfiguration gameConfiguration;
     private Move move;
-    private int numplayers, playerid;
+    private int playerid;
 
     public LocalPlayer(final String name) {
         this.name = name;
@@ -34,7 +34,6 @@ public class LocalPlayer implements PlayerHandler {
     public void init(GameConfiguration gameConfiguration, ImmutableList<Card> initialDrawPile, int numplayers, int playerid) throws Exception {
         this.gameConfiguration = gameConfiguration;
         this.initialDrawPile = initialDrawPile;
-        this.numplayers = numplayers;
         this.playerid = playerid;
     }
 

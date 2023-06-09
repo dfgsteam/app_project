@@ -12,11 +12,30 @@ import java.util.Set;
 
 public interface PlayerHandler extends Player {
     /**
-     * getter - Cards in PlayerHand
-     * @return
+     * gets Cards in PlayerHand
+     *
+     * @return all_cards_in_hand
      */
     public Set<Card> getCards();
+
+    /**
+     * gets the unblocked cards in
+     *
+     * @return active_cards
+     */
     public Set<Card> getActiveCards();
+
+    /**
+     * gets all blocked Cards in PlayerHand
+     *
+     * @return blocked_cards
+     */
     public Set<Card> getBlockedCards();
+
+    /**
+     * playerid delivered by init() Method
+     *
+     * @return playerid
+     */
     public int getPlayerID();
 }

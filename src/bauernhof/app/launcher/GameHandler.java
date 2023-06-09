@@ -4,6 +4,7 @@ import bauernhof.preset.Move;
 import bauernhof.preset.Player;
 import bauernhof.preset.card.Card;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -20,7 +21,7 @@ public interface GameHandler {
      * Cards on Card stack
      * @return
      */
-    public Set<Card> getDrawPileCards();
+    public ArrayList<Card> getDrawPileCards();
 
     /**
      * get Players sorted by ID
@@ -53,7 +54,7 @@ public interface GameHandler {
      */
     public void initNewGame() throws Exception;
     /**
-     * Mix all Cards
+     * Mix all Cards on the DrawPileStack
      */
     public void mixCards();
 }
