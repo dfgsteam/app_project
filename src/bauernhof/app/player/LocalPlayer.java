@@ -8,26 +8,16 @@ package bauernhof.app.player;
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.ImmutableList;
 import bauernhof.preset.Move;
+import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class LocalPlayer implements GamePlayer {
-
-    private String name;
+public abstract class LocalPlayer implements GamePlayer {
     private ImmutableList<Card> initialDrawPile;
     private Move move;
     private int playerid;
-
-    public LocalPlayer(final String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String getName() throws Exception {
-        return this.name;
-    }
 
     @Override
     public void init(GameConfiguration gameConfiguration, ImmutableList<Card> initialDrawPile, int numplayers, int playerid) throws Exception {
