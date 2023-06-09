@@ -13,7 +13,7 @@ import bauernhof.preset.card.Card;
 
 import java.util.*;
 
-public class GameStatus implements GameHandler{
+public class GameStatus implements Table{
     private int round;
     private Player actual_player;
     private Iterator<Player> player_iterator;

@@ -11,7 +11,7 @@ import java.util.Set;
  * @author Ramon Cemil Kimyon
  * @date 09.06.2023 01:05
  */
-public interface GameHandler {
+public interface Table {
     /**
      * Deposited Cards on the table
      * @return
