@@ -75,19 +75,17 @@ public class LocalPlayer implements GamePlayer {
     }
 
     @Override
-    public Set<Card> getCards() {
-        final Set<Card> cards = new HashSet<>();
-        for (byte i = 0; i < cards.size(); i++) cards.add(initialDrawPile.get(i));
-        return cards;
+    public ImmutableList<Card> getCards() {
+        return initialDrawPile;
     }
 
     @Override
-    public Set<Card> getActiveCards() {
+    public ImmutableList<Card> getActiveCards() {
         return null;
     }
 
     @Override
-    public Set<Card> getBlockedCards() {
+    public ImmutableList<Card> getBlockedCards() {
         return null;
     }
 

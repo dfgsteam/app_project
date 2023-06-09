@@ -7,6 +7,7 @@ package bauernhof.app.player;
 
 import bauernhof.app.launcher.GameStatus;
 import bauernhof.preset.GameConfiguration;
+import bauernhof.preset.ImmutableList;
 import bauernhof.preset.Player;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
@@ -19,21 +20,21 @@ public interface GamePlayer extends Player {
      *
      * @return all_cards_in_hand
      */
-    public Set<Card> getCards();
+    public ImmutableList<Card> getCards();
 
     /**
      * gets the unblocked cards in
      *
      * @return active_cards
      */
-    public Set<Card> getActiveCards();
+    public ImmutableList<Card> getActiveCards();
 
     /**
      * gets all blocked Cards in PlayerHand
      *
      * @return blocked_cards
      */
-    public Set<Card> getBlockedCards();
+    public ImmutableList<Card> getBlockedCards();
 
     /**
      * playerid delivered by init() Method
