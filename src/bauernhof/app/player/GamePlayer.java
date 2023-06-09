@@ -8,6 +8,7 @@ package bauernhof.app.player;
 import bauernhof.app.launcher.GameStatus;
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.Player;
+import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 
 import java.util.Set;
@@ -54,4 +55,12 @@ public interface GamePlayer extends Player {
      * @return gamestatus
      */
     public GameStatus getStatus();
+
+    /**
+     *
+     *
+     * @return playertype
+     */
+    public PlayerType getPlayerType();
+
 }
