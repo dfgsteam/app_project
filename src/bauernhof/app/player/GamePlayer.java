@@ -5,6 +5,7 @@ package bauernhof.app.player;
  * @date 09.06.2023 00:55
  */
 
+import bauernhof.app.launcher.GameStatus;
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.Player;
 import bauernhof.preset.card.Card;
@@ -46,4 +47,11 @@ public interface GamePlayer extends Player {
      * @return configuration
      */
     public GameConfiguration getGameConfiguration();
+
+    /**
+     * returns actual GameStatus
+     *
+     * @return gamestatus
+     */
+    public GameStatus getStatus();
 }
