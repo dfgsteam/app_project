@@ -5,8 +5,8 @@ import bauernhof.preset.Move;
 import bauernhof.preset.Player;
 import bauernhof.preset.card.Card;
 
-import java.util.ArrayList;
 import java.util.Set;
+import java.util.Stack;
 
 /**
  * @author Ramon Cemil Kimyon
@@ -22,7 +22,7 @@ public interface Table {
      * Cards on Card stack
      * @return
      */
-    public ArrayList<Card> getDrawPileCards();
+    public Stack<Card> getDrawPileCards();
 
     /**
      * get Players sorted by ID
