@@ -35,7 +35,7 @@ public interface Table {
      * drawpile - checks if player gets cards by DrawPileCards
      * @param move, drawpile
      */
-    public void doMove(final Move move, final boolean drawpile) throws Exception;
+    public boolean doMove(final Move move, final boolean drawpile) throws Exception;
 
     /**
      * gets the Player who has to play now
