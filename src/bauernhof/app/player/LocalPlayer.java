@@ -5,6 +5,7 @@ package bauernhof.app.player;
  * @date 09.06.2023 00:55
  */
 
+import bauernhof.app.launcher.GameStatus;
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.ImmutableList;
 import bauernhof.preset.Move;
@@ -13,11 +14,28 @@ import bauernhof.preset.card.Card;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class LocalPlayer implements GamePlayer {
+public class LocalPlayer implements GamePlayer {
+    private String name;
     private ImmutableList<Card> initialDrawPile;
     private Move move;
     private int playerid;
     private GameConfiguration configuration;
+    private GameStatus status;
+
+    public LocalPlayer(final String name, final GameStatus status) {
+        this.name = name;
+        this.status = status;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public GameStatus getStatus() {
+        return this.status;
+    }
 
     @Override
     public void init(GameConfiguration gameConfiguration, ImmutableList<Card> initialDrawPile, int numplayers, int playerid) throws Exception {
