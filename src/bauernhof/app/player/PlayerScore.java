@@ -2,6 +2,7 @@ package bauernhof.app.player;
 
 import bauernhof.app.utils.ScoreCalculator;
 import bauernhof.preset.card.Card;
+import bauernhof.preset.card.Effect;
 
 import java.util.Set;
 
@@ -12,10 +13,11 @@ import java.util.Set;
 
 public class PlayerScore implements ScoreCalculator {
     private int score = 0;
+    private Set<Card> cards;
     public PlayerScore(final Set<Card> cards) {
-        for (final Card card : cards) {
-
-        }
+        this.cards = cards;
+        for (final Card card : cards)
+            add(card);
     }
 
     @Override
@@ -30,6 +32,7 @@ public class PlayerScore implements ScoreCalculator {
 
     @Override
     public int getScore() {
-        return 0;
+        return score;
     }
+
 }
