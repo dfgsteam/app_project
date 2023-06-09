@@ -13,7 +13,9 @@ import java.util.Set;
 public class PlayerScore implements ScoreCalculator {
     private int score = 0;
     public PlayerScore(final Set<Card> cards) {
+        for (final Card card : cards) {
 
+        }
     }
 
     @Override

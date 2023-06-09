@@ -1,5 +1,6 @@
 package bauernhof.app.launcher;
 
+import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.Move;
 import bauernhof.preset.Player;
 import bauernhof.preset.card.Card;
@@ -57,4 +58,10 @@ public interface Table {
      * Mix all Cards on the DrawPileStack
      */
     public void mixCards();
+
+    /**
+     *
+     * @return gameconfiguration;
+     */
+    public GameConfiguration getGameConfiguration();
 }
