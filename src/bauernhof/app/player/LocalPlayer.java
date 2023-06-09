@@ -17,7 +17,6 @@ public class LocalPlayer implements GamePlayer {
 
     private String name;
     private ImmutableList<Card> initialDrawPile;
-    private GameConfiguration gameConfiguration;
     private Move move;
     private int playerid;
 
@@ -32,7 +31,6 @@ public class LocalPlayer implements GamePlayer {
 
     @Override
     public void init(GameConfiguration gameConfiguration, ImmutableList<Card> initialDrawPile, int numplayers, int playerid) throws Exception {
-        this.gameConfiguration = gameConfiguration;
         this.initialDrawPile = initialDrawPile;
         this.playerid = playerid;
     }

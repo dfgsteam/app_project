@@ -106,4 +106,9 @@ public class GameStatus implements Table{
     public void mixCards() {
         Collections.shuffle(drawpile_cards);
     }
+
+    @Override
+    public GameConfiguration getGameConfiguration() {
+        return this.configuration;
+    }
 }
