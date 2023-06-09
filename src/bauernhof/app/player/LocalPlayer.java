@@ -8,7 +8,6 @@ package bauernhof.app.player;
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.ImmutableList;
 import bauernhof.preset.Move;
-import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 
 import java.util.HashSet;
@@ -18,11 +17,13 @@ public abstract class LocalPlayer implements GamePlayer {
     private ImmutableList<Card> initialDrawPile;
     private Move move;
     private int playerid;
+    private GameConfiguration configuration;
 
     @Override
     public void init(GameConfiguration gameConfiguration, ImmutableList<Card> initialDrawPile, int numplayers, int playerid) throws Exception {
         this.initialDrawPile = initialDrawPile;
         this.playerid = playerid;
+        this.configuration = gameConfiguration;
     }
 
     @Override
@@ -68,4 +69,11 @@ public abstract class LocalPlayer implements GamePlayer {
     public int getPlayerID() {
         return playerid;
     }
+
+    @Override
+    public GameConfiguration getGameConfiguration() {
+        return configuration;
+    }
+
+
 }

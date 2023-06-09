@@ -5,6 +5,7 @@ package bauernhof.app.player;
  * @date 09.06.2023 00:55
  */
 
+import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.Player;
 import bauernhof.preset.card.Card;
 
@@ -38,4 +39,11 @@ public interface GamePlayer extends Player {
      * @return playerid
      */
     public int getPlayerID();
+
+    /**
+     * gets the GameConfiguration
+     *
+     * @return configuration
+     */
+    public GameConfiguration getGameConfiguration();
 }
