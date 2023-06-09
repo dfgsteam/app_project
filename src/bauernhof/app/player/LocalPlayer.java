@@ -9,6 +9,7 @@ import bauernhof.app.launcher.GameStatus;
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.ImmutableList;
 import bauernhof.preset.Move;
+import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 
 import java.util.HashSet;
@@ -21,10 +22,12 @@ public class LocalPlayer implements GamePlayer {
     private int playerid;
     private GameConfiguration configuration;
     private GameStatus status;
+    private PlayerType type;
 
-    public LocalPlayer(final String name, final GameStatus status) {
+    public LocalPlayer(final String name, final GameStatus status, final PlayerType type) {
         this.name = name;
         this.status = status;
+        this.type = type;
     }
 
     @Override
@@ -35,6 +38,11 @@ public class LocalPlayer implements GamePlayer {
     @Override
     public GameStatus getStatus() {
         return this.status;
+    }
+
+    @Override
+    public PlayerType getPlayerType() {
+        return this.type;
     }
 
     @Override
