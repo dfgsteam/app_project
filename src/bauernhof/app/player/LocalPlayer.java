@@ -12,9 +12,6 @@ import bauernhof.preset.Move;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class LocalPlayer implements GamePlayer {
     private String name;
     private ImmutableList<Card> initialDrawPile;

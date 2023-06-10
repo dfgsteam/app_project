@@ -34,6 +34,9 @@ public interface Table {
      * move - Actual Player Move executed by ActualPlayer
      * drawpile - checks if player gets cards by DrawPileCards
      * @param move, drawpile
+     *
+     * @return True - If Move can be executed
+     * @return False - If Move can't be executed
      */
     public boolean doMove(final Move move, final boolean drawpile) throws Exception;
 

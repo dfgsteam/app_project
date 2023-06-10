@@ -39,6 +39,7 @@ public class Either<L,R> {
 	 * @return The left value or null if the right value is set.
 	 */
 	public L getLeft() {
+
 		return left;
 	}
 

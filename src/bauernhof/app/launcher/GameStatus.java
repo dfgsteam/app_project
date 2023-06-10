@@ -60,8 +60,12 @@ public class GameStatus implements Table{
 
     @Override
     public boolean doMove(final Move move, final boolean drawpile) throws Exception {
-        if (drawpile) drawpile_cards.pop();
-        else deposited_cards.remove(move.getTaken());
+        boolean execution = true;
+        if (drawpile && !drawpile_cards.empty())
+            drawpile_cards.pop();
+        else if (!deposited_cards.isEmpty())
+            deposited_cards.remove(move.getTaken());
+        else execution = false;
         deposited_cards.add(move.getDeposited());
         getActualPlayer().update(move);
         if (!player_iterator.hasNext()) {
@@ -69,8 +73,7 @@ public class GameStatus implements Table{
             player_iterator = players.iterator();
         }
         actual_player = player_iterator.next();
-        return false;
-
+        return execution;
     }
 
     @Override
