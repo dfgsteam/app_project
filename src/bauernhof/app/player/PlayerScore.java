@@ -7,8 +7,6 @@ import bauernhof.preset.card.Card;
 import bauernhof.preset.card.CardColor;
 import bauernhof.preset.card.Effect;
 
-import java.util.Set;
-
 /**
  * @author Ramon Cemil Kimyon
  * @date 09.06.2023 10:13

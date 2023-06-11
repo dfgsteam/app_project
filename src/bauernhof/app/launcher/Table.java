@@ -1,6 +1,5 @@
 package bauernhof.app.launcher;
 
-import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.Move;
 import bauernhof.preset.Player;
 import bauernhof.preset.card.Card;
@@ -12,10 +11,12 @@ import java.util.Stack;
  * @author Ramon Cemil Kimyon
  * @date 09.06.2023 01:05
  */
-public interface Table {
+public interface Table extends GameProperties{
     /**
      * Deposited Cards on the table
-     * @return
+     * Cards which are deposited by {@link Player#request()} --> {@link Move#getDeposited()}
+     *
+     * @return deposited_cards
      */
     public Set<Card> getDepositedCards();
     /**
@@ -62,9 +63,4 @@ public interface Table {
      */
     public void mixCards();
 
-    /**
-     *
-     * @return gameconfiguration;
-     */
-    public GameConfiguration getGameConfiguration();
 }

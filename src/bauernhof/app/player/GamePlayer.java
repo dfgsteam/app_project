@@ -1,67 +1,14 @@
 package bauernhof.app.player;
 
-/**
- * @author Ramon Cemil Kimyon
- * @date 09.06.2023 00:55
- */
-
-import bauernhof.app.launcher.GameStatus;
-import bauernhof.preset.GameConfiguration;
-import bauernhof.preset.ImmutableList;
+import bauernhof.app.launcher.GameProperties;
 import bauernhof.preset.Player;
-import bauernhof.preset.PlayerType;
-import bauernhof.preset.card.Card;
 
-import java.util.Set;
-
-public interface GamePlayer extends Player {
-    /**
-     * gets Cards in PlayerHand
-     *
-     * @return all_cards_in_hand
-     */
-    public ImmutableList<Card> getCards();
-
-    /**
-     * gets the unblocked cards in
-     *
-     * @return active_cards
-     */
-    public ImmutableList<Card> getActiveCards();
-
-    /**
-     * gets all blocked Cards in PlayerHand
-     *
-     * @return blocked_cards
-     */
-    public ImmutableList<Card> getBlockedCards();
-
-    /**
-     * playerid delivered by init() Method
-     *
-     * @return playerid
-     */
-    public int getPlayerID();
-
-    /**
-     * gets the GameConfiguration
-     *
-     * @return configuration
-     */
-    public GameConfiguration getGameConfiguration();
-
-    /**
-     * returns actual GameStatus
-     *
-     * @return gamestatus
-     */
-    public GameStatus getStatus();
-
-    /**
-     *
-     *
-     * @return playertype
-     */
-    public PlayerType getPlayerType();
+/**
+ * Main Interface for the General Game-Player
+ *
+ * @author Ramon Cemil Kimyon
+ * @date 11.06.2023 14:30
+ */
+public interface GamePlayer extends Player, PlayerProperties, GameProperties, CardSetHandler {
 
 }
