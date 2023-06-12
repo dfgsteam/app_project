@@ -1,5 +1,6 @@
 package bauernhof.app.player;
 
+import bauernhof.preset.ImmutableList;
 import bauernhof.preset.Player;
 import bauernhof.preset.card.Card;
 
@@ -24,17 +25,17 @@ public abstract class PlayerCards implements CardSetHandler, Player {
     }
 
     @Override
-    public Set<Card> getCards() {
+    public ImmutableList<Card> getCards() {
         return null;
     }
 
     @Override
-    public Set<Card> getBlockedCards() {
+    public ImmutableList<Card> getBlockedCards() {
         return null;
     }
 
     @Override
-    public Set<Card> getActiveCards() {
+    public ImmutableList<Card> getActiveCards() {
         return null;
     }
 
