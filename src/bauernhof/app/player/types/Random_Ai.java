@@ -1,16 +1,16 @@
 package bauernhof.app.player.types;
 import java.util.Iterator;
 
-import bauernhof.app.launcher.GameStatus;
+import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.*;
 import bauernhof.preset.Move;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 
-public class Random_Ai extends LocalPlayer implements AIHeader{
+public class Random_Ai extends AbstractGamePlayer implements AIHeader{
     PlayerType type;
 
-    public Random_Ai(String name, GameStatus actual_game) {
+    public Random_Ai(String name, GameBoardState actual_game) {
         super(name, actual_game, PlayerType.RANDOM_AI);
     }
 
@@ -21,13 +21,13 @@ public class Random_Ai extends LocalPlayer implements AIHeader{
 
         int takefromDeposit = 2;        //state variable for considering the actual situation on the table
 
-        if(this.getStatus().getDepositedCards().isEmpty()) {
-            if (this.getStatus().getDrawPileCards().isEmpty()) return null;
+        if(this.getState().getDepositedCards().isEmpty()) {
+            if (this.getState().getDrawPileCards().isEmpty()) return null;
             else takefromDeposit = 0; 
         }
 
-        else if (this.getStatus().getDrawPileCards().isEmpty()) {
-            if (this.getStatus().getDepositedCards().isEmpty()) return null;
+        else if (this.getState().getDrawPileCards().isEmpty()) {
+            if (this.getState().getDepositedCards().isEmpty()) return null;
             else takefromDeposit = 1;
         }
 
@@ -59,7 +59,7 @@ public class Random_Ai extends LocalPlayer implements AIHeader{
      * @return int
      */
     private final int ownCardNumber() {
-        return (int)Math.round((Math.random() * this.getStatus().getGameConfiguration().getNumCardsPerPlayerHand() + 1));
+        return (int)Math.round((Math.random() * this.getState().getGameConfiguration().getNumCardsPerPlayerHand() + 1));
     }
 
     /**
@@ -67,13 +67,13 @@ public class Random_Ai extends LocalPlayer implements AIHeader{
      * @return
      */
     private final int depositRandomNumber() {
-        return (int)(this.getStatus().getDepositedCards().size() * Math.random());
+        return (int)(this.getState().getDepositedCards().size() * Math.random());
     }
 
     @Override
     public Card cardFromDeposit() {
        int deposit_random_index = depositRandomNumber();
-       Iterator<Card> it = this.getStatus().getDepositedCards().iterator();
+       Iterator<Card> it = this.getState().getDepositedCards().iterator();
        for (int i = 0; i < deposit_random_index; i++) {
             it.next();
         }
@@ -83,7 +83,7 @@ public class Random_Ai extends LocalPlayer implements AIHeader{
 
     @Override
     public Card cardFromStack() {
-        return this.getStatus().getDrawPileCards().firstElement();
+        return this.getState().getDrawPileCards().firstElement();
     }
 
     @Override
