@@ -11,7 +11,7 @@ import java.util.Stack;
  * @author Ramon Cemil Kimyon
  * @date 09.06.2023 01:05
  */
-public interface Table extends GameProperties{
+public interface Table extends GameProperties {
     /**
      * Deposited Cards on the table
      * Cards which are deposited by {@link Player#request()} --> {@link Move#getDeposited()}

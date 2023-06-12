@@ -13,7 +13,7 @@ import bauernhof.preset.card.Card;
 
 import java.util.*;
 
-public class GameState implements Table{
+public class GameBoardState implements Table{
     private int round;
     private Player actual_player;
     private Iterator<Player> player_iterator;
@@ -23,12 +23,12 @@ public class GameState implements Table{
     private GameConfiguration configuration;
 
     // For new Game
-    public GameState(final GameConfiguration configuration, final Set<Player> players) throws Exception {
-        new GameState(0, configuration, players, configuration.getCards(), new HashSet<>());
+    public GameBoardState(final GameConfiguration configuration, final Set<Player> players) throws Exception {
+        new GameBoardState(0, configuration, players, configuration.getCards(), new HashSet<>());
     }
 
     // For saved Game Status
-    public GameState(final int round,
+    public GameBoardState(final int round,
                      final GameConfiguration configuration,
                      final Set<Player> players,
                      final Set<Card> drawpile_cards,
@@ -111,13 +111,12 @@ public class GameState implements Table{
     }
 
     @Override
-    public GameState getState() {
-        return null;
+    public GameBoardState getState() {
+        return this;
     }
 
     @Override
-    public void setGameState(GameState state) {
-
+    public void setState(final GameBoardState state) {
     }
 
     @Override

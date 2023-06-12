@@ -20,20 +20,18 @@ public interface GameProperties {
 
     /**
      * Gibt den aktuellen Status des Spieles zurück.
-     * @see GameState
      *
      * @return state
      */
-    public GameState getState();
+    public GameBoardState getState();
 
     /**
      * Setzt den aktuellen Spielestand.
      * Fürs Laden von gespeicherten Spielen
-     * @see GameState
      *
      * @param state
      */
-    public void setGameState(final GameState state);
+    public void setState(final GameBoardState state);
 
     /**
      * Gibt den aktuellen Ziehstapel wieder
