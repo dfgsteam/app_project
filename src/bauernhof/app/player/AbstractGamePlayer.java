@@ -9,7 +9,7 @@ package bauernhof.app.player;
  * @date 09.06.2023 00:55
  */
 
-import bauernhof.app.launcher.GameState;
+import bauernhof.app.launcher.GameBoardState;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 
@@ -20,11 +20,11 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
     protected Move move;
     private int playerid;
     private GameConfiguration configuration;
-    private GameState state;
+    private GameBoardState state;
     private PlayerType type;
-    public AbstractGamePlayer(final String name, final GameState status, final PlayerType type) {
+    public AbstractGamePlayer(final String name, final GameBoardState state, final PlayerType type) {
         this.name = name;
-        this.state = status;
+        this.state = state;
         this.type = type;
     }
 
@@ -48,13 +48,16 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
         return this.name;
     }
 
-    public GameState getState() {
+    @Override
+    public GameBoardState getState() {
         return this.state;
     }
-    public void setGameState(final GameState state) {
+    @Override
+    public void setState(final GameBoardState state) {
         this.state = state;
     }
 
+    @Override
     public PlayerType getPlayerType() {
         return this.type;
     }
@@ -84,7 +87,6 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
     }
 
     @Override
-    // ello
     public void verifyGame(ImmutableList<Integer> scores) throws Exception {
         /*
         TODO: Verify all games Scores at the end of the Game
@@ -96,14 +98,10 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
         return playerid;
     }
 
+    @Override
     public GameConfiguration getGameConfiguration() {
         // returns the GameConfiguration from the Player#init
         return configuration;
-    }
-
-    @Override
-    public GameState getStatus() {
-        return this.state;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package bauernhof.app.player;
 
-import bauernhof.app.launcher.GameState;
 import bauernhof.preset.Player;
 import bauernhof.preset.card.Card;
 
@@ -46,6 +45,4 @@ public abstract class PlayerCards implements CardSetHandler, Player {
          */
         return 0;
     }
-
-    public abstract GameState getStatus();
 }

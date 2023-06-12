@@ -1,6 +1,5 @@
 package bauernhof.app.player;
 
-import bauernhof.app.launcher.GameState;
 import bauernhof.preset.*;
 
 /**
