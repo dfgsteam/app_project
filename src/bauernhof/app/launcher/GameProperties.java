@@ -31,7 +31,7 @@ public interface GameProperties {
      *
      * @param state
      */
-    public void setState(final GameBoardState state);
+    //public void setState(final GameBoardState state);
 
     /**
      * Gibt den aktuellen Ziehstapel wieder

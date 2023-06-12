@@ -1,10 +1,5 @@
 package bauernhof.app.launcher;
 
-/**
- * @author Ramon Cemil Kimyon
- * @date 09.06.2023 00:55
- */
-
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.ImmutableList;
 import bauernhof.preset.Move;
@@ -13,7 +8,20 @@ import bauernhof.preset.card.Card;
 
 import java.util.*;
 
+/**
+ * Diese Klasse ist der Generelle Main Handler für das gesamte Spielbrett.
+ * Sie gibt über jeden Status des aktuellen Spiels bescheid.
+ * Auch die Instanzen der aktuellen {@link Player} sind enthalten.
+ * Zudem dient die Klasse auch zum Laden von gespeicherten Spielständen
+ *
+ * @author Ramon Cemil Kimyon
+ * @date 09.06.2023 00:55
+ */
+
 public class GameBoardState implements Table{
+    /*
+    TODO: Laden von Spielständen durch eventuellen SaveGameLoader
+     */
     private int round;
     private Player actual_player;
     private Iterator<Player> player_iterator;
@@ -113,10 +121,6 @@ public class GameBoardState implements Table{
     @Override
     public GameBoardState getState() {
         return this;
-    }
-
-    @Override
-    public void setState(final GameBoardState state) {
     }
 
     @Override
