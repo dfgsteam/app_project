@@ -20,7 +20,7 @@ import java.util.*;
 
 public class GameBoardState implements Table{
     /*
-    TODO: Laden von Spielständen durch eventuellen SaveGameLoader
+    TO-DO: Laden von Spielständen durch eventuellen SaveGameLoader
      */
     private int round;
     private Player actual_player;

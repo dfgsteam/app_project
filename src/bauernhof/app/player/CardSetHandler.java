@@ -2,9 +2,6 @@ package bauernhof.app.player;
 
 import bauernhof.preset.ImmutableList;
 import bauernhof.preset.card.Card;
-
-import java.util.Set;
-
 /**
  * Interface für die Kartenhand des Spielers.
  * Man kann Karten entfernen und hinzufügen von der PlayerHand.
@@ -27,8 +24,34 @@ public interface CardSetHandler {
      * card --> {@link #getCards()}
      *
      * @param card - Karte die entfernt werden soll.
+     *
+     * @return True - Wenn Karte im KartenSet enthalten ist {@link #getCards()}
+     * @return False - Wenn Karte nicht enthalten ist im Set {@link #getCards()}
      */
-    public void remove(final Card card);
+    public boolean remove(final Card card);
+
+    /**
+     * Gibt den theoretischen Wert wieder sollte eine Karte geaddet werden.
+     * Diese Funktion existiert explizit für die {@link bauernhof.preset.PlayerType#ADVANCED_AI}
+     * um den theoretischen Score zu getten.
+     * Diese Methode wird auch von der {@link #add(Card)} Methode aufgerufen
+     *
+     * @param card - Karte die theoretisch geadded wird. (Wird nicht wirklich geadded
+     * @return theoretical score by adding the card
+     */
+    public int getAddScore(final Card card);
+
+    /**
+     * Gibt den theoretischen Wert wieder sollte eine Karte removed werden.
+     * Diese Funktion existiert explizit für die {@link bauernhof.preset.PlayerType#ADVANCED_AI}
+     * um den theoretischen Score zu getten.
+     * Diese Methode wird auch von der {@link #remove(Card)} Methode aufgerufen
+     *
+     * @param card - Karte die theoretisch removed wird. (Wird nicht wirklich removed
+     * @return theoretical score by adding the card
+     */
+    public int getRemoveScore(final Card card);
+
 
     /**
      * Karten in der Hand des Spielers.

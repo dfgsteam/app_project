@@ -133,6 +133,9 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
     public ImmutableList<Card> getDrawPileStack() {
         return null;
     }
-
+    @Override
+    public int getScore() throws Exception {
+        return this.score;
+    }
 }
 
