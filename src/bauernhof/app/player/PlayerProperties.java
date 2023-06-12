@@ -1,5 +1,6 @@
 package bauernhof.app.player;
 
+import bauernhof.app.launcher.GameBoardState;
 import bauernhof.preset.*;
 
 /**
@@ -23,14 +24,6 @@ public interface PlayerProperties {
      * @param next_move - der Move der ausgeführt wird, wenn der Spieler dran ist.
      */
     public void initNextMove(final Move next_move);
-
-    /**
-     * Führt den {@link Move} aus der durch die Methode {@link PlayerProperties#initNextMove(Move)}
-     * initialisiert wurde.
-     * Dabei wird der Nachziehen-Stapel und der Stapel der hingelegten Karten
-     * updated und an den aktuellen {@link GameState} gesendet.
-     */
-    public void executeMove();
     /**
      * Gibt die ID zurück, die dem Spieler beim init zugeordnet wurde.
      * {@link Player#init(GameConfiguration, ImmutableList, int, int)}
@@ -41,7 +34,7 @@ public interface PlayerProperties {
 
     /**
      * Gibt zurück, um welche Art von Spieler es sich handelt.
-     * {@link AbstractGamePlayer#AbstractGamePlayer(String, GameState, PlayerType)}
+     * {@link AbstractGamePlayer#AbstractGamePlayer(String, GameBoardState, PlayerType)}
      *
      * @return player_type
      */

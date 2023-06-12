@@ -13,21 +13,45 @@ import bauernhof.app.launcher.GameBoardState;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 
+import java.util.Stack;
+
 
 public abstract class AbstractGamePlayer extends PlayerCards implements GamePlayer {
     private String name;
-    private ImmutableList<Card> initialDrawPile;
+    protected Stack<Card> initialDrawPile = new Stack<>();
     protected Move move;
-    private int playerid;
+    private int playerid, numplayers;
     private GameConfiguration configuration;
     private GameBoardState state;
     private PlayerType type;
+
+    /**
+     * Setzt den aktuellen namen des Spielers.
+     * Übergibt den Spielstatus. {@link GameBoardState}
+     * Und definiert den Spieler Typen {@link PlayerType}
+     *
+     * @param name
+     * @param state
+     * @param type
+     */
+
     public AbstractGamePlayer(final String name, final GameBoardState state, final PlayerType type) {
         this.name = name;
         this.state = state;
         this.type = type;
     }
-
+    /**
+     * Führt den {@link Move} aus der durch die Methode {@link PlayerProperties#initNextMove(Move)}
+     * initialisiert wurde.
+     * Dabei wird der Nachziehen-Stapel und der Stapel der hingelegten Karten
+     * updated und an den aktuellen {@link GameBoardState} gesendet.
+     */
+    public void executeMove() throws Exception {
+        this.remove(request().getDeposited());
+        this.add(request().getTaken());
+        // pop card from the actual stack
+        if (request().getTaken().equals(initialDrawPile.firstElement())) initialDrawPile.pop();
+    }
     @Override
     public void setName(final String name) {
         this.name = name;
@@ -39,11 +63,6 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
     }
 
     @Override
-    public void executeMove() {
-
-    }
-
-    @Override
     public String getName() {
         return this.name;
     }
@@ -52,7 +71,13 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
     public GameBoardState getState() {
         return this.state;
     }
-    @Override
+
+    /**
+     * Setzt den aktuellen Spielestand.
+     * Fürs Laden von gespeicherten Spielen
+     *
+     * @param state
+     */
     public void setState(final GameBoardState state) {
         this.state = state;
     }
@@ -63,9 +88,9 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
     }
 
     @Override
-    public void init(GameConfiguration configuration, ImmutableList<Card> initialDrawPile, int numplayers, int playerid) throws Exception {
-        this.initialDrawPile = initialDrawPile;
-        this.playerid = playerid;
+    public void init(final GameConfiguration configuration, final ImmutableList<Card> initialDrawPile, final int numplayers, final int playerid) throws Exception {
+         this.playerid = playerid;
+        this.numplayers = numplayers;
         this.configuration = configuration;
     }
 
