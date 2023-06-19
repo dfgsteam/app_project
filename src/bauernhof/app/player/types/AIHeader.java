@@ -11,8 +11,8 @@ import bauernhof.preset.card.Card;
 public interface AIHeader {
     /**
      * Method for AI to calculate which move has to be done
-     * @return false, if no nextMove available
-     * @return true, if successful
+     * @return null, if no nextMove available
+     * @return Move, if successful
      */
     public Move calculateNextMove();
 
