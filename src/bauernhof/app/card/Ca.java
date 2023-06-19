@@ -1,7 +1,8 @@
 package bauernhof.app.card;
 
-import bauernhof.preset.Card;
-import bauernhof.preset.CardColor;
+import bauernhof.preset.card.*;
+
+import java.util.*;
 
 /**
  * Represents a card in a card game.
@@ -9,7 +10,7 @@ import bauernhof.preset.CardColor;
  * Georg-August-Universität in Göttingen
  */
 
-public class Card implements BetterCard{
+public class Ca implements Card{
     private final String name;
     private final int baseValue;
     private final CardColor color;
@@ -26,7 +27,7 @@ public class Card implements BetterCard{
      * @param image     the image associated with the card
      * @param effect    the effects associated with the card
      */
-    public Card(String name, int baseValue, CardColor color, String image, Set<Effect> effect) {
+    public Ca(String name, int baseValue, CardColor color, String image, Set<Effect> effect) {
         this.name = name;
         this.baseValue = baseValue;
         this.color = color;
@@ -109,8 +110,4 @@ public class Card implements BetterCard{
         this.blocked = true;
     }
 
-    public List<EffectedCards> getEffectedCards(Card[] list) {
-        EffectedCards ret = null
-        return ret
-    }
 }

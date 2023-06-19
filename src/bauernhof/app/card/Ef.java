@@ -1,14 +1,16 @@
 package bauernhof.app.card;
 
-import bauernhof.preset.Effect;
-import bauernhof.preset.EffectType;
+import bauernhof.preset.*;
+import bauernhof.preset.card.*;
 
-public class Effect {
+import java.util.*;
+
+public class Ef implements Effect {
 	EffectType type;
 	int effectValue;
 	Set<Either<Card,CardColor>> selector;
 
-	public Effect(EffectType type, int effectValue, Set<Either<Card,CardColor>> selector) {
+	public Ef(EffectType type, int effectValue, Set<Either<Card,CardColor>> selector) {
 		this.type = type;
 		this.effectValue = effectValue;
 		this.selector = selector;
@@ -19,7 +21,7 @@ public class Effect {
 	}
 
 	public int getEffectValue() {
-		return this.value;
+		return this.effectValue;
 	}
 
 	public Set<Either<Card,CardColor>> getSelector() {
