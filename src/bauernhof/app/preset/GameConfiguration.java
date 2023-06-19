@@ -54,7 +54,7 @@ public interface GameConfiguration {
 	 *
 	 * <p>
 	 * Every card must have a unique name.<br>
-	 * There must be at least ({@link #getNumDepositionAreaSlots()} * {@link #getNumCardsPerPlayerHand()} * 4) cards.
+	 * There must be at least ({@link #getNumDepositionAreaSlots()} + {@link #getNumCardsPerPlayerHand()} * 4) cards.
 	 * </p>
 	 *
 	 * @return The card.
@@ -67,7 +67,7 @@ public interface GameConfiguration {
 	 * This function is used by {@link bauernhof.preset.networking.S2CConnection}.
 	 * </p>
 	 * @param cardname The unique name of the card.
-	 * @return The card.
+	 * @return The card or null if no card by that name was found.
 	 */
 	public Card getCardByName(String cardname);
 

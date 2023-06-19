@@ -29,6 +29,9 @@ import sag.elements.shapes.GRect;
  */
 public class GCard extends GGroup {
 	
+	/**
+	 * @hidden
+	 */
 	protected static final float scale = 4f;
 	/**
 	 * Width of a {@link GCard}.
@@ -44,9 +47,18 @@ public class GCard extends GGroup {
 	public static final Color bgcolor = CardColor.decodeColor("#dac5a8");
 
 
+	/**
+	 * @hidden
+	 */
 	protected final Card card;
 
+	/**
+	 * @hidden
+	 */
 	protected GGroup raw = new GGroup();
+	/**
+	 * @hidden
+	 */
 	protected GElement mainbg = null;
 
 	/**
@@ -71,6 +83,9 @@ public class GCard extends GGroup {
 		return card;
 	}
 
+	/**
+	 * @hidden
+	 */
 	protected void initCard() {
 		float ccwidth = WIDTH/6f;
 

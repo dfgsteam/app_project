@@ -10,8 +10,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import sag.elements.GGroup;
-
 /**
  * A simple logger for creating fancy log outputs.
  *
@@ -32,9 +30,21 @@ import sag.elements.GGroup;
  *
  */
 public class Logger {
+	/**
+	 * @hidden
+	 */
 	protected static LogLevel maxLogLevel = LogLevel.DEBUG;
+	/**
+	 * @hidden
+	 */
 	protected static PrintStream outstream = System.out;
+	/**
+	 * @hidden
+	 */
 	protected static PrintStream errstream = System.err;
+	/**
+	 * @hidden
+	 */
 	protected static boolean colorsupport = true;
 
 	private Logger() {}
@@ -75,13 +85,39 @@ public class Logger {
 	public static void error(Throwable e) { logThrowable(3, LogLevel.ERRORS,   null, e); }
 
 	//protected static SimpleDateFormat timeformat = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+	/**
+	 * @hidden
+	 */
 	protected static SimpleDateFormat timeformat = new SimpleDateFormat("HH:mm:ss");
 
+	/**
+	 * @hidden
+	 */
 	protected static final String RESETCOLOR = (char)27 + "[0m";
 
+	/**
+	 * @hidden
+	 * Log a throwable.
+	 *
+	 * @param callerlevel The number of functions between the initial log function and the actual internal log function.
+	 * @param ll The log level to use.
+	 * @param text The text.
+	 * @param e The throwable.
+	 *
+	 */
 	protected static void logThrowable(int callerlevel, LogLevel ll, String text, Throwable e) {
 		logThrowable(callerlevel+1,ll,text,e,(maxLogLevel != LogLevel.DEBUG));
 	}
+	/**
+	 * @hidden
+	 * Log a throwable.
+	 *
+	 * @param callerlevel The number of functions between the initial log function and the actual internal log function.
+	 * @param ll The log level to use.
+	 * @param text The text.
+	 * @param e The throwable.
+	 * @param simplifyStackTrace Whether the stack trace should be simplified.
+	 */
 	protected static void logThrowable(int callerlevel, LogLevel ll, String text, Throwable e, boolean simplifyStackTrace) {
 		if (!shouldLog(ll))
 			return;
@@ -117,6 +153,14 @@ public class Logger {
 		log(callerlevel+1, ll, lines);
 	}
 
+	/**
+	 * @hidden
+	 * Add the throwable to the lines.
+	 *
+	 * @param lines The lines to add to.
+	 * @param e The throwable or null.
+	 * @param isCause Whether this is the initial throwable or a cause of that throwable.
+	 */
 	protected static void writeSimplifiedStackTrace(List<String> lines, Throwable e, boolean isCause) {
 		if (e == null)
 			return;
@@ -124,12 +168,29 @@ public class Logger {
 		writeSimplifiedStackTrace(lines, e.getCause(), true);
 	}
 
+	/**
+	 * @hidden
+	 * Log some text.
+	 *
+	 * @param callerlevel The number of functions between the initial log function and the actual internal log function.
+	 * @param ll The log level to use.
+	 * @param text The text.
+	 */
 	protected static void log(int callerlevel, LogLevel ll, String text) {
 		if (text == null)
 			return;
 		log(callerlevel+1,ll, Arrays.asList(new String[] {text}));
 	}
 
+	/**
+	 * @hidden
+	 * Log some text.
+	 *
+	 * @param callerlevel The number of functions between the initial log function and the actual internal log function.
+	 * @param ll The log level to use.
+	 * @param text The text.
+	 * @param lines Further text as lines.
+	 */
 	protected static void log(int callerlevel, LogLevel ll, String text, List<String> lines) {
 		List<String> res = new ArrayList<String>();
 		if (text != null)
@@ -140,6 +201,14 @@ public class Logger {
 		log(callerlevel+1,ll, res);
 	}
 
+	/**
+	 * @hidden
+	 * Log some text.
+	 *
+	 * @param callerlevel The number of functions between the initial log function and the actual internal log function.
+	 * @param ll The log level to use.
+	 * @param lines The text as lines.
+	 */
 	protected synchronized static void log(int callerlevel, LogLevel ll, List<String> lines) {
 		if (!shouldLog(ll))
 			return;
@@ -213,6 +282,14 @@ public class Logger {
 	}
 
 
+	/**
+	 * @hidden
+	 * Get the ansi escape sequence for the color of a specific log level.
+	 *
+	 * @param ll The log level.
+	 *
+	 * @return The ansi escape sequence of the color.
+	 */
 	protected static String getColor(LogLevel ll) {
 		switch (ll) {
 			case DEBUG:   return (char)27 + "[35m";
@@ -223,6 +300,14 @@ public class Logger {
 		}
 	}
 
+	/**
+	 * @hidden
+	 * Get the printable name of a log level.
+	 *
+	 * @param ll The log level.
+	 *
+	 * @return The name of the log level.
+	 */
 	protected static String getLogLevelName(LogLevel ll) {
 		switch (ll) {
 			case DEBUG:   return "DEBUG";
@@ -234,6 +319,7 @@ public class Logger {
 	}
 
 	/**
+	 * @hidden
 	 * Determines whether a message with a specific loglevel gets logged.
 	 *
 	 * @param ll The loglevel to test.
