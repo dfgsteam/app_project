@@ -35,6 +35,7 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
      * @param type
      */
 
+
     public AbstractGamePlayer(final String name, final GameBoardState state, final PlayerType type) {
         this.name = name;
         this.state = state;
