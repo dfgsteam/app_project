@@ -10,12 +10,12 @@ import java.util.*;
  * Georg-August-Universität in Göttingen
  */
 
-public class Ca implements Card{
+public class Ca implements Card {
     private final String name;
     private final int baseValue;
     private final CardColor color;
     private final String image;
-    private final Set<Effect> effect;
+    private Set<Effect> effect;
     private boolean blocked;
 
     /**
@@ -74,10 +74,28 @@ public class Ca implements Card{
     /**
      * Returns the effects associated with the card.
      *
-     * @return the effects associated with the card
+     * @return effect    the effects associated with the card
      */
     public Set<Effect> getEffects() {
         return this.effect;
+    }
+
+    /**
+     * Set the effects associated with the card.
+     *
+     * @param effect    the effects associated with the card
+     */
+    public void setEffects(Set<Effect> effect) {
+        this.effect = effect;
+    }
+
+    /**
+     * Add one effect associated with the card.
+     *
+     * @param effect    the effects associated with the card
+     */
+    public void addEffect(Effect effect) {
+        this.effect.add(effect);
     }
 
     /**
