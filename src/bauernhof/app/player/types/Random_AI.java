@@ -7,10 +7,10 @@ import bauernhof.preset.Move;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 
-public class Random_Ai extends AbstractGamePlayer implements AIHeader{
+public class Random_AI extends AbstractGamePlayer implements AIHeader{
     PlayerType type;
 
-    public Random_Ai(String name, GameBoardState actual_game) {
+    public Random_AI(String name, GameBoardState actual_game) {
         super(name, actual_game, PlayerType.RANDOM_AI);
     }
 
