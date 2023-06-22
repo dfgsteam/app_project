@@ -25,14 +25,14 @@ public class GameBoardState implements Table{
     private int round;
     private Player actual_player;
     private Iterator<Player> player_iterator;
-    private Set<Card> deposited_cards;
+    private ArrayList<Card> deposited_cards;
     private Stack<Card> drawpile_cards = new Stack<>();
     private Set<Player> players;
     private GameConfiguration configuration;
 
     // For new Game
     public GameBoardState(final GameConfiguration configuration, final Set<Player> players) throws Exception {
-        new GameBoardState(0, configuration, players, configuration.getCards(), new HashSet<>());
+        new GameBoardState(0, configuration, players, configuration.getCards(), new ArrayList<>());
     }
 
     // For saved Game Status
@@ -40,7 +40,7 @@ public class GameBoardState implements Table{
                      final GameConfiguration configuration,
                      final Set<Player> players,
                      final Set<Card> drawpile_cards,
-                     final Set<Card> deposited_cards) throws Exception {
+                     final ArrayList<Card> deposited_cards) throws Exception {
         this.round = round;
         for (final Card card : drawpile_cards)
             this.drawpile_cards.add(card);
@@ -52,7 +52,7 @@ public class GameBoardState implements Table{
     }
 
     @Override
-    public Set<Card> getDepositedCards() {
+    public ArrayList<Card> getDepositedCards() {
         return this.deposited_cards;
     }
 

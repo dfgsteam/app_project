@@ -4,6 +4,7 @@ import bauernhof.preset.Move;
 import bauernhof.preset.Player;
 import bauernhof.preset.card.Card;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.Stack;
 
@@ -18,7 +19,7 @@ public interface Table extends GameProperties {
      *
      * @return deposited_cards
      */
-    public Set<Card> getDepositedCards();
+    public ArrayList<Card> getDepositedCards();
     /**
      * Cards on Card stack
      * @return
