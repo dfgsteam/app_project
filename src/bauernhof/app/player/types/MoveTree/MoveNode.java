@@ -4,7 +4,7 @@ import java.util.HashSet;
 
 import bauernhof.preset.Move;
 
-public class MoveNode implements MoveNodeInterface<MoveNode> {
+public class MoveNode implements MoveNodeHandler<MoveNode> {
 
     private MoveNode prev_node;
     private Move move;
@@ -14,6 +14,16 @@ public class MoveNode implements MoveNodeInterface<MoveNode> {
     public MoveNode() {
         move = null;
         next_nodes = new HashSet<MoveNode>();
+    }
+
+    public MoveNode(Move move) {
+        this();
+        this.move = move;
+    }
+
+    public MoveNode(Move move, MoveNode prev_node) {
+        this(move);
+        this.prev_node = prev_node;
     }
 
     @Override
@@ -54,5 +64,10 @@ public class MoveNode implements MoveNodeInterface<MoveNode> {
     @Override
     public void setPrevNode(MoveNode prev_node) {
         this.prev_node = prev_node;
+    }
+
+    @Override
+    public void addNextMove(MoveNode next_move) {
+        this.next_nodes.add(next_move);
     }
 }

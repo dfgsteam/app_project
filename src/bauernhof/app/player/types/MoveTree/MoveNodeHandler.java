@@ -9,7 +9,7 @@ import bauernhof.preset.Move;
  * @author Viktor Tevosyan
  * This interface helps to implement a node class for nodes, which will help to make a MoveTree for the adanced ai
  */
-public interface MoveNodeInterface<T> {
+public interface MoveNodeHandler<T> {
     /**
      * Getter for the actual Move of the actual node
      * @return Move
@@ -59,4 +59,9 @@ public interface MoveNodeInterface<T> {
      */
     public void setPrevNode(T prev_node);
 
+    /**
+     * Set a new move to the hashset of next_moves
+     * @param next_move
+     */
+    public void addNextMove(T next_move);
 }
