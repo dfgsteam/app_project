@@ -1,11 +1,14 @@
 package bauernhof.app.player.types;
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.player.types.MoveTree.MoveNode;
 import bauernhof.preset.Move;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 
 public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
+
+    private MoveNode actual_movepos;
 
     public Advanced_AI(String name, GameBoardState state, PlayerType type) {
         super(name, state, type);
