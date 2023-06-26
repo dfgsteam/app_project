@@ -5,12 +5,12 @@ import bauernhof.preset.card.*;
 
 import java.util.*;
 
-public class Ef implements BeEf {
+public class Ef implements Effect {
 	EffectType type;
 	int effectValue;
-	Set<Either<BeCa,CardColor>> selector;
+	Set<Either<Card,CardColor>> selector;
 
-	public Ef(EffectType type, int effectValue, Set<Either<BeCa,CardColor>> selector) {
+	public Ef(EffectType type, int effectValue, Set<Either<Card,CardColor>> selector) {
 		this.type = type;
 		this.effectValue = effectValue;
 		this.selector = selector;
@@ -24,7 +24,7 @@ public class Ef implements BeEf {
 		return this.effectValue;
 	}
 
-	public Set<Either<BeCa,CardColor>> getSelector() {
+	public Set<Either<Card,CardColor>> getSelector() {
 		return this.selector;
 	}
 }

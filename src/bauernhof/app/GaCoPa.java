@@ -63,7 +63,7 @@ class GaCoPa implements GameConfigurationParser{
 
 
             Set<Map<String, Object>> effects = new HashSet<Map<String, Object>>();
-            Map<String, Ca> cards = new HashMap<String, Ca>();
+            Map<String, Card> cards = new HashMap<String, Card>();
 
 
             for (int i=0; i<cardsElements.getLength(); i++) {
@@ -80,7 +80,7 @@ class GaCoPa implements GameConfigurationParser{
                 Map<String, Object> card = new HashMap<String, Object>();
                 
                 // Erstelle Karten Objekt und füge es zur Karten-Map hinzu 
-                Ca cardObject = new Ca(cardElement.getAttribute("name"), Integer.parseInt(cardElement.getAttribute("basevalue")), cardColors.get(cardElement.getAttribute("color")), cardElement.getAttribute("image"), null);
+                Card cardObject = new Ca(cardElement.getAttribute("name"), Integer.parseInt(cardElement.getAttribute("basevalue")), cardColors.get(cardElement.getAttribute("color")), cardElement.getAttribute("image"), null);
                 cards.put(cardElement.getAttribute("name"), cardObject);
 
 
@@ -151,10 +151,10 @@ class GaCoPa implements GameConfigurationParser{
             for (var card : effects) {
                 System.out.println(card);
                 for (Map<String, Object> effect : (Set<Map<String, Object>>) card.get("effects")) {
-                    Set<Either<Ca,CardColor>> selector = new HashSet<>();
+                    Set<Either<Card,CardColor>> selector = new HashSet<>();
                     for (String effectCard : (Set<String>)effect.get("selector")) {
-                        Either<Ca,CardColor> inp = null;
-                        Ca inpCard = cards.get(effectCard);
+                        Either<Card,CardColor> inp = null;
+                        Card inpCard = cards.get(effectCard);
                         if (inpCard != null) {
                             inp = new Either<>(inpCard, null);
                         } else {
@@ -166,7 +166,7 @@ class GaCoPa implements GameConfigurationParser{
                         }
                         selector.add(inp);
                     }
-                    BeEf EffectObject = new Ef((EffectType) effect.get("type"), (int) effect.get("effectValue"), selector);
+                    Effect EffectObject = (Effect) new Ef((EffectType) effect.get("type"), (int) effect.get("effectValue"), selector);
                     Ca cardObject = (Ca) card.get("object");
                     cardObject.addEffect(EffectObject);
                 }
