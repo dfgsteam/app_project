@@ -32,7 +32,7 @@ public class Ca implements Card {
         this.baseValue = baseValue;
         this.color = color;
         this.image = image;
-        this.effect = effect;
+        this.effect = effect != null ? effect : new HashSet<Effect>();
     }
 
     /**
