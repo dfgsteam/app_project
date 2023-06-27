@@ -6,187 +6,251 @@ import bauernhof.app.card.*;
 
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
+import org.xml.sax.InputSource;
+
 import java.io.*;
 import java.util.*;
 
-
+/**
+ * GaCoPa class that implements the GameConfigurationParser interface.
+ *
+ * @author julius.hunold
+ * @version 1.0
+ * @since 2023-06-27
+ */
 class GaCoPa implements GameConfigurationParser{
-    public static void main(String args[]) {
+
+    /**
+     * Parses the game configuration from the provided file contents.
+     *
+     * @param filecontents The contents of the file to parse.
+     * @return The parsed GameConfiguration object.
+     * @throws GameConfigurationException If there is an error parsing the game configuration.
+     */
+    public GameConfiguration parse(String filecontents) throws GameConfigurationException {
         try {
+            Document document = null;
+            Element root = null;
+            GaCo gameConfiguration = new GaCo(null, 0, 0, null, null, null);
+            
             // XML-Datei einlesen
-            File inputFile = new File("cards.xml");
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(inputFile);
+            try {
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder builder = factory.newDocumentBuilder();
+                document = builder.parse(new InputSource(new StringReader(filecontents)));
+                gameConfiguration.setRawConfiguration(filecontents);
+            } catch(Exception e) {
+                throw new GameConfigurationException("xml build not loading", e);
+            }
 
             // Root-Element erhalten
-            Element root = document.getDocumentElement();
-            System.out.println("Root-Element: " + root.getNodeName());
+            try {
+                root = document.getDocumentElement();
+            } catch(Exception e) {
+                throw new GameConfigurationException("rootElement not loading", e);
+            }
 
             // Description-Element erhalten
-            Element descriptionElement = (Element) root.getElementsByTagName("Description").item(0);
-            String description = descriptionElement.getTextContent();
-            System.out.println("Beschreibung: " + description);
+            try {
+                Element descriptionElement = (Element) root.getElementsByTagName("Description").item(0);
+                gameConfiguration.setConfigDescription(descriptionElement.getTextContent());
+            } catch(Exception e) {
+                throw new GameConfigurationException("descriptionElement not loading", e);
+            }
 
             // NumCardsPerPlayerHand-Element erhalten
-            Element numCardsPerPlayerHandElement = (Element) root.getElementsByTagName("NumCardsPerPlayerHand").item(0);
-            String numCardsPerPlayerHand = numCardsPerPlayerHandElement.getTextContent();
-            System.out.println("NumCardsPerPlayerHand: " + numCardsPerPlayerHand);
+            try {
+                Element numCardsPerPlayerHandElement = (Element) root.getElementsByTagName("NumCardsPerPlayerHand").item(0);
+                gameConfiguration.setNumCardsPerPlayerHand(Integer.parseInt(numCardsPerPlayerHandElement.getTextContent()));
+            } catch(Exception e) {
+                throw new GameConfigurationException("numCardsPerPlayerHandElement not loading", e);
+            }
 
-            // NumCardsPerPlayerHand-Element erhalten
-            Element numDepositionAreaSlotsElement = (Element) root.getElementsByTagName("NumDepositionAreaSlots").item(0);
-            String numDepositionAreaSlots = numDepositionAreaSlotsElement.getTextContent();
-            System.out.println("numDepositionAreaSlots: " + numDepositionAreaSlots);
+            // numDepositionAreaSlots-Element erhalten
+            try {
+                Element numDepositionAreaSlotsElement = (Element) root.getElementsByTagName("NumDepositionAreaSlots").item(0);
+                gameConfiguration.setNumDepositionAreaSlots(Integer.parseInt(numDepositionAreaSlotsElement.getTextContent()));
+            } catch(Exception e) {
+                throw new GameConfigurationException("setNumDepositionAreaSlots not loading", e);
+            }
 
             // CardColors erhalten
-            NodeList cardColorElements = root.getElementsByTagName("CardColor");
-            System.out.println("cardColors: " + cardColorElements.getLength());
             Map<String, CardColor> cardColors = new HashMap<String, CardColor>();
+            CardColor cardColorTemp = null;
+            try {
+                NodeList cardColorElements = root.getElementsByTagName("CardColor");
 
-            for (int i=0; i<cardColorElements.getLength(); i++) {
-                Element cardColorElement = (Element) cardColorElements.item(i);
-                //System.out.println("cardColor: " + cardColorElement.getTextContent() + " " + cardColorElement.getAttribute("color"));
+                for (int i=0; i<cardColorElements.getLength(); i++) {
+                    Element cardColorElement = (Element) cardColorElements.item(i);
 
-                //-> Erst Karten, dann Effekte und mit einem NEUEN Setter in Karte hinzufügen
-        
-                if (!cardColors.containsKey(cardColorElement.getTextContent())) {
-                    cardColors.put(cardColorElement.getTextContent(), new CardColor(cardColorElement.getTextContent(), cardColorElement.getAttribute("color")));
-                } else {
-                    System.out.println("CardColor duplicate");
-                    System.exit(0);
+                    //-> Erst Karten, dann Effekte und mit einem NEUEN Setter in Karte hinzufügen
+                    if (!cardColors.containsKey(cardColorElement.getTextContent())) {
+                        cardColorTemp = new CardColor(cardColorElement.getTextContent(), cardColorElement.getAttribute("color"));
+                        cardColors.put(cardColorElement.getTextContent(), cardColorTemp);
+                        gameConfiguration.addCardColor(cardColorTemp);
+                    } else {
+                        throw new GameConfigurationException("cardColors duplicate");
+                    }
                 }
+            } catch(Exception e) {
+                throw new GameConfigurationException("cardColors not loading", e);
             }
 
             // Card erhalten
-            NodeList cardsElements = root.getElementsByTagName("Card");
-            System.out.println("cards: " + cardsElements.getLength());
-
-
             Set<Map<String, Object>> effects = new HashSet<Map<String, Object>>();
             Map<String, Card> cards = new HashMap<String, Card>();
 
-
-            for (int i=0; i<cardsElements.getLength(); i++) {
-                Element cardElement = (Element) cardsElements.item(i);
-                System.out.println("card name: " + cardElement.getAttribute("name") + " " + cardColors.get(cardElement.getAttribute("color")).getAWTColor());
-                
-                // check, ob karte ist doppelt
-                if (cards.containsKey(cardElement.getAttribute("name"))) {
-                    System.out.println("Kartenname ist doppelt!");
-                    System.exit(0);
-                } 
-
-                // Erstelle Karten Map
-                Map<String, Object> card = new HashMap<String, Object>();
-                
-                // Erstelle Karten Objekt und füge es zur Karten-Map hinzu 
-                Card cardObject = new Ca(cardElement.getAttribute("name"), Integer.parseInt(cardElement.getAttribute("basevalue")), cardColors.get(cardElement.getAttribute("color")), cardElement.getAttribute("image"), null);
-                cards.put(cardElement.getAttribute("name"), cardObject);
-
-
-                // Weise Map Kartenobjekt zu
-                card.put("object", cardObject);
-                
-                // Erstelle Set für betroffenen Karten/Farben eines Effekts
-                Set<Map<String, Object>> cardEffects = new HashSet<Map<String, Object>>();
-
-                // Erstelle Effect HashMaps
-                NodeList cardEffectElements = cardElement.getElementsByTagName("Effect");
-                for (int x=0; x<cardEffectElements.getLength(); x++) {
-                    // XML Bereich von Hashmaps
-                    Element cardEffectElement = (Element) cardEffectElements.item(x);
+            try {
+                NodeList cardsElements = root.getElementsByTagName("Card");
+                for (int i=0; i<cardsElements.getLength(); i++) {
+                    Element cardElement = (Element) cardsElements.item(i);
                     
-                    // Füge zu Hashmap hinzu
-                    Map<String, Object> effect = new HashMap<String, Object>();
-                    effect.put("type", (Object) EffectType.valueOf(cardEffectElement.getAttribute("type")));
-                    effect.put("effectValue", (Object) Integer.parseInt(cardEffectElement.getAttribute("effectvalue")));
-                    
-                    //Set<Either<Card,CardColor>> effectedCards = new HashSet<Either<Card,CardColor>>();
-                    Set<String> effectedCards = new HashSet<>();
+                    // check, ob karte ist doppelt
+                    if (cards.containsKey(cardElement.getAttribute("name"))) {
+                        throw new GameConfigurationException("cardNameDuplicate");
+                    } 
 
-                
-                    // For-Loop durch XML File. Erst ColorRef, dann CardRef
-                    NodeList effectElements;
-                    try {
-                        effectElements = cardEffectElement.getElementsByTagName("CardColorRef");
-                        if (effectElements != null)
-                            for (int y=0; y<effectElements.getLength(); y++) {
-                                Element effectElement = (Element) effectElements.item(y);
-                                effectedCards.add(effectElement.getTextContent());
-                            }
-                    } catch (Exception e) {
-                        System.out.println(e);
-                    }
-                    try {  
-                        effectElements = cardEffectElement.getElementsByTagName("CardRef");
-                        if (effectElements != null)
-                            for (int y=0; y<effectElements.getLength(); y++) {
-                                Element effectElement = (Element) effectElements.item(y);
-                                effectedCards.add(effectElement.getTextContent());
-                            }
+                    // Erstelle Karten Map
+                    Map<String, Object> card = new HashMap<String, Object>();
+                    
+                    // Erstelle Karten Objekt und füge es zur Karten-Map hinzu 
+                    Card cardObject = new Ca(cardElement.getAttribute("name"), Integer.parseInt(cardElement.getAttribute("basevalue")), cardColors.get(cardElement.getAttribute("color")), cardElement.getAttribute("image"), null);
+                    cards.put(cardElement.getAttribute("name"), cardObject);
+
+
+                    // Weise Map Kartenobjekt zu
+                    card.put("object", cardObject);
+                    
+                    // Erstelle Set für betroffenen Karten/Farben eines Effekts
+                    Set<Map<String, Object>> cardEffects = new HashSet<Map<String, Object>>();
+
+                    // Erstelle Effect HashMaps
+                    NodeList cardEffectElements = cardElement.getElementsByTagName("Effect");
+                    for (int x=0; x<cardEffectElements.getLength(); x++) {
+                        // XML Bereich von Hashmaps
+                        Element cardEffectElement = (Element) cardEffectElements.item(x);
+                        
+                        // Füge zu Hashmap hinzu
+                        Map<String, Object> effect = new HashMap<String, Object>();
+                        effect.put("type", (Object) EffectType.valueOf(cardEffectElement.getAttribute("type")));
+                        effect.put("effectValue", (Object) Integer.parseInt(cardEffectElement.getAttribute("effectvalue")));
+                        
+                        //Set<Either<Card,CardColor>> effectedCards = new HashSet<Either<Card,CardColor>>();
+                        Set<String> effectedCards = new HashSet<>();
+
+                    
+                        // For-Loop durch XML File. Erst ColorRef, dann CardRef
+                        NodeList effectElements;
+                        try {
+                            effectElements = cardEffectElement.getElementsByTagName("CardColorRef");
+                            if (effectElements != null)
+                                for (int y=0; y<effectElements.getLength(); y++) {
+                                    Element effectElement = (Element) effectElements.item(y);
+                                    effectedCards.add(effectElement.getTextContent());
+                                }
                         } catch (Exception e) {
-                            System.out.println(e);
+                            System.out.println(e); // Wenn keine CardCorlorRef vorhanden ist
                         }
-                    //System.out.println(effectedCards);
+                        try {  
+                            effectElements = cardEffectElement.getElementsByTagName("CardRef");
+                            if (effectElements != null)
+                                for (int y=0; y<effectElements.getLength(); y++) {
+                                    Element effectElement = (Element) effectElements.item(y);
+                                    effectedCards.add(effectElement.getTextContent());
+                                }
+                        } catch (Exception e) {
+                            System.out.println(e); // Wenn keine CardRef vorhanden ist
+                        }
 
-                    if (effectedCards.isEmpty()) {
-                        System.out.println("ERROR: Effekt sind keine Karten zugeorndet!");
-                        System.exit(1);
+                        if (effectedCards.isEmpty()) {
+                            throw new GameConfigurationException("effectNotAssignet");
+                        }
+
+                        effect.put("selector", effectedCards);
+                        cardEffects.add(effect);
                     }
 
-                    effect.put("selector", effectedCards);
-                    cardEffects.add(effect);
+                    card.put("effects", cardEffects);
+
+                    // für Karte zu Effekt Map hinzu
+                    effects.add(card);
+                    
+
                 }
-
-                card.put("effects", cardEffects);
-
-                // für Karte zu Effekt Map hinzu
-                effects.add(card);
-                
-
+            } catch (Exception e) {
+                throw new GameConfigurationException("cardColors not loading", e);
             }
-            System.out.println(effects);
 
             // Weise Karten Effekte zu
-            for (var card : effects) {
-                System.out.println(card);
-                for (Map<String, Object> effect : (Set<Map<String, Object>>) card.get("effects")) {
-                    Set<Either<Card,CardColor>> selector = new HashSet<>();
-                    for (String effectCard : (Set<String>)effect.get("selector")) {
-                        Either<Card,CardColor> inp = null;
-                        Card inpCard = cards.get(effectCard);
-                        if (inpCard != null) {
-                            inp = new Either<>(inpCard, null);
-                        } else {
-                            try {
-                                inp = new Either<>(null, cardColors.get(effectCard));
-                            } catch (Exception e) {
-                                System.out.println(e);
+            
+            Either<Card,CardColor> inp = null;
+
+            try {
+                Ca cardObject = null;
+                Set<Effect> effectsList = null;
+                Set<Card> cardList = new HashSet<Card>();
+                for (var card : effects) { 
+                    cardObject = (Ca) card.get("object");
+                    effectsList = new HashSet<Effect>();
+                    for (Map<String, Object> effect : (Set<Map<String, Object>>) card.get("effects")) {
+                        Set<Either<Card,CardColor>> selector = new HashSet<Either<Card,CardColor>>();
+                        Set<String> effectSelector = (Set<String>) effect.get("selector");
+    
+                        for (String effectCard : effectSelector) {
+                            Card inpCard = cards.get(effectCard);
+                            if (inpCard != null) {
+                                inp = new Either<>(inpCard, null);
+                            } else {
+                                try {
+                                    inp = new Either<>(null, cardColors.get(effectCard));
+                                } catch (Exception e) {
+                                    throw new GameConfigurationException("EffectedType not found", e);
+                                }
                             }
+                            selector.add(inp);
                         }
-                        selector.add(inp);
+                        
+                        Effect effectObject = (Effect) new Ef((EffectType) effect.get("type"), (int) effect.get("effectValue"), selector);
+                        effectsList.add(effectObject);
                     }
-                    Effect EffectObject = (Effect) new Ef((EffectType) effect.get("type"), (int) effect.get("effectValue"), selector);
-                    Ca cardObject = (Ca) card.get("object");
-                    cardObject.addEffect(EffectObject);
+                    cardObject.setEffects(effectsList);
+                    cardList.add(cardObject);
                 }
-
-            }
-
-
-
-
-
-
-
-
-
+                gameConfiguration.setCards(cardList);
+                return (GameConfiguration) gameConfiguration;
+            } catch (Exception e) {
+                throw new GameConfigurationException("cardAssignedToCard Error", e);
+            } 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new GameConfigurationException(e);
         }
     }
 
-    public GameConfiguration parse(String filecontents) throws GameConfigurationException {return null;}
+    /**
+     * Parses the given file to create a GameConfiguration object.
+     *
+     * @param file the File object representing the file to be parsed
+     * @return the parsed GameConfiguration object
+     * @throws GameConfigurationException if there is an error in the game configuration
+     * @throws IOException if an I/O error occurs while reading the file
+     */
+    public GameConfiguration parse(File file) throws GameConfigurationException, IOException {
+        try (FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader)) {
 
-    public GameConfiguration parse(File file) throws GameConfigurationException, IOException {return null;}
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+            
+            // Liest und fügt jede Zeile dem SringBuilder hinzu
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+                stringBuilder.append("\n");  // füge Zeilenumbbruch hinzu
+            }
+
+            String fileContents = stringBuilder.toString();
+            return this.parse(fileContents);
+        } catch (IOException e) {
+            throw new IOException("FileNotFound", e);
+        }  
+    }
 }
