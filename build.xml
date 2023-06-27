@@ -11,6 +11,7 @@
 	<property name="doc" location="doc"/>
 	<property name="lib" location="lib"/>
 	<property name="graphics" location="graphics"/>
+	<property name="config" location="config"/>
 
 	<!-- determine preset.version -->
 	<property environment="env"/>
@@ -54,6 +55,9 @@
 		<!-- Include the graphics, as they are needed to be relative to the classes -->
 		<copy todir="${build}/graphics">
 			<fileset dir="${graphics}"/>
+		</copy>
+		<copy todir="${build}/config">
+			<fileset dir="${config}"/>
 		</copy>
 		<echoproperties prefix="preset" destfile="${build}/preset.txt"/>
 		<!-- Copy LICENSE -->
