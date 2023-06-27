@@ -2,9 +2,7 @@ package bauernhof.preset.card;
 
 import java.awt.Color;
 import java.awt.geom.Point2D.Float;
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
@@ -32,7 +30,7 @@ public class GCard extends GGroup {
 	/**
 	 * @hidden
 	 */
-	protected static final float scale = 4f;
+	protected static final float scale = 4f * 0.75f;
 	/**
 	 * Width of a {@link GCard}.
 	 */
@@ -95,7 +93,7 @@ public class GCard extends GGroup {
 		raw.addChild(new GRect(ccwidth, 0, WIDTH-ccwidth, HEIGHT, false, 10, 10).setFill(bgcolor)); // main background
 		raw.addChild(new GRect(ccwidth, 0, ccwidth * 2, HEIGHT, false).setFill(bgcolor)); // main background
 
-		raw.addChild(new GText(card.getColor().getName()).setAlignment(TextAnchor.MIDDLE).setFontSize(ccwidth / 2f).setFill(Color.WHITE).rotate(-90).move(ccwidth- ccwidth/3f,HEIGHT*0.4f)); // cardcolor
+		raw.addChild(new GText(card.getColor().getName()).setAlignment(TextAnchor.MIDDLE).setFontSize(ccwidth / 2f).setFill(Color.WHITE).rotate(-90).move(ccwidth- ccwidth/3f,HEIGHT*0.42f)); // cardcolor
 		
 		// image
 		//raw.addChild(new GRect(ccwidth + 5f, ccwidth - 5f, WIDTH-ccwidth-10f, HEIGHT*0.4f, false, 10, 10).setFill(CardColor.decodeColor("#ddddff")));
@@ -121,9 +119,7 @@ public class GCard extends GGroup {
 
 		//raw.addChild(new GCircle(WIDTH/2f, HEIGHT/2f,10).setFill(Color.BLUE));
 
-		float endscale = 0.75f;
-		raw.move(-(WIDTH*endscale)/2f, -(HEIGHT*endscale)/2f);
-		raw.scale(endscale);
+		raw.move(-(WIDTH)/2f, -(HEIGHT)/2f);
 		setStroke(Color.BLACK);
 		setStrokeWidth(5f);
 	}
@@ -145,7 +141,7 @@ public class GCard extends GGroup {
 			try {
 				GElement res = null;
 				res = new GSVG(url);
-				float scale = 0.25f;
+				float scale = 0.19f;
 				float w = 512f * scale;
 				float h = 512f * scale;
 				res.scale(scale);

@@ -11,7 +11,7 @@
 	<property name="doc" location="doc"/>
 	<property name="lib" location="lib"/>
 	<property name="graphics" location="graphics"/>
-	<property name="config" location="config"/>
+	<property name="config" location="gameconfigs"/>
 
 	<!-- determine preset.version -->
 	<property environment="env"/>
@@ -56,7 +56,7 @@
 		<copy todir="${build}/graphics">
 			<fileset dir="${graphics}"/>
 		</copy>
-		<copy todir="${build}/config">
+		<copy todir="${build}/gameconfigs">
 			<fileset dir="${config}"/>
 		</copy>
 		<echoproperties prefix="preset" destfile="${build}/preset.txt"/>

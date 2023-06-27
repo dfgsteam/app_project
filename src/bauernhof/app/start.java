@@ -7,7 +7,7 @@ import bauernhof.preset.*;
 
 public class start {
     public static void main(String args[]) throws GameConfigurationException, IOException {
-        File gameConfFile = new File("config/cards.xml");
+        File gameConfFile = new File("gameconfigs/cards.xml");
         GameConfigurationParser GameConfPars = new GaCoPa();
         GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
 

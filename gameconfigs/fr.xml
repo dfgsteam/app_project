@@ -16,7 +16,7 @@
 	</CardColors>
 	<Cards>
 		<!-- ===== Anführer ===== -->
-		<Card color="Anführer" basevalue="15" name="Kaiserin" image="logo">
+		<Card color="Anführer" basevalue="15" name="Kaiserin"   image="logo">
 			<Effect type="POINTS_FOREACH" effectvalue="10">
 				<CardColorRef>Armee</CardColorRef>
 			</Effect>
@@ -316,4 +316,3 @@
 
 	</Cards>
 </BauernhofGameConfiguration>
-

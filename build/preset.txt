@@ -1,0 +1,7 @@
+#Ant properties
+#Tue Jun 27 19:15:41 CEST 2023
+preset.DSTAMP=20230627
+preset.TSTAMP=1915
+preset.version=indev_juhu
+preset.TODAY=June 27 2023
+preset.builddate=2023-06-27T19_15_40.166+0200
