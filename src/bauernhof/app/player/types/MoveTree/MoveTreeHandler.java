@@ -20,15 +20,20 @@ public interface MoveTreeHandler {
     /**
      * Add a new Move to the Tree (depth) and change the actual_node to that Node
      * @param MoveNode movez_node
-     * @return true if added
      */
-    public boolean addDepthNode(MoveNode move_node);
+    public void addDepthNode(MoveNode move_node);
 
     /**
      * Sets actual_node to parent_node
      * @return true, if parent exists
      */
     public boolean goToParent();
+
+    /**
+     * Create a next MoveNode if possible
+     * @return MoveNode move_node
+     */
+    public MoveNode createNextMoveNode();
     
 
 }
