@@ -19,7 +19,7 @@ public interface MoveTreeHandler {
     public MoveNode getRootNode();
     /**
      * Add a new Move to the Tree (depth) and change the actual_node to that Node
-     * @param MoveNode move_node
+     * @param MoveNode movez_node
      * @return true if added
      */
     public boolean addDepthNode(MoveNode move_node);

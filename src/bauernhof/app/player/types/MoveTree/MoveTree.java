@@ -1,9 +1,12 @@
 package bauernhof.app.player.types.MoveTree;
 
 public class MoveTree {
-    private MoveNode start;
+    private MoveNode root;
+    private MoveNode actual_node;
 
-    public MoveTree(MoveNode start) {
-        this.start = start;
+    public MoveTree() {
+        root = new MoveNode();
     }
+
+    
 }

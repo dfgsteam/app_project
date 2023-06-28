@@ -2,6 +2,7 @@ package bauernhof.app.player.types.MoveTree;
 
 import java.util.HashSet;
 
+import bauernhof.app.launcher.GameBoardState;
 import bauernhof.preset.Move;
 
 /**
@@ -64,4 +65,21 @@ public interface MoveNodeHandler<T> {
      * @param next_move
      */
     public void addNextMove(T next_move);
+
+    /**
+     * Get the board_state where a move has to be done on
+     * @return GameBoardState
+     */
+    public GameBoardState getActualBoardState();
+
+    /**
+     * Set the actual_boardState
+     * @param GameBoardState state
+     */
+    public void setActualBoardState(GameBoardState state);
+
+    /**
+     * Calculates and sets the actual_evil-value, if a move will be done
+     */
+    public void setEvilValue();
 }

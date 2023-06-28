@@ -2,12 +2,16 @@ package bauernhof.app.player.types.MoveTree;
 
 import java.util.HashSet;
 
+import bauernhof.app.launcher.GameBoardState;
+import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.preset.Move;
 
 public class MoveNode implements MoveNodeHandler<MoveNode> {
 
     private MoveNode prev_node;
+    private AbstractGamePlayer actual_player;
     private Move move;
+    private GameBoardState actual_state;
     private HashSet<MoveNode> next_nodes;
     private int evil_value;
 
@@ -24,6 +28,33 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     public MoveNode(Move move, MoveNode prev_node) {
         this(move);
         this.prev_node = prev_node;
+        prev_node.addNextMove(this);
+    }
+
+    public MoveNode(GameBoardState state) {
+        this();
+        this.actual_state = state;
+    }
+
+    public MoveNode(AbstractGamePlayer player) {
+        this();
+        this.actual_player = player;
+    }
+
+    public MoveNode(GameBoardState state, AbstractGamePlayer player) {
+        this(state);
+        this.actual_player = player;
+    }
+
+    public MoveNode(Move move, GameBoardState state, AbstractGamePlayer player) {
+        this(state, player);
+        this.move = move;
+    }
+
+    public MoveNode(Move move, MoveNode prev_Node, GameBoardState state, AbstractGamePlayer player) {
+        this(move, state, player);
+        this.prev_node = prev_Node;
+        prev_Node.addNextMove(this);
     }
 
     @Override
@@ -69,5 +100,21 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     @Override
     public void addNextMove(MoveNode next_move) {
         this.next_nodes.add(next_move);
+        next_move.setPrevNode(this);
+    }
+
+    @Override
+    public GameBoardState getActualBoardState() {
+        return this.actual_state;
+    }
+
+    @Override
+    public void setActualBoardState(GameBoardState state) {
+        this.actual_state = state;
+    }
+
+    @Override
+    public void setEvilValue() {
+        
     }
 }
