@@ -35,6 +35,6 @@ public class MoveTree implements MoveTreeHandler {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'createNextMoveNode'");
     }
-
+    
     
 }

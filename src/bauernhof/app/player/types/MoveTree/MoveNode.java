@@ -127,4 +127,18 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     public void setActualPlayer(AbstractGamePlayer player) {
         this.actual_player = player;
     }
+
+    @Override
+    public String toString() {
+        String move_message = "Move: " + this.getMove();
+        String parent_message = "Parent: " + this.getPrevNode();
+        String player_message = "Actual Player to move: " + this.getActualPlayer();
+        String board = "Actual Board: " + this.getActualBoardState();
+        String list = "List of next possible moves: " + this.getNextNodes();
+        String value = "Actual points for the done move: " + this.getEvil();
+
+        String text = move_message + "\n" + parent_message + "\n" + player_message + "\n" + board + "\n" + list + "\n" + value + "\n";
+        return text;
+    }
+
 }
