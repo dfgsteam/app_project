@@ -1,7 +1,10 @@
 package bauernhof.app.player;
 
-import bauernhof.preset.ImmutableList;
+import bauernhof.app.launcher.GameBoardState;
 import bauernhof.preset.card.Card;
+
+import java.util.ArrayList;
+
 /**
  * Interface für die Kartenhand des Spielers.
  * Man kann Karten entfernen und hinzufügen von der PlayerHand.
@@ -25,13 +28,13 @@ public interface CardSetHandler {
      *
      * @param card - Karte die entfernt werden soll.
      *
-     * @return True - Wenn Karte im KartenSet enthalten ist {@link #getCards()}
-     * @return False - Wenn Karte nicht enthalten ist im Set {@link #getCards()}
+     * @return True - wenn Karte im KartenSet enthalten ist {@link #getCards()}
+     * @return False - wenn Karte nicht enthalten ist im Set {@link #getCards()}
      */
     public boolean remove(final Card card);
 
     /**
-     * Gibt den theoretischen Wert wieder sollte eine Karte geaddet werden.
+     * Gibt den theoretischen Wert wieder, sollte eine Karte geaddet werden.
      * Diese Funktion existiert explizit für die {@link bauernhof.preset.PlayerType#ADVANCED_AI}
      * um den theoretischen Score zu getten.
      * Diese Methode wird auch von der {@link #add(Card)} Methode aufgerufen
@@ -42,7 +45,7 @@ public interface CardSetHandler {
     public int getAddScore(final Card card);
 
     /**
-     * Gibt den theoretischen Wert wieder sollte eine Karte removed werden.
+     * Gibt den theoretischen Wert wieder, sollte eine Karte removed werden.
      * Diese Funktion existiert explizit für die {@link bauernhof.preset.PlayerType#ADVANCED_AI}
      * um den theoretischen Score zu getten.
      * Diese Methode wird auch von der {@link #remove(Card)} Methode aufgerufen
@@ -52,13 +55,12 @@ public interface CardSetHandler {
      */
     public int getRemoveScore(final Card card);
 
-
     /**
      * Karten in der Hand des Spielers.
      *
      * @return list of cards
      */
-    public ImmutableList<Card> getCards();
+    public ArrayList<Card> getCards();
 
     /**
      * Gibt alle Karten zurück die in der Hand des Spielers blockiert sind.
@@ -67,7 +69,7 @@ public interface CardSetHandler {
      *
      * @return list of cards
      */
-    public ImmutableList<Card> getBlockedCards();
+    public ArrayList<Card> getBlockedCards();
 
     /**
      * Gibt alle aktivierten Karten zurück.
@@ -76,5 +78,5 @@ public interface CardSetHandler {
      *
      * @return list of cards
      */
-    public ImmutableList<Card> getActiveCards();
+    public ArrayList<Card> getActiveCards();
 }

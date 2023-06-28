@@ -67,13 +67,12 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
     public String getName() {
         return this.name;
     }
-
     @Override
     public GameBoardState getState() {
         return this.state;
     }
 
-    /**
+    /**8
      * Setzt den aktuellen Spielestand.
      * Fürs Laden von gespeicherten Spielen
      *
@@ -90,7 +89,7 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
 
     @Override
     public void init(final GameConfiguration configuration, final ImmutableList<Card> initialDrawPile, final int numplayers, final int playerid) throws Exception {
-         this.playerid = playerid;
+        this.playerid = playerid;
         this.numplayers = numplayers;
         this.configuration = configuration;
     }

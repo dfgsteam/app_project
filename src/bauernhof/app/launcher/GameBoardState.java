@@ -85,6 +85,11 @@ public class GameBoardState implements Table{
     }
 
     @Override
+    public GameBoardState preMove(Move move) {
+        return null;
+    }
+
+    @Override
     public Player getActualPlayer() {
         return this.actual_player;
     }
