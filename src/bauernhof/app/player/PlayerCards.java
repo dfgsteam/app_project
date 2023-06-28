@@ -6,10 +6,12 @@ import bauernhof.preset.card.Card;
 import bauernhof.preset.card.CardColor;
 import bauernhof.preset.card.Effect;
 
+import java.util.ArrayList;
+
 /**
  * Klasse für um die Player Karten zu managen
  *
- * @author Ramon Cemil Kimyon
+ * @auth#cor Ramon Cemil Kimyon
  * @date 12.06.2023 00:40
  */
 public abstract class PlayerCards implements CardSetHandler {
@@ -77,17 +79,17 @@ public abstract class PlayerCards implements CardSetHandler {
     }
 
     @Override
-    public ImmutableList<Card> getCards() {
+    public ArrayList<Card> getCards() {
         return null;
     }
 
     @Override
-    public ImmutableList<Card> getBlockedCards() {
+    public ArrayList<Card> getBlockedCards() {
         return null;
     }
 
     @Override
-    public ImmutableList<Card> getActiveCards() {
+    public ArrayList<Card> getActiveCards() {
         return null;
     }
 

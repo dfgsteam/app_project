@@ -43,6 +43,13 @@ public interface Table extends GameProperties {
     public boolean doMove(final Move move, final boolean drawpile) throws Exception;
 
     /**
+     * @param move - Actual Move Player executed by ActualPlayer
+     *
+     * @return Copy of GameBoardState todo a preMove again.
+     */
+    public GameBoardState preMove(final Move move);
+
+    /**
      * gets the Player who has to play now
      * @return
      */
