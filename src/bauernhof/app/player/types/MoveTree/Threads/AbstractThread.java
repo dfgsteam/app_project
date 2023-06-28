@@ -88,14 +88,6 @@ public abstract class AbstractThread extends Thread {
     }
 
     /**
-     * Getter for the future imaginary_state
-     * @return imaginary_state
-     */
-    public GameBoardState getImaginaryState() {
-        return this.imaginary_state;
-    }
-
-    /**
      * Getter for actual node the Thread is in
      * @return MoveNode
      */
