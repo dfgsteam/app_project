@@ -117,4 +117,14 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     public void setEvilValue() {
         
     }
+
+    @Override
+    public AbstractGamePlayer getActualPlayer() {
+        return this.actual_player;
+    }
+
+    @Override
+    public void setActualPlayer(AbstractGamePlayer player) {
+        this.actual_player = player;
+    }
 }

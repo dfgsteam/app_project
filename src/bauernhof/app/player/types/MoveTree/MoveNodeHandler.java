@@ -3,6 +3,7 @@ package bauernhof.app.player.types.MoveTree;
 import java.util.HashSet;
 
 import bauernhof.app.launcher.GameBoardState;
+import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.preset.Move;
 
 /**
@@ -82,4 +83,16 @@ public interface MoveNodeHandler<T> {
      * Calculates and sets the actual_evil-value, if a move will be done
      */
     public void setEvilValue();
+
+    /**
+     * Getter for the Actual Player
+     * @return AbstractGamePlayer player
+     */
+    public AbstractGamePlayer getActualPlayer();
+
+    /**
+     * Setter for the actual Player
+     * @param actualPlayer
+     */
+    public void setActualPlayer(AbstractGamePlayer player);
 }
