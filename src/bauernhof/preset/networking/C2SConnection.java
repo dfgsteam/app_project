@@ -182,7 +182,7 @@ public abstract class C2SConnection {
 		}
 	}
 
-	/**
+	/**Es wird dem aktuellen menschlichen Spieler angezeigt welche Karten er in der jeweiligen Phase seines Zugs anklicken kann.
 	 * Gets called when the server calls {@link RemotePlayer#init(bauernhof.preset.GameConfiguration, ImmutableList, int, int)}.
 	 * @param gameConfiguration See {@link bauernhof.preset.Player#init(GameConfiguration, ImmutableList, int, int)}.
 	 * @param initialDrawPile See {@link bauernhof.preset.Player#init(GameConfiguration, ImmutableList, int, int)}.
