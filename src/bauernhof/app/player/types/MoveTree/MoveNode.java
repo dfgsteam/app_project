@@ -115,7 +115,7 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
 
     @Override
     public void setEvilValue() {
-        
+        this.getActualBoardState().clone();
     }
 
     @Override
