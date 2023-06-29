@@ -10,8 +10,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import sag.elements.GGroup;
-
 /**
  * A simple logger for creating fancy log outputs.
  *
