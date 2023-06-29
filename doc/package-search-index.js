@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"bauernhof.app"},{"l":"bauernhof.app.card"},{"l":"bauernhof.preset"},{"l":"bauernhof.preset.card"},{"l":"bauernhof.preset.networking"}]
