@@ -1,5 +1,8 @@
 package bauernhof.app.player.types.MoveTree.Threads;
 
+import bauernhof.app.launcher.GameBoardState;
+import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.player.types.MoveTree.MoveTree;
 
 /**
  * This interface was written by
@@ -10,14 +13,19 @@ package bauernhof.app.player.types.MoveTree.Threads;
 public interface ThreadHandler {
     
     /**
-     * Getter for the number of card (own hand), which will be put
-     * @return putNumber
+     * This method calculates a child MoveNode to given actual_node and given tree
      */
-    public int getPutNumber();
+    public void calcNode(int cardNumTake, int cardNumPut);
 
     /**
-     * Getter for the number of the card, which has to be taken
-     * @return takeNUmber
+     * Setter for the actual_tree for the thread
+     * @param tree
      */
-    public int getTakeNumber();
+    public void setTree(MoveTree tree);
+
+    /**
+     * Getter for the actual_researched tree
+     * @return MoveTree
+     */
+    public MoveTree getTree();
 }

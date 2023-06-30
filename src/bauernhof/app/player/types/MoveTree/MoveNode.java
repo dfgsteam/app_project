@@ -141,4 +141,12 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
         return text;
     }
 
+    @Override
+    public boolean equals(Object node) {
+        if (!(node instanceof MoveNode)) { return false; }
+        MoveNode compare = (MoveNode)node;
+
+        return this.getMove().getTaken() == compare.getMove().getTaken() && this.getMove().getDeposited() == compare.getMove().getDeposited();
+    }
+
 }

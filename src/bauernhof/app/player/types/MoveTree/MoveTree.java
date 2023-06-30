@@ -1,11 +1,20 @@
 package bauernhof.app.player.types.MoveTree;
 
+import bauernhof.app.launcher.GameBoardState;
+import bauernhof.app.player.AbstractGamePlayer;
+
 public class MoveTree implements MoveTreeHandler {
     private MoveNode root;
     private MoveNode actual_node;
 
+    public MoveTree(GameBoardState state, AbstractGamePlayer player) {
+        root = new MoveNode(state, player);
+        actual_node = root;
+    }
+    
     public MoveTree() {
         root = new MoveNode();
+        actual_node = root;
     }
 
     @Override

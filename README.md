@@ -34,3 +34,14 @@ Changes:
 Conflicts:
  
     - not fixed
+
+## Version 1.3 (30.06.2023)
+
+Changes:
+
+    - First Version for Threads Interface (for MoveTree calculations)
+    - First implementation of Thread Class (not ready to use)
+
+Conflicts:
+
+    - not fixed
