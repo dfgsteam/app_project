@@ -63,9 +63,9 @@ public interface MoveNodeHandler<T> {
 
     /**
      * Set a new move to the hashset of next_moves
-     * @param next_move
+     * @param nextMoveNode
      */
-    public void addNextMove(T next_move);
+    public void addNextMoveNode(T nextMoveNode);
 
     /**
      * Get the board_state where a move has to be done on

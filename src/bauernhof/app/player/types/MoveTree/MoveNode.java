@@ -98,9 +98,9 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     }
 
     @Override
-    public void addNextMove(MoveNode next_move) {
-        this.next_nodes.add(next_move);
-        next_move.setPrevNode(this);
+    public void addNextMoveNode(MoveNode next_MoveNode) {
+        this.next_nodes.add(next_MoveNode);
+        next_MoveNode.setPrevNode(this);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
 
     @Override
     public void setEvilValue() {
-        this.getActualBoardState().clone();
+        GameBoardState temp_state = (GameBoardState)this.getActualBoardState().clone();
     }
 
     @Override
