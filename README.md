@@ -24,7 +24,7 @@ Conflicts:
 
     - not fixed
 
-## Version 1.1 (30.06.2023)
+## Version 1.2 (30.06.2023)
 
 Changes:
 
