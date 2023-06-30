@@ -33,6 +33,9 @@ public class SePa {
 
         JButton buttonReturn = this.addButtonReturn();
         this.panel.add(buttonReturn);
+
+        JComboBox<?> comboBoxCards = this.addComboBoxCards();
+        this.panel.add(comboBoxCards);
     }
 
 
@@ -57,16 +60,17 @@ public class SePa {
         return button;
     }
 
-    public JComboBox addComboBoxCards() {
-        BaFr BasicFrame = this.BasicFrame;
-        String[] petStrings = { "Bird", "Cat", "Dog", "Rabbit", "Pig" };
-        JComboBox comboBoxCards = new JComboBox<>(petStrings);
-        comboBoxCards.setSelectedIndex(4);
-        comboBoxCards.addActionListener((ActionListener ) new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                BasicFrame.setPanelHome();
-            }
-        });
+    public JComboBox<?> addComboBoxCards() {
+        JComboBox<String> comboBoxCards = new JComboBox<>(BasicFrame.Settings.getCardSets().toArray(new String[0]));
+
+        // comboBoxCards.setSelectedIndex(4);
+        // comboBoxCards.addActionListener((ActionListener ) new ActionListener() {
+        //     public void actionPerformed(ActionEvent e){
+        //         System.out.println(e);
+        //     }
+        // });
+        comboBoxCards.setBounds(315, 265, 250, 50);
+
 
         return comboBoxCards;
     }
