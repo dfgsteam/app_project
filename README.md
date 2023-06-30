@@ -13,3 +13,13 @@ Conflicts:
     - Need of gameboardstate.clone()-Method for calculating another movesfor the advanced_AI
     - Problematic usage of the boolean drawpile Parameter on the doMove()-Method
     -> Cemil
+
+## Version 1.1 (30.06.2023)
+
+Changes:
+
+    - First Implementations of ThreadInterface and Thread (not ready)
+
+Conflicts:
+
+    - not fixed
