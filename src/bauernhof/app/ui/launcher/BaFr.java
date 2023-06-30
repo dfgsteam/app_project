@@ -2,6 +2,8 @@ package bauernhof.app.ui.launcher;
 
 import javax.swing.*;
 
+import bauernhof.app.settings.Se;
+
 import java.io.IOException;
 
 
@@ -11,13 +13,16 @@ public class BaFr {
     final private int heigth = 720;
 
     private JFrame frame;
+
+    protected Se Settings;
+
     private HoPa homePanel;
     private SePa settingsPanel;
     private SiPl singlePlayer;
     private MuPl multiPlayer;
 
 
-    public BaFr() throws IOException, InterruptedException {
+    public BaFr(Se Settings) throws IOException, InterruptedException {
         // Erzeuge Frame
         this.frame = new JFrame("Hofbauern");
         
@@ -32,6 +37,8 @@ public class BaFr {
         
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
         this.frame.setVisible(true);  
+
+        this.Settings = Settings;
 
         this.homePanel = new HoPa(this, this.width, this.heigth);
         this.settingsPanel = new SePa(this, this.width, this.heigth);
