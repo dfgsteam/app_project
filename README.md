@@ -23,3 +23,14 @@ Changes:
 Conflicts:
 
     - not fixed
+
+## Version 1.1 (30.06.2023)
+
+Changes:
+
+    - Bug-Fixes of Random_AI
+    - First Idea of Multithreading: 1 THread is busy with right side of the tree, 1 Thread is busy with left side of the tree
+
+Conflicts:
+ 
+    - not fixed

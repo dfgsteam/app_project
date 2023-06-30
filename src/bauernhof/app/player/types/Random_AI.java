@@ -19,36 +19,21 @@ public class Random_AI extends AbstractGamePlayer implements AIHeader{
         Card to_take = null;
         Card to_deposit = null;
 
-        int takefromDeposit = 2;        //state variable for considering the actual situation on the table
-
-        if(this.getState().getDepositedCards().isEmpty()) {
-            if (this.getState().getDrawPileCards().isEmpty()) return null;
-            else takefromDeposit = 0; 
-        }
-
-        else if (this.getState().getDrawPileCards().isEmpty()) {
-            if (this.getState().getDepositedCards().isEmpty()) return null;
-            else takefromDeposit = 1;
-        }
-
-        if (takefromDeposit == 1) {         //AI is able only to take from Deposit
-            to_take = cardFromDeposit();
-        }
-
-        else if (takefromDeposit == 0) {    //Ai is able only to take from Stack
-            to_take = cardFromStack();
+        if (this.getState().getDepositedCards().isEmpty() || Math.random() < 0.5) {
+            to_take = this.getState().getDrawPileCards().firstElement();
         }
 
         else {
-            if (Math.random() < 0.5) {
-                to_take = cardFromDeposit();        //Random place to take from
-            }
-
-            else
-                to_take = cardFromStack();
+            to_take = this.getState().getDepositedCards().get(depositRandomNumber());
         }
 
-        to_deposit =  removeFromOwn();      //randomizer for putting to deposit
+        if (Math.random() < 0.5) {
+            to_deposit = to_take;
+        }
+        
+        else {
+            to_deposit = this.getCards().get(ownCardNumber());
+        }
 
         return new Move(to_take, to_deposit);
     }
@@ -59,7 +44,7 @@ public class Random_AI extends AbstractGamePlayer implements AIHeader{
      * @return int
      */
     private final int ownCardNumber() {
-        return (int)Math.round((Math.random() * this.getState().getGameConfiguration().getNumCardsPerPlayerHand() + 1));
+        return (int)Math.round((Math.random() * this.getState().getGameConfiguration().getNumCardsPerPlayerHand()));
     }
 
     /**

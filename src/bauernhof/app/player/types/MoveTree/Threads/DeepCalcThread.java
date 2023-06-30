@@ -3,9 +3,7 @@ package bauernhof.app.player.types.MoveTree.Threads;
 import bauernhof.app.player.types.MoveTree.MoveTree;
 
 public class DeepCalcThread implements ThreadHandler {
-
-    private int number_take;
-    private int number_put;
+    
     private MoveTree tree_moves;
 
     @Override
