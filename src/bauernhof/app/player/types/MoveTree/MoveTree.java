@@ -20,20 +20,14 @@ public class MoveTree implements MoveTreeHandler {
 
     @Override
     public void addDepthNode(MoveNode move_node) {
-        this.actual_node.addNextMove(move_node);
+        this.actual_node.addNextMoveNode(move_node);
     }
 
     @Override
     public boolean goToParent() {
-        if (this.actual_node.getPrevNode() == null) return false;
+        if (this.actual_node.getPrevNode() == null || this.actual_node == null) return false;
         this.actual_node = this.actual_node.getPrevNode();
         return true;
-    }
-
-    @Override
-    public MoveNode createNextMoveNode() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createNextMoveNode'");
     }
     
     

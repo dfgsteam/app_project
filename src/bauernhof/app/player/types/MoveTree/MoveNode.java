@@ -28,7 +28,7 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     public MoveNode(Move move, MoveNode prev_node) {
         this(move);
         this.prev_node = prev_node;
-        prev_node.addNextMove(this);
+        prev_node.addNextMoveNode(this);
     }
 
     public MoveNode(GameBoardState state) {
@@ -54,7 +54,7 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     public MoveNode(Move move, MoveNode prev_Node, GameBoardState state, AbstractGamePlayer player) {
         this(move, state, player);
         this.prev_node = prev_Node;
-        prev_Node.addNextMove(this);
+        prev_Node.addNextMoveNode(this);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
 
     @Override
     public void setEvilValue() {
-        GameBoardState temp_state = (GameBoardState)this.getActualBoardState().clone();
+        //TO-DO
     }
 
     @Override

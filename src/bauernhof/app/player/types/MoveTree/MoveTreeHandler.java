@@ -28,12 +28,4 @@ public interface MoveTreeHandler {
      * @return true, if parent exists
      */
     public boolean goToParent();
-
-    /**
-     * Create a next MoveNode if possible
-     * @return MoveNode move_node
-     */
-    public MoveNode createNextMoveNode();
-    
-
 }
