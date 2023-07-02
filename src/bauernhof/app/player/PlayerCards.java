@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Klasse für um die Player Karten zu managen
  *
- * @auth#cor Ramon Cemil Kimyon
+ * @auth#cor Ramon Cemil  Kimyon
  * @date 12.06.2023 00:40
  */
 public abstract class PlayerCards implements CardSetHandler {
@@ -70,7 +70,30 @@ public abstract class PlayerCards implements CardSetHandler {
     }
     @Override
     public int getAddScore(final Card card) {
+
         return 0;
+    }
+    // Methode um die geblockten Karten bei einem ADD zurückzugeben.
+    private void updateOnAddBlockedCards(final Card card) {
+        cards.add(card);
+        for (final Card hand_card : cards)
+            for (final Effect effect : hand_card.getEffects())
+                for (final Either<Card, CardColor> either : effect.getSelector()) {
+                    if (either.get() instanceof Card) {
+
+                    } else {
+
+                    }
+                }
+    }
+    private void updateOnRemoveBlockedCards(final Card card) {
+        if(blocked_cards.contains(card)) {
+            blocked_cards.remove(card);
+            return;
+        }
+        for(final Card blocked_cards : blocked_cards) {
+
+        }
     }
 
     @Override
