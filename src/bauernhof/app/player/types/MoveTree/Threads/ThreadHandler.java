@@ -1,7 +1,5 @@
 package bauernhof.app.player.types.MoveTree.Threads;
 
-import bauernhof.app.launcher.GameBoardState;
-import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.types.MoveTree.MoveTree;
 
 /**

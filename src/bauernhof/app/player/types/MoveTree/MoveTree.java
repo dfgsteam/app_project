@@ -67,6 +67,16 @@ public class MoveTree implements MoveTreeHandler {
         this.getActualLeftNode().addNextMoveNode(moveNode);
         this.actual_left = moveNode;
     }
+
+    @Override
+    public void setActualRightNode(MoveNode node) {
+        this.actual_right = node;
+    }
+
+    @Override
+    public void setActualLeftNode(MoveNode node) {
+        this.actual_left = node;
+    }
     
     
 }

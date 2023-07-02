@@ -67,3 +67,14 @@ Changes:
 Conflicts:
 
     - not fixed
+
+## Version 1.6 (02.07.2023)
+
+Changes: 
+
+    - Written methods for calculating next moves for the Threads = first Version (without run()- method) how the THreads will actually work (modified: LeftThread RightThread)
+    - Thoughts about the run() methods for each Thread
+
+Conflicts:
+
+    - not fixed

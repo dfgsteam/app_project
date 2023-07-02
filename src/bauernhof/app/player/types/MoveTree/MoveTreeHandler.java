@@ -7,6 +7,19 @@ package bauernhof.app.player.types.MoveTree;
  * This interface helps to implement the future MoveTree
  */
 public interface MoveTreeHandler {
+
+    /**
+     * Setter for the actual_right node
+     * @param MoveNode
+     */
+    public void setActualRightNode(MoveNode node);
+    
+    /**
+     * Setter for the actual_left node
+     * @param MoveNode
+     */
+    public void setActualLeftNode(MoveNode node);
+    
     /**
      * Getter for the actual_node
      * @return MoveNode
