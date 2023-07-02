@@ -15,8 +15,12 @@ import bauernhof.preset.card.Card;
  */
 public class LeftThread extends AbstractThread {
 
+    public LeftThread(MoveTree tree) {
+        super(tree);
+    }
+
     @Override
-    public void calcNextNode(int cardNumTake, int cardNumPut) {
+    synchronized public void calcNextNode(int cardNumTake, int cardNumPut) {
         Card to_take, to_put;
         if (cardNumTake < 0) {
             to_take = this.getTree().getActualLeftNode().getActualBoardState().getDrawPileCards().firstElement();
@@ -39,7 +43,13 @@ public class LeftThread extends AbstractThread {
 
         //!!!!!!!!!!!!!!Attention used methods are not implemented
         GameBoardState copy = this.getTree().getActualLeftNode().getActualBoardState().clone();
-        copy.doMove(the_move, true);
+        if (cardNumTake < 0) {
+            copy.doMove(the_move, true);
+        }
+
+        else {
+            copy.doMove(the_move, false);
+        }
         //-----------------------------------------
 
         AbstractGamePlayer next_player = (AbstractGamePlayer) copy.getActualPlayer();
@@ -51,7 +61,7 @@ public class LeftThread extends AbstractThread {
     //------------------------------
     @Override
     public void run() {
-
+        
     }
     
 }

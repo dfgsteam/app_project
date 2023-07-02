@@ -14,6 +14,11 @@ import bauernhof.preset.card.Card;
  * This class represents a Thread, which will be oriented to do its calculations on th right side of given Tree
  */
 public class RightThread extends AbstractThread {
+    
+
+    public RightThread(MoveTree tree) {
+        super(tree);
+    }
 
     @Override
     public void calcNextNode(int cardNumTake, int cardNumPut) {
