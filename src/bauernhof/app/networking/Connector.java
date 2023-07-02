@@ -10,15 +10,14 @@ import bauernhof.preset.Move;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.networking.C2SConnection;
 import bauernhof.preset.networking.RemoteException;
+import bauernhof.preset.networking.RemotePlayer;
 
 /**
  * This class was written by
  * @author Florian Will
  * @date 29.06.2023
+ * This class extends from C2SConnection. It gets and initalises from RemotePlayer so it can be send to to the Server.
  */
-
-
-
 public class Connector extends C2SConnection {
     private Socket connection;
     private GameConfigurationParser gameConfigurationParser;
@@ -28,7 +27,9 @@ public class Connector extends C2SConnection {
     private ImmutableList<Card> initialDrawPile;
     private int playerid;
     private ImmutableList<Integer> scores;
+    private final RemotePlayer player = null;
 
+    
     
     public Connector(Socket connection, GameConfigurationParser gameConfigurationParser, String projectName) throws IOException {
         super(connection, gameConfigurationParser, projectName);
@@ -44,46 +45,40 @@ public class Connector extends C2SConnection {
 
     @Override
     protected void onInit(GameConfiguration gameConfiguration, ImmutableList<Card> initialDrawPile, ImmutableList<String> playerNames, int playerid) throws Exception {
-        
-
-        throw new UnsupportedOperationException("Unimplemented method 'onInit'");
+        this.player.init(gameConfiguration, initialDrawPile, playerid, playerid);
     }
 
     @Override
     protected Move onRequest() throws Exception {
-        
-
-        throw new UnsupportedOperationException("Unimplemented method 'onRequest'");
+        return this.player.request();
     }
 
     @Override
     protected void onUpdate(Move opponentMove) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onUpdate'");
+        this.player.update(opponentMove);
     }
 
     @Override
     protected int onGetScore() throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onGetScore'");
+        return this.player.getScore();
     }
 
     @Override
-    protected String onGetName() throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onGetName'");
+    protected String onGetName() throws Exception{
+        return this.player.getName();
     }
+       
 
     @Override
     protected void onVerifyGame(ImmutableList<Integer> scores) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onVerifyGame'");
+        this.player.verifyGame(scores);
     }
 
     @Override
     protected void onError(RemoteException re) throws Exception {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'onError'");
     }
     
 }
+
+
