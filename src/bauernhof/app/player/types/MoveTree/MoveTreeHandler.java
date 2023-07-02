@@ -11,21 +11,40 @@ public interface MoveTreeHandler {
      * Getter for the actual_node
      * @return MoveNode
      */
-    public MoveNode getActualNode();
+    public MoveNode getActualLeftNode();
+
+    /**
+     * Getter for the actual_right_node
+     * @return MoveNode;
+     */
+    public MoveNode getActualRightNode();
+
     /**
      * Getter for root of the actual tree
      * @return MoveNode
      */
     public MoveNode getRootNode();
     /**
-     * Add a new Move to the Tree (depth) and change the actual_node to that Node
-     * @param MoveNode movez_node
+     * Add a new Move to the Tree (depth) and change the actual right node to that Node
+     * @param MoveNode moveNode
      */
-    public void addDepthNode(MoveNode move_node);
+    public void addRightDepthNode(MoveNode moveNode);
 
     /**
-     * Sets actual_node to parent_node
-     * @return true, if parent exists
+     * Add a new MoveNode to the tree and change the actual leftnode to the added one
+     * @param MoveNode moveNode
      */
-    public boolean goToParent();
+    public void addLeftDepthNode(MoveNode moveNode);
+
+    /**
+     * Sets actual_left_node to the parent node, if a parent_node exists, returns true if successfull
+     * @return boolean
+     */
+    public boolean LeftGoToParent();
+
+    /**
+     * Sets actual_right node to the parent node, if a parent node exists, returns true if successfull
+     * @return true
+     */
+    public boolean RightGoToParent();
 }

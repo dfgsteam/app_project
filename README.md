@@ -45,3 +45,14 @@ Changes:
 Conflicts:
 
     - not fixed
+
+## Version 1.4 (02.07.2023)
+
+Changes:
+
+    - First Implementations of ThreadClasses (Right and Left) for Tree calculations
+    - Changes in MoveTree Class (now there are 2 different acual_nodes)
+
+Conflicts:
+
+    - not fixed

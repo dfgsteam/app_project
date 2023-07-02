@@ -15,7 +15,7 @@ public interface ThreadHandler {
     /**
      * This method calculates a child MoveNode to given actual_node and given tree
      */
-    public void calcNode(int cardNumTake, int cardNumPut);
+    public void calcNextNode(int cardNumTake, int cardNumPut);
 
     /**
      * Setter for the actual_tree for the thread
