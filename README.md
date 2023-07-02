@@ -56,3 +56,14 @@ Changes:
 Conflicts:
 
     - not fixed
+
+## Version 1.5 (02.07.2023)
+
+Changes:
+
+    - Blueprints for the Thread Classes, its abstract classes  + interface are done
+    - Aim is clear
+
+Conflicts:
+
+    - not fixed

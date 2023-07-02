@@ -8,7 +8,7 @@ import bauernhof.app.player.types.MoveTree.MoveTree;
  * @date 02.07.2023
  * This class represents a Thread, which will be oriented to do its calculations on th right side of given Tree
  */
-public class RightThread extends Thread implements ThreadHandler{
+public class RightThread extends AbstractThread {
 
     @Override
     public void calcNextNode(int cardNumTake, int cardNumPut) {
@@ -16,16 +16,10 @@ public class RightThread extends Thread implements ThreadHandler{
         throw new UnsupportedOperationException("Unimplemented method 'calcNextNode'");
     }
 
+    //-----------------------
     @Override
-    public void setTree(MoveTree tree) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setTree'");
-    }
+    public void run() {
 
-    @Override
-    public MoveTree getTree() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTree'");
     }
     
 }
