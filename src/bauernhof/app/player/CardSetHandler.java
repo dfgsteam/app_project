@@ -1,6 +1,5 @@
 package bauernhof.app.player;
 
-import bauernhof.app.launcher.GameBoardState;
 import bauernhof.preset.card.Card;
 
 import java.util.ArrayList;

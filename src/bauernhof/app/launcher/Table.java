@@ -40,7 +40,7 @@ public interface Table extends GameProperties {
      * @return True - If Move can be executed
      * @return False - If Move can't be executed
      */
-    public boolean doMove(final Move move, final boolean drawpile) throws Exception;
+    public boolean doMove(final Move move) throws Exception;
 
     /**
      * @param move - Actual Move Player executed by ActualPlayer

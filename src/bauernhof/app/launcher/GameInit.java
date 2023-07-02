@@ -9,6 +9,6 @@ import bauernhof.preset.Player;
  */
 public class GameInit {
     public GameInit(final GameConfiguration configuration, final Player[] players) {
-        int i = 0;
+
     }
 }
