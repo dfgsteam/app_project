@@ -5,6 +5,7 @@ import bauernhof.app.player.types.MoveTree.MoveTree;
 public abstract class AbstractThread extends Thread implements ThreadHandler {
 
     private MoveTree tree;
+    
 
     public AbstractThread(MoveTree tree) {
         this.tree = tree;
