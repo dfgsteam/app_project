@@ -95,4 +95,28 @@ public interface MoveNodeHandler<T> {
      * @param actualPlayer
      */
     public void setActualPlayer(AbstractGamePlayer player);
+
+    /**
+     * Getter for the Deposit_size
+     * @return int
+     */
+    public int getDepositSize();
+
+    /**
+     * Getter for the size of ownhand
+     * @return int
+     */
+    public int getOwnSize();
+
+    /**
+     * Sets size of the deposited cards of actual_board
+     */
+    public void setDepositSize();
+
+    /**
+     * Sets size of own hand (actual_player)
+     */
+    public void setOwnCardSize();
+
+
 }

@@ -14,7 +14,9 @@ import bauernhof.preset.card.Card;
  * This class repsresents a Thread which will either work with left part of the given MoveTree
  */
 public class LeftThread extends AbstractThread {
-
+    
+   private static int depth_counter = 0;
+    
     public LeftThread(MoveTree tree) {
         super(tree);
     }
@@ -43,13 +45,7 @@ public class LeftThread extends AbstractThread {
 
         //!!!!!!!!!!!!!!Attention used methods are not implemented
         GameBoardState copy = this.getTree().getActualLeftNode().getActualBoardState().clone();
-        if (cardNumTake < 0) {
-            copy.doMove(the_move, true);
-        }
-
-        else {
-            copy.doMove(the_move, false);
-        }
+        copy.doMove(the_move);
         //-----------------------------------------
 
         AbstractGamePlayer next_player = (AbstractGamePlayer) copy.getActualPlayer();
@@ -58,10 +54,16 @@ public class LeftThread extends AbstractThread {
         this.getTree().addLeftDepthNode(new_node);
     }
 
+
     //------------------------------
     @Override
     public void run() {
-        
+        for (int i = -1; i < this.getTree().getActualLeftNode().getDepositSize()/2; i++) {
+            for (int j = -1; j < this.getTree().getActualLeftNode().getOwnSize()/2; j++) {
+                calcNextNode(i, j);
+                this.getTree().LeftGoToParent();
+            }
+        }
     }
     
 }

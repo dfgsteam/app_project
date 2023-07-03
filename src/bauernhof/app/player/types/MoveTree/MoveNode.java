@@ -10,6 +10,8 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
 
     private MoveNode prev_node;
     private AbstractGamePlayer actual_player;
+    private int sizeOfDeposited;
+    private int sizeOfOwnHand;
     private Move move;
     private GameBoardState actual_state;
     private HashSet<MoveNode> next_nodes;
@@ -148,5 +150,28 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
 
         return this.getMove().getTaken() == compare.getMove().getTaken() && this.getMove().getDeposited() == compare.getMove().getDeposited();
     }
+
+    @Override
+    public int getDepositSize() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getDepositSize'");
+    }
+
+    @Override
+    public int getOwnSize() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getOwnSize'");
+    }
+    
+    @Override
+    public void setDepositSize() {
+        this.sizeOfDeposited = this.getActualBoardState().getDepositedCards().size();
+    }
+
+    @Override
+    public void setOwnCardSize() {
+        this.sizeOfOwnHand = this.getActualPlayer().getCards().size();
+    }
+
 
 }

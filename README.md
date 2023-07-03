@@ -78,3 +78,15 @@ Changes:
 Conflicts:
 
     - not fixed
+
+## Version 1.7 (03.07.2023)
+
+Changes:
+
+    - The case of the "first" Node solved
+    - Left and Right Thread are determined
+    - Sets of Cards (player) fixed to ArrayList (easier to wok)
+
+Conflicts:
+
+    - clone() - Method for GameBoard still needed

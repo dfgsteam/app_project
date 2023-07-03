@@ -14,7 +14,7 @@ import bauernhof.preset.card.Card;
  * This class represents a Thread, which will be oriented to do its calculations on th right side of given Tree
  */
 public class RightThread extends AbstractThread {
-    
+    static private int depth_counter = 0;
 
     public RightThread(MoveTree tree) {
         super(tree);
@@ -44,7 +44,7 @@ public class RightThread extends AbstractThread {
 
         //!!!!!!!!!!!!!!Attention used methods are not implemented
         GameBoardState copy = this.getTree().getActualRightNode().getActualBoardState().clone();
-        copy.doMove(the_move, true);
+        copy.doMove(the_move);
         //-----------------------------------------
 
         AbstractGamePlayer next_player = (AbstractGamePlayer) copy.getActualPlayer();
@@ -56,7 +56,12 @@ public class RightThread extends AbstractThread {
     //-----------------------
     @Override
     public void run() {
-
+        for (int i = this.getTree().getActualRightNode().getDepositSize()/2; i < this.getTree().getActualRightNode().getDepositSize(); i++) {
+            for (int j = this.getTree().getActualRightNode().getOwnSize()/2; j < this.getTree().getActualRightNode().getOwnSize(); j++) {
+                calcNextNode(i, j);
+                this.getTree().RightGoToParent();
+            }
+        }
     }
     
 }
