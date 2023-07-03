@@ -25,17 +25,15 @@ public interface MoveNodeHandler<T> {
     public void setMove(Move move);
 
     /**
-     * Getter for the value evil-bvar
-     * -> this value is an identificator, which tells how a move sequence affects the advantage of the Advanced AI
-     * @return int
+     * Getter for the actual depth of node
      */
-    public int getEvil();
+    public int getDepth();
 
     /**
      * Setter for the value of the evil-bar
      * @param int
      */
-    public void setEvil(int evil_value);
+    public void setDepth(int depth);
 
     /**
      * A setter for the next 
@@ -78,11 +76,6 @@ public interface MoveNodeHandler<T> {
      * @param GameBoardState state
      */
     public void setActualBoardState(GameBoardState state);
-
-    /**
-     * Calculates and sets the actual_evil-value, if a move will be done
-     */
-    public void setEvilValue();
 
     /**
      * Getter for the Actual Player

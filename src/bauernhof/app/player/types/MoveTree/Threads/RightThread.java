@@ -1,5 +1,7 @@
 package bauernhof.app.player.types.MoveTree.Threads;
 
+import java.util.Stack;
+
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.types.MoveTree.MoveNode;
@@ -14,10 +16,17 @@ import bauernhof.preset.card.Card;
  * This class represents a Thread, which will be oriented to do its calculations on th right side of given Tree
  */
 public class RightThread extends AbstractThread {
-    static private int depth_counter = 0;
+    Stack<MoveNode> remaining_to_calculate;
 
     public RightThread(MoveTree tree) {
         super(tree);
+         for (int i = this.getTree().getActualRightNode().getDepositSize()/2; i < this.getTree().getActualRightNode().getDepositSize(); i++) {
+            for (int j = this.getTree().getActualRightNode().getOwnSize()/2; j < this.getTree().getActualRightNode().getOwnSize(); j++) {
+                calcNextNode(i, j);
+                this.getTree().getActualRightNode().setDepth(1);
+                this.getTree().RightGoToParent();
+            }
+        }
     }
 
     @Override
@@ -56,9 +65,16 @@ public class RightThread extends AbstractThread {
     //-----------------------
     @Override
     public void run() {
+        
+    }
+
+    @Override
+    public void threadAction() {
         for (int i = this.getTree().getActualRightNode().getDepositSize()/2; i < this.getTree().getActualRightNode().getDepositSize(); i++) {
             for (int j = this.getTree().getActualRightNode().getOwnSize()/2; j < this.getTree().getActualRightNode().getOwnSize(); j++) {
                 calcNextNode(i, j);
+                this.getTree().getActualRightNode().setDepth(this.getTree().getActualRightNode().getPrevNode().getDepth());
+                this.remaining_to_calculate.push(this.getTree().getActualRightNode().clone());    
                 this.getTree().RightGoToParent();
             }
         }

@@ -4,6 +4,7 @@ import bauernhof.app.player.types.MoveTree.MoveTree;
 
 public abstract class AbstractThread extends Thread implements ThreadHandler {
 
+    static private final int MAX_DEEP = 3;
     private MoveTree tree;
     
 
@@ -21,4 +22,8 @@ public abstract class AbstractThread extends Thread implements ThreadHandler {
         return this.tree;
     }
     
+    @Override
+    public int getMaxDepth() {
+        return MAX_DEEP;
+    }
 }

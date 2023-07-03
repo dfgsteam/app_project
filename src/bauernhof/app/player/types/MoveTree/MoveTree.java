@@ -10,9 +10,9 @@ public class MoveTree implements MoveTreeHandler {
     private MoveNode actual_right;
 
     public MoveTree(GameBoardState state, AbstractGamePlayer player) {
-        root = new MoveNode(state, player);
-        actual_left = root;
-        actual_right = root;
+        this();
+        root.setActualBoardState(state);
+        root.setActualPlayer(player);
     }
     
     public MoveTree() {

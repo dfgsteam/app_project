@@ -26,4 +26,15 @@ public interface ThreadHandler {
      * @return MoveTree
      */
     public MoveTree getTree();
+
+    /**
+     * The action thread must do (synchronized)
+     */
+    public void threadAction();
+
+    /**
+     * Getter for the max_depth the AI has to calculate to
+     * @return int
+     */
+    public int getMaxDepth();
 }

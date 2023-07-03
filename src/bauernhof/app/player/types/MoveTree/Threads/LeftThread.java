@@ -1,5 +1,7 @@
 package bauernhof.app.player.types.MoveTree.Threads;
 
+import java.util.Stack;
+
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.types.MoveTree.MoveNode;
@@ -15,14 +17,16 @@ import bauernhof.preset.card.Card;
  */
 public class LeftThread extends AbstractThread {
     
-   private static int depth_counter = 0;
+    private Stack<MoveNode> remaining_to_calculate;
     
     public LeftThread(MoveTree tree) {
         super(tree);
+        remaining_to_calculate = new Stack<MoveNode>();
+        threadAction();
     }
 
     @Override
-    synchronized public void calcNextNode(int cardNumTake, int cardNumPut) {
+    public void calcNextNode(int cardNumTake, int cardNumPut) {
         Card to_take, to_put;
         if (cardNumTake < 0) {
             to_take = this.getTree().getActualLeftNode().getActualBoardState().getDrawPileCards().firstElement();
@@ -54,16 +58,22 @@ public class LeftThread extends AbstractThread {
         this.getTree().addLeftDepthNode(new_node);
     }
 
+    synchronized public void threadAction() {
+        for (int i = -1; i < this.getTree().getActualLeftNode().getDepositSize()/2; i++) {
+            for (int j = -1; j < this.getTree().getActualLeftNode().getOwnSize()/2; j++) {
+                calcNextNode(i, j);
+                this.getTree().getActualLeftNode().setDepth(this.getTree().getActualLeftNode().getPrevNode().getDepth());
+                this.remaining_to_calculate.push(this.getTree().getActualLeftNode().clone());    
+                this.getTree().LeftGoToParent();
+            }
+        }
+    }
+
 
     //------------------------------
     @Override
     public void run() {
-        for (int i = -1; i < this.getTree().getActualLeftNode().getDepositSize()/2; i++) {
-            for (int j = -1; j < this.getTree().getActualLeftNode().getOwnSize()/2; j++) {
-                calcNextNode(i, j);
-                this.getTree().LeftGoToParent();
-            }
-        }
+        
     }
     
 }

@@ -15,11 +15,12 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     private Move move;
     private GameBoardState actual_state;
     private HashSet<MoveNode> next_nodes;
-    private int evil_value;
+    private int depth;
 
     public MoveNode() {
         move = null;
         next_nodes = new HashSet<MoveNode>();
+        depth = 0;
     }
 
     public MoveNode(Move move) {
@@ -60,8 +61,8 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     }
 
     @Override
-    public int getEvil() {
-        return this.evil_value;
+    public int getDepth() {
+        return this.depth;
     }
 
     @Override
@@ -75,8 +76,8 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     }
 
     @Override
-    public void setEvil(int evil_value) {
-        this.evil_value = evil_value;
+    public void setDepth(int depth) {
+        this.depth = depth;
     }
 
     @Override
@@ -116,11 +117,6 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     }
 
     @Override
-    public void setEvilValue() {
-        //TO-DO
-    }
-
-    @Override
     public AbstractGamePlayer getActualPlayer() {
         return this.actual_player;
     }
@@ -137,9 +133,8 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
         String player_message = "Actual Player to move: " + this.getActualPlayer();
         String board = "Actual Board: " + this.getActualBoardState();
         String list = "List of next possible moves: " + this.getNextNodes();
-        String value = "Actual points for the done move: " + this.getEvil();
 
-        String text = move_message + "\n" + parent_message + "\n" + player_message + "\n" + board + "\n" + list + "\n" + value + "\n";
+        String text = move_message + "\n" + parent_message + "\n" + player_message + "\n" + board + "\n" + list + "\n" + "\n";
         return text;
     }
 
@@ -153,14 +148,12 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
 
     @Override
     public int getDepositSize() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDepositSize'");
+        return this.sizeOfDeposited;
     }
 
     @Override
     public int getOwnSize() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getOwnSize'");
+        return this.sizeOfOwnHand;
     }
     
     @Override

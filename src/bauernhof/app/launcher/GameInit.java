@@ -12,6 +12,6 @@ public class GameInit {
     GameBoardState actual_state;
 
     public GameInit(final GameConfiguration configuration, final Player[] players) {
-
+    
     }
 }

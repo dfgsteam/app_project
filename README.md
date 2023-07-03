@@ -90,3 +90,9 @@ Changes:
 Conflicts:
 
     - clone() - Method for GameBoard still needed
+
+## Version 1.8 (03.07.2023) 
+
+Changes:
+
+    - More efficient method for building the tree
