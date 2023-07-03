@@ -79,7 +79,7 @@ Conflicts:
 
     - not fixed
 
-## Version 1.7 (03.07.2023)
+## Version 1.7 (03.07.2023) lol
 
 Changes:
 
