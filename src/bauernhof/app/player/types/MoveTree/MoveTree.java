@@ -1,81 +1,41 @@
 package bauernhof.app.player.types.MoveTree;
 
-import bauernhof.app.launcher.GameBoardState;
-import bauernhof.app.player.AbstractGamePlayer;
-
 public class MoveTree implements MoveTreeHandler {
     
     private MoveNode root;
-    private MoveNode actual_left;
-    private MoveNode actual_right;
+    private MoveNode actual_node;
 
-    public MoveTree(GameBoardState state, AbstractGamePlayer player) {
-        this();
-        root.setActualBoardState(state);
-        root.setActualPlayer(player);
+    public MoveTree(MoveNode start_node) {
+        this.root = start_node;
+        actual_node = root;
     }
-    
+
     public MoveTree() {
-        root = new MoveNode();
-        actual_left = root;
-        actual_right = root;
+        this(new MoveNode());
     }
 
+    @Override
+    public void setActualNode(MoveNode move_node) {
+        this.actual_node = move_node;
+    }
+    @Override
+    public MoveNode getActualNode() {
+        return this.actual_node;
+    }
     @Override
     public MoveNode getRootNode() {
         return this.root;
     }
-
     @Override
-    public MoveNode getActualLeftNode() {
-        return this.actual_left;
+    public void addNode(MoveNode moveNode) {
+        this.actual_node.addNextMoveNode(moveNode);
+        this.setActualNode(moveNode);
     }
-
     @Override
-    public MoveNode getActualRightNode() {
-        return this.actual_right;
-    }
-
-    @Override
-    public boolean LeftGoToParent() {
-        if (this.getActualLeftNode().getPrevNode() == null) {
-            return false;
-        }
-
-        this.actual_left = this.getActualLeftNode().getPrevNode();
+    public boolean goToParent() {
+        if (this.actual_node.getPrevNode() == null) { return false; }
+        this.setActualNode(this.getActualNode().getPrevNode());
         return true;
-    }
-
-    @Override
-    public boolean RightGoToParent() {
-        if (this.getActualRightNode().getPrevNode() == null) {
-            return false;
-        }
-
-        this.actual_right = this.getActualRightNode().getPrevNode();
-        return true;
-    }
-
-    @Override
-    public void addRightDepthNode(MoveNode moveNode) {
-        this.getActualRightNode().addNextMoveNode(moveNode);
-        this.actual_right = moveNode;
-    }
-
-    @Override
-    public void addLeftDepthNode(MoveNode moveNode) {
-        this.getActualLeftNode().addNextMoveNode(moveNode);
-        this.actual_left = moveNode;
-    }
-
-    @Override
-    public void setActualRightNode(MoveNode node) {
-        this.actual_right = node;
-    }
-
-    @Override
-    public void setActualLeftNode(MoveNode node) {
-        this.actual_left = node;
     }
     
     

@@ -96,3 +96,9 @@ Conflicts:
 Changes:
 
     - More efficient method for building the tree
+
+## Version 1.9 (03.07.2023)
+
+Changes:
+
+    - Global changes of Threads

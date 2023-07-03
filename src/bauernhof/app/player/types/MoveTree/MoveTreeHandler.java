@@ -9,28 +9,16 @@ package bauernhof.app.player.types.MoveTree;
 public interface MoveTreeHandler {
 
     /**
-     * Setter for the actual_right node
+     * Setter for the actual node
      * @param MoveNode
      */
-    public void setActualRightNode(MoveNode node);
-    
-    /**
-     * Setter for the actual_left node
-     * @param MoveNode
-     */
-    public void setActualLeftNode(MoveNode node);
+    public void setActualNode(MoveNode move_node);
     
     /**
      * Getter for the actual_node
      * @return MoveNode
      */
-    public MoveNode getActualLeftNode();
-
-    /**
-     * Getter for the actual_right_node
-     * @return MoveNode;
-     */
-    public MoveNode getActualRightNode();
+    public MoveNode getActualNode();
 
     /**
      * Getter for root of the actual tree
@@ -41,23 +29,11 @@ public interface MoveTreeHandler {
      * Add a new Move to the Tree (depth) and change the actual right node to that Node
      * @param MoveNode moveNode
      */
-    public void addRightDepthNode(MoveNode moveNode);
+    public void addNode(MoveNode moveNode);
 
     /**
-     * Add a new MoveNode to the tree and change the actual leftnode to the added one
-     * @param MoveNode moveNode
+     * Sets the actual_node to the parent_node;
+     * @return true, if set successfull 
      */
-    public void addLeftDepthNode(MoveNode moveNode);
-
-    /**
-     * Sets actual_left_node to the parent node, if a parent_node exists, returns true if successfull
-     * @return boolean
-     */
-    public boolean LeftGoToParent();
-
-    /**
-     * Sets actual_right node to the parent node, if a parent node exists, returns true if successfull
-     * @return true
-     */
-    public boolean RightGoToParent();
+    public boolean goToParent();
 }

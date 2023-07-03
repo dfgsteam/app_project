@@ -1,25 +1,27 @@
 package bauernhof.app.player.types.MoveTree;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.preset.Move;
+import bauernhof.preset.Player;
 
 public class MoveNode implements MoveNodeHandler<MoveNode> {
 
     private MoveNode prev_node;
-    private AbstractGamePlayer actual_player;
+    private Player actual_player;
     private int sizeOfDeposited;
     private int sizeOfOwnHand;
     private Move move;
     private GameBoardState actual_state;
-    private HashSet<MoveNode> next_nodes;
+    private ArrayList<MoveNode> next_nodes;
     private int depth;
 
     public MoveNode() {
         move = null;
-        next_nodes = new HashSet<MoveNode>();
+        next_nodes = new ArrayList<MoveNode>();
         depth = 0;
     }
 
@@ -37,24 +39,21 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     public MoveNode(GameBoardState state) {
         this();
         this.actual_state = state;
+        this.setActualPlayer(state.getActualPlayer());
     }
 
-    public MoveNode(AbstractGamePlayer player) {
-        this();
-        this.actual_player = player;
-    }
 
-    public MoveNode(GameBoardState state, AbstractGamePlayer player) {
+    public MoveNode(GameBoardState state, Player player) {
         this(state);
         this.actual_player = player;
     }
 
-    public MoveNode(Move move, GameBoardState state, AbstractGamePlayer player) {
+    public MoveNode(Move move, GameBoardState state, Player player) {
         this(state, player);
         this.move = move;
     }
 
-    public MoveNode(Move move, MoveNode prev_Node, GameBoardState state, AbstractGamePlayer player) {
+    public MoveNode(Move move, MoveNode prev_Node, GameBoardState state, Player player) {
         this(move, state, player);
         this.prev_node = prev_Node;
         prev_Node.addNextMoveNode(this);
@@ -81,12 +80,12 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     }
 
     @Override
-    public void setNextNodes(HashSet<MoveNode> next_moves) {
+    public void setNextNodes(ArrayList<MoveNode> next_moves) {
         this.next_nodes = next_moves;
     }
 
     @Override
-    public HashSet<MoveNode> getNextNodes() {
+    public ArrayList<MoveNode> getNextNodes() {
         return this.next_nodes;
     }
 
@@ -114,15 +113,16 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     @Override
     public void setActualBoardState(GameBoardState state) {
         this.actual_state = state;
+        this.actual_player = state.getActualPlayer();
     }
 
     @Override
-    public AbstractGamePlayer getActualPlayer() {
+    public Player getActualPlayer() {
         return this.actual_player;
     }
 
     @Override
-    public void setActualPlayer(AbstractGamePlayer player) {
+    public void setActualPlayer(Player player) {
         this.actual_player = player;
     }
 

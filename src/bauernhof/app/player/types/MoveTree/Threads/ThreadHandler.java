@@ -1,5 +1,6 @@
 package bauernhof.app.player.types.MoveTree.Threads;
 
+import bauernhof.app.player.types.MoveTree.MoveNode;
 import bauernhof.app.player.types.MoveTree.MoveTree;
 
 /**
@@ -12,8 +13,9 @@ public interface ThreadHandler {
     
     /**
      * This method calculates a child MoveNode to given actual_node and given tree
+     * @return false, if not possible
      */
-    public void calcNextNode(int cardNumTake, int cardNumPut);
+    public boolean calcNextNode(int cardNumTake, int cardNumPut);
 
     /**
      * Setter for the actual_tree for the thread
@@ -29,12 +31,20 @@ public interface ThreadHandler {
 
     /**
      * The action thread must do (synchronized)
+     * @return false, if fail
      */
-    public void threadAction();
+    public boolean threadAction();
 
     /**
-     * Getter for the max_depth the AI has to calculate to
-     * @return int
+     * Setter for the actual_node of the node
+     * @param MoveNode move_node
      */
-    public int getMaxDepth();
+    public void setThreadNode(MoveNode move_node);
+
+    /**
+     * Getter for the actual_node of the Thread
+     * @return MoveNode
+     */
+    public MoveNode getThreadNode();
+
 }

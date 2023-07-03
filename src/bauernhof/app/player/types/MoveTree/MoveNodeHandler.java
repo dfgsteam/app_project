@@ -1,10 +1,11 @@
 package bauernhof.app.player.types.MoveTree;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import bauernhof.app.launcher.GameBoardState;
-import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.preset.Move;
+import bauernhof.preset.Player;
 
 /**
  * This interface was created by
@@ -39,13 +40,13 @@ public interface MoveNodeHandler<T> {
      * A setter for the next 
      * @param next_moves (ashset of nodes)
      */
-    public void setNextNodes(HashSet<T> next_moves);
+    public void setNextNodes(ArrayList<T> next_moves);
 
     /**
      * Getter for the Hashset of the next moves
      * @return hashset of next moves
      */
-    public HashSet<T> getNextNodes();
+    public ArrayList<T> getNextNodes();
 
     /**
      * Getter for the Previous Node of the actual
@@ -79,15 +80,15 @@ public interface MoveNodeHandler<T> {
 
     /**
      * Getter for the Actual Player
-     * @return AbstractGamePlayer player
+     * @return Player player
      */
-    public AbstractGamePlayer getActualPlayer();
+    public Player getActualPlayer();
 
     /**
      * Setter for the actual Player
      * @param actualPlayer
      */
-    public void setActualPlayer(AbstractGamePlayer player);
+    public void setActualPlayer(Player player);
 
     /**
      * Getter for the Deposit_size
