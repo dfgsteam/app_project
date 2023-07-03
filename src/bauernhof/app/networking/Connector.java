@@ -7,6 +7,7 @@ import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.GameConfigurationParser;
 import bauernhof.preset.ImmutableList;
 import bauernhof.preset.Move;
+import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.networking.C2SConnection;
 import bauernhof.preset.networking.RemoteException;
@@ -27,15 +28,17 @@ public class Connector extends C2SConnection {
     private ImmutableList<Card> initialDrawPile;
     private int playerid;
     private ImmutableList<Integer> scores;
+    private PlayerType type;
     private final RemotePlayer player = null;
 
     
     
-    public Connector(Socket connection, GameConfigurationParser gameConfigurationParser, String projectName) throws IOException {
+    public Connector(Socket connection, GameConfigurationParser gameConfigurationParser, String projectName, PlayerType type) throws IOException {
         super(connection, gameConfigurationParser, projectName);
         this.connection = connection;
         this.gameConfigurationParser = gameConfigurationParser;
         this.projectName = projectName;
+        this.type = type;
         try {
             handlePackets();
         } catch (RemoteException e) {
@@ -45,7 +48,9 @@ public class Connector extends C2SConnection {
 
     @Override
     protected void onInit(GameConfiguration gameConfiguration, ImmutableList<Card> initialDrawPile, ImmutableList<String> playerNames, int playerid) throws Exception {
-        this.player.init(gameConfiguration, initialDrawPile, playerid, playerid);
+        for(int i = 0; i < playerNames.size(); i++){
+            
+        }
     }
 
     @Override
