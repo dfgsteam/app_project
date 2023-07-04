@@ -49,7 +49,12 @@ public class Connector extends C2SConnection {
     @Override
     protected void onInit(GameConfiguration gameConfiguration, ImmutableList<Card> initialDrawPile, ImmutableList<String> playerNames, int playerid) throws Exception {
         for(int i = 0; i < playerNames.size(); i++){
-            
+            //Cemil nach Init fragen!!!
+            if (this.type == PlayerType.HUMAN) { }
+            else if (this.type == PlayerType.ADVANCED_AI) { }
+            else if (this.type == PlayerType.RANDOM_AI) { }
+            else if (this.type == PlayerType.SIMPLE_AI) { }
+    
         }
     }
 
