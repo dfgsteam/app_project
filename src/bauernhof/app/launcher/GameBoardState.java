@@ -1,5 +1,6 @@
 package bauernhof.app.launcher;
 
+import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.ImmutableList;
 import bauernhof.preset.Move;
@@ -23,22 +24,22 @@ public class GameBoardState implements Table{
     TO-DO: Laden von Spielständen durch eventuellen SaveGameLoader
      */
     private int round;
-    private Player actual_player;
-    private Iterator<Player> player_iterator;
+    private AbstractGamePlayer actual_player;
+    private Iterator<AbstractGamePlayer> player_iterator;
     private ArrayList<Card> deposited_cards;
     private Stack<Card> drawpile_cards = new Stack<>();
-    private Set<Player> players;
+    private Set<AbstractGamePlayer> players;
     private GameConfiguration configuration;
 
     // For new Game
-    public GameBoardState(final GameConfiguration configuration, final Set<Player> players) throws Exception {
+    public GameBoardState(final GameConfiguration configuration, final Set<AbstractGamePlayer> players) throws Exception {
         new GameBoardState(0, configuration, players, configuration.getCards(), new ArrayList<>());
     }
 
     // For saved Game Status
     public GameBoardState(final int round,
                      final GameConfiguration configuration,
-                     final Set<Player> players,
+                     final Set<AbstractGamePlayer> players,
                      final Set<Card> drawpile_cards,
                      final ArrayList<Card> deposited_cards) throws Exception {
         this.round = round;
@@ -62,7 +63,7 @@ public class GameBoardState implements Table{
     }
 
     @Override
-    public Set<Player> getPlayers() {
+    public Set<AbstractGamePlayer> getPlayers() {
         return this.players;
     }
 

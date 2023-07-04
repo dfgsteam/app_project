@@ -1,5 +1,6 @@
 package bauernhof.app.launcher;
 
+import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.preset.Move;
 import bauernhof.preset.Player;
 import bauernhof.preset.card.Card;
@@ -30,7 +31,7 @@ public interface Table extends GameProperties {
      * get Players sorted by ID
      * @return
      */
-    public Set<Player> getPlayers();
+    public Set<AbstractGamePlayer> getPlayers();
 
     /**
      * move - Actual Player Move executed by ActualPlayer
