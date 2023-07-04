@@ -20,6 +20,13 @@ public class WorkingThread extends Thread implements ThreadHandler {
 
     public WorkingThread(GameBoardState actual_state) {
         move_tree = new MoveTree(new MoveNode(actual_state));
+        actual_node = move_tree.getActualNode();
+        threadAction();
+    }
+
+    public WorkingThread(MoveTree tree) {
+        move_tree = tree;
+        actual_node = null;
     }
 
 
@@ -66,14 +73,19 @@ public class WorkingThread extends Thread implements ThreadHandler {
     }
 
     @Override
-    public boolean threadAction() {
-        for (int i = -1; i < this.actual_node.getDepositSize(); i++) {
-            for (int j = -1; j < this.actual_node.getOwnSize(); j++) {
+    synchronized public boolean threadAction() {
+        if (this.actual_node == null) {
+            this.actual_node = WorkingThread.next_calculations.remove();
+        }
+
+        for (int i = -1; i < this.actual_node.getActualBoardState().getDepositedCards().size(); i++) {
+            for (int j = -1; j < this.actual_node.getActualBoardState().getActualPlayer().getCards().getSize(); j++) {
                 if (!calcNextNode(i, j)) { return false; }
-                next_calculations.add(actual_node.clone());
+                next_calculations.add((MoveNode)actual_node.clone());
                 this.actual_node = this.actual_node.getPrevNode();
             }
         }
+        this.actual_node = null;
         return true;
     }
 
@@ -91,6 +103,8 @@ public class WorkingThread extends Thread implements ThreadHandler {
     //------------
     @Override
     public void run() {
-
+        while (!WorkingThread.next_calculations.isEmpty()) {
+            threadAction();
+        }
     }
 }

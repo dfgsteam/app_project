@@ -6,8 +6,7 @@ public class MoveTree implements MoveTreeHandler {
     private MoveNode actual_node;
 
     public MoveTree(MoveNode start_node) {
-        this.root = start_node;
-        actual_node = root;
+        this.setRootNode(start_node);
     }
 
     public MoveTree() {
@@ -36,6 +35,11 @@ public class MoveTree implements MoveTreeHandler {
         if (this.actual_node.getPrevNode() == null) { return false; }
         this.setActualNode(this.getActualNode().getPrevNode());
         return true;
+    }
+
+    @Override
+    public void setRootNode(MoveNode root_node) {
+        this.root = root_node;
     }
     
     

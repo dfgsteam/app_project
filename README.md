@@ -101,4 +101,15 @@ Changes:
 
 Changes:
 
-    - Global changes of Threads
+    - Global changes
+    
+## Version 2.0 (04.07.2023)
+
+Changes:
+
+    - MultiThreading implemented (first release)
+    - Some Syntax changes of Node, Tree Classes
+
+Conflicts:
+    
+    - GameState has Player instead of ABstractGamePlayer (SOLVED!)
