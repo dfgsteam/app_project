@@ -31,7 +31,7 @@ public interface Table extends GameProperties {
      * get Players sorted by ID
      * @return
      */
-    public Set<AbstractGamePlayer> getPlayers();
+    public AbstractGamePlayer[] getPlayers();
 
     /**
      * move - Actual Player Move executed by ActualPlayer

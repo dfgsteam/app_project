@@ -15,7 +15,7 @@ import java.util.Set;
  * @date 12.06.2023 00:40
  */
 public abstract class PlayerCards implements CardSetHandler {
-    private Set<Card> cards = new HashSet<>(), blocked_cards = new HashSet<>(), active_cards = new HashSet<>();
+    protected Set<Card> cards = new HashSet<>(), blocked_cards = new HashSet<>(), active_cards = new HashSet<>();
     protected int score = 0;
     @Override
     public void add(final Card added_card) {

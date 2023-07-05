@@ -22,24 +22,24 @@ public class GameBoardState implements Table {
     TO-DO: Laden von Spielständen durch eventuellen SaveGameLoader
      */
     private int round;
-    private AbstractGamePlayer actual_player;
-    private Iterator<AbstractGamePlayer> player_iterator;
+    public AbstractGamePlayer actual_player;
+    public Iterator<AbstractGamePlayer> player_iterator;
     private ArrayList<Card> deposited_cards;
     private Stack<Card> drawpile_cards = new Stack<>();
-    private Set<AbstractGamePlayer> players;
+    private AbstractGamePlayer[] players;
     private GameConfiguration configuration;
 
     // For new Game
-    public GameBoardState(final GameConfiguration configuration, final Set<AbstractGamePlayer> players) throws Exception {
-        new GameBoardState(0, configuration, players, configuration.getCards(), new ArrayList<>());
-    }
+    public GameBoardState(final GameConfiguration configuration, final AbstractGamePlayer[] players, final ImmutableList<Card> drawpile_cards) throws Exception {
+        this.configuration = configuration;
+        this.players = players;
+        for (final Card card : drawpile_cards)
+            this.drawpile_cards.add(card);
 
-    public GameBoardState(final GameConfiguration configuration, final ImmutableList<Card> drawpile_cards, final int numplayers) {
-        final AbstractGamePlayer[] players = new AbstractGamePlayer[numplayers];
     }
-    
-    public GameBoardState(final String[] playernames, final PlayerType[] types, GameConfiguration configuration, final ImmutableList<Card> cards) {
+    public GameBoardState(final String[] playernames, final PlayerType[] types, GameConfiguration configuration, final ImmutableList<Card> cards) throws Exception {
         final AbstractGamePlayer[] players = new AbstractGamePlayer[playernames.length];
+        this.players = players;
         for (int i = 0; i < players.length; i++)
             switch (types[i]) {
                 case ADVANCED_AI:
@@ -59,25 +59,17 @@ public class GameBoardState implements Table {
                     break;
                 default:
             }
-        for (final AbstractGamePlayer player : players);
-
-    }
-
-    // For saved Game Status
-    public GameBoardState(final int round,
-                     final GameConfiguration configuration,
-                     final Set<AbstractGamePlayer> players,
-                     final Set<Card> drawpile_cards,
-                     final ArrayList<Card> deposited_cards) throws Exception {
-        this.round = round;
-        for (final Card card : drawpile_cards)
+        byte playerid = -1;
+        for (final Player player : players)
+            player.init(configuration, cards, playernames.length, playerid++);
+        for (final Card card : cards)
             this.drawpile_cards.add(card);
-        this.deposited_cards = deposited_cards;
-        this.players = players;
-        this.actual_player = player_iterator.next();
-        this.player_iterator = players.iterator();
-        this.configuration = configuration;
+        for (int i = 0; i < configuration.getNumCardsPerPlayerHand() * players.length; i++)
+            this.drawpile_cards.pop();
+        this.round = 0;
+        actual_player = players[0];
     }
+
     @Override
     public Object clone() {
         //
@@ -99,7 +91,7 @@ public class GameBoardState implements Table {
     }
 
     @Override
-    public Set<AbstractGamePlayer> getPlayers() {
+    public AbstractGamePlayer[] getPlayers() {
         return this.players;
     }
 
@@ -115,6 +107,9 @@ public class GameBoardState implements Table {
         deposited_cards.add(move.getDeposited());
         getActualPlayer().remove(move.getDeposited());
         getActualPlayer().add(move.getTaken());
+        for (final AbstractGamePlayer player : players)
+            if(!player.equals(actual_player))
+                player.update(move);
         this.actual_player = player_iterator.next();
         return true;
     }
@@ -137,7 +132,7 @@ public class GameBoardState implements Table {
             for (byte i = 0; i < configuration.getNumCardsPerPlayerHand(); i++) {
                 drawpilecard_list.add(this.drawpile_cards.pop());
             }
-            player.init(configuration, drawpilecard_list, players.size(), count);
+            player.init(configuration, drawpilecard_list, players.length, count);
             count++;
         }
     }
