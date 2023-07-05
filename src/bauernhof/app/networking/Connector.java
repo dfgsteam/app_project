@@ -2,7 +2,11 @@ package bauernhof.app.networking;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.HashSet;
 
+import bauernhof.app.launcher.GameBoardState;
+import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.player.types.HumanPlayer;
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.GameConfigurationParser;
 import bauernhof.preset.ImmutableList;
@@ -29,7 +33,7 @@ public class Connector extends C2SConnection {
     private int playerid;
     private ImmutableList<Integer> scores;
     private PlayerType type;
-    private final RemotePlayer player = null;
+    private AbstractGamePlayer player = null;
 
     
     
@@ -48,14 +52,7 @@ public class Connector extends C2SConnection {
 
     @Override
     protected void onInit(GameConfiguration gameConfiguration, ImmutableList<Card> initialDrawPile, ImmutableList<String> playerNames, int playerid) throws Exception {
-        for(int i = 0; i < playerNames.size(); i++){
-            //Cemil nach Init fragen!!!
-            if (this.type == PlayerType.HUMAN) { }
-            else if (this.type == PlayerType.ADVANCED_AI) { }
-            else if (this.type == PlayerType.RANDOM_AI) { }
-            else if (this.type == PlayerType.SIMPLE_AI) { }
-    
-        }
+        GameBoardState game_board = new GameBoardState(gameConfiguration, playerNames);
     }
 
     @Override
