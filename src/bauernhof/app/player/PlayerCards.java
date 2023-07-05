@@ -103,7 +103,7 @@ public abstract class PlayerCards implements CardSetHandler {
         active_cards.clear();
         for (final Card hand_card : cards)
             for (final Effect effect : hand_card.getEffects())
-                switch (effect.getType()) {
+                switch (effect.getType()) {                             // switch - case für jedes Event
                     case BLOCKED_IF_WITH:
                         for (final Either<Card, CardColor> either : effect.getSelector())
                             if (either.get() instanceof Card) {

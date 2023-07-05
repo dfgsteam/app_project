@@ -48,7 +48,7 @@ public interface Table extends GameProperties {
      *
      * @return Copy of GameBoardState todo a preMove again.
      */
-    public GameBoardState preMove(final Move move);
+    //public GameBoardState preMove(final Move move);
 
     /**
      * gets the Player who has to play now
@@ -70,6 +70,6 @@ public interface Table extends GameProperties {
     /**
      * Mix all Cards on the DrawPileStack
      */
-    public void mixCards();
+   // public void mixCards();
 
 }

@@ -1,8 +1,9 @@
 package bauernhof.app.launcher;
 
 import bauernhof.preset.GameConfiguration;
-import bauernhof.preset.ImmutableList;
 import bauernhof.preset.card.Card;
+
+import java.util.Stack;
 
 /**
  * Interface für den aktuellen State des Games
@@ -35,8 +36,8 @@ public interface GameProperties {
 
     /**
      * Gibt den aktuellen Ziehstapel wieder
-     *
+     * <p>
      * returns the DrawPileStack
      */
-    public ImmutableList<Card> getDrawPileStack();
+    public Stack<Card> getDrawPileStack();
 }

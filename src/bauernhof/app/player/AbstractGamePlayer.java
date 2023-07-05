@@ -15,7 +15,6 @@ import bauernhof.preset.card.Card;
 
 import java.util.Stack;
 
-
 public abstract class AbstractGamePlayer extends PlayerCards implements GamePlayer {
     private String name;
     protected Stack<Card> initialDrawPile = new Stack<>();
@@ -41,6 +40,11 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
         this.state = state;
         this.type = type;
     }
+
+    public AbstractGamePlayer(final String name, final PlayerType type) {
+        this.name = name;
+        this.type = type;
+    }
     /**
      * Führt den {@link Move} aus der durch die Methode {@link PlayerProperties#initNextMove(Move)}
      * initialisiert wurde.
@@ -48,10 +52,7 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
      * updated und an den aktuellen {@link GameBoardState} gesendet.
      */
     public void executeMove() throws Exception {
-        this.remove(request().getDeposited());
-        this.add(request().getTaken());
-        // pop card from the actual stack
-        if (request().getTaken().equals(initialDrawPile.firstElement())) initialDrawPile.pop();
+
     }
     @Override
     public void setName(final String name) {
@@ -92,6 +93,7 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
         this.playerid = playerid;
         this.numplayers = numplayers;
         this.configuration = configuration;
+        this.state = new GameBoardState(configuration, initialDrawPile, numplayers);
     }
 
     @Override
@@ -101,14 +103,7 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
 
     @Override
     public void update(Move opponentMove) throws Exception {
-        /*
-        TODO:
-         Send Update of the Move at the GameState.
-         Update initalDrawPileStack
-         */
-        initialDrawPile.remove(opponentMove.getDeposited());
-        initialDrawPile.add(opponentMove.getTaken());
-        this.move = opponentMove;
+        state.doMove(opponentMove);
     }
 
     @Override
@@ -130,7 +125,7 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
     }
 
     @Override
-    public ImmutableList<Card> getDrawPileStack() {
+    public Stack<Card> getDrawPileStack() {
         return null;
     }
     @Override
@@ -138,4 +133,3 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
         return this.score;
     }
 }
-
