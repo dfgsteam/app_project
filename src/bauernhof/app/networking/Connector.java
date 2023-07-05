@@ -52,7 +52,12 @@ public class Connector extends C2SConnection {
 
     @Override
     protected void onInit(GameConfiguration gameConfiguration, ImmutableList<Card> initialDrawPile, ImmutableList<String> playerNames, int playerid) throws Exception {
-        GameBoardState game_board = new GameBoardState(gameConfiguration, playerNames);
+        PlayerType[] types = new PlayerType[playerNames.size()];
+        for (int i = 0; i < playerNames.size(); i++) {
+            if (i == playerid) { types[i] = this.type; }
+            else { types[i] = PlayerType.REMOTE; }
+        }
+        GameBoardState game_board = new GameBoardState(playerNames.toArray(new String[1]), types, gameConfiguration, initialDrawPile);
     }
 
     @Override
