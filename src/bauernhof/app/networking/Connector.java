@@ -47,7 +47,7 @@ public class Connector extends C2SConnection {
             handlePackets();
         } catch (RemoteException e) {
             e.printStackTrace();
-        }
+        } 
     }
 
     @Override
