@@ -15,7 +15,7 @@ import bauernhof.preset.card.Card;
 
 import java.util.Stack;
 
-public abstract class AbstractGamePlayer extends PlayerCards implements GamePlayer {
+public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
     private String name;
     protected Stack<Card> initialDrawPile = new Stack<>();
     protected Move move;

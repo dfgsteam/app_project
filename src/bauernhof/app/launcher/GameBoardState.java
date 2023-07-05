@@ -39,7 +39,28 @@ public class GameBoardState implements Table {
     }
     
     public GameBoardState(final String[] playernames, final PlayerType[] types, GameConfiguration configuration, final ImmutableList<Card> cards) {
-        AbstractGamePlayer[] players = new AbstractGamePlayer[playernames.length];
+        final AbstractGamePlayer[] players = new AbstractGamePlayer[playernames.length];
+        for (int i = 0; i < players.length; i++)
+            switch (types[i]) {
+                case ADVANCED_AI:
+                    players[i] = new AbstractGamePlayer(playernames[i], types[i]);
+                    break;
+                case HUMAN:
+                    players[i] = new AbstractGamePlayer(playernames[i], types[i]);
+                    break;
+                case RANDOM_AI:
+                    players[i] = new AbstractGamePlayer(playernames[i], types[i]);
+                    break;
+                case REMOTE:
+                    players[i] = new AbstractGamePlayer(playernames[i], types[i]);
+                    break;
+                case SIMPLE_AI:
+                    players[i] = new AbstractGamePlayer(playernames[i], types[i]);
+                    break;
+                default:
+            }
+        for (final AbstractGamePlayer player : players);
+
     }
 
     // For saved Game Status
