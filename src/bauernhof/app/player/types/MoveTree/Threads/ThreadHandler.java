@@ -49,14 +49,25 @@ public interface ThreadHandler {
 
     /**
      * Get the actual-best (score based)
+     * @throws Exception
      */
-    public MoveNode getBestOfEnemy();
+    public MoveNode getBestOfActual() throws Exception;
 
     /**
      * The action, the sequenceThread has to do (synchronized)
      */
-    public boolean sequenceThreadAction();
+    public MoveNode sequenceThreadAction();
 
+    /**
+     * Getter for the MAX_Depth of the tree
+     * @return int
+     */
+    public int getMaxDepth();
+
+    /**
+     * Go deeper in the tree
+     */
+    public boolean goDeeper();
 
 
 }

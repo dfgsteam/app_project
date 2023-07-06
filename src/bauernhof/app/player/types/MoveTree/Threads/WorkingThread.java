@@ -13,7 +13,6 @@ import bauernhof.preset.card.Card;
 
 public class WorkingThread extends AbstractThread {
 
-    private static final int MAX_DEPTH = 3;
     private static Queue<MoveNode> next_calculations = new LinkedList<MoveNode>();
     
 
@@ -34,7 +33,7 @@ public class WorkingThread extends AbstractThread {
     @Override
     public boolean calcNextNode(int cardNumTake, int cardNumPut) {
         Card[] owncards = (Card[])this.getThreadNode().getActualBoardState().getActualPlayer().getCards().toArray();
-        if (this.getThreadNode().getDepth()+1 < MAX_DEPTH) { return false; }
+        if (this.getThreadNode().getDepth()+1 < this.getMaxDepth()) { return false; }
 
         Card to_take, to_put;
         if (cardNumTake < 0) {
@@ -93,13 +92,13 @@ public class WorkingThread extends AbstractThread {
 
     //This methods are not used by this Thread
     @Override
-    public MoveNode getBestOfEnemy() {
+    public MoveNode getBestOfActual() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getBest'");
     }
 
     @Override
-    public boolean sequenceThreadAction() {
+    public MoveNode sequenceThreadAction() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'sequenceThreadAction'");
     }
