@@ -47,7 +47,7 @@ public class PlayerPanel extends GGroup{
     private void initPlayer(int playerId, Card cardExamp, int maxCards) {
         switch (playerId%2) {
             case 0: {
-                int counter = -1;
+                int counter = 0;
                 int startpointX, startpointY;
 
                 if (playerId == 0)
@@ -57,7 +57,7 @@ public class PlayerPanel extends GGroup{
 
                 System.out.println(startpointY);
                 
-                while (counter++ < 9) {
+                while (counter < maxCards) {
                     System.out.println(counter);
                     startpointX = 0 - 180*(maxCards/2);
                     
@@ -65,6 +65,7 @@ public class PlayerPanel extends GGroup{
                     this.pos[playerId][counter][1] = startpointY; // Y-Pos von Karte
 
                     this.groupPlayer[playerId].addChild(new GCard(cardExamp), this.pos[playerId][counter][0], this.pos[playerId][counter][1]);
+                    counter++;
                 }
                 break;
             } case 1: {
