@@ -47,11 +47,6 @@ public abstract class PlayerCards implements CardSetHandler {
                 colorcards.add(card);
         return colorcards;
     }
-    /*
-    card die bei den removeblockedcards hinzugefügt wird ist der Parameter Card
-
-    addafter - boolean um zu bestimmen, ob die Karte danach wieder hinzugefügt werden soll.
-     */
     private void updateScore() {
         score = 0;
         for (final Card card : active_cards) {

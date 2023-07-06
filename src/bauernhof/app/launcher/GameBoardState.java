@@ -19,7 +19,7 @@ import java.util.*;
 public class GameBoardState implements Table {
     private int round;
     public AbstractGamePlayer actual_player;
-    public Iterator<AbstractGamePlayer> player_iterator;
+    private int activeplayerid = 0;
     private ArrayList<Card> deposited_cards = new ArrayList<>();
     private Stack<Card> drawpile_cards = new Stack<>();
     private AbstractGamePlayer[] players;
@@ -60,11 +60,6 @@ public class GameBoardState implements Table {
 
     @Override
     public Object clone() {
-        //
-       /* final Set<AbstractGamePlayer> players = new HashSet<>();
-        for (final AbstractGamePlayer player : getPlayers())
-            players.add(player.)
-        return new GameBoardState(round, getGameConfiguration(), getPlayers(), getDrawPileCards().clone(), getDepositedCards().clone()); */
         return null;
     }
 
@@ -100,13 +95,14 @@ public class GameBoardState implements Table {
                 player.update(move);
             else
                 actual_player.doMove(move);
-        this.actual_player = player_iterator.next();
+        if (!(activeplayerid < players.length)) activeplayerid = 0;
+        else activeplayerid++;
         return true;
     }
 
     @Override
     public AbstractGamePlayer getActualPlayer() {
-        return this.actual_player;
+        return players[activeplayerid];
     }
 
     @Override
@@ -114,17 +110,4 @@ public class GameBoardState implements Table {
         return this.round;
     }
 
-    @Override
-    public GameConfiguration getGameConfiguration() {
-        return this.configuration;
-    }
-
-    //@Override
-    public GameBoardState getState() {
-        return this;
-    }
-
-    public Stack<Card> getDrawPileStack() {
-        return this.drawpile_cards;
-    }
 }

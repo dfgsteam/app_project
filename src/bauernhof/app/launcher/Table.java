@@ -13,7 +13,7 @@ import java.util.Stack;
  * @author Ramon Cemil Kimyon
  * @date 09.06.2023 01:05
  */
-public interface Table extends GameProperties {
+public interface Table {
     /**
      * Deposited Cards on the table
      * Cards which are deposited by {@link Player#request()} --> {@link Move#getDeposited()}
@@ -44,13 +44,6 @@ public interface Table extends GameProperties {
     public boolean doMove(final Move move) throws Exception;
 
     /**
-     * @param move - Actual Move Player executed by ActualPlayer
-     *
-     * @return Copy of GameBoardState todo a preMove again.
-     */
-    //public GameBoardState preMove(final Move move);
-
-    /**
      * gets the Player who has to play now
      * @return
      */
@@ -62,14 +55,5 @@ public interface Table extends GameProperties {
      * @return actual_roundcount;
      */
     public int getRound();
-
-    /**
-     * initNewGame();
-     */
-    //public void initNewGame() throws Exception;
-    /**
-     * Mix all Cards on the DrawPileStack
-     */
-   // public void mixCards();
 
 }

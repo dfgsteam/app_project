@@ -111,14 +111,9 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
     }
 
     public int getPlayerID() {
-        // returns the PlayerID from Player#init
         return playerid;
     }
 
-    @Override
-    public GameConfiguration getGameConfiguration() {
-        return configuration;
-    }
 
     @Override
     public int getScore() throws Exception {
