@@ -18,6 +18,18 @@ import bauernhof.preset.card.Card;
 /**
  * A connection from a Client to a Server.
  *
+ * <div style="color:#3c763d;background-color:#dff0d8;border-color:#d6e9c6;padding:1em;margin-bottom:1.2em;border:0.1em solid transparent;border-radius:0.25em;"> <!-- SUCCESS -->
+ * The following functions get automatically called when the {@link S2CConnection Server} calls their equivalent functions on {@link RemotePlayer}:
+ * <ul>
+ * <li> {@link #onGetName()} </li>
+ * <li> {@link #onInit(GameConfiguration, ImmutableList, ImmutableList, int)} </li>
+ * <li> {@link #onRequest()} </li>
+ * <li> {@link #onUpdate(Move)} </li>
+ * <li> {@link #onGetScore()} </li>
+ * <li> {@link #onVerifyGame(ImmutableList)} </li>
+ * </ul>
+ * </div>
+ *
  * @see S2CConnection
  */
 public abstract class C2SConnection {
@@ -182,41 +194,56 @@ public abstract class C2SConnection {
 		}
 	}
 
-	/**
+	/**Es wird dem aktuellen menschlichen Spieler angezeigt welche Karten er in der jeweiligen Phase seines Zugs anklicken kann.
 	 * Gets called when the server calls {@link RemotePlayer#init(bauernhof.preset.GameConfiguration, ImmutableList, int, int)}.
 	 * @param gameConfiguration See {@link bauernhof.preset.Player#init(GameConfiguration, ImmutableList, int, int)}.
 	 * @param initialDrawPile See {@link bauernhof.preset.Player#init(GameConfiguration, ImmutableList, int, int)}.
 	 * @param playerNames The names of all players in order of their player id.
 	 * @param playerid See {@link bauernhof.preset.Player#init(GameConfiguration, ImmutableList, int, int)}.
+	 * @throws Exception See {@link bauernhof.preset.Player#init(GameConfiguration, ImmutableList, int, int)}.
 	 */
 	protected abstract void onInit(GameConfiguration gameConfiguration, ImmutableList<Card> initialDrawPile, ImmutableList<String> playerNames, int playerid) throws Exception;
 	/**
 	 * Called when the server calls {@link RemotePlayer#request()}.
 	 * @return See {@link bauernhof.preset.Player#request()}.
+	 * @throws Exception See {@link bauernhof.preset.Player#request()}.
 	 */
 	protected abstract Move onRequest() throws Exception;
 	/**
 	 * Called when the server calls {@link RemotePlayer#update(Move)}.
 	 * @param opponentMove See {@link bauernhof.preset.Player#update(Move)}.
+	 * @throws Exception See {@link bauernhof.preset.Player#update(Move)}.
 	 */
 	protected abstract void onUpdate(Move opponentMove) throws Exception;
 	/**
 	 * Called when the server calls {@link RemotePlayer#getScore()}.
 	 * @return See {@link bauernhof.preset.Player#getScore()}.
+	 * @throws Exception See {@link bauernhof.preset.Player#getScore()}.
 	 */
 	protected abstract int onGetScore() throws Exception;
 	/**
 	 * Called when the server calls {@link RemotePlayer#getName()}.
 	 * @return See {@link bauernhof.preset.Player#getName()}.
+	 * @throws Exception See {@link bauernhof.preset.Player#getName()}.
 	 */
 	protected abstract String onGetName() throws Exception;
 	/**
 	 * Called when the server calls {@link RemotePlayer#verifyGame(ImmutableList)}.
 	 * @param scores See {@link bauernhof.preset.Player#verifyGame(ImmutableList)}.
+	 * @throws Exception scores See {@link bauernhof.preset.Player#verifyGame(ImmutableList)}.
 	 */
 	protected abstract void onVerifyGame(ImmutableList<Integer> scores) throws Exception;
 
-	protected abstract void onError(RemoteException re) throws Exception;
+	/**
+	 * @hidden
+	 * This function does nothing and is never called.
+	 *
+	 * @param re Nothing.
+	 *
+	 * @throws Exception Nothing.
+	 */
+	@Deprecated
+	protected void onError(RemoteException re) throws Exception {};
 
 
 	/**

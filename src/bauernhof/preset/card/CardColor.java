@@ -8,7 +8,13 @@ import java.lang.reflect.Field;
  */
 public class CardColor {
 
+	/**
+	 * @hidden
+	 */
 	protected final String name;
+	/**
+	 * @hidden
+	 */
 	protected final Color color;
 
 	/**
