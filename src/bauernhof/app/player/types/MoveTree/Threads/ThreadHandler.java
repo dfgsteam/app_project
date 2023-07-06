@@ -30,10 +30,10 @@ public interface ThreadHandler {
     public MoveTree getTree();
 
     /**
-     * The action thread must do (synchronized)
+     * The action, the workingThread must do (synchronized)
      * @return false, if fail
      */
-    public boolean threadAction();
+    public boolean workingThreadAction();
 
     /**
      * Setter for the actual_node of the node
@@ -46,5 +46,17 @@ public interface ThreadHandler {
      * @return MoveNode
      */
     public MoveNode getThreadNode();
+
+    /**
+     * Get the actual-best (score based)
+     */
+    public MoveNode getBestOfEnemy();
+
+    /**
+     * The action, the sequenceThread has to do (synchronized)
+     */
+    public boolean sequenceThreadAction();
+
+
 
 }

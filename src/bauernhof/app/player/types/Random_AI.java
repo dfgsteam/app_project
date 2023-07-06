@@ -20,11 +20,11 @@ public class Random_AI extends AbstractGamePlayer implements AIHeader{
         Card to_deposit = null;
 
         if (this.getState().getDepositedCards().isEmpty() || Math.random() < 0.5) {
-            to_take = this.getState().getDrawPileCards().firstElement();
+            to_take = cardFromStack();
         }
 
         else {
-            to_take = this.getState().getDepositedCards().get(depositRandomNumber());
+            to_take = cardFromDeposit();
         }
 
         if (Math.random() < 0.5) {
@@ -32,7 +32,7 @@ public class Random_AI extends AbstractGamePlayer implements AIHeader{
         }
         
         else {
-            to_deposit = this.getCards().get(ownCardNumber());
+            to_deposit = removeFromOwn();
         }
 
         return new Move(to_take, to_deposit);
@@ -58,12 +58,7 @@ public class Random_AI extends AbstractGamePlayer implements AIHeader{
     @Override
     public Card cardFromDeposit() {
        int deposit_random_index = depositRandomNumber();
-       Iterator<Card> it = this.getState().getDepositedCards().iterator();
-       for (int i = 0; i < deposit_random_index; i++) {
-            it.next();
-        }
-
-        return it.next();
+       return this.getState().getDepositedCards().get(deposit_random_index);
     }
 
     @Override
@@ -74,7 +69,7 @@ public class Random_AI extends AbstractGamePlayer implements AIHeader{
     @Override
     public Card removeFromOwn() {
         int own_random_index = ownCardNumber();
-        return this.getCards().get(own_random_index);
+        return (Card)this.getCards().toArray()[own_random_index];
     }
     
 }

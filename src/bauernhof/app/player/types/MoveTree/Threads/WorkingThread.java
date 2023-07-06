@@ -11,36 +11,38 @@ import bauernhof.app.player.types.MoveTree.MoveTree;
 import bauernhof.preset.Move;
 import bauernhof.preset.card.Card;
 
-public class WorkingThread extends Thread implements ThreadHandler {
+public class WorkingThread extends AbstractThread {
 
     private static final int MAX_DEPTH = 3;
     private static Queue<MoveNode> next_calculations = new LinkedList<MoveNode>();
-    private MoveTree move_tree;
-    private MoveNode actual_node;
+    
 
     public WorkingThread(GameBoardState actual_state) {
-        move_tree = new MoveTree(new MoveNode(actual_state));
-        actual_node = move_tree.getActualNode();
-        threadAction();
+        this.setTree(new MoveTree(new MoveNode(actual_state)));
+        this.setThreadNode(this.getTree().getActualNode());
+        workingThreadAction();
+        start();
     }
 
     public WorkingThread(MoveTree tree) {
-        move_tree = tree;
-        actual_node = null;
+        this.setTree(tree);
+        this.setThreadNode(null);
+        start();
     }
 
 
     @Override
     public boolean calcNextNode(int cardNumTake, int cardNumPut) {
-        if (this.actual_node.getDepth()+1 < MAX_DEPTH) { return false; }
+        Card[] owncards = (Card[])this.getThreadNode().getActualBoardState().getActualPlayer().getCards().toArray();
+        if (this.getThreadNode().getDepth()+1 < MAX_DEPTH) { return false; }
 
         Card to_take, to_put;
         if (cardNumTake < 0) {
-            to_take = this.actual_node.getActualBoardState().getDrawPileCards().firstElement();
+            to_take = this.getThreadNode().getActualBoardState().getDrawPileCards().firstElement();
         }
 
         else {
-            to_take = this.actual_node.getActualBoardState().getDepositedCards().get(cardNumTake);
+            to_take = this.getThreadNode().getActualBoardState().getDepositedCards().get(cardNumTake);
         }
 
         if (cardNumPut < 0) {
@@ -48,55 +50,34 @@ public class WorkingThread extends Thread implements ThreadHandler {
         }
 
         else {
-            to_put = this.actual_node.getActualPlayer().getCards().get(cardNumPut);
+            to_put = owncards[cardNumPut];
         }
 
         Move new_move = new Move(to_take, to_put);
-        GameBoardState new_state = this.actual_node.getActualBoardState().clone();
+        GameBoardState new_state = this.getThreadNode().getActualBoardState().clone();
 
         if (!new_state.doMove(new_move)) { return false; }
         
-        MoveNode next_MoveNode = new MoveNode(new_move, this.actual_node, new_state);
-        next_MoveNode.setDepth(actual_node.getDepth()+1);
-        this.actual_node = next_MoveNode;
+        MoveNode next_MoveNode = new MoveNode(new_move, this.getThreadNode(), new_state);
+        next_MoveNode.setDepth(this.getThreadNode().getDepth()+1);
         return true;
     }
 
     @Override
-    public void setTree(MoveTree tree) {
-        this.move_tree = tree;
-    }
-
-    @Override
-    public MoveTree getTree() {
-        return this.move_tree;
-    }
-
-    @Override
-    synchronized public boolean threadAction() {
-        if (this.actual_node == null) {
-            this.actual_node = WorkingThread.next_calculations.remove();
+    synchronized public boolean workingThreadAction() {
+        if (this.getThreadNode() == null) {
+            this.setThreadNode(WorkingThread.next_calculations.remove());
         }
 
-        for (int i = -1; i < this.actual_node.getActualBoardState().getDepositedCards().size(); i++) {
-            for (int j = -1; j < this.actual_node.getActualBoardState().getActualPlayer().getCards().getSize(); j++) {
+        for (int i = -1; i < this.getThreadNode().getActualBoardState().getDepositedCards().size(); i++) {
+            for (int j = -1; j < this.getThreadNode().getActualBoardState().getActualPlayer().getCards().getSize(); j++) {
                 if (!calcNextNode(i, j)) { return false; }
-                next_calculations.add((MoveNode)actual_node.clone());
-                this.actual_node = this.actual_node.getPrevNode();
+                next_calculations.add(this.getThreadNode());
+                this.setThreadNode(this.getThreadNode().getPrevNode());
             }
         }
-        this.actual_node = null;
+        this.setThreadNode(null);
         return true;
-    }
-
-    @Override
-    public void setThreadNode(MoveNode move_node) {
-        this.actual_node = move_node;
-    }
-
-    @Override
-    public MoveNode getThreadNode() {
-        return this.actual_node;
     }
 
 
@@ -104,7 +85,22 @@ public class WorkingThread extends Thread implements ThreadHandler {
     @Override
     public void run() {
         while (!WorkingThread.next_calculations.isEmpty()) {
-            threadAction();
+            workingThreadAction();
         }
+        interrupt();
+    }
+
+
+    //This methods are not used by this Thread
+    @Override
+    public MoveNode getBestOfEnemy() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getBest'");
+    }
+
+    @Override
+    public boolean sequenceThreadAction() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'sequenceThreadAction'");
     }
 }
