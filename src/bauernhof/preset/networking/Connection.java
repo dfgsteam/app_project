@@ -7,11 +7,6 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.text.Position;
-
-import bauernhof.preset.Move;
-
 /**
  * Class for sending and receiving simple data types to and from a socket.
  *
