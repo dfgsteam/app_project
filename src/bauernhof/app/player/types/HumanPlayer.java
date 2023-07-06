@@ -11,7 +11,7 @@ import bauernhof.preset.PlayerType;
  * @date 10.06.2023 15:15
  */
 public class HumanPlayer extends AbstractGamePlayer {
-    public HumanPlayer(String name, GameBoardState status) {
-        super(name, status, PlayerType.HUMAN);
+    public HumanPlayer(String name) {
+        super(name, PlayerType.HUMAN);
     }
 }
