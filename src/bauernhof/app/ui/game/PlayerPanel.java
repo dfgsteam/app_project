@@ -50,12 +50,10 @@ public class PlayerPanel extends GGroup{
                 int counter = 0;
                 int startpointX, startpointY;
 
-                if (playerId == 0)
+                if (playerId == 0) // Position ob oben/unten 
                     startpointY = -150;
                 else
-                    startpointY = 150;
-
-                System.out.println(startpointY);
+                    startpointY = 150; 
                 
                 while (counter < maxCards) {
                     // Ermittel startpunkt
@@ -78,17 +76,10 @@ public class PlayerPanel extends GGroup{
                 else
                     side = -1;
                 
-                
                 while (counter < maxCards) {
 
                     // Ermittel startpunkt
                     startpointX = side*100 + side*(200*(counter%2));
-
-
-                    System.out.println(startpointY);
-                    System.out.println(startpointX);
-                    System.out.println(counter);
-
                     
                     this.pos[playerId][counter][0] = startpointX; // X-Pos von Karte
                     this.pos[playerId][counter][1] = startpointY; // Y-Pos von Karte
