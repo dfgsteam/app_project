@@ -36,7 +36,7 @@ public class GameBoard{
         this.Frame.setSAGPanel(this.mainPanel);
         this.Frame.setVisible(true);
 
-        this.panelPlayer = new PlayerPanel(mainPanel, players.size(), 10, players);
+        this.panelPlayer = new PlayerPanel(mainPanel, players.size(), 2, players);
     }
 
     private void drawCards(){
