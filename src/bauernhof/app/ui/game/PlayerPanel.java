@@ -15,11 +15,6 @@ public class PlayerPanel extends SAGPanel{
     public PlayerPanel(Player player){
 
         this.player = player;
-        this.setLayout(new GridLayout(1,10));
-
-        for (Card c : player.getCards) {
-            this.add(new SAGPanel(new ImageIcon(c.getImage())));
-        }
         
     }
 

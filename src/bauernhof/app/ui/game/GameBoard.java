@@ -2,17 +2,38 @@ package bauernhof.app.ui.game;
 
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.Player;
+import bauernhof.preset.card.GCard;
+import bauernhof.app.card.Ca;
 import bauernhof.app.launcher.GameBoardState;
+import sag.LayerPosition;
 import sag.SAGFrame;
 import sag.SAGPanel;
+import sag.elements.GGroup;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.text.LabelView;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
 
-public class GameBoard{ 
+public class GameBoard implements ActionListener{ 
 
     private SAGFrame Frame;
     private SAGPanel MainPanel;
+    private SAGPanel CardPanel;
+
+
+    private JButton Nachziehstapel;
+    private JButton Ablagestapel;
+
+    private Set<GCard> NachziehstapelCards; 
+    private Set<GCard> AblagestapelCards; 
 
     final private int WIDTH = 1280;
     final private int HEIGTH = 720;
@@ -39,16 +60,14 @@ public class GameBoard{
         Frame.setLayout(null);
         Frame.setVisible(true);
 
-    }
 
-    private void drawCards(){
 
     }
 
     private void prepareMain(int i){
-        String path = "graphics/player_view"+i+".jpg";
+         String path = "graphics/player_view"+i+".jpg";
 
-                this.MainPanel = new SAGPanel() {
+                this.MainPanel = new SAGPanel();/*  {
                     @Override
                     public void paintComponent(Graphics g) {
                         super.paintComponent(g);
@@ -58,13 +77,15 @@ public class GameBoard{
                         Image image = backgroundImage.getImage();
                         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
                     }
-                };
+                };*/
 
-                MainPanel.setLayout(new FlowLayout());
+                initNachziehstapel();
 
-                JPanel mid = new SAGPanel();
-                MainPanel.add(mid, BorderLayout.CENTER);
-                mid.setBackground(new Color(255,0,0));
+                GGroup Mid = MainPanel.addLayer(LayerPosition.CENTER_CENTER);
+                //Mid.addChild(new GCard(new Ca())));
+
+
+                
 
         System.out.println(i);
                 switch (i){
@@ -78,6 +99,32 @@ public class GameBoard{
                 }
         }
 
+
+    private void initNachziehstapel(){
+        
+        NachziehstapelCards = new HashSet<>();
+        for(int i = 0; i < 10; i++){
+             NachziehstapelCards.add(new GCard(new Ca("",0,null,null,null)));
+        }
+        Nachziehstapel = new JButton();//new ImageIcon(NachziehstapelCards.iterator().next().getImage()));
+        /*try {
+            Nachziehstapel.setIcon(new ImageIcon(ImageIO.read(new File("graphics/bauer.svg"))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+        Nachziehstapel.addActionListener(this::actionPerformed);
+
+    }
+
+    private void initAblagestapel(){
+        
+        AblagestapelCards = new HashSet<>();
+        
+        Ablagestapel = new JButton();
+        Ablagestapel.addActionListener(this::actionPerformed);
+    
+    }
+
     private void setPlayer3Panel(){
            // PlayerPanel PP3 = new PlayerPanel();
     }
@@ -86,8 +133,19 @@ public class GameBoard{
            /*  PlayerPanel PP2 = new PlayerPanel();
             PlayerPanel PP4 = new PlayerPanel();*/
     }
-        
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
+            if(e.getSource()==Nachziehstapel){
+                    CardPanel = new SAGPanel();
+                    CardPanel.setLayout(new FlowLayout());
+                    for(GCard c : NachziehstapelCards){
+                       // CardPanel.add(new Label(c.getImage()));
+                    }
+
+            }
+    }
 
 }
 
