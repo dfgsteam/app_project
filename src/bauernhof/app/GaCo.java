@@ -15,7 +15,7 @@ import java.util.*;
  * @since 2023-06-27
  */
 
-class GaCo implements GameConfiguration{
+public class GaCo implements GameConfiguration{
     private String configDescription;
     private int numDepositionAreaSlots;
     private int numCardsPerPlayerHand;
