@@ -1,7 +1,7 @@
 package bauernhof.app.settings;
 
 /**
- * An exception that may be thrown while {@link GameConfigurationParser parsing a game configuration} indicating that the game configuration is invalid.
+ * An exception that may be thrown while {@link SePa parsing a setting configuration} indicating that the setting configuration is invalid.
  */
 public class SeEx extends Exception {
 	private static final long serialVersionUID=1l;
@@ -17,5 +17,4 @@ public class SeEx extends Exception {
 	public SeEx(Throwable cause) {
 		super(cause);
 	}
-
 }
