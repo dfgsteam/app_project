@@ -56,7 +56,7 @@ public class WorkingThread extends Thread implements ThreadHandler {
 
         if (!new_state.doMove(new_move)) { return false; }
         
-        MoveNode next_MoveNode = new MoveNode(new_move, this.actual_node, new_state, new_state.getActualPlayer());
+        MoveNode next_MoveNode = new MoveNode(new_move, this.actual_node, new_state);
         next_MoveNode.setDepth(actual_node.getDepth()+1);
         this.actual_node = next_MoveNode;
         return true;
