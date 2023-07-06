@@ -24,7 +24,7 @@ public interface GameProperties {
      *
      * @return state
      */
-    public GameBoardState getState();
+    //public GameBoardState getState();
 
     /**
      * Setzt den aktuellen Spielestand.

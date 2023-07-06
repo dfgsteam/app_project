@@ -5,6 +5,7 @@ import bauernhof.preset.card.Card;
 import bauernhof.preset.card.CardColor;
 import bauernhof.preset.card.Effect;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -145,17 +146,17 @@ public abstract class PlayerCards implements CardSetHandler {
     }
 
     @Override
-    public Set<Card> getCards() {
-        return this.cards;
+    public ArrayList<Card> getCards() {
+        return new ArrayList<>(this.cards);
     }
 
     @Override
-    public Set<Card> getBlockedCards() {
-        return this.blocked_cards;
+    public ArrayList<Card> getBlockedCards() {
+        return new ArrayList<>(this.blocked_cards);
     }
 
     @Override
-    public Set<Card> getActiveCards() {
-        return this.active_cards;
+    public ArrayList<Card> getActiveCards() {
+        return new ArrayList<>(this.active_cards);
     }
 }

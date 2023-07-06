@@ -1,4 +1,4 @@
-package bauernhof.app.UI;
+package bauernhof.app.ui;
 
 import com.kitfox.svg.app.beans.SVGPanel;
 import sag.SAGPanel;

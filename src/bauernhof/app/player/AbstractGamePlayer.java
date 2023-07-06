@@ -52,7 +52,7 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
         this.name = name;
         this.type = type;
     }
-    /**
+  /*  /**
      * Führt den {@link Move} aus der durch die Methode {@link PlayerProperties#initNextMove(Move)}
      * initialisiert wurde.
      * Dabei wird der Nachziehen-Stapel und der Stapel der hingelegten Karten
@@ -80,7 +80,7 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
         this.playerid = playerid;
     }
 
-    @Override
+   // @Override
     public void initNextMove(final Move move) {
         this.move = move;
     }
@@ -89,10 +89,10 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
     public String getName() {
         return this.name;
     }
-    @Override
+    /*@Override
     public GameBoardState getState() {
         return this.state;
-    }
+    } */
 
     /**8
      * Setzt den aktuellen Spielestand.
@@ -182,6 +182,7 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
     public Stack<Card> getDrawPileStack() {
         return null;
     }
+
     @Override
     public int getScore() throws Exception {
         return this.score;

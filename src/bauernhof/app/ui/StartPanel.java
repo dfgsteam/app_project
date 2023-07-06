@@ -1,6 +1,6 @@
-package bauernhof.app.UI;
+package bauernhof.app.ui;
 
-import javax.swing.*;
+import bauernhof.app.ui.game.StartFrame;
 
 public class StartPanel {
 

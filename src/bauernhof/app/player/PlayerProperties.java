@@ -23,7 +23,7 @@ public interface PlayerProperties {
      *
      * @param next_move - der Move der ausgeführt wird, wenn der Spieler dran ist.
      */
-    public void initNextMove(final Move next_move);
+    //public void initNextMove(final Move next_move);
     /**
      * Gibt die ID zurück, die dem Spieler beim init zugeordnet wurde.
      * {@link Player#init(GameConfiguration, ImmutableList, int, int)}

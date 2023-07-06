@@ -1,7 +1,6 @@
 package bauernhof.app.launcher;
 
 import bauernhof.app.player.AbstractGamePlayer;
-import bauernhof.app.player.types.HumanPlayer;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 
@@ -24,7 +23,7 @@ public class GameBoardState implements Table {
     private int round;
     public AbstractGamePlayer actual_player;
     public Iterator<AbstractGamePlayer> player_iterator;
-    private ArrayList<Card> deposited_cards;
+    private ArrayList<Card> deposited_cards = new ArrayList<>();
     private Stack<Card> drawpile_cards = new Stack<>();
     private AbstractGamePlayer[] players;
     private GameConfiguration configuration;
@@ -142,7 +141,7 @@ public class GameBoardState implements Table {
         return this.configuration;
     }
 
-    @Override
+    //@Override
     public GameBoardState getState() {
         return this;
     }
