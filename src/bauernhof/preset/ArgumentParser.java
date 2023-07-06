@@ -29,54 +29,20 @@ import sag.SAGInfo;
  */
 public class ArgumentParser extends Settings {
 
-	/**
-	 * How many arguments an option has.
-	 * <p style="color:#8a6d3b;background-color:#fcf8e3;border-color:#faebcc;padding:1em;margin-bottom:1.2em;border:0.1em solid transparent;border-radius:0.25em;"> <!-- WARNING -->
-	 * This is only relevant if you intend to add your own custom options.<br>
-	 * Otherwise ignore this enum.
-	 * </p>
-	 * @see ArgumentParser#addOption(String, String, String, ArgAmount, String, Class, OptionalFeature, Handler)
-	 */
 	protected enum ArgAmount {
-		/**
-		 * Option has no further arguments.
-		 */
 		NONE,
-		/**
-		 * Option has one further arguments.
-		 */
 		ONE,
-		/**
-		 * Option has up to unlimited further arguments.
-		 */
 		UNLIMITED
 	}
 	
-	/**
-	 * Abstract class for a handler of an option.
-	 * <p style="color:#8a6d3b;background-color:#fcf8e3;border-color:#faebcc;padding:1em;margin-bottom:1.2em;border:0.1em solid transparent;border-radius:0.25em;"> <!-- WARNING -->
-	 * This is only relevant if you intend to add your own custom options.<br>
-	 * Otherwise ignore this class.
-	 * </p>
-	 * @see ArgumentParser#addOption(String, String, String, ArgAmount, String, Class, OptionalFeature, Handler)
-	 */
 	protected abstract class Handler {
 		public abstract void handle(CommandLine line, Option opt, List<String> values) throws ParseException;
 		public void notHandled(CommandLine line, Option opt) throws ParseException {};
 	}
 
-	/**
-	 * @hidden
-	 */
 	protected CommandLine line;
-	/**
-	 * @hidden
-	 */
 	protected final Options options = new Options();
 
-	/**
-	 * @hidden
-	 */
 	protected String javaCommandLine = null;
 
 	/**
@@ -92,14 +58,8 @@ public class ArgumentParser extends Settings {
 	 */
 	public final ArrayList<String> helpFooter = new ArrayList<String>();
 
-	/**
-	 * @hidden
-	 */
 	protected String[] args;
 
-	/**
-	 * @hidden
-	 */
 	protected LinkedHashMap<Option, Handler> handlers = new LinkedHashMap<Option, Handler>();
 
 	/**
@@ -212,15 +172,6 @@ public class ArgumentParser extends Settings {
 	/**
 	 * Adds a new option.
 	 *
-	 * <p>
-	 * This is only relevant if you intend to add your own custom options.<br>
-	 * Otherwise ignore this function.
-	 * </p>
-	 *
-	 * <p>
-	 * This function should be called inside of {@link #addOptions()}.
-	 * </p>
-	 *
 	 * @param longOpt the long name (e.g.: playerNames)
 	 * @param shortOpt the short name (e.g.: pn)
 	 * @param desc the description
@@ -273,18 +224,10 @@ public class ArgumentParser extends Settings {
 	/**
 	 * Adds the options.
 	 *
-	 * <p>
-	 * This is only relevant if you intend to add your own custom options.<br>
-	 * Otherwise ignore this function.
-	 * </p>
-	 *
-	 * <p>
-	 * Override this, if you want to add new options.<br>
+	 * Override this, if you want to add new options.
 	 * Don't forget to call <code>super.addOptions()</code> to add the old options.
-	 * </p>
-	 * <p>
+	 * <br>
 	 * Options are handled in the order in which they are added.
-	 * </p>
 	 *
 	 */
 	protected void addOptions() {

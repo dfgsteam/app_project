@@ -49,10 +49,10 @@ public class PresetInfo {
 
 	/**
 	 * Get the link to the homepage of the preset.
-	 * @return <a href="https://gitlab.gwdg.de/app/2023ss/bauernhof-preset">https://gitlab.gwdg.de/app/2023ss/bauernhof-preset</a>
+	 * @return <a href="https://gitlab.gwdg.de/app/2023ss/bauernhofkrieg-preset">https://gitlab.gwdg.de/app/2023ss/bauernhofkrieg-preset</a>
 	 */
 	public String getHomepage() {
-		return "https://gitlab.gwdg.de/app/2023ss/bauernhof-preset";
+		return "https://gitlab.gwdg.de/app/2023ss/bauernhofkrieg-preset";
 	}
 
 	/**

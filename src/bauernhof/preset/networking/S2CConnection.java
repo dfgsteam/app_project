@@ -31,7 +31,6 @@ public final class S2CConnection {
 	 */
 	public S2CConnection(Socket connection) throws IOException {
 		this.con = new Connection(connection);
-		this.player = new RemotePlayer(this);
 	}
 	/**
 	 * Inform the client about the names of all players.

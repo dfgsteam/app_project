@@ -3,6 +3,7 @@ package bauernhof.app.player;
 import bauernhof.preset.card.Card;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Interface für die Kartenhand des Spielers.
@@ -59,7 +60,7 @@ public interface CardSetHandler {
      *
      * @return list of cards
      */
-    public ArrayList<Card> getCards();
+    public Set<Card> getCards();
 
     /**
      * Gibt alle Karten zurück die in der Hand des Spielers blockiert sind.
@@ -68,7 +69,7 @@ public interface CardSetHandler {
      *
      * @return list of cards
      */
-    public ArrayList<Card> getBlockedCards();
+    public Set<Card> getBlockedCards();
 
     /**
      * Gibt alle aktivierten Karten zurück.
@@ -77,5 +78,5 @@ public interface CardSetHandler {
      *
      * @return list of cards
      */
-    public ArrayList<Card> getActiveCards();
+    public Set<Card> getActiveCards();
 }

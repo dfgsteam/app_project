@@ -13,10 +13,11 @@ import bauernhof.app.launcher.GameBoardState;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Stack;
 
-
-public abstract class AbstractGamePlayer extends PlayerCards implements GamePlayer {
+public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
     private String name;
     protected Stack<Card> initialDrawPile = new Stack<>();
     protected Move move;
@@ -41,6 +42,16 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
         this.state = state;
         this.type = type;
     }
+    public AbstractGamePlayer(final String name, final PlayerType type, final Set<Card> cards) {
+        this.name = name;
+        this.type = type;
+        this.cards = cards;
+    }
+
+    public AbstractGamePlayer(final String name, final PlayerType type) {
+        this.name = name;
+        this.type = type;
+    }
     /**
      * Führt den {@link Move} aus der durch die Methode {@link PlayerProperties#initNextMove(Move)}
      * initialisiert wurde.
@@ -48,14 +59,25 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
      * updated und an den aktuellen {@link GameBoardState} gesendet.
      */
     public void executeMove() throws Exception {
-        this.remove(request().getDeposited());
-        this.add(request().getTaken());
-        // pop card from the actual stack
-        if (request().getTaken().equals(initialDrawPile.firstElement())) initialDrawPile.pop();
+
+    }
+    @Override
+    public AbstractGamePlayer clone() {
+        final Set<Card> cards = new HashSet<>();
+        for (final Card card : getCards())
+            cards.add(card);
+        AbstractGamePlayer player = new AbstractGamePlayer(this.name, this.type, cards);
+        player.setPlayerID(this.playerid);
+        player.setDrawPileCards((Stack<Card>) initialDrawPile.clone());
+        player.setGameConfiguration(configuration);
+        return player;
     }
     @Override
     public void setName(final String name) {
         this.name = name;
+    }
+    public void setPlayerID(final int playerid) {
+        this.playerid = playerid;
     }
 
     @Override
@@ -88,9 +110,33 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
     }
 
     @Override
-    public void init(final GameConfiguration configuration, final ImmutableList<Card> initialDrawPile, final int numplayers, final int playerid) throws Exception {
+    public void init(final GameConfiguration configuration, final ImmutableList<Card> cards, final int numplayers, final int playerid) throws Exception {
         this.playerid = playerid;
         this.numplayers = numplayers;
+        this.configuration = configuration;
+        this.initialDrawPile = new Stack<>();
+        for (final Card card : initialDrawPile)
+            this.initialDrawPile.add(card);
+
+        AbstractGamePlayer[] players = new AbstractGamePlayer[numplayers];
+        for(int i = 0; i < numplayers; i++) {
+            if (i == playerid)
+                players[i] = this;
+            else
+                players[i] = new AbstractGamePlayer("", PlayerType.HUMAN);
+        }
+        for (int playeridcounter = 0; playerid < numplayers; playeridcounter++)
+            for (int card_count = 0; playerid < configuration.getNumCardsPerPlayerHand(); card_count++) {
+                players[playerid].add(cards.get(cards.size() - 1));
+                cards.remove(cards.size() - 1);
+            }
+        this.state = new GameBoardState(configuration, players, cards);
+    }
+
+    public void setDrawPileCards(final Stack<Card> initialDrawPile) {
+        this.initialDrawPile = initialDrawPile;
+    }
+    public void setGameConfiguration(final GameConfiguration configuration) {
         this.configuration = configuration;
     }
 
@@ -101,14 +147,17 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
 
     @Override
     public void update(Move opponentMove) throws Exception {
-        /*
-        TODO:
-         Send Update of the Move at the GameState.
-         Update initalDrawPileStack
-         */
-        initialDrawPile.remove(opponentMove.getDeposited());
-        initialDrawPile.add(opponentMove.getTaken());
-        this.move = opponentMove;
+        if (state.getDepositedCards().contains(move.getTaken()))
+            state.getDepositedCards().remove(move.getTaken());
+        else if(this.getDrawPileStack().get(0).equals(move.getTaken()))
+            this.getDrawPileStack().pop();
+        else System.exit(1);
+        if (!state.getActualPlayer().getCards().contains(move.getDeposited()))
+            System.exit(1);
+        state.getDepositedCards().add(move.getDeposited());
+        state.getActualPlayer().remove(move.getDeposited());
+        state.getActualPlayer().add(move.getTaken());
+        this.state.actual_player = this.state.player_iterator.next();
     }
 
     @Override
@@ -130,7 +179,7 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
     }
 
     @Override
-    public ImmutableList<Card> getDrawPileStack() {
+    public Stack<Card> getDrawPileStack() {
         return null;
     }
     @Override
@@ -138,4 +187,3 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
         return this.score;
     }
 }
-

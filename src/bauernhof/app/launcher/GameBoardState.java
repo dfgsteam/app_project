@@ -1,9 +1,8 @@
 package bauernhof.app.launcher;
 
-import bauernhof.preset.GameConfiguration;
-import bauernhof.preset.ImmutableList;
-import bauernhof.preset.Move;
-import bauernhof.preset.Player;
+import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.player.types.HumanPlayer;
+import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 
 import java.util.*;
@@ -18,37 +17,67 @@ import java.util.*;
  * @date 09.06.2023 00:55
  */
 
-public class GameBoardState implements Table{
+public class GameBoardState implements Table {
     /*
     TO-DO: Laden von Spielständen durch eventuellen SaveGameLoader
      */
     private int round;
-    private Player actual_player;
-    private Iterator<Player> player_iterator;
+    public AbstractGamePlayer actual_player;
+    public Iterator<AbstractGamePlayer> player_iterator;
     private ArrayList<Card> deposited_cards;
     private Stack<Card> drawpile_cards = new Stack<>();
-    private Set<Player> players;
+    private AbstractGamePlayer[] players;
     private GameConfiguration configuration;
 
     // For new Game
-    public GameBoardState(final GameConfiguration configuration, final Set<Player> players) throws Exception {
-        new GameBoardState(0, configuration, players, configuration.getCards(), new ArrayList<>());
-    }
-
-    // For saved Game Status
-    public GameBoardState(final int round,
-                     final GameConfiguration configuration,
-                     final Set<Player> players,
-                     final Set<Card> drawpile_cards,
-                     final ArrayList<Card> deposited_cards) throws Exception {
-        this.round = round;
+    public GameBoardState(final GameConfiguration configuration, final AbstractGamePlayer[] players, final ImmutableList<Card> drawpile_cards) throws Exception {
+        this.configuration = configuration;
+        this.players = players;
         for (final Card card : drawpile_cards)
             this.drawpile_cards.add(card);
-        this.deposited_cards = deposited_cards;
+
+    }
+    public GameBoardState(final String[] playernames, final PlayerType[] types, GameConfiguration configuration, final ImmutableList<Card> cards) throws Exception {
+        final AbstractGamePlayer[] players = new AbstractGamePlayer[playernames.length];
         this.players = players;
-        this.actual_player = player_iterator.next();
-        this.player_iterator = players.iterator();
-        this.configuration = configuration;
+        for (int i = 0; i < players.length; i++)
+            switch (types[i]) {
+                case ADVANCED_AI:
+                    players[i] = new AbstractGamePlayer(playernames[i], types[i]);
+                    break;
+                case HUMAN:
+                    players[i] = new AbstractGamePlayer(playernames[i], types[i]);
+                    break;
+                case RANDOM_AI:
+                    players[i] = new AbstractGamePlayer(playernames[i], types[i]);
+                    break;
+                case REMOTE:
+                    players[i] = new AbstractGamePlayer(playernames[i], types[i]);
+                    break;
+                case SIMPLE_AI:
+                    players[i] = new AbstractGamePlayer(playernames[i], types[i]);
+                    break;
+                default:
+            }
+        byte playerid = -1;
+        for (final Player player : players)
+            player.init(configuration, cards, playernames.length, playerid++);
+        for (final Card card : cards)
+            this.drawpile_cards.add(card);
+        for (int i = 0; i < configuration.getNumCardsPerPlayerHand() * players.length; i++)
+            this.drawpile_cards.pop();
+        this.round = 0;
+        actual_player = players[0];
+    }
+
+    @Override
+    public Object clone() {
+        //
+       /* final Set<AbstractGamePlayer> players = new HashSet<>();
+        for (final AbstractGamePlayer player : getPlayers())
+            players.add(player.)
+        return new GameBoardState(round, getGameConfiguration(), getPlayers(), getDrawPileCards().clone(), getDepositedCards().clone()); */
+        return null;
     }
 
     @Override
@@ -62,35 +91,31 @@ public class GameBoardState implements Table{
     }
 
     @Override
-    public Set<Player> getPlayers() {
+    public AbstractGamePlayer[] getPlayers() {
         return this.players;
     }
 
     @Override
     public boolean doMove(final Move move) throws Exception {
-        boolean execution = true;
-        /*if (drawpile && !drawpile_cards.empty())
-            drawpile_cards.pop(); */
-        if (!deposited_cards.isEmpty())
+        if (deposited_cards.contains(move.getTaken()))
             deposited_cards.remove(move.getTaken());
-        else execution = false;
+        else if(drawpile_cards.get(0).equals(move.getTaken()))
+            drawpile_cards.pop();
+        else return false;
+        if (!getActualPlayer().getCards().contains(move.getDeposited()))
+            return false;
         deposited_cards.add(move.getDeposited());
-        getActualPlayer().update(move);
-        if (!player_iterator.hasNext()) {
-            round++;
-            player_iterator = players.iterator();
-        }
-        actual_player = player_iterator.next();
-        return execution;
+        getActualPlayer().remove(move.getDeposited());
+        getActualPlayer().add(move.getTaken());
+        for (final AbstractGamePlayer player : players)
+            if(!player.equals(actual_player))
+                player.update(move);
+        this.actual_player = player_iterator.next();
+        return true;
     }
 
     @Override
-    public GameBoardState preMove(Move move) {
-        return null;
-    }
-
-    @Override
-    public Player getActualPlayer() {
+    public AbstractGamePlayer getActualPlayer() {
         return this.actual_player;
     }
 
@@ -102,20 +127,14 @@ public class GameBoardState implements Table{
     @Override
     public void initNewGame() throws Exception {
         byte count = 0;
-        mixCards();
         for (final Player player : players) {
             final ImmutableList<Card> drawpilecard_list = new ImmutableList<>();
             for (byte i = 0; i < configuration.getNumCardsPerPlayerHand(); i++) {
                 drawpilecard_list.add(this.drawpile_cards.pop());
             }
-            player.init(configuration, drawpilecard_list, players.size(), count);
+            player.init(configuration, drawpilecard_list, players.length, count);
             count++;
         }
-    }
-
-    @Override
-    public void mixCards() {
-        Collections.shuffle(drawpile_cards);
     }
 
     @Override
@@ -129,7 +148,7 @@ public class GameBoardState implements Table{
     }
 
     @Override
-    public ImmutableList<Card> getDrawPileStack() {
-        return null;
+    public Stack<Card> getDrawPileStack() {
+        return this.drawpile_cards;
     }
 }

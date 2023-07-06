@@ -8,17 +8,8 @@ package bauernhof.preset;
  * </p>
  */
 public class Either<L,R> {
-	/**
-	 * @hidden
-	 */
 	protected final L left;
-	/**
-	 * @hidden
-	 */
 	protected final R right;
-	/**
-	 * @hidden
-	 */
 	protected final boolean isLeft;
 
 	/**

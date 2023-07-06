@@ -8,10 +8,7 @@ import bauernhof.preset.Player;
  * @date 22.06.2023 23:15
  */
 public class GameInit {
-
-    GameBoardState actual_state;
-
     public GameInit(final GameConfiguration configuration, final Player[] players) {
-    
+        //GameBoardState state = new GameBoardState();
     }
 }

@@ -1,12 +1,12 @@
 package bauernhof.app.player;
 
 import bauernhof.preset.Either;
-import bauernhof.preset.ImmutableList;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.card.CardColor;
 import bauernhof.preset.card.Effect;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Klasse für um die Player Karten zu managen
@@ -15,106 +15,147 @@ import java.util.ArrayList;
  * @date 12.06.2023 00:40
  */
 public abstract class PlayerCards implements CardSetHandler {
-    private ImmutableList<Card> cards, blocked_cards, active_cards;
+    protected Set<Card> cards = new HashSet<>(), blocked_cards = new HashSet<>(), active_cards = new HashSet<>();
     protected int score = 0;
     @Override
     public void add(final Card added_card) {
-        /*
-        TODO: Karten removen updaten
-         */
-        for (final Card card : cards)
-            for (Effect effect : card.getEffects())
-                switch (effect.getType()) {
-                    case POINTS_FOREACH:
-                        effect.getEffectValue();
-                        for (final Either<Card, CardColor> either : effect.getSelector());
-                        break;
-                    case POINTS_SUM_BASEVALUES:
-                        break;
-                    case POINTS_FLAT_DISJUNCTION:
-                        break;
-                    case POINTS_FLAT_CONJUNCTION:
-                        break;
-                    case BLOCKED_IF_WITH:
-                        break;
-                    case BLOCKED_IF_WITHOUT:
-                        break;
-                    case BLOCKS_EVERY:
-                        break;
-                }
+        cards.add(added_card);
+        updateBlockedCards();
+        updateScore();
     }
 
     @Override
     public boolean remove(final Card removed_card) {
-        /*
-        TODO: Karten removen
-         */
-        if (cards.contains(removed_card)) {
-            cards.remove(removed_card);
-            for (final Card card : cards)
-                for (final Effect effect : card.getEffects())
-                    for (final Either<Card, CardColor> either : effect.getSelector())
-                        if (either.get().equals(removed_card) || either.get().equals(removed_card.getColor()))
-                            switch (effect.getType()) {
-                                case POINTS_FOREACH:
-                                    score -= effect.getEffectValue();
-                                    break;
-                                case POINTS_SUM_BASEVALUES:
-                                    score -= removed_card.getBaseValue();
-                                    break;
-                                case POINTS_FLAT_DISJUNCTION:
-                                    break;
-                    }
-            return true;
-        } else return false;
+        if (!cards.contains(removed_card)) return false;
+        cards.remove(removed_card);
+        updateBlockedCards();
+        updateScore();
+        return true;
     }
     @Override
     public int getAddScore(final Card card) {
-
-        return 0;
+        add(card);
+        int score_state = score;
+        remove(card);
+        return score_state;
     }
-    // Methode um die geblockten Karten bei einem ADD zurückzugeben.
-    private void updateOnAddBlockedCards(final Card card) {
-        cards.add(card);
-        for (final Card hand_card : cards)
-            for (final Effect effect : hand_card.getEffects())
-                for (final Either<Card, CardColor> either : effect.getSelector()) {
-                    if (either.get() instanceof Card) {
+    private Set<Card> getCardColorCardsInHand(final CardColor color) {
+        Set<Card> colorcards = new HashSet<>();
+        for (final Card card : cards)
+            if (card.getColor().equals(color))
+                colorcards.add(card);
+        return colorcards;
+    }
+    /*
+    card die bei den removeblockedcards hinzugefügt wird ist der Parameter Card
 
-                    } else {
-
-                    }
+    addafter - boolean um zu bestimmen, ob die Karte danach wieder hinzugefügt werden soll.
+     */
+    private void updateScore() {
+        score = 0;
+        for (final Card card : active_cards)
+            for (final Effect effect : card.getEffects())
+                switch (effect.getType()) {
+                    case POINTS_FOREACH:
+                        for (final Either<Card, CardColor> either : effect.getSelector())
+                            if (either.get() instanceof Card)
+                                score += active_cards.contains(either.getLeft()) ? card.getBaseValue() : 0;
+                            else
+                                score += getCardColorCardsInHand(either.getRight()).size() * card.getBaseValue();
+                        break;
+                    case POINTS_SUM_BASEVALUES:
+                        for (final Either<Card, CardColor> either : effect.getSelector())
+                            if (either.get() instanceof Card)
+                                score += active_cards.contains(either.getLeft()) ? either.getLeft().getBaseValue(): 0;
+                            else
+                                for (final Card color_card : getCardColorCardsInHand(either.getRight())) score += color_card.getBaseValue();
+                        break;
+                    case POINTS_FLAT_CONJUNCTION:
+                        final Set<Card> selector_cards = new HashSet<>();
+                        for (final Either<Card, CardColor> either : effect.getSelector())
+                            if (either.get() instanceof Card)
+                                selector_cards.add(either.getLeft());
+                            else
+                                for (final Card color_card : getCardColorCardsInHand(either.getRight()))
+                                    selector_cards.add(color_card);
+                        if (active_cards.containsAll(selector_cards))
+                            score += card.getBaseValue();
+                        break;
+                    case POINTS_FLAT_DISJUNCTION:
+                        for (final Either<Card, CardColor> either : effect.getSelector())
+                            if (either.get() instanceof Card) {
+                                if (active_cards.contains(either.getRight())) {
+                                    score += card.getBaseValue();
+                                    break;
+                                }
+                            } else
+                                for (final Card color_card : getCardColorCardsInHand(either.getRight()))
+                                    if (active_cards.contains(color_card)) {
+                                        score += card.getBaseValue();
+                                        break;
+                                    }
+                        break;
+                    default:
                 }
     }
-    private void updateOnRemoveBlockedCards(final Card card) {
-        if(blocked_cards.contains(card)) {
-            blocked_cards.remove(card);
-            return;
-        }
-        for(final Card blocked_cards : blocked_cards) {
-
-        }
+    private void updateBlockedCards() {
+        blocked_cards.clear();
+        active_cards.clear();
+        for (final Card hand_card : cards)
+            for (final Effect effect : hand_card.getEffects())
+                switch (effect.getType()) {                             // switch - case für jedes Event
+                    case BLOCKED_IF_WITH:
+                        for (final Either<Card, CardColor> either : effect.getSelector())
+                            if (either.get() instanceof Card) {
+                                if (cards.contains(either.get()))
+                                    blocked_cards.add(hand_card);
+                            } else if (getCardColorCardsInHand(either.getRight()).size() != 0) blocked_cards.add(hand_card);
+                        break;
+                    case BLOCKED_IF_WITHOUT:
+                        boolean is_contained = false;
+                        for (final Either<Card, CardColor> either : effect.getSelector())
+                            if (either.get() instanceof Card)
+                                is_contained |= (cards.contains(either.getLeft())) ? true : false;
+                            else is_contained |= getCardColorCardsInHand(either.getRight()).size() != 0 ? true : false;
+                        if (!is_contained)
+                            blocked_cards.add(hand_card);
+                        break;
+                    case BLOCKS_EVERY:
+                        for (final Either<Card, CardColor> either : effect.getSelector())
+                            if (either.get() instanceof Card) {
+                                if (cards.contains(either.get()))
+                                    blocked_cards.add(either.getLeft());
+                            } else
+                                for (final Card card : getCardColorCardsInHand(either.getRight()))
+                                    blocked_cards.add(card);
+                        break;
+                    default:
+                }
+        for (final Card card : cards)
+            if (!blocked_cards.contains(card))
+                active_cards.add(card);
     }
 
     @Override
     public int getRemoveScore(final Card card) {
-        return 0;
+        remove(card);
+        int score_state = score;
+        add(card);
+        return score_state;
     }
 
     @Override
-    public ArrayList<Card> getCards() {
-        return null;
+    public Set<Card> getCards() {
+        return this.cards;
     }
 
     @Override
-    public ArrayList<Card> getBlockedCards() {
-        return null;
+    public Set<Card> getBlockedCards() {
+        return this.blocked_cards;
     }
 
     @Override
-    public ArrayList<Card> getActiveCards() {
-        return null;
+    public Set<Card> getActiveCards() {
+        return this.active_cards;
     }
-
-
 }
