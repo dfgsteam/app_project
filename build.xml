@@ -1,9 +1,8 @@
-<project name="BauernhofPreset" default="default" basedir=".">
+<project name="hofbauern" default="default" basedir=".">
 	<description>
-		Ant Build File für das Preset für das APP Spiel im Sommersemester 2023.
+		Ant Build File for hofbauern, a Game Project for APP SoSe 2013.
 	</description>
 	
-
 	<!-- global properties -->
 	<property name="src" location="src"/>
 	<property name="build" location="build"/>
@@ -11,7 +10,7 @@
 	<property name="doc" location="doc"/>
 	<property name="lib" location="lib"/>
 	<property name="graphics" location="graphics"/>
-	<property name="config" location="gameconfigs"/>
+	<property name="gameconfigs" location="gameconfigs"/>
 
 	<!-- determine preset.version -->
 	<property environment="env"/>
@@ -33,7 +32,6 @@
 			<include name="**/*.jar"/>
 		</fileset>
 	</path>
-
 
 	<target name="default" depends="init,build,doc" description="the default behaviour" />
 
@@ -57,47 +55,33 @@
 			<fileset dir="${graphics}"/>
 		</copy>
 		<copy todir="${build}/gameconfigs">
-			<fileset dir="${config}"/>
+			<fileset dir="${gameconfigs}"/>
 		</copy>
 		<echoproperties prefix="preset" destfile="${build}/preset.txt"/>
-		<!-- Copy LICENSE -->
-		<!--<copy file="./LICENSE" tofile="${build}/LICENSE.txt"/>-->
-		<!--<copy todir="${build}">
-			<fileset dir="${lib}" includes="**/*.txt"/>
-		</copy>-->
-		<!--<copy file="./logo.svg" tofile="${build}/logo.svg"/>-->
 	</target>
 	
 	<target name="dist" depends="clean,init,build,doc" description="generate the distribution">
 		<!-- Create the distribution directory for new releases -->
 		<mkdir dir="${dist}"/>
-		<jar jarfile="${dist}/Bauernhof-Preset-${preset.version}.jar" basedir="${build}">
-			<!--<zipgroupfileset dir="lib" includes="**/*.jar" />-->
-		</jar>
-		<jar jarfile="${dist}/Bauernhof-Preset-${preset.version}-source.jar" basedir="${src}" />
-		<jar jarfile="${dist}/Bauernhof-Preset-${preset.version}-javadoc.jar" basedir="${doc}" />     
+		<jar jarfile="${dist}/hofbauern-${preset.version}.jar" basedir="${build}" />
+		<jar jarfile="${dist}/hofbauern-${preset.version}-source.jar" basedir="${src}" />
+		<jar jarfile="${dist}/hofbauern-${preset.version}-javadoc.jar" basedir="${doc}" />     
 		<copy todir="${dist}">
 			<!--<fileset dir="${lib}"/>-->
 			<fileset dir="${lib}" includes="**/*.txt"/>
 		</copy>
 		<!-- Copy jar files to "latest" release version -->
-		<copy file="${dist}/Bauernhof-Preset-${preset.version}.jar"         tofile="${dist}/Bauernhof-Preset-latest.jar"        />
-		<copy file="${dist}/Bauernhof-Preset-${preset.version}-source.jar"  tofile="${dist}/Bauernhof-Preset-latest-source.jar" />
-		<copy file="${dist}/Bauernhof-Preset-${preset.version}-javadoc.jar" tofile="${dist}/Bauernhof-Preset-latest-javadoc.jar"/>
-		<!-- Copy LICENSE -->
-			<!--<copy file="./LICENSE" tofile="${dist}/Bauernhof-Preset-LICENSE.txt"/>-->
+		<copy file="${dist}/hofbauern-${preset.version}.jar"         tofile="${dist}/hofbauern-latest.jar"        />
+		<copy file="${dist}/hofbauern-${preset.version}-source.jar"  tofile="${dist}/hofbauern-latest-source.jar" />
+		<copy file="${dist}/hofbauern-${preset.version}-javadoc.jar" tofile="${dist}/hofbauern-latest-javadoc.jar"/>
 	</target>
 	
 	<target name="clean" description="clean up">
 		<!-- Delete the ${build} and ${doc} directory trees -->
 		<delete dir="${build}"/>
 		<delete dir="${doc}"/>
-		<!-- <delete dir="${dist}"/> -->
+		<delete dir="${dist}"/>
 	</target>
-
-	<!--<target name="test" depends="build" description="execute the Test Class">
-		<exec executable="./run.sh" />
-	</target>-->
 
 	<target name="doc" depends="init" description="generate the documentation">
 		<javadoc destdir="${doc}" verbose="false" author="true" version="true" use="true" public="true" access="public" sourcepath="${src}" excludepackagenames="bauernhof.preset.test" Overview="overview.html">
@@ -112,6 +96,4 @@
 			<!--<link offline="false" href="http://docs.oracle.com/javase/11/docs/api/" packagelistLoc="."/>-->
 		</javadoc>
 	</target>
-
-
 </project>
