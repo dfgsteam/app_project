@@ -3,17 +3,13 @@ package bauernhof.app.settings;
 import java.io.*;
 
 import javax.xml.parsers.*;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.*;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import javax.xml.transform.*;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
-
-import bauernhof.preset.GameConfigurationException;
 
 public class SePa {
     File file;
@@ -167,4 +163,3 @@ public class SePa {
     }
 
 }
-

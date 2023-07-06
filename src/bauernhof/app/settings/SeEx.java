@@ -17,5 +17,4 @@ public class SeEx extends Exception {
 	public SeEx(Throwable cause) {
 		super(cause);
 	}
-
 }
