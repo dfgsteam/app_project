@@ -17,9 +17,6 @@ import java.util.*;
  */
 
 public class GameBoardState implements Table {
-    /*
-    TO-DO: Laden von Spielständen durch eventuellen SaveGameLoader
-     */
     private int round;
     public AbstractGamePlayer actual_player;
     public Iterator<AbstractGamePlayer> player_iterator;
@@ -27,15 +24,6 @@ public class GameBoardState implements Table {
     private Stack<Card> drawpile_cards = new Stack<>();
     private AbstractGamePlayer[] players;
     private GameConfiguration configuration;
-
-    // For new Game
-    public GameBoardState(final GameConfiguration configuration, final AbstractGamePlayer[] players, final ImmutableList<Card> drawpile_cards) throws Exception {
-        this.configuration = configuration;
-        this.players = players;
-        for (final Card card : drawpile_cards)
-            this.drawpile_cards.add(card);
-
-    }
     public GameBoardState(final String[] playernames, final PlayerType[] types, GameConfiguration configuration, final ImmutableList<Card> cards) throws Exception {
         final AbstractGamePlayer[] players = new AbstractGamePlayer[playernames.length];
         this.players = players;
@@ -67,6 +55,7 @@ public class GameBoardState implements Table {
             this.drawpile_cards.pop();
         this.round = 0;
         actual_player = players[0];
+        this.configuration = configuration;
     }
 
     @Override
@@ -109,6 +98,8 @@ public class GameBoardState implements Table {
         for (final AbstractGamePlayer player : players)
             if(!player.equals(actual_player))
                 player.update(move);
+            else
+                actual_player.doMove(move);
         this.actual_player = player_iterator.next();
         return true;
     }
@@ -124,19 +115,6 @@ public class GameBoardState implements Table {
     }
 
     @Override
-    public void initNewGame() throws Exception {
-        byte count = 0;
-        for (final Player player : players) {
-            final ImmutableList<Card> drawpilecard_list = new ImmutableList<>();
-            for (byte i = 0; i < configuration.getNumCardsPerPlayerHand(); i++) {
-                drawpilecard_list.add(this.drawpile_cards.pop());
-            }
-            player.init(configuration, drawpilecard_list, players.length, count);
-            count++;
-        }
-    }
-
-    @Override
     public GameConfiguration getGameConfiguration() {
         return this.configuration;
     }
@@ -146,7 +124,6 @@ public class GameBoardState implements Table {
         return this;
     }
 
-    @Override
     public Stack<Card> getDrawPileStack() {
         return this.drawpile_cards;
     }

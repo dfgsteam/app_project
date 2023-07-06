@@ -34,7 +34,7 @@ public interface PlayerProperties {
 
     /**
      * Gibt zurück, um welche Art von Spieler es sich handelt.
-     * {@link AbstractGamePlayer#AbstractGamePlayer(String, GameBoardState, PlayerType)}
+     * {@link AbstractGamePlayer#//AbstractGamePlayer(String, GameBoardState, PlayerType)}
      *
      * @return player_type
      */

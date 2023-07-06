@@ -39,5 +39,4 @@ public interface GameProperties {
      * <p>
      * returns the DrawPileStack
      */
-    public Stack<Card> getDrawPileStack();
 }

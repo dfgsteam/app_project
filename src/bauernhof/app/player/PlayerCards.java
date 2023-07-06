@@ -61,14 +61,14 @@ public abstract class PlayerCards implements CardSetHandler {
                     case POINTS_FOREACH:
                         for (final Either<Card, CardColor> either : effect.getSelector())
                             if (either.get() instanceof Card)
-                                score += cards.contains(either.getLeft()) ? card.getBaseValue() : 0;
+                                score += active_cards.contains(either.getLeft()) ? card.getBaseValue() : 0;
                             else
                                 score += getCardColorCardsInHand(either.getRight()).size() * card.getBaseValue();
                         break;
                     case POINTS_SUM_BASEVALUES:
                         for (final Either<Card, CardColor> either : effect.getSelector())
                             if (either.get() instanceof Card)
-                                score += cards.contains(either.getLeft()) ? either.getLeft().getBaseValue() : 0;
+                                score += active_cards.contains(either.getLeft()) ? either.getLeft().getBaseValue() : 0;
                             else
                                 for (final Card color_card : getCardColorCardsInHand(either.getRight())) score += color_card.getBaseValue();
                         break;
@@ -86,13 +86,13 @@ public abstract class PlayerCards implements CardSetHandler {
                     case POINTS_FLAT_DISJUNCTION:
                         for (final Either<Card, CardColor> either : effect.getSelector())
                             if (either.get() instanceof Card) {
-                                if (cards.contains(either.getRight())) {
+                                if (active_cards.contains(either.getRight())) {
                                     score += card.getBaseValue();
                                     break;
                                 }
                             } else
                                 for (final Card color_card : getCardColorCardsInHand(either.getRight()))
-                                    if (cards.contains(color_card)) {
+                                    if (active_cards.contains(color_card)) {
                                         score += card.getBaseValue();
                                         break;
                                     }

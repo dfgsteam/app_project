@@ -66,7 +66,7 @@ public interface Table extends GameProperties {
     /**
      * initNewGame();
      */
-    public void initNewGame() throws Exception;
+    //public void initNewGame() throws Exception;
     /**
      * Mix all Cards on the DrawPileStack
      */
