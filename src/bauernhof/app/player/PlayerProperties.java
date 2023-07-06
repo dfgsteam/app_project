@@ -19,12 +19,6 @@ public interface PlayerProperties {
     public void setName(final String name);
 
     /**
-     * Ändert den Wert für {@link Player#request()} ab.
-     *
-     * @param next_move - der Move der ausgeführt wird, wenn der Spieler dran ist.
-     */
-    public void initNextMove(final Move next_move);
-    /**
      * Gibt die ID zurück, die dem Spieler beim init zugeordnet wurde.
      * {@link Player#init(GameConfiguration, ImmutableList, int, int)}
      *
@@ -34,7 +28,7 @@ public interface PlayerProperties {
 
     /**
      * Gibt zurück, um welche Art von Spieler es sich handelt.
-     * {@link AbstractGamePlayer#AbstractGamePlayer(String, GameBoardState, PlayerType)}
+     * {@link AbstractGamePlayer}
      *
      * @return player_type
      */
