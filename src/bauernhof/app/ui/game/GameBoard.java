@@ -2,43 +2,41 @@ package bauernhof.app.ui.game;
 
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.Player;
+import bauernhof.preset.card.GCard;
 import bauernhof.app.launcher.GameBoardState;
+import bauernhof.app.player.AbstractGamePlayer;
+import sag.LayerPosition;
 import sag.SAGFrame;
 import sag.SAGPanel;
+import sag.elements.GGroup;
+
 import javax.swing.*;
+import javax.swing.text.LayeredHighlighter.LayerPainter;
+
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Set;
 
 public class GameBoard{ 
 
-    private SAGFrame Frame;
-    private SAGPanel MainPanel;
+    final private int WIDTH = 1600;
+    final private int HEIGTH = 900;
 
-    final private int WIDTH = 1280;
-    final private int HEIGTH = 720;
+    private SAGFrame Frame = new SAGFrame("Hofbauern", 30, this.WIDTH, this.HEIGTH);
+    private SAGPanel mainPanel = new SAGPanel(this.WIDTH, this.HEIGTH);
+
+    private PlayerPanel panelPlayer;
 
 
     GameBoardState GaBoS;
-    Set<Player> playerSet;
+    ArrayList<AbstractGamePlayer> playerSet;
 
-    public GameBoard(GameConfiguration gameconf, Set<Player> set){
+    public GameBoard(GameConfiguration gameconf, ArrayList<AbstractGamePlayer> players){
 
-        Frame = new SAGFrame("Hofbauern",30,1280,720);
-        playerSet = set;
+        this.Frame.setSAGPanel(this.mainPanel);
+        this.Frame.setVisible(true);
 
-        /*try {
-            GaBoS = new GameBoardState(gameconf,set);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }*/
-        //playerSet.add( new HumanPlayer("Player1",GaBoS));
-
-        prepareMain(playerSet.size());
-        Frame.setSAGPanel(MainPanel);
-        Frame.setLayout(null);
-        Frame.setVisible(true);
-
+        this.panelPlayer = new PlayerPanel(mainPanel, players.size(), 10, players);
     }
 
     private void drawCards(){
@@ -46,37 +44,17 @@ public class GameBoard{
     }
 
     private void prepareMain(int i){
-        String path = "graphics/player_view"+i+".jpg";
-
-                this.MainPanel = new SAGPanel() {
-                    @Override
-                    public void paintComponent(Graphics g) {
-                        super.paintComponent(g);
-
-                        // Zeichne den Hintergrund
-                        ImageIcon backgroundImage = new ImageIcon(path);
-                        Image image = backgroundImage.getImage();
-                        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-                    }
-                };
-
-                MainPanel.setLayout(new FlowLayout());
-
-                JPanel mid = new SAGPanel();
-                MainPanel.add(mid, BorderLayout.CENTER);
-                mid.setBackground(new Color(255,0,0));
-
         System.out.println(i);
-                switch (i){
-                    case 2:
-                        setPlayer3Panel(); break;
-                    case 3:
-                        setPlayer2n4Panel(); break;
-                    case 4:
-                        setPlayer3Panel();
-                        setPlayer2n4Panel(); break;
-                }
+        switch (i){
+            case 2:
+                setPlayer3Panel(); break;
+            case 3:
+                setPlayer2n4Panel(); break;
+            case 4:
+                setPlayer3Panel();
+                setPlayer2n4Panel(); break;
         }
+    }
 
     private void setPlayer3Panel(){
            // PlayerPanel PP3 = new PlayerPanel();
@@ -86,6 +64,8 @@ public class GameBoard{
            /*  PlayerPanel PP2 = new PlayerPanel();
             PlayerPanel PP4 = new PlayerPanel();*/
     }
+
+    
         
 
 
