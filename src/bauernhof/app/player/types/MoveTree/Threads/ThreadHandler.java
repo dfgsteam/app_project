@@ -56,7 +56,7 @@ public interface ThreadHandler {
     /**
      * The action, the sequenceThread has to do (synchronized)
      */
-    public MoveNode sequenceThreadAction();
+    public void sequenceThreadAction();
 
     /**
      * Getter for the MAX_Depth of the tree

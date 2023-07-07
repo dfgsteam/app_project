@@ -98,8 +98,14 @@ public class WorkingThread extends AbstractThread {
     }
 
     @Override
-    public MoveNode sequenceThreadAction() {
+    public void sequenceThreadAction() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'sequenceThreadAction'");
+    }
+
+    @Override
+    public boolean goDeeper() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'goDeeper'");
     }
 }

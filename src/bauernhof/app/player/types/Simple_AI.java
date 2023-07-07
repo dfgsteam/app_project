@@ -16,7 +16,7 @@ public class Simple_AI extends AbstractGamePlayer implements AIHeader {
     public Move calculateNextMove() {
         Card to_take, to_remove;
         if (this.getState().getDepositedCards().isEmpty()) {
-            to_take = this.cardFromDeposit();
+            to_take = this.cardFromStack();
         }
 
         else {

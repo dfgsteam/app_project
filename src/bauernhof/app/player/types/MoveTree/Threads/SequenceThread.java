@@ -1,5 +1,6 @@
 package bauernhof.app.player.types.MoveTree.Threads;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -9,97 +10,56 @@ import bauernhof.app.player.types.MoveTree.MoveTree;
 import bauernhof.preset.PlayerType;
 
 public class SequenceThread extends AbstractThread{
-    private static Queue<MoveNode> next_calculations = new LinkedList<MoveNode>();
+    private static Queue<MoveNode> next_calculations;
+    private static ArrayList<Integer> differences;
 
-    public SequenceThread(MoveTree move_tree, boolean first) {
-        this.setTree(move_tree);
-        if (first) this.setThreadNode(move_tree.getRootNode());
-        else this.setThreadNode(null);
+    public SequenceThread(MoveTree tree, boolean first) {
+        if (first) {
+            this.setThreadNode(tree.getRootNode());
+            next_calculations = new LinkedList<MoveNode>(this.getThreadNode().getNextNodes());
+            differences = new ArrayList<Integer>();
+        }
     }
 
-    private final int biggest_difference_of_points(MoveNode node) throws Exception {
+    private final int biggest_difference(MoveNode node) throws Exception {
         int diff = node.getActualBoardState().getActualPlayer() == node.getActualBoardState().getPlayers()[0] ? node.getActualBoardState().getActualPlayer().getScore() - node.getActualBoardState().getPlayers()[1].getScore() : node.getActualBoardState().getActualPlayer().getScore() - node.getActualBoardState().getPlayers()[0].getScore();
-        for (AbstractGamePlayer compare : node.getActualBoardState().getPlayers()) {
-            if (compare == node.getActualBoardState().getActualPlayer()) { continue; }
-            if (node.getActualBoardState().getActualPlayer().getScore() - compare.getScore() < diff) {
-                diff = node.getActualBoardState().getActualPlayer().getScore() - compare.getScore();
-            }
+        for (AbstractGamePlayer player : node.getActualBoardState().getPlayers()) {
+            if (player == node.getActualBoardState().getActualPlayer()) { continue; }
+            if (node.getActualBoardState().getActualPlayer().getScore() - player.getScore() < diff) { diff = node.getActualBoardState().getActualPlayer().getScore() - player.getScore(); }
         }
         return diff;
     }
     
 
     @Override
-    public MoveNode getBestOfActual() {
+    public MoveNode getBestOfActual() throws Exception {
         MoveNode best = this.getThreadNode().getNextNodes().get(0);
-        int diff = 0;
-        try {
-            diff = biggest_difference_of_points(best);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        int diff = biggest_difference(best);
         for (MoveNode node : this.getThreadNode().getNextNodes()) {
-            try {
-                if (biggest_difference_of_points(node) > diff) {
-                    diff = biggest_difference_of_points(node);
-                    best = node;
-                }
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            if (biggest_difference(node) > diff) {
+                best = node;
+                diff = biggest_difference(best);
             }
         }
         return best;
     }
 
     @Override
-    synchronized public MoveNode sequenceThreadAction() {
-        MoveNode bestNode = this.getTree().getRootNode().getNextNodes().get(0);
-        this.setThreadNode(bestNode);
-        while (goDeeper());
-        int diff;
-        try {
-            diff = biggest_difference_of_points(this.getThreadNode());
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        for (MoveNode ai_move : this.getTree().getRootNode().getNextNodes()) {
-            this.setThreadNode(ai_move);
-            while (goDeeper())
-                try {
-                    if (diff < biggest_difference_of_points(this.getThreadNode())) {
-                        diff = biggest_difference_of_points(this.getThreadNode());
-                        bestNode = ai_move;
-                    }
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-        }
-        return bestNode;
+    synchronized public void sequenceThreadAction() {
+        
     }
 
     @Override
     public boolean goDeeper() {
-        if (this.getThreadNode().getDepth() >= this.getMaxDepth()) { return false; }
-        this.setThreadNode(getBestOfActual());
-        return true;
+        if (this.getThreadNode().getDepth() < this.getMaxDepth()) { return true; }
+        return false;
     }
 
-
-
-
-    //-----
     @Override
     public void run() {
-        while (sequenceThreadAction());
-        interrupt();
+
     }
-
-
-    //Not used Methods
+    //Not usable methods
     @Override
     public boolean calcNextNode(int cardNumTake, int cardNumPut) {
         // TODO Auto-generated method stub
@@ -111,6 +71,5 @@ public class SequenceThread extends AbstractThread{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'workingThreadAction'");
     }
-
     
 }
