@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.border.Border;
 
+import org.w3c.dom.events.MouseEvent;
+
+import bauernhof.app.card.Ca;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.preset.Player;
 import bauernhof.preset.card.Card;
@@ -16,6 +19,9 @@ import sag.ChildNotFoundException;
 import sag.LayerPosition;
 import sag.SAGPanel;
 import sag.elements.GGroup;
+import sag.events.MouseEventAdapter;
+import sag.events.MouseEventListener;
+import sag.events.MouseMotionEvent;
 
 public class PlayerPanel extends GGroup{
 
@@ -95,22 +101,26 @@ public class PlayerPanel extends GGroup{
         }
     }
 
-
     public void updatePlayer(int playerId, AbstractGamePlayer Player) throws ChildNotFoundException {
         this.clearPlayerPanel(playerId);
         Object[] cards = Player.getCards().toArray();
-        for (int item=0; item<cards.length; item++)
-            this.groupPlayer[playerId].addChild(new GCard((Card) cards[item]), this.pos[playerId][item][0], this.pos[playerId][item][1]);
+        for (int item=0; item<cards.length; item++) {
+            GCard gCard = ((Ca) cards[item]).getGCard();
+            gCard.setPosition(0f, 0f); // Setzte X/Y zurück
+
+            CardListener t = new CardListener();
+            gCard.setMouseEventListener(t);
+            
+            this.groupPlayer[playerId].addChild(gCard, this.pos[playerId][item][0], this.pos[playerId][item][1]);
+
+    
+        }
     }
 
     private void clearPlayerPanel(int playerId) throws ChildNotFoundException {
         for (int cardIndex=0; cardIndex < this.groupPlayer[playerId].getNumChildren(); cardIndex++)
             this.groupPlayer[playerId].removeChild(this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex));
         return;
-    }
-
-    public void updatePlayer(int playerId) {
-
     }
 
 }

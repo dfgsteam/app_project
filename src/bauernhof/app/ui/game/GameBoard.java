@@ -48,9 +48,9 @@ public class GameBoard{
         while (index2++ < 10) {
             for (int index=0; index < this.gameBoardState.getPlayers().length; index++){
                 this.panelPlayer.updatePlayer(index, this.gameBoardState.getPlayers()[index]);
-                System.out.println(this.gameBoardState.getPlayers()[index].getCards());
+                //System.out.println(this.gameBoardState.getPlayers()[index].getCards());
                 TimeUnit.SECONDS.sleep(1);
-                this.gameBoardState.getPlayers()[index].add(this.gameBoardState.getDrawPileCards().pop());
+                //this.gameBoardState.getPlayers()[index].add(this.gameBoardState.getDrawPileCards().pop());
             }
         }
         
