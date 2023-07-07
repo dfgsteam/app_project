@@ -63,7 +63,8 @@ public class WorkingThread extends AbstractThread {
     }
 
     @Override
-    synchronized public boolean workingThreadAction() {
+    public boolean workingThreadAction() {
+        synchronized (next_calculations) {
         if (this.getThreadNode() == null) {
             this.setThreadNode(WorkingThread.next_calculations.remove());
         }
@@ -77,6 +78,7 @@ public class WorkingThread extends AbstractThread {
         }
         this.setThreadNode(null);
         return true;
+        }
     }
 
 
