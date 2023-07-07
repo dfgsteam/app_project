@@ -75,7 +75,7 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
         this.playerid = playerid;
         this.configuration = configuration;
         Stack<Card> initialDrawPile = new Stack<>();
-        for (final Card card : initialDrawPile)
+        for (final Card card : cards)
             initialDrawPile.add(card);
         this.state = new PlayerGameBoard(numplayers, configuration, initialDrawPile);
     }

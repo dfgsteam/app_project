@@ -30,23 +30,27 @@ public class GameBoard{
 
     private PlayerPanel panelPlayer;
 
+    private GameBoardState gameBoardState;
+
 
     GameBoardState GaBoS;
     ArrayList<AbstractGamePlayer> playerSet;
 
-    public GameBoard(GameConfiguration gameconf, ArrayList<AbstractGamePlayer> players) throws ChildNotFoundException, InterruptedException{
+    public GameBoard(GameConfiguration gameconf, GameBoardState gameBoardState) throws ChildNotFoundException, InterruptedException{
+        this.gameBoardState = gameBoardState;
 
         this.Frame.setSAGPanel(this.mainPanel);
         this.Frame.setVisible(true);
 
-        this.panelPlayer = new PlayerPanel(mainPanel, players.size(), 2, players);
+        this.panelPlayer = new PlayerPanel(mainPanel, this.gameBoardState.getPlayers().length, gameconf.getNumCardsPerPlayerHand(), this.gameBoardState.getPlayers());
 
         int index2 = 0;
         while (index2++ < 10) {
-            for (int index=0; index < players.size(); index++){
-                this.panelPlayer.updatePlayer(index, players.get(index));
+            for (int index=0; index < this.gameBoardState.getPlayers().length; index++){
+                this.panelPlayer.updatePlayer(index, this.gameBoardState.getPlayers()[index]);
+                System.out.println(this.gameBoardState.getPlayers()[index].getCards());
                 TimeUnit.SECONDS.sleep(1);
-                players.get(index).add(gameconf.getCards().iterator().next());
+                this.gameBoardState.getPlayers()[index].add(this.gameBoardState.getDrawPileCards().pop());
             }
         }
         

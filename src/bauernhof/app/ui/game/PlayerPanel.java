@@ -20,7 +20,7 @@ import sag.elements.GGroup;
 public class PlayerPanel extends GGroup{
 
     private GGroup Group;
-    private AbstractGamePlayer Player;
+    private AbstractGamePlayer[] playerObjects;
     private int position;
 
     private GGroup groupPlayer[] = new GGroup[4];
@@ -30,7 +30,8 @@ public class PlayerPanel extends GGroup{
 
     // private
     // AbstractGamePlayer Player, int position, GGroup groupPlayer
-    public PlayerPanel (SAGPanel mainPanel, int players, int maxCards, ArrayList<AbstractGamePlayer> Players) {
+    public PlayerPanel (SAGPanel mainPanel, int players, int maxCards, AbstractGamePlayer[] playerObjects) {
+        this.playerObjects = playerObjects;
         this.pos = new float[players][maxCards][2];
         for (int counter=0; counter<players; counter++) {
             switch (counter) {
