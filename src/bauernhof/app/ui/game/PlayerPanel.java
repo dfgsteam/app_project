@@ -4,10 +4,8 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 import javax.swing.border.Border;
-
 import org.w3c.dom.events.MouseEvent;
 
 import bauernhof.app.card.Ca;
