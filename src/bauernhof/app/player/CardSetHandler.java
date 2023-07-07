@@ -60,7 +60,7 @@ public interface CardSetHandler {
      *
      * @return list of cards
      */
-    public Set<Card> getCards();
+    public ArrayList<Card> getCards();
 
     /**
      * Gibt alle Karten zurück die in der Hand des Spielers blockiert sind.
@@ -69,7 +69,7 @@ public interface CardSetHandler {
      *
      * @return list of cards
      */
-    public Set<Card> getBlockedCards();
+    public ArrayList<Card> getBlockedCards();
 
     /**
      * Gibt alle aktivierten Karten zurück.
@@ -78,5 +78,5 @@ public interface CardSetHandler {
      *
      * @return list of cards
      */
-    public Set<Card> getActiveCards();
+    public ArrayList<Card> getActiveCards();
 }

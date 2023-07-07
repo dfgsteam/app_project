@@ -5,6 +5,7 @@ import bauernhof.preset.card.Card;
 import bauernhof.preset.card.CardColor;
 import bauernhof.preset.card.Effect;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,14 +47,10 @@ public abstract class PlayerCards implements CardSetHandler {
                 colorcards.add(card);
         return colorcards;
     }
-    /*
-    card die bei den removeblockedcards hinzugefügt wird ist der Parameter Card
-
-    addafter - boolean um zu bestimmen, ob die Karte danach wieder hinzugefügt werden soll.
-     */
     private void updateScore() {
         score = 0;
-        for (final Card card : active_cards)
+        for (final Card card : active_cards) {
+            score += card.getBaseValue();
             for (final Effect effect : card.getEffects())
                 switch (effect.getType()) {
                     case POINTS_FOREACH:
@@ -66,7 +63,7 @@ public abstract class PlayerCards implements CardSetHandler {
                     case POINTS_SUM_BASEVALUES:
                         for (final Either<Card, CardColor> either : effect.getSelector())
                             if (either.get() instanceof Card)
-                                score += active_cards.contains(either.getLeft()) ? either.getLeft().getBaseValue(): 0;
+                                score += active_cards.contains(either.getLeft()) ? either.getLeft().getBaseValue() : 0;
                             else
                                 for (final Card color_card : getCardColorCardsInHand(either.getRight())) score += color_card.getBaseValue();
                         break;
@@ -78,7 +75,7 @@ public abstract class PlayerCards implements CardSetHandler {
                             else
                                 for (final Card color_card : getCardColorCardsInHand(either.getRight()))
                                     selector_cards.add(color_card);
-                        if (active_cards.containsAll(selector_cards))
+                        if (cards.containsAll(selector_cards))
                             score += card.getBaseValue();
                         break;
                     case POINTS_FLAT_DISJUNCTION:
@@ -97,6 +94,7 @@ public abstract class PlayerCards implements CardSetHandler {
                         break;
                     default:
                 }
+        }
     }
     private void updateBlockedCards() {
         blocked_cards.clear();
@@ -145,17 +143,17 @@ public abstract class PlayerCards implements CardSetHandler {
     }
 
     @Override
-    public Set<Card> getCards() {
-        return this.cards;
+    public ArrayList<Card> getCards() {
+        return new ArrayList<>(this.cards);
     }
 
     @Override
-    public Set<Card> getBlockedCards() {
-        return this.blocked_cards;
+    public ArrayList<Card> getBlockedCards() {
+        return new ArrayList<>(this.blocked_cards);
     }
 
     @Override
-    public Set<Card> getActiveCards() {
-        return this.active_cards;
+    public ArrayList<Card> getActiveCards() {
+        return new ArrayList<>(this.active_cards);
     }
 }
