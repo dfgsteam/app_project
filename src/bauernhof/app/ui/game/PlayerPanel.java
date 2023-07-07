@@ -2,6 +2,7 @@ package bauernhof.app.ui.game;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -11,6 +12,7 @@ import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.preset.Player;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
+import sag.ChildNotFoundException;
 import sag.LayerPosition;
 import sag.SAGPanel;
 import sag.elements.GGroup;
@@ -93,20 +95,21 @@ public class PlayerPanel extends GGroup{
     }
 
 
-    private void updatePlayer(int playerId, AbstractGamePlayer Player) {
-        
+    public void updatePlayer(int playerId, AbstractGamePlayer Player) throws ChildNotFoundException {
+        this.clearPlayerPanel(playerId);
+        Object[] cards = Player.getCards().toArray();
+        for (int item=0; item<cards.length; item++)
+            this.groupPlayer[playerId].addChild(new GCard((Card) cards[item]), this.pos[playerId][item][0], this.pos[playerId][item][1]);
+    }
+
+    private void clearPlayerPanel(int playerId) throws ChildNotFoundException {
+        for (int cardIndex=0; cardIndex < this.groupPlayer[playerId].getNumChildren(); cardIndex++)
+            this.groupPlayer[playerId].removeChild(this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex));
         return;
     }
 
-
-
     public void updatePlayer(int playerId) {
 
-    }
-
-
-    public GGroup getPanal() {
-        return this.Panel;
     }
 
 }

@@ -3,8 +3,10 @@ package bauernhof.app.ui.game;
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.Player;
 import bauernhof.preset.card.GCard;
+import bauernhof.app.GaCo;
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
+import sag.ChildNotFoundException;
 import sag.LayerPosition;
 import sag.SAGFrame;
 import sag.SAGPanel;
@@ -16,6 +18,7 @@ import javax.swing.text.LayeredHighlighter.LayerPainter;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class GameBoard{ 
 
@@ -31,12 +34,22 @@ public class GameBoard{
     GameBoardState GaBoS;
     ArrayList<AbstractGamePlayer> playerSet;
 
-    public GameBoard(GameConfiguration gameconf, ArrayList<AbstractGamePlayer> players){
+    public GameBoard(GameConfiguration gameconf, ArrayList<AbstractGamePlayer> players) throws ChildNotFoundException, InterruptedException{
 
         this.Frame.setSAGPanel(this.mainPanel);
         this.Frame.setVisible(true);
 
         this.panelPlayer = new PlayerPanel(mainPanel, players.size(), 2, players);
+
+        int index2 = 0;
+        while (index2++ < 10) {
+            for (int index=0; index < players.size(); index++){
+                this.panelPlayer.updatePlayer(index, players.get(index));
+                TimeUnit.SECONDS.sleep(1);
+                players.get(index).add(gameconf.getCards().iterator().next());
+            }
+        }
+        
     }
 
     private void drawCards(){
