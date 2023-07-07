@@ -3,10 +3,8 @@ package bauernhof.app.ui.game;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 import javax.swing.border.Border;
-
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.preset.Player;
 import bauernhof.preset.card.Card;
@@ -82,7 +80,7 @@ public class PlayerPanel extends GGroup{
 
 
      public GGroup getPanal() {
-        return this.Panel;
+        return null;//this.Panel;
     }
 
 }

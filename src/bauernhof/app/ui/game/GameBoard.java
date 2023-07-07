@@ -12,20 +12,12 @@ import sag.LayerPosition;
 import sag.SAGFrame;
 import sag.SAGPanel;
 import sag.elements.GGroup;
-
 import javax.imageio.ImageIO;
 import sag.elements.GGroup;
-
 import javax.swing.*;
-import javax.swing.text.LabelView;
-
-import javax.swing.text.LayeredHighlighter.LayerPainter;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.Set;
@@ -48,16 +40,21 @@ public class GameBoard implements ActionListener{
 
     private PlayerPanel panelPlayer;
 
-
     GameBoardState GaBoS;
-    ArrayList<AbstractGamePlayer> playerSet;
+    ArrayList<AbstractGamePlayer> playerSet = new ArrayList<>();
 
     public GameBoard(GameConfiguration gameconf, ArrayList<AbstractGamePlayer> players){
 
         this.Frame.setSAGPanel(this.mainPanel);
         this.Frame.setVisible(true);
-
+        this.playerSet = players;
         this.panelPlayer = new PlayerPanel(mainPanel, players.size(), 10, players);
+
+        prepareMain(playerSet.size());
+        Frame.setSAGPanel(mainPanel);
+        Frame.setLayout(null);
+        Frame.setVisible(true);
+
     }
         /*try {
             GaBoS = new GameBoardState(gameconf,set);
@@ -65,21 +62,12 @@ public class GameBoard implements ActionListener{
         } catch (Exception e) {
             throw new RuntimeException(e);
         }*/
-        //playerSet.add( new HumanPlayer("Player1",GaBoS));
-
-        prepareMain(playerSet.size());
-        Frame.setSAGPanel(MainPanel);
-        Frame.setLayout(null);
-        Frame.setVisible(true);
-
-
-
-    }
+    
 
     private void prepareMain(int i){
          String path = "graphics/player_view"+i+".jpg";
 
-                this.MainPanel = new SAGPanel();/*  {
+                this.mainPanel = new SAGPanel(); /*{
                     @Override
                     public void paintComponent(Graphics g) {
                         super.paintComponent(g);
@@ -89,15 +77,17 @@ public class GameBoard implements ActionListener{
                         Image image = backgroundImage.getImage();
                         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
                     }
-                };*/
-
-                initNachziehstapel();
-
-                GGroup Mid = MainPanel.addLayer(LayerPosition.CENTER_CENTER);
-                //Mid.addChild(new GCard(new Ca())));
-
+                };
+                */
+                mainPanel.setBgColor(new Color(0f, 0f, 0f, 0.5f));
 
                 
+                //GCard card = new GCard(playerSet.get(0).getCards().iterator().next());
+
+                PlayerPanel playerPanel = new PlayerPanel(this.mainPanel, playerSet.size(), 50, playerSet);
+                GGroup Mid = mainPanel.addLayer(LayerPosition.CENTER_CENTER);
+                Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), -150, 0);
+                Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), 150, 0);
 
         System.out.println(i);
         switch (i){

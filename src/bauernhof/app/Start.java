@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
-
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.types.HumanPlayer;
 import bauernhof.app.ui.game.GameBoard;
@@ -24,7 +23,7 @@ public class Start {
         players.add(new HumanPlayer("Alrun", null));
         players.add(new HumanPlayer("Celina", null));
 
-        int i;
+         int i;
         for (var item : players) {
             i = 0;
             while (i++ < 10)
