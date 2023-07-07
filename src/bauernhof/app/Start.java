@@ -19,10 +19,10 @@ public class Start {
 
         ArrayList<AbstractGamePlayer> players = new ArrayList<AbstractGamePlayer>();
 
-        players.add(new HumanPlayer("Flo", null));
+       /* players.add(new HumanPlayer("Flo", null));
         players.add(new HumanPlayer("Smila", null));
         players.add(new HumanPlayer("Alrun", null));
-        players.add(new HumanPlayer("Celina", null));
+        players.add(new HumanPlayer("Celina", null));*/
 
         int i;
         for (var item : players) {
