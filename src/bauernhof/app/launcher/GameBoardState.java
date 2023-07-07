@@ -7,7 +7,7 @@ import bauernhof.preset.card.Card;
 import java.util.*;
 
 /**
- * Diese Klasse ist der Generelle Main Handler für das gesamte Spielbrett.
+ * Diese Klasse ist der  Generelle Main Handler für das gesamte Spielbrett.
  * Sie gibt über jeden Status des aktuellen Spiels bescheid.
  * Auch die Instanzen der aktuellen {@link Player} sind enthalten.
  * Zudem dient die Klasse auch zum Laden von gespeicherten Spielständen
