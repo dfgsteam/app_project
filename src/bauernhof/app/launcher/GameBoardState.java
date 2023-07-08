@@ -139,7 +139,7 @@ public class GameBoardState implements Table {
                 activeplayerid = 0;
                 this.round++;
             }
-            Thread.sleep(5000);
+            /*//Thread.sleep(5000);
             if (round > 30) {
                 graphics.move(true);
                 run = false;
@@ -151,7 +151,7 @@ public class GameBoardState implements Table {
                     this.doMove(((Random_AI) getActualPlayer()).calculateNextMove());
                     break;
             }
-
+             */
 
         return true;
     }

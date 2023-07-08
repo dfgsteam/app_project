@@ -6,6 +6,7 @@ import bauernhof.app.card.Ca;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.listener.CardListener;
 import bauernhof.app.ui.game.listener.HoverListener;
+import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
 import sag.LayerPosition;
@@ -91,16 +92,14 @@ public class PlayerPanel extends GGroup{
         Object[] cards = Player.getCards().toArray();
         //System.out.println("Karten von Spieler " + playerId);
         for (int item=0; item<cards.length; item++) {
-        //    System.out.println("Length : " + cards.length);
-            GCard gCard = ((Ca) cards[item]).getGCard();
+          //  GCard gCard = ((Ca) cards[item]).getGCard();
+            GCard gCard = new GCard((Card) cards[item]);
             gCard.setPosition(0f, 0f); // Setzte X/Y zurück
 
             CardListener cardListener = new CardListener(this.gameBoard, playerId);
             gCard.setMouseEventListener(cardListener);
-
-
-           // System.out.print("*" + ((Ca) cards[item]).getName() + "*, ");
-            
+            if (Player.getBlockedCards().contains(cards[item]))
+                gCard.setStroke(Color.RED, 20);
             this.groupPlayer[playerId].addChild(gCard, this.pos[playerId][item][0], this.pos[playerId][item][1]);
         }
     }
