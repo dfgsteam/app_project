@@ -7,6 +7,12 @@ import bauernhof.preset.GameConfigurationParser;
 import java.io.File;
 import java.util.*;
 
+/**
+ * Represents the settings (Se) of the game.
+ * 
+ * @author Julius Hunold
+ * Georg-August-Universität in Göttingen
+ */
 public class Se {
     private GameConfiguration GameConf;
     private int ai;
@@ -16,13 +22,21 @@ public class Se {
     protected HashMap<String, GameConfiguration> GameConfigurations;
     private SePa SettingsParser;
 
-
+    /**
+     * Constructs a new Se object with the specified settings parser.
+     *
+     * @param SettingsParser the settings parser to use.
+     */
     public Se(SePa SettingsParser) {
         this.SettingsParser = SettingsParser;
         this.getGameConfs();
     }
 
-
+    /**
+     * Retrieves the available game configurations.
+     *
+     * @return a set of file names corresponding to the available game configurations.
+     */
     public Set<String> getGameConfs() {
         this.GameConfigurations = new HashMap<>();
         Set<String> fileNames = new HashSet<>();
@@ -50,55 +64,117 @@ public class Se {
         return null;
     }
 
-
+    /**
+     * Sets the game configuration.
+     *
+     * @param GameConf the game configuration to set.
+     */
     public void setGameConf(GameConfiguration GameConf) {
         this.GameConf = GameConf;
     }
 
+    /**
+     * Retrieves the current game configuration.
+     *
+     * @return the current game configuration.
+     */
     public GameConfiguration getGameConf() {
         return this.GameConf;
     }
 
+    /**
+     * Sets the AI value.
+     *
+     * @param ai the AI value to set.
+     */
     public void setAi(int ai) {
         this.ai = ai;
     }
+
+    /**
+     * Sets the AI value and updates the settings parser.
+     *
+     * @param ai     the AI value to set.
+     * @param change true if the settings should be updated in xml, false otherwise.
+     * @throws SeEx if there is an error during the update process.
+     */
     public void setAi(int ai, boolean change) throws SeEx {
         this.ai = ai;
         this.SettingsParser.setAi(ai);
     }
 
 
-    
-
+    /**
+     * Retrieves the AI value.
+     *
+     * @return the AI value.
+     */
     public int getAi() {
         return this.ai;
     }
 
+    /**
+     * Sets the name.
+     *
+     * @param name the name to set.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Retrieves the name.
+     *
+     * @return the name.
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Sets the sound value.
+     *
+     * @param sound the sound value to set.
+     */
     public void setSound(int sound) {
         this.sound = sound;
     }
     
+    /**
+     * Sets the sound value and updates the settings parser.
+     *
+     * @param sound  the sound value to set.
+     * @param change true if the settings should be updated in xml, false otherwise.
+     * @throws SeEx if there is an error during the update process.
+     */
     public void setSound(int sound, boolean change) throws SeEx {
         this.sound = sound;
         this.SettingsParser.setSound(sound);
     }
 
+    /**
+     * Retrieves the sound value.
+     *
+     * @return the sound value.
+     */
     public int getSound() {
         return this.sound;
     }
 
+    /**
+     * Sets the raw configuration.
+     *
+     * @param rawConfiguration the raw configuration to set.
+     */
     public void setRawConfiguration(String rawConfiguration) {
         this.rawConfiguration = rawConfiguration;
     }
 
+    /**
+     * Retrieves the raw configuration.
+     *
+     * @return the raw configuration.
+     */
     public String getRawConfiguration() {
         return this.rawConfiguration;
     }
