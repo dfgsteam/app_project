@@ -17,6 +17,7 @@ public class Ca implements Card {
     private final String image;
     private Set<Effect> effect;
     private boolean blocked;
+    private GCard gCard;
 
     /**
      * Constructs a Card object with the specified properties.
@@ -33,6 +34,7 @@ public class Ca implements Card {
         this.color = color;
         this.image = image;
         this.effect = effect != null ? effect : new HashSet<Effect>();
+        this.gCard = new GCard(this);
     }
 
     /**
@@ -126,6 +128,10 @@ public class Ca implements Card {
 
     public void setBlocked() {
         this.blocked = true;
+    }
+
+    public GCard getGCard() {
+        return this.gCard;
     }
 
 }
