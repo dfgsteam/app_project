@@ -64,10 +64,23 @@ public class GameBoard implements ActionListener{
         this.test();
     }
 
-    public void move() throws Exception {
+    public void move(boolean last) throws Exception { 
+        // Spieler inaktiv setzten
+        this.panelPlayerName.updatePlayerBgInactive(this.playerId);
+
+        // Karten + Punkte updaten
         this.panelPlayer.updatePlayer(this.playerId, this.gameBoardState.getPlayers()[this.playerId], false);
         this.panelPlayerName.updatePlayerName(this.playerId);
-        this.playerId = (this.playerId+1)%4;
+
+        // Wenn nicht letzer Zug
+        if (!last) {
+            // Nächsten Spieler aktiv setzen
+            this.playerId = (this.playerId+1)%4;
+            this.panelPlayerName.updatePlayerBgActive(this.playerId);
+        } else {
+            // -> Spielende Panel
+            this.playerId = 5;
+        }
     }
 
     public boolean check_move(int playerId) {
@@ -79,7 +92,7 @@ public class GameBoard implements ActionListener{
         while (index2++ < 10) {
             System.out.println(this.playerId);
             TimeUnit.SECONDS.sleep(4);
-            this.move();
+            this.move(false);
         }
     }
 
