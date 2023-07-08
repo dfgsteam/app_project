@@ -137,7 +137,7 @@ public class GameBoardState implements Table {
                 this.round++;
             }
             Thread.sleep(2000);
-        graphics.move();
+        graphics.move(false);
         System.out.println("===================");
         switch (getActualPlayer().getPlayerType()) {
             case RANDOM_AI:
