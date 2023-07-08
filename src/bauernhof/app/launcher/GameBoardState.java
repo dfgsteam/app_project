@@ -139,7 +139,7 @@ public class GameBoardState implements Table {
                 activeplayerid = 0;
                 this.round++;
             }
-            Thread.sleep(50);
+            Thread.sleep(5000);
             if (round > 30) {
                 graphics.move(true);
                 run = false;

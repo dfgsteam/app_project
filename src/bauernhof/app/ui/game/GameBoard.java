@@ -120,8 +120,8 @@ public class GameBoard implements ActionListener{
         this.mainPanel = new SAGPanel(this.WIDTH, this.HEIGTH);
 
         GGroup Mid = mainPanel.addLayer(LayerPosition.CENTER_CENTER);
-        Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), -150, 0);
-        Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), 150, 0);
+        Mid.addChild( new GCard(gameBoardState.getDrawPileCards().lastElement()), -150, 0);
+       // Mid.addChild( new GCard(gameBoardState.getDepositedCards().get(gameBoardState.getDepositedCards().size())), 150, 0);
     }
 
 
