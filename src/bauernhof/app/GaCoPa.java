@@ -13,6 +13,7 @@ import java.util.*;
 
 /**
  * GaCoPa class that implements the GameConfigurationParser interface.
+ *  GameConfigurationParser create from xml files a GameConfiguration object.
  *
  * @author julius.hunold
  * @version 1.0

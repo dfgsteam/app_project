@@ -16,9 +16,6 @@ public class CardListener implements MouseEventListener {
         this.playerId = playerId;
     }
 
-    public CardListener() {
-    }
-
     public void mouseClicked(MouseButtonEvent var1, GElement var2) {
         //System.out.println("click");
         if (this.gameBoard.check_move(this.playerId))

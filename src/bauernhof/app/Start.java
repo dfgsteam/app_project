@@ -1,15 +1,11 @@
 package bauernhof.app;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Set;
 
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
-import bauernhof.app.player.types.HumanPlayer;
 import bauernhof.app.ui.game.GameBoard;
-import bauernhof.app.ui.launcher.BaFr;
 import bauernhof.preset.*;
 
 public class Start {
@@ -20,9 +16,10 @@ public class Start {
 
         ArrayList<AbstractGamePlayer> players = new ArrayList<AbstractGamePlayer>();
 
-        GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Smila", "Alrun", "Lotta"}, new PlayerType[]{PlayerType.HUMAN, PlayerType.HUMAN, PlayerType.HUMAN, PlayerType.HUMAN}, GaCo, new ImmutableList<>(GaCo.getCards()));
+        GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Smila", "Alrun", "Lotta"}, new PlayerType[]{PlayerType.SIMPLE_AI, PlayerType.SIMPLE_AI, PlayerType.SIMPLE_AI, PlayerType.SIMPLE_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
 
         GameBoard GB = new GameBoard(GaCo,gameBoardState);
+        gameBoardState.initGame(GB);
 
         System.out.println(GaCo.getConfigDescription());
 

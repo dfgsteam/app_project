@@ -20,8 +20,8 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
     private String name;
     protected Move move;
     private int playerid;
-    private GameConfiguration configuration;
-    private PlayerGameBoard state;
+    protected GameConfiguration configuration;
+    protected PlayerGameBoard state;
     private PlayerType type;
 
     /**
@@ -80,10 +80,8 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
         this.state = new PlayerGameBoard(numplayers, configuration, (Stack<Card>) initialDrawPile.clone());
         for (int i = 0; i < numplayers; i++)
             for (int x = 0; x < configuration.getNumCardsPerPlayerHand(); x++)
-                if (i == playerid)
-                    this.add(initialDrawPile.pop());
-                else
-                    initialDrawPile.pop();
+                if (i == playerid) this.add(initialDrawPile.pop());
+                else initialDrawPile.pop();
     }
 
 
@@ -99,8 +97,8 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
     @Override
     public void update(Move opponentMove) throws Exception {
         if (!state.doMove(opponentMove)) {
-            System.out.println("Jemand hat geschummelt!");
-            System.exit(0);
+            //System.out.println("Jemand hat geschummelt!");
+            //System.exit(0);
         }
     }
 

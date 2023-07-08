@@ -1,11 +1,13 @@
-package bauernhof.app.ui.game;
+package bauernhof.app.ui.game.panel;
 
 import java.awt.Color;
 
 import bauernhof.app.card.Ca;
 import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.ui.game.GameBoard;
 import bauernhof.app.ui.game.listener.CardListener;
 import bauernhof.app.ui.game.listener.HoverListener;
+import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
 import sag.LayerPosition;
@@ -86,28 +88,27 @@ public class PlayerPanel extends GGroup{
         }
     }
 
-    public void updatePlayer(int playerId, AbstractGamePlayer Player, boolean first) throws ChildNotFoundException {
+    public void updatePlayer(int playerId, AbstractGamePlayer Player) throws ChildNotFoundException {
         this.clearPlayerPanel(playerId);
         Object[] cards = Player.getCards().toArray();
+        //System.out.println("Karten von Spieler " + playerId);
         for (int item=0; item<cards.length; item++) {
-            GCard gCard = ((Ca) cards[item]).getGCard();
+            //GCard gCard = ((Ca) cards[item]).getGCard(); //-> Position wird falsch angezeigt
+            //gCard.getPositionX();
+            GCard gCard = new GCard((Card) cards[item]); //-> zieht viel performance
             gCard.setPosition(0f, 0f); // Setzte X/Y zurück
 
             CardListener cardListener = new CardListener(this.gameBoard, playerId);
             gCard.setMouseEventListener(cardListener);
-            
+            if (Player.getBlockedCards().contains(cards[item]))
+                gCard.setStroke(Color.RED, 20);
             this.groupPlayer[playerId].addChild(gCard, this.pos[playerId][item][0], this.pos[playerId][item][1]);
         }
-        if (!first)
-            this.setActivePlayer(playerId%4);
-    }
-
-    private void setActivePlayer(int playerId) throws ChildNotFoundException {
-        
     }
 
     private void clearPlayerPanel(int playerId) throws ChildNotFoundException {
         for (int cardIndex=0; cardIndex < this.groupPlayer[playerId].getNumChildren(); cardIndex++) {
+            this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex).setPosition(0f, 0f);
             this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex).setMouseEventListener(null);
             this.groupPlayer[playerId].removeChild(this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex));
         }

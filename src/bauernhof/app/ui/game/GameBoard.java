@@ -1,16 +1,17 @@
 package bauernhof.app.ui.game;
 
 import bauernhof.preset.GameConfiguration;
+import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.GCard;
 import bauernhof.app.card.Ca;
 import bauernhof.app.launcher.GameBoardState;
 import sag.LayerPosition;
 import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.ui.game.panel.*;
 import sag.SAGFrame;
 import sag.SAGPanel;
 import sag.elements.GGroup;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashSet;
@@ -32,10 +33,11 @@ public class GameBoard implements ActionListener{
     private JButton Ablagestapel;
 
     private Set<GCard> NachziehstapelCards; 
-    private Set<GCard> AblagestapelCards; 
+    private Set<GCard> AblagestapelCards;
 
     private PlayerPanel panelPlayer;
     private PlayerNamePanel panelPlayerName;
+    private RoundPanal panelRound;
     private GameBoardState gameBoardState;
 
     private int playerId = 0;
@@ -46,42 +48,70 @@ public class GameBoard implements ActionListener{
     public GameBoard(GameConfiguration gameconf, GameBoardState gameBoardState) throws Exception{
         this.gameBoardState = gameBoardState;
 
+        prepareMain();
+
         //init Frame
         this.Frame.setSAGPanel(this.mainPanel);
         this.Frame.setVisible(true);
 
         // init Panels
-        this.panelPlayer = new PlayerPanel(mainPanel, this.gameBoardState.getPlayers().length, gameconf.getNumCardsPerPlayerHand(), this);
-        this.panelPlayerName = new PlayerNamePanel(mainPanel, gameBoardState);
+        this.panelRound = new RoundPanal(this.mainPanel, this.gameBoardState);
+        this.panelPlayer = new PlayerPanel(this.mainPanel, this.gameBoardState.getPlayers().length, gameconf.getNumCardsPerPlayerHand(), this);
+        this.panelPlayerName = new PlayerNamePanel(this.mainPanel, this.gameBoardState);
 
 
         // init load playerCards
         for (int index=0; index < this.gameBoardState.getPlayers().length; index++)
-            this.panelPlayer.updatePlayer(index, this.gameBoardState.getPlayers()[index], true);
-
+            this.panelPlayer.updatePlayer(index, this.gameBoardState.getPlayers()[index]);
 
         // test = 10 gui moves
-        this.test();
+        //this.test();
     }
 
-    public void move() throws Exception {
-        this.panelPlayer.updatePlayer(this.playerId, this.gameBoardState.getPlayers()[this.playerId], false);
+    public void move(boolean last) throws Exception { 
+        // Spieler inaktiv setzten
+        this.panelPlayerName.updatePlayerBgInactive(this.playerId);
+
+        // Karten + Punkte updaten
+        this.panelPlayer.updatePlayer(this.playerId, this.gameBoardState.getPlayers()[this.playerId]);
         this.panelPlayerName.updatePlayerName(this.playerId);
-        this.playerId = (this.playerId+1)%4;
+
+        // Wenn nicht letzer Zug
+        if (!last) {
+            // Nächsten Spieler aktiv setzen
+            this.playerId = (this.playerId+1)%this.gameBoardState.getPlayers().length;
+            this.panelPlayerName.updatePlayerBgActive(this.playerId);
+            this.panelRound.update();
+        } else {
+            // -> Spielende Panel
+            this.playerId = 5;
+            new ScorePanal(mainPanel, gameBoardState);
+        }
     }
 
     public boolean check_move(int playerId) {
-        return this.playerId == playerId;
+        return (this.playerId == playerId) && (this.gameBoardState.getPlayers()[playerId].getPlayerType() == PlayerType.HUMAN) ;
+    }
+
+    public void createScorePanal() throws Exception {
+        new ScorePanal(this.mainPanel, this.gameBoardState);
+    }
+
+    public void createCheaterPanal(AbstractGamePlayer player) throws Exception {
+        new CheaterPanel(this.mainPanel, this.gameBoardState, player);
     }
 
     private void test() throws Exception {
+        int maxTestRounds = 3;
         int index2 = 0;
-        while (index2++ < 10) {
+        while (index2++ < maxTestRounds) {
             System.out.println(this.playerId);
-            TimeUnit.SECONDS.sleep(4);
-            this.move();
+            TimeUnit.SECONDS.sleep(1);
+            this.move(index2 == maxTestRounds);
         }
+        this.createScorePanal();
     }
+
 
 
 
@@ -89,16 +119,11 @@ public class GameBoard implements ActionListener{
     private void prepareMain(){
          //String path = "graphics/player_view"+i+".jpg";
 
-        this.mainPanel = new SAGPanel();
-
-        mainPanel.setBgColor(new Color(0f, 0f, 0f, 0.5f));
-
-        
-        //GCard card = new GCard(playerSet.get(0).getCards().iterator().next());
+        this.mainPanel = new SAGPanel(this.WIDTH, this.HEIGTH);
 
         GGroup Mid = mainPanel.addLayer(LayerPosition.CENTER_CENTER);
-        Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), -150, 0);
-        Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), 150, 0);
+        Mid.addChild( new GCard(gameBoardState.getDrawPileCards().lastElement()), -150, 0);
+       // Mid.addChild( new GCard(gameBoardState.getDepositedCards().get(gameBoardState.getDepositedCards().size())), 150, 0);
     }
 
 
@@ -108,13 +133,9 @@ public class GameBoard implements ActionListener{
         for(int i = 0; i < 10; i++){
              NachziehstapelCards.add(new GCard(new Ca("",0,null,null,null)));
         }
-        Nachziehstapel = new JButton();//new ImageIcon(NachziehstapelCards.iterator().next().getImage()));
-        /*try {
-            Nachziehstapel.setIcon(new ImageIcon(ImageIO.read(new File("graphics/bauer.svg"))));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        Nachziehstapel = new JButton();
         Nachziehstapel.addActionListener(this::actionPerformed);
+
 
     }
 
@@ -130,14 +151,7 @@ public class GameBoard implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         
-            if(e.getSource()==Nachziehstapel){
-                    CardPanel = new SAGPanel();
-                    CardPanel.setLayout(new FlowLayout());
-                    for(GCard c : NachziehstapelCards){
-                       // CardPanel.add(new Label(c.getImage()));
-                    }
-
-            }
+           
     }
 
 }
