@@ -148,6 +148,7 @@ public class Ca implements Card {
         // Erzeuge neues Kartenobjekte, bei der ersten Abfrage
         if (this.gCard == null)
             this.gCard = new GCard(this);
+        this.gCard.setPosition(0f, 0f);
         return this.gCard;
     }
 
