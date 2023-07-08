@@ -2,6 +2,7 @@ package bauernhof.app.launcher;
 
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.types.Random_AI;
+import bauernhof.app.player.types.Simple_AI;
 import bauernhof.app.ui.game.GameBoard;
 import bauernhof.app.ui.game.ScorePanal;
 import bauernhof.preset.*;
@@ -50,7 +51,7 @@ public class GameBoardState implements Table {
                     players[i] = new AbstractGamePlayer(playernames[i], types[i]);
                     break;
                 case SIMPLE_AI:
-                    players[i] = new AbstractGamePlayer(playernames[i], types[i]);
+                    players[i] = new Simple_AI(playernames[i]);
                     break;
                 default:
             }
@@ -75,6 +76,7 @@ public class GameBoardState implements Table {
             case ADVANCED_AI:
                 break;
             case SIMPLE_AI:
+                this.doMove(((Simple_AI) actual_player).calculateNextMove());
                 break;
             default:
         }
@@ -139,7 +141,7 @@ public class GameBoardState implements Table {
                 activeplayerid = 0;
                 this.round++;
             }
-            /*//Thread.sleep(5000);
+            Thread.sleep(50);
             if (round > 30) {
                 graphics.move(true);
                 run = false;
@@ -150,8 +152,11 @@ public class GameBoardState implements Table {
                 case RANDOM_AI:
                     this.doMove(((Random_AI) getActualPlayer()).calculateNextMove());
                     break;
+                case SIMPLE_AI:
+                    this.doMove(((Simple_AI) getActualPlayer()).calculateNextMove());
+                    break;
             }
-             */
+
 
         return true;
     }
