@@ -1,12 +1,8 @@
 package bauernhof.app.ui.game;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import bauernhof.app.launcher.GameBoardState;
-import bauernhof.app.player.AbstractGamePlayer;
-import bauernhof.app.ui.game.listener.HomeButtonListener;
 import sag.LayerPosition;
 import sag.SAGPanel;
 import sag.elements.GGroup;
@@ -15,7 +11,7 @@ import sag.elements.shapes.GRect;
 
 public class RoundPanal extends GGroup{
 
-    GText headline;
+    GText headline = new GText("R. 1");
     GameBoardState gameBoardState;
 
     public RoundPanal (SAGPanel mainPanel, GameBoardState gameBoardState) throws Exception {
@@ -26,21 +22,24 @@ public class RoundPanal extends GGroup{
         GGroup panel = mainPanel.addLayer(LayerPosition.TOP_RIGHT);
 
         // Feld
-        GRect area = new GRect(0f, 0f, 50f, 20f, true, 0f, 0f);
-        area.setFill(new Color(255, 255, 255));
-        area.setStroke(new Color(0, 0, 0), 2f);
-        panel.addChild(area, 0f, 0f);
+        GRect area = new GRect(0f, 0f, 70f, 50f, false, 0f, 0f);
+        area.setFill(new Color(255, 255, 255, 255));
+        area.setStroke(new Color(0, 0, 0), 3f);
+        panel.addChild(area, -80f, 10f);
 
         // Zähler
-        this.headline = new GText(Integer.toString(this.gameBoardState.getRound()));
-        headline.setBold(true);
-        headline.setAlignment(GText.TextAnchor.MIDDLE);
-        headline.setFontSize(55f);
-        panel.addChild(headline, 0f, -150f);
+        this.headline.setAlignment(GText.TextAnchor.END);
+        this.headline.setFontSize(25f);
+        panel.addChild(this.headline, -21f, 45f);
+        System.out.println("ok");
     }
 
     public void update() {
-        this.headline.setText(Integer.toString(this.gameBoardState.getRound()));
+        //System.out.println("ok2");
+        //System.out.println(this.headline);
+        //System.out.println(this.gameBoardState.getRound());
+        if (this.headline != null)
+            this.headline.setText("R. " + Integer.toString(this.gameBoardState.getRound()));
     }
 
 }

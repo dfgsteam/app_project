@@ -52,9 +52,9 @@ public class GameBoard implements ActionListener{
         this.Frame.setVisible(true);
 
         // init Panels
+        this.panelRound = new RoundPanal(this.mainPanel, this.gameBoardState);
         this.panelPlayer = new PlayerPanel(this.mainPanel, this.gameBoardState.getPlayers().length, gameconf.getNumCardsPerPlayerHand(), this);
         this.panelPlayerName = new PlayerNamePanel(this.mainPanel, this.gameBoardState);
-        this.panelRound = new RoundPanal(this.mainPanel, this.gameBoardState);
 
 
         // init load playerCards
