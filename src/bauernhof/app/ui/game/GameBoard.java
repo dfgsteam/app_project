@@ -77,7 +77,7 @@ public class GameBoard implements ActionListener{
         // Wenn nicht letzer Zug
         if (!last) {
             // Nächsten Spieler aktiv setzen
-            this.playerId = (this.playerId+1)%4;
+            this.playerId = (this.playerId+1)%this.gameBoardState.getPlayers().length;
             this.panelPlayerName.updatePlayerBgActive(this.playerId);
             this.panelRound.update();
         } else {
