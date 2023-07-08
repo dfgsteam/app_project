@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class GameBoard implements ActionListener{ 
 
@@ -34,38 +35,61 @@ public class GameBoard implements ActionListener{
     private Set<GCard> AblagestapelCards;
 
     private PlayerPanel panelPlayer;
+    private PlayerNamePanel panelPlayerName;
+    private GameBoardState gameBoardState;
+
+    private int playerId = 0;
 
     GameBoardState GaBoS;
     ArrayList<AbstractGamePlayer> playerSet = new ArrayList<>();
 
-    public GameBoard(GameConfiguration gameconf, ArrayList<AbstractGamePlayer> players){
+    public GameBoard(GameConfiguration gameconf, GameBoardState gameBoardState) throws Exception{
+        this.gameBoardState = gameBoardState;
 
+        //init Frame
         this.Frame.setSAGPanel(this.mainPanel);
         this.Frame.setVisible(true);
-        this.playerSet = players;
-        this.panelPlayer = new PlayerPanel(mainPanel, players.size(), 10, players);
 
-        prepareMain(playerSet.size());
-        Frame.setSAGPanel(mainPanel);
-        Frame.setLayout(null);
-        Frame.setVisible(true);
+        // init Panels
+        this.panelPlayer = new PlayerPanel(mainPanel, this.gameBoardState.getPlayers().length, gameconf.getNumCardsPerPlayerHand(), this);
+        this.panelPlayerName = new PlayerNamePanel(mainPanel, gameBoardState);
 
+
+        // init load playerCards
+        for (int index=0; index < this.gameBoardState.getPlayers().length; index++)
+            this.panelPlayer.updatePlayer(index, this.gameBoardState.getPlayers()[index], true);
+
+
+        // test = 10 gui moves
+        this.test();
     }
-        /*try {
-            GaBoS = new GameBoardState(gameconf,set);
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }*/
-    
+    public void move() throws Exception {
+        this.panelPlayer.updatePlayer(this.playerId, this.gameBoardState.getPlayers()[this.playerId], false);
+        this.panelPlayerName.updatePlayerName(this.playerId);
+        this.playerId = (this.playerId+1)%4;
+    }
 
-    private void prepareMain(int i){
-         String path = "graphics/player_view"+i+".jpg";
+    public boolean check_move(int playerId) {
+        return this.playerId == playerId;
+    }
 
-                this.mainPanel = new SAGPanel() {
-                    @Override
-                    public void paintComponent(Graphics g) {
-                        super.paintComponent(g);
+    private void test() throws Exception {
+        int index2 = 0;
+        while (index2++ < 10) {
+            System.out.println(this.playerId);
+            TimeUnit.SECONDS.sleep(4);
+            this.move();
+        }
+    }
+
+
+
+
+    private void prepareMain(){
+         //String path = "graphics/player_view"+i+".jpg";
+
+        this.mainPanel = new SAGPanel();
 
                         // Zeichne den Hintergrund
                         ImageIcon backgroundImage = new ImageIcon(path);
@@ -76,24 +100,12 @@ public class GameBoard implements ActionListener{
                 
             
 
-                
-                //GCard card = new GCard(playerSet.get(0).getCards().iterator().next());
+        
+        //GCard card = new GCard(playerSet.get(0).getCards().iterator().next());
 
-                PlayerPanel playerPanel = new PlayerPanel(this.mainPanel, playerSet.size(), 50, playerSet);
-                GGroup Mid = mainPanel.addLayer(LayerPosition.CENTER_CENTER);
-                Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), -150, 0);
-                Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), 150, 0);
-
-        System.out.println(i);
-        switch (i){
-            case 2:
-                setPlayer3Panel(); break;
-            case 3:
-                setPlayer2n4Panel(); break;
-            case 4:
-                setPlayer3Panel();
-                setPlayer2n4Panel(); break;
-        }
+        GGroup Mid = mainPanel.addLayer(LayerPosition.CENTER_CENTER);
+        Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), -150, 0);
+        Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), 150, 0);
     }
 
 
@@ -118,15 +130,6 @@ public class GameBoard implements ActionListener{
     
     }
 
-    private void setPlayer3Panel(){
-           // PlayerPanel PP3 = new PlayerPanel();
-    }
-
-    private void setPlayer2n4Panel(){
-           /*  PlayerPanel PP2 = new PlayerPanel();
-            PlayerPanel PP4 = new PlayerPanel();*/
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         
@@ -141,4 +144,3 @@ public class GameBoard implements ActionListener{
     }
 
 }
-
