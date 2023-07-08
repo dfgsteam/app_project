@@ -1,20 +1,13 @@
 package bauernhof.app.ui.game;
 
 import bauernhof.preset.GameConfiguration;
-import bauernhof.preset.Player;
 import bauernhof.preset.card.GCard;
 import bauernhof.app.card.Ca;
-import bauernhof.preset.card.GCard;
-import bauernhof.app.GaCo;
 import bauernhof.app.launcher.GameBoardState;
 import sag.LayerPosition;
 import bauernhof.app.player.AbstractGamePlayer;
-import sag.ChildNotFoundException;
-import sag.LayerPosition;
 import sag.SAGFrame;
 import sag.SAGPanel;
-import sag.elements.GGroup;
-import javax.imageio.ImageIO;
 import sag.elements.GGroup;
 import javax.swing.*;
 import java.awt.*;
@@ -42,69 +35,70 @@ public class GameBoard implements ActionListener{
     private Set<GCard> AblagestapelCards; 
 
     private PlayerPanel panelPlayer;
+    private PlayerNamePanel panelPlayerName;
     private GameBoardState gameBoardState;
+
+    private int playerId = 0;
 
     GameBoardState GaBoS;
     ArrayList<AbstractGamePlayer> playerSet = new ArrayList<>();
 
-    public GameBoard(GameConfiguration gameconf, GameBoardState gameBoardState) throws ChildNotFoundException, InterruptedException{
+    public GameBoard(GameConfiguration gameconf, GameBoardState gameBoardState) throws Exception{
         this.gameBoardState = gameBoardState;
 
+        //init Frame
         this.Frame.setSAGPanel(this.mainPanel);
         this.Frame.setVisible(true);
 
-        this.panelPlayer = new PlayerPanel(mainPanel, this.gameBoardState.getPlayers().length, gameconf.getNumCardsPerPlayerHand(), this.gameBoardState.getPlayers());
+        // init Panels
+        this.panelPlayer = new PlayerPanel(mainPanel, this.gameBoardState.getPlayers().length, gameconf.getNumCardsPerPlayerHand(), this);
+        this.panelPlayerName = new PlayerNamePanel(mainPanel, gameBoardState);
 
+
+        // init load playerCards
+        for (int index=0; index < this.gameBoardState.getPlayers().length; index++)
+            this.panelPlayer.updatePlayer(index, this.gameBoardState.getPlayers()[index], true);
+
+
+        // test = 10 gui moves
+        this.test();
+    }
+
+    public void move() throws Exception {
+        this.panelPlayer.updatePlayer(this.playerId, this.gameBoardState.getPlayers()[this.playerId], false);
+        this.panelPlayerName.updatePlayerName(this.playerId);
+        this.playerId = (this.playerId+1)%4;
+    }
+
+    public boolean check_move(int playerId) {
+        return this.playerId == playerId;
+    }
+
+    private void test() throws Exception {
         int index2 = 0;
         while (index2++ < 10) {
-            for (int index=0; index < this.gameBoardState.getPlayers().length; index++){
-                this.panelPlayer.updatePlayer(index, this.gameBoardState.getPlayers()[index]);
-                //System.out.println(this.gameBoardState.getPlayers()[index].getCards());
-                TimeUnit.SECONDS.sleep(1);
-                //this.gameBoardState.getPlayers()[index].add(this.gameBoardState.getDrawPileCards().pop());
-            }
+            System.out.println(this.playerId);
+            TimeUnit.SECONDS.sleep(4);
+            this.move();
         }
+    }
+
+
+
+
+    private void prepareMain(){
+         //String path = "graphics/player_view"+i+".jpg";
+
+        this.mainPanel = new SAGPanel();
+
+        mainPanel.setBgColor(new Color(0f, 0f, 0f, 0.5f));
+
         
-    }
+        //GCard card = new GCard(playerSet.get(0).getCards().iterator().next());
 
-        prepareMain(playerSet.size());
-        Frame.setSAGPanel(mainPanel);
-        Frame.setLayout(null);
-        Frame.setVisible(true);
-
-    }
-        /*try {
-            GaBoS = new GameBoardState(gameconf,set);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }*/
-    
-
-    private void prepareMain(int i){
-         String path = "graphics/player_view"+i+".jpg";
-
-                this.mainPanel = new SAGPanel(); /*{
-                    @Override
-                    public void paintComponent(Graphics g) {
-                        super.paintComponent(g);
-
-                        // Zeichne den Hintergrund
-                        ImageIcon backgroundImage = new ImageIcon(path);
-                        Image image = backgroundImage.getImage();
-                        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-                    }
-                };
-                */
-                mainPanel.setBgColor(new Color(0f, 0f, 0f, 0.5f));
-
-                
-                //GCard card = new GCard(playerSet.get(0).getCards().iterator().next());
-
-                PlayerPanel playerPanel = new PlayerPanel(this.mainPanel, playerSet.size(), 50, playerSet);
-                GGroup Mid = mainPanel.addLayer(LayerPosition.CENTER_CENTER);
-                Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), -150, 0);
-                Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), 150, 0);
+        GGroup Mid = mainPanel.addLayer(LayerPosition.CENTER_CENTER);
+        Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), -150, 0);
+        Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), 150, 0);
     }
 
 
@@ -147,4 +141,3 @@ public class GameBoard implements ActionListener{
     }
 
 }
-

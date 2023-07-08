@@ -47,7 +47,7 @@ public class GameBoardState implements Table {
                 default:
             }
         for (byte playerid = 0; playerid < playernames.length; playerid++)
-            players[playerid].init(configuration, cards, playernames.length, playerid++);
+            players[playerid].init(configuration, cards, playernames.length, playerid);
         for (final Card card : cards)
             this.drawpile_cards.add(card);
         for (int i = 0; i < configuration.getNumCardsPerPlayerHand() * players.length; i++)
