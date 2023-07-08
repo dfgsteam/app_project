@@ -1,6 +1,8 @@
 package bauernhof.app.launcher;
 
 import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.player.types.Random_AI;
+import bauernhof.app.ui.game.GameBoard;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 
@@ -17,14 +19,16 @@ import java.util.*;
  */
 
 public class GameBoardState implements Table {
-    private int round;
+    private int round = 0;
     public AbstractGamePlayer actual_player;
     private int activeplayerid = 0;
     private ArrayList<Card> deposited_cards = new ArrayList<>();
     private Stack<Card> drawpile_cards = new Stack<>();
     private AbstractGamePlayer[] players;
+    private GameBoard graphics;
     private GameConfiguration configuration;
     public GameBoardState(final String[] playernames, final PlayerType[] types, GameConfiguration configuration, final ImmutableList<Card> cards) throws Exception {
+        //Collections.shuffle(cards);
         final AbstractGamePlayer[] players = new AbstractGamePlayer[playernames.length];
         this.players = players;
         for (int i = 0; i < players.length; i++)
@@ -36,7 +40,7 @@ public class GameBoardState implements Table {
                     players[i] = new AbstractGamePlayer(playernames[i], types[i]);
                     break;
                 case RANDOM_AI:
-                    players[i] = new AbstractGamePlayer(playernames[i], types[i]);
+                    players[i] = new Random_AI(playernames[i]);
                     break;
                 case REMOTE:
                     players[i] = new AbstractGamePlayer(playernames[i], types[i]);
@@ -55,6 +59,22 @@ public class GameBoardState implements Table {
         this.round = 0;
         actual_player = players[0];
         this.configuration = configuration;
+
+    }
+    public void initGame(final GameBoard graphics) throws Exception {
+        this.graphics = graphics;
+        System.out.println("GAME WIRD GESTARTET");
+        switch (actual_player.getPlayerType()) {
+            case RANDOM_AI:
+                this.doMove(((Random_AI) actual_player).calculateNextMove());
+                break;
+            case ADVANCED_AI:
+                break;
+            case SIMPLE_AI:
+                break;
+            default:
+        }
+
     }
 
     @Override
@@ -79,23 +99,44 @@ public class GameBoardState implements Table {
 
     @Override
     public boolean doMove(final Move move) throws Exception {
+        System.out.println(activeplayerid + " TAKEN : " + move.getTaken().getName() + "    DEPOSITED : " + move.getDeposited().getName());
         if (deposited_cards.contains(move.getTaken()))
             deposited_cards.remove(move.getTaken());
-        else if(drawpile_cards.get(0).equals(move.getTaken()))
+        else if(drawpile_cards.firstElement().equals(move.getTaken()))
             drawpile_cards.pop();
-        else return false;
-        if (!getActualPlayer().getCards().contains(move.getDeposited()))
-            return false;
+        else System.out.println("KEIN GÜLTIGER ZUG");
+        //else return false;
+        /*if (!getActualPlayer().getCards().contains(move.getDeposited()))
+            return false; */
         deposited_cards.add(move.getDeposited());
-        getActualPlayer().remove(move.getDeposited());
         getActualPlayer().add(move.getTaken());
+        getActualPlayer().remove(move.getDeposited());
+        System.out.println("Anzahl : " + this.getActualPlayer().getCards().size());
+        for (final Card card : getActualPlayer().getCards()) {
+            System.out.print(card.getName() + ", ");
+        }
+        System.out.println("");
+
         for (final AbstractGamePlayer player : players)
             if(!player.equals(actual_player))
                 player.update(move);
             else
                 actual_player.doMove(move);
-        if (!(activeplayerid < players.length)) activeplayerid = 0;
-        else activeplayerid++;
+            activeplayerid++;
+            if(activeplayerid == players.length) {
+                activeplayerid = 0;
+               this.round++;
+            }
+        Thread.sleep(2000);
+        graphics.move();
+        System.out.println("===================");
+        switch (players[activeplayerid].getPlayerType()) {
+            case RANDOM_AI:
+                this.doMove(((Random_AI) players[activeplayerid]).calculateNextMove());
+                break;
+        }
+
+
         return true;
     }
 

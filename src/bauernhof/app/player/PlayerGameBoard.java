@@ -31,24 +31,26 @@ public class PlayerGameBoard {
     public boolean doMove(final Move move) {
         if (deposited_cards.contains(move.getTaken()))
             deposited_cards.remove(move.getTaken());
-        else if(drawpile_cards.get(0).equals(move.getTaken()))
+        else if(drawpile_cards.firstElement().equals(move.getTaken()))
             drawpile_cards.pop();
-        else return false;
-        if (!playergamecards[activeplayerid].contains(move.getDeposited()))
-            return false;
+        //else return false;
+       /* if (!playergamecards[activeplayerid].contains(move.getDeposited()))
+            return false;*/
         deposited_cards.add(move.getDeposited());
         playergamecards[activeplayerid].remove(move.getDeposited());
         playergamecards[activeplayerid].add(move.getTaken());
-        for (int i = 0; i < playergamecards.length; i++)
-            if (i == playergamecards.length) {
+        activeplayerid++;
+            if (activeplayerid == playergamecards.length) {
                 activeplayerid = 0;
                 round++;
-            } else
-                activeplayerid++;
+            }
         return true;
     }
     public ArrayList<Card>[] getCards() {
         return playergamecards;
+    }
+    public ArrayList<Card> getDepositedCards() {
+        return new ArrayList<>(deposited_cards);
     }
     public Stack<Card> getDrawPileCards() {
         return this.drawpile_cards;
