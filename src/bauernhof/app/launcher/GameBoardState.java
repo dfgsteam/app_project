@@ -7,7 +7,7 @@ import bauernhof.preset.card.Card;
 import java.util.*;
 
 /**
- * Diese Klasse ist der Generelle Main Handler für das gesamte Spielbrett.
+ * Diese Klasse ist der  Generelle Main Handler für das gesamte Spielbrett.
  * Sie gibt über jeden Status des aktuellen Spiels bescheid.
  * Auch die Instanzen der aktuellen {@link Player} sind enthalten.
  * Zudem dient die Klasse auch zum Laden von gespeicherten Spielständen
@@ -46,9 +46,8 @@ public class GameBoardState implements Table {
                     break;
                 default:
             }
-        byte playerid = -1;
-        for (final Player player : players)
-            player.init(configuration, cards, playernames.length, playerid++);
+        for (byte playerid = 0; playerid < playernames.length; playerid++)
+            players[playerid].init(configuration, cards, playernames.length, playerid);
         for (final Card card : cards)
             this.drawpile_cards.add(card);
         for (int i = 0; i < configuration.getNumCardsPerPlayerHand() * players.length; i++)

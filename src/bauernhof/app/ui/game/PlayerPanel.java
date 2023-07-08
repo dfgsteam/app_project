@@ -1,34 +1,28 @@
 package bauernhof.app.ui.game;
 
 import java.awt.Color;
-import java.awt.GridLayout;
-import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
-import javax.swing.border.Border;
-
+import bauernhof.app.card.Ca;
 import bauernhof.app.player.AbstractGamePlayer;
-import bauernhof.preset.Player;
-import bauernhof.preset.card.Card;
+import bauernhof.app.ui.game.listener.CardListener;
+import bauernhof.app.ui.game.listener.HoverListener;
 import bauernhof.preset.card.GCard;
+import sag.ChildNotFoundException;
 import sag.LayerPosition;
 import sag.SAGPanel;
+import sag.elements.GElement;
 import sag.elements.GGroup;
 
 public class PlayerPanel extends GGroup{
 
-    private GGroup Group;
-    private AbstractGamePlayer Player;
-    private int position;
-
     private GGroup groupPlayer[] = new GGroup[4];
-
     private float pos[][][];
 
+    private GameBoard gameBoard;
 
-    // private
-    // AbstractGamePlayer Player, int position, GGroup groupPlayer
-    public PlayerPanel (SAGPanel mainPanel, int players, int maxCards, ArrayList<AbstractGamePlayer> Players) {
+
+    public PlayerPanel (SAGPanel mainPanel, int players, int maxCards, GameBoard gameBoard) {
+        this.gameBoard = gameBoard;
         this.pos = new float[players][maxCards][2];
         for (int counter=0; counter<players; counter++) {
             switch (counter) {
@@ -92,21 +86,31 @@ public class PlayerPanel extends GGroup{
         }
     }
 
+    public void updatePlayer(int playerId, AbstractGamePlayer Player, boolean first) throws ChildNotFoundException {
+        this.clearPlayerPanel(playerId);
+        Object[] cards = Player.getCards().toArray();
+        for (int item=0; item<cards.length; item++) {
+            GCard gCard = ((Ca) cards[item]).getGCard();
+            gCard.setPosition(0f, 0f); // Setzte X/Y zurück
 
-    private void updatePlayer(int playerId, AbstractGamePlayer Player) {
+            CardListener cardListener = new CardListener(this.gameBoard, playerId);
+            gCard.setMouseEventListener(cardListener);
+            
+            this.groupPlayer[playerId].addChild(gCard, this.pos[playerId][item][0], this.pos[playerId][item][1]);
+        }
+        if (!first)
+            this.setActivePlayer(playerId%4);
+    }
+
+    private void setActivePlayer(int playerId) throws ChildNotFoundException {
         
-        return;
     }
 
-
-
-    public void updatePlayer(int playerId) {
-
-    }
-
-
-    public GGroup getPanal() {
-        return this.Panel;
+    private void clearPlayerPanel(int playerId) throws ChildNotFoundException {
+        for (int cardIndex=0; cardIndex < this.groupPlayer[playerId].getNumChildren(); cardIndex++) {
+            this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex).setMouseEventListener(null);
+            this.groupPlayer[playerId].removeChild(this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex));
+        }
     }
 
 }
