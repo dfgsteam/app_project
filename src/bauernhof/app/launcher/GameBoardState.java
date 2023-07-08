@@ -4,7 +4,6 @@ import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.types.Random_AI;
 import bauernhof.app.player.types.Simple_AI;
 import bauernhof.app.ui.game.GameBoard;
-import bauernhof.app.ui.game.ScorePanal;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 
@@ -154,6 +153,8 @@ public class GameBoardState implements Table {
                     break;
                 case SIMPLE_AI:
                     this.doMove(((Simple_AI) getActualPlayer()).calculateNextMove());
+                    break;
+                default:
                     break;
             }
 
