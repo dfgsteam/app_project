@@ -87,14 +87,25 @@ public class GameBoard implements ActionListener{
         return this.playerId == playerId;
     }
 
-    private void test() throws Exception {
-        int index2 = 0;
-        while (index2++ < 10) {
-            System.out.println(this.playerId);
-            TimeUnit.SECONDS.sleep(4);
-            this.move(false);
-        }
+    public void createScorePanal() throws Exception {
+        new ScorePanal(this.mainPanel, this.gameBoardState);
     }
+
+    public void createCheaterPanal(AbstractGamePlayer player) throws Exception {
+        new CheaterPanel(this.mainPanel, this.gameBoardState, player);
+    }
+
+    private void test() throws Exception {
+        int maxTestRounds = 3;
+        int index2 = 0;
+        while (index2++ < maxTestRounds) {
+            System.out.println(this.playerId);
+            TimeUnit.SECONDS.sleep(1);
+            this.move(index2 == maxTestRounds);
+        }
+        this.createScorePanal();
+    }
+
 
 
 
