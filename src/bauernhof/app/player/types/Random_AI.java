@@ -21,14 +21,16 @@ public class Random_AI extends AbstractGamePlayer implements AIHeader{
         Card to_deposit = null;
 
         if (state.getDepositedCards().isEmpty() || Math.random() < 0.5) {
+            if(cardFromStack() != null)
             to_take = cardFromStack();
+            else to_take = cardFromDeposit();
         }
 
         else {
             to_take = cardFromDeposit();
         }
 
-        if (Math.random() < 0.5) {
+        if (Math.random() < 1.0/ (configuration.getNumCardsPerPlayerHand()+1)) {
             to_deposit = to_take;
         }
         
@@ -68,6 +70,8 @@ public class Random_AI extends AbstractGamePlayer implements AIHeader{
 
     @Override
     public Card cardFromStack() {
+        if (state.getDrawPileCards().isEmpty())
+            return null;
         return state.getDrawPileCards().lastElement();
     }
 

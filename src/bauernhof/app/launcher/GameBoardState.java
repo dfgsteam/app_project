@@ -3,6 +3,7 @@ package bauernhof.app.launcher;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.types.Random_AI;
 import bauernhof.app.ui.game.GameBoard;
+import bauernhof.app.ui.game.ScorePanal;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 
@@ -20,6 +21,7 @@ import java.util.*;
 
 public class GameBoardState implements Table {
     private int round;
+    private boolean run;
     public AbstractGamePlayer actual_player;
     private int activeplayerid = 0;
     private ArrayList<Card> deposited_cards = new ArrayList<>();
@@ -28,8 +30,9 @@ public class GameBoardState implements Table {
     private GameBoard graphics;
     private GameConfiguration configuration;
     public GameBoardState(final String[] playernames, final PlayerType[] types, GameConfiguration configuration, final ImmutableList<Card> cards) throws Exception {
+        this.run = true;
         //Collections.shuffle(cards);
-        this.round = 0;
+        this.round = 1;
         final AbstractGamePlayer[] players = new AbstractGamePlayer[playernames.length];
         this.players = players;
         for (int i = 0; i < players.length; i++)
@@ -100,6 +103,7 @@ public class GameBoardState implements Table {
 
     @Override
     public boolean doMove(final Move move) throws Exception {
+        if (!drawpile_cards.isEmpty())
         System.out.println("DRAWPILE_CARDS : " + drawpile_cards.lastElement().getName());
         System.out.print("DEPOSITED_CARDS: ");
         for (final Card card : deposited_cards)
@@ -109,9 +113,8 @@ public class GameBoardState implements Table {
         System.out.println(activeplayerid + " TAKEN : " + move.getTaken().getName() + "    DEPOSITED : " + move.getDeposited().getName());
         if (deposited_cards.contains(move.getTaken()))
             deposited_cards.remove(move.getTaken());
-        if(drawpile_cards.lastElement().equals(move.getTaken()))
+        if(!(drawpile_cards.isEmpty()) && drawpile_cards.lastElement().equals(move.getTaken()))
             drawpile_cards.pop();
-        else System.out.println("KEIN GÜLTIGER ZUG");
         //else return false;
         /*if (!getActualPlayer().getCards().contains(move.getDeposited()))
             return false; */
@@ -136,14 +139,18 @@ public class GameBoardState implements Table {
                 activeplayerid = 0;
                 this.round++;
             }
-            Thread.sleep(2000);
-        graphics.move(false);
+            Thread.sleep(50);
+            if (round > 30) {
+                graphics.move(true);
+                run = false;
+            }else graphics.move(false);
         System.out.println("===================");
-        switch (getActualPlayer().getPlayerType()) {
-            case RANDOM_AI:
-                this.doMove(((Random_AI) getActualPlayer()).calculateNextMove());
-                break;
-        }
+        if (run)
+            switch (getActualPlayer().getPlayerType()) {
+                case RANDOM_AI:
+                    this.doMove(((Random_AI) getActualPlayer()).calculateNextMove());
+                    break;
+            }
 
 
         return true;

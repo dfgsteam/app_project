@@ -83,6 +83,7 @@ public class GameBoard implements ActionListener{
         } else {
             // -> Spielende Panel
             this.playerId = 5;
+            new ScorePanal(mainPanel, gameBoardState);
         }
     }
 
