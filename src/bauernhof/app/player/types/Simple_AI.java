@@ -14,15 +14,19 @@ public class Simple_AI extends AbstractGamePlayer implements AIHeader {
     @Override
     public Move calculateNextMove() {
         Card to_take, to_remove;
-        if (state.getDepositedCards().isEmpty()) {
-            to_take = this.cardFromStack();
-        }
-
-        else {
+        if (!state.getDepositedCards().isEmpty() && !state.getDrawPileCards().isEmpty()) {
             if (this.getAddScore(cardFromDeposit()) > this.getAddScore(cardFromStack()))
                 to_take = cardFromDeposit();
             else
                 to_take = cardFromStack();
+        }
+
+        else if (!state.getDrawPileCards().isEmpty()) {
+            to_take = this.cardFromStack();
+        }
+
+        else {
+            to_take = cardFromDeposit();
         }
 
         to_remove = removeFromOwn();
@@ -46,14 +50,13 @@ public class Simple_AI extends AbstractGamePlayer implements AIHeader {
 
     @Override
     public Card cardFromStack() {
-        return state.getDrawPileCards().firstElement();
+        return state.getDrawPileCards().lastElement();
     }
 
     @Override
     public Card removeFromOwn() {
-        Card[] card_array = (Card[])this.getCards().toArray();
-        int max_score = this.getRemoveScore(card_array[0]);
-        Card to_remove = card_array[0];
+        int max_score = this.getRemoveScore(this.getCards().get(0));
+        Card to_remove = this.getCards().get(0);
         for (Card card : this.getCards()) {
             if (this.getRemoveScore(card) > max_score) {
                 to_remove = card;

@@ -10,7 +10,6 @@ import sag.SAGFrame;
 import sag.SAGPanel;
 import sag.elements.GGroup;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashSet;
@@ -32,7 +31,7 @@ public class GameBoard implements ActionListener{
     private JButton Ablagestapel;
 
     private Set<GCard> NachziehstapelCards; 
-    private Set<GCard> AblagestapelCards; 
+    private Set<GCard> AblagestapelCards;
 
     private PlayerPanel panelPlayer;
     private PlayerNamePanel panelPlayerName;
@@ -47,6 +46,8 @@ public class GameBoard implements ActionListener{
     public GameBoard(GameConfiguration gameconf, GameBoardState gameBoardState) throws Exception{
         this.gameBoardState = gameBoardState;
 
+        prepareMain();
+
         //init Frame
         this.Frame.setSAGPanel(this.mainPanel);
         this.Frame.setVisible(true);
@@ -60,7 +61,6 @@ public class GameBoard implements ActionListener{
         // init load playerCards
         for (int index=0; index < this.gameBoardState.getPlayers().length; index++)
             this.panelPlayer.updatePlayer(index, this.gameBoardState.getPlayers()[index]);
-
 
         // test = 10 gui moves
         //this.test();
@@ -83,6 +83,7 @@ public class GameBoard implements ActionListener{
         } else {
             // -> Spielende Panel
             this.playerId = 5;
+            new ScorePanal(mainPanel, gameBoardState);
         }
     }
 
@@ -116,16 +117,11 @@ public class GameBoard implements ActionListener{
     private void prepareMain(){
          //String path = "graphics/player_view"+i+".jpg";
 
-        this.mainPanel = new SAGPanel();
-
-        mainPanel.setBgColor(new Color(0f, 0f, 0f, 0.5f));
-
-        
-        //GCard card = new GCard(playerSet.get(0).getCards().iterator().next());
+        this.mainPanel = new SAGPanel(this.WIDTH, this.HEIGTH);
 
         GGroup Mid = mainPanel.addLayer(LayerPosition.CENTER_CENTER);
-        Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), -150, 0);
-        Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), 150, 0);
+        Mid.addChild( new GCard(gameBoardState.getDrawPileCards().lastElement()), -150, 0);
+       // Mid.addChild( new GCard(gameBoardState.getDepositedCards().get(gameBoardState.getDepositedCards().size())), 150, 0);
     }
 
 
@@ -135,13 +131,9 @@ public class GameBoard implements ActionListener{
         for(int i = 0; i < 10; i++){
              NachziehstapelCards.add(new GCard(new Ca("",0,null,null,null)));
         }
-        Nachziehstapel = new JButton();//new ImageIcon(NachziehstapelCards.iterator().next().getImage()));
-        /*try {
-            Nachziehstapel.setIcon(new ImageIcon(ImageIO.read(new File("graphics/bauer.svg"))));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        Nachziehstapel = new JButton();
         Nachziehstapel.addActionListener(this::actionPerformed);
+
 
     }
 
@@ -157,14 +149,7 @@ public class GameBoard implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         
-            if(e.getSource()==Nachziehstapel){
-                    CardPanel = new SAGPanel();
-                    CardPanel.setLayout(new FlowLayout());
-                    for(GCard c : NachziehstapelCards){
-                       // CardPanel.add(new Label(c.getImage()));
-                    }
-
-            }
+           
     }
 
 }
