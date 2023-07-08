@@ -1,6 +1,7 @@
 package bauernhof.app.ui.game;
 
 import bauernhof.preset.GameConfiguration;
+import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.GCard;
 import bauernhof.app.card.Ca;
 import bauernhof.app.launcher.GameBoardState;
@@ -89,7 +90,7 @@ public class GameBoard implements ActionListener{
     }
 
     public boolean check_move(int playerId) {
-        return this.playerId == playerId;
+        return (this.playerId == playerId) && (this.gameBoardState.getPlayers()[playerId].getPlayerType() == PlayerType.HUMAN) ;
     }
 
     public void createScorePanal() throws Exception {
