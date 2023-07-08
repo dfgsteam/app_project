@@ -6,6 +6,7 @@ import java.util.*;
 
 /**
  * Represents a card in a card game.
+ * 
  * @author Julius Hunold
  * Georg-August-Universität in Göttingen
  */
@@ -34,7 +35,7 @@ public class Ca implements Card {
         this.color = color;
         this.image = image;
         this.effect = effect != null ? effect : new HashSet<Effect>();
-        this.gCard = new GCard(this);
+        this.gCard = null;
     }
 
     /**
@@ -121,16 +122,32 @@ public class Ca implements Card {
                 this.image.equals(otherCard.getImage()) &&
                 this.effect.equals(otherCard.getEffects());
     }
-
+    /**
+    * Checks if the object is blocked.
+    * 
+    * @return true if the object is blocked, false otherwise.
+    */
     public boolean isBlocked() {
         return this.blocked;
     }
 
+    /**
+    Sets the object as blocked.
+    */
     public void setBlocked() {
         this.blocked = true;
     }
 
+    /**
+    * Retrieves the GCard object associated with this object.
+    * If the GCard object has not been initialized, a new one is created.
+    * 
+    * @return the GCard object.
+    */
     public GCard getGCard() {
+        // Erzeuge neues Kartenobjekte, bei der ersten Abfrage
+        if (this.gCard == null)
+            this.gCard = new GCard(this);
         return this.gCard;
     }
 
