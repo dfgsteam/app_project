@@ -1,12 +1,7 @@
 package bauernhof.app.ui.game;
 
-import java.awt.Color;
-import java.awt.GridLayout;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
-import javax.swing.border.Border;
 import bauernhof.app.player.AbstractGamePlayer;
-import bauernhof.preset.Player;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
 import sag.LayerPosition;

@@ -1,18 +1,13 @@
 package bauernhof.app.ui.game;
 
 import bauernhof.preset.GameConfiguration;
-import bauernhof.preset.Player;
 import bauernhof.preset.card.GCard;
 import bauernhof.app.card.Ca;
-import bauernhof.preset.card.GCard;
 import bauernhof.app.launcher.GameBoardState;
 import sag.LayerPosition;
 import bauernhof.app.player.AbstractGamePlayer;
-import sag.LayerPosition;
 import sag.SAGFrame;
 import sag.SAGPanel;
-import sag.elements.GGroup;
-import javax.imageio.ImageIO;
 import sag.elements.GGroup;
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +31,7 @@ public class GameBoard implements ActionListener{
     private JButton Ablagestapel;
 
     private Set<GCard> NachziehstapelCards; 
-    private Set<GCard> AblagestapelCards; 
+    private Set<GCard> AblagestapelCards;
 
     private PlayerPanel panelPlayer;
 
@@ -67,7 +62,7 @@ public class GameBoard implements ActionListener{
     private void prepareMain(int i){
          String path = "graphics/player_view"+i+".jpg";
 
-                this.mainPanel = new SAGPanel(); /*{
+                this.mainPanel = new SAGPanel() {
                     @Override
                     public void paintComponent(Graphics g) {
                         super.paintComponent(g);
@@ -78,8 +73,8 @@ public class GameBoard implements ActionListener{
                         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
                     }
                 };
-                */
-                mainPanel.setBgColor(new Color(0f, 0f, 0f, 0.5f));
+                
+            
 
                 
                 //GCard card = new GCard(playerSet.get(0).getCards().iterator().next());
@@ -108,13 +103,9 @@ public class GameBoard implements ActionListener{
         for(int i = 0; i < 10; i++){
              NachziehstapelCards.add(new GCard(new Ca("",0,null,null,null)));
         }
-        Nachziehstapel = new JButton();//new ImageIcon(NachziehstapelCards.iterator().next().getImage()));
-        /*try {
-            Nachziehstapel.setIcon(new ImageIcon(ImageIO.read(new File("graphics/bauer.svg"))));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        Nachziehstapel = new JButton();
         Nachziehstapel.addActionListener(this::actionPerformed);
+
 
     }
 
