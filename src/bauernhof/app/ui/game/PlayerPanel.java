@@ -86,7 +86,7 @@ public class PlayerPanel extends GGroup{
         }
     }
 
-    public void updatePlayer(int playerId, AbstractGamePlayer Player, boolean first) throws ChildNotFoundException {
+    public void updatePlayer(int playerId, AbstractGamePlayer Player) throws ChildNotFoundException {
         this.clearPlayerPanel(playerId);
         Object[] cards = Player.getCards().toArray();
         //System.out.println("Karten von Spieler " + playerId);
@@ -103,13 +103,6 @@ public class PlayerPanel extends GGroup{
             
             this.groupPlayer[playerId].addChild(gCard, this.pos[playerId][item][0], this.pos[playerId][item][1]);
         }
-       // System.out.println(" \n ");
-        if (!first)
-            this.setActivePlayer(playerId%4);
-    }
-
-    private void setActivePlayer(int playerId) throws ChildNotFoundException {
-        
     }
 
     private void clearPlayerPanel(int playerId) throws ChildNotFoundException {

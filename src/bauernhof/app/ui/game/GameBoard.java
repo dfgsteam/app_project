@@ -36,6 +36,7 @@ public class GameBoard implements ActionListener{
 
     private PlayerPanel panelPlayer;
     private PlayerNamePanel panelPlayerName;
+    private RoundPanal panelRound;
     private GameBoardState gameBoardState;
 
     private int playerId = 0;
@@ -51,37 +52,63 @@ public class GameBoard implements ActionListener{
         this.Frame.setVisible(true);
 
         // init Panels
-        this.panelPlayer = new PlayerPanel(mainPanel, this.gameBoardState.getPlayers().length, gameconf.getNumCardsPerPlayerHand(), this);
-        this.panelPlayerName = new PlayerNamePanel(mainPanel, gameBoardState);
+        this.panelPlayer = new PlayerPanel(this.mainPanel, this.gameBoardState.getPlayers().length, gameconf.getNumCardsPerPlayerHand(), this);
+        this.panelPlayerName = new PlayerNamePanel(this.mainPanel, this.gameBoardState);
+        this.panelRound = new RoundPanal(this.mainPanel, this.gameBoardState);
 
 
         // init load playerCards
         for (int index=0; index < this.gameBoardState.getPlayers().length; index++)
-            this.panelPlayer.updatePlayer(index, this.gameBoardState.getPlayers()[index], true);
+            this.panelPlayer.updatePlayer(index, this.gameBoardState.getPlayers()[index]);
 
 
         // test = 10 gui moves
         //this.test();
     }
 
-    public void move() throws Exception {
-        this.panelPlayer.updatePlayer(this.playerId, this.gameBoardState.getPlayers()[this.playerId], false);
+    public void move(boolean last) throws Exception { 
+        // Spieler inaktiv setzten
+        this.panelPlayerName.updatePlayerBgInactive(this.playerId);
+
+        // Karten + Punkte updaten
+        this.panelPlayer.updatePlayer(this.playerId, this.gameBoardState.getPlayers()[this.playerId]);
         this.panelPlayerName.updatePlayerName(this.playerId);
-        this.playerId = (this.playerId+1)%4;
+
+        // Wenn nicht letzer Zug
+        if (!last) {
+            // Nächsten Spieler aktiv setzen
+            this.playerId = (this.playerId+1)%4;
+            this.panelPlayerName.updatePlayerBgActive(this.playerId);
+            this.panelRound.update();
+        } else {
+            // -> Spielende Panel
+            this.playerId = 5;
+        }
     }
 
     public boolean check_move(int playerId) {
         return this.playerId == playerId;
     }
 
-    private void test() throws Exception {
-        int index2 = 0;
-        while (index2++ < 10) {
-            System.out.println(this.playerId);
-            TimeUnit.SECONDS.sleep(4);
-            this.move();
-        }
+    public void createScorePanal() throws Exception {
+        new ScorePanal(this.mainPanel, this.gameBoardState);
     }
+
+    public void createCheaterPanal(AbstractGamePlayer player) throws Exception {
+        new CheaterPanel(this.mainPanel, this.gameBoardState, player);
+    }
+
+    private void test() throws Exception {
+        int maxTestRounds = 3;
+        int index2 = 0;
+        while (index2++ < maxTestRounds) {
+            System.out.println(this.playerId);
+            TimeUnit.SECONDS.sleep(1);
+            this.move(index2 == maxTestRounds);
+        }
+        this.createScorePanal();
+    }
+
 
 
 
