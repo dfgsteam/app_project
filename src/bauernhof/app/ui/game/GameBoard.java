@@ -6,6 +6,7 @@ import bauernhof.app.card.Ca;
 import bauernhof.app.launcher.GameBoardState;
 import sag.LayerPosition;
 import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.ui.game.panel.*;
 import sag.SAGFrame;
 import sag.SAGPanel;
 import sag.elements.GGroup;
