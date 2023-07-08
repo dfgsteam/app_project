@@ -32,7 +32,7 @@ public class GameBoard implements ActionListener{
     private JButton Ablagestapel;
 
     private Set<GCard> NachziehstapelCards; 
-    private Set<GCard> AblagestapelCards; 
+    private Set<GCard> AblagestapelCards;
 
     private PlayerPanel panelPlayer;
     private PlayerNamePanel panelPlayerName;
@@ -119,7 +119,14 @@ public class GameBoard implements ActionListener{
 
         this.mainPanel = new SAGPanel();
 
-        mainPanel.setBgColor(new Color(0f, 0f, 0f, 0.5f));
+                        // Zeichne den Hintergrund
+                        ImageIcon backgroundImage = new ImageIcon(path);
+                        Image image = backgroundImage.getImage();
+                        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+                    }
+                };
+                
+            
 
         
         //GCard card = new GCard(playerSet.get(0).getCards().iterator().next());
@@ -136,13 +143,9 @@ public class GameBoard implements ActionListener{
         for(int i = 0; i < 10; i++){
              NachziehstapelCards.add(new GCard(new Ca("",0,null,null,null)));
         }
-        Nachziehstapel = new JButton();//new ImageIcon(NachziehstapelCards.iterator().next().getImage()));
-        /*try {
-            Nachziehstapel.setIcon(new ImageIcon(ImageIO.read(new File("graphics/bauer.svg"))));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        Nachziehstapel = new JButton();
         Nachziehstapel.addActionListener(this::actionPerformed);
+
 
     }
 
