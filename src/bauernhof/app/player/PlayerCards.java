@@ -20,9 +20,11 @@ public abstract class PlayerCards implements CardSetHandler {
     protected int score = 0;
     @Override
     public void add(final Card added_card) {
-        cards.add(added_card);
-        updateBlockedCards();
-        updateScore();
+        if(!cards.contains(added_card)) {
+            cards.add(added_card);
+            updateBlockedCards();
+            updateScore();
+        }
     }
 
     @Override

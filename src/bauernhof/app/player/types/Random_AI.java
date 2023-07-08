@@ -68,7 +68,7 @@ public class Random_AI extends AbstractGamePlayer implements AIHeader{
 
     @Override
     public Card cardFromStack() {
-        return state.getDrawPileCards().firstElement();
+        return state.getDrawPileCards().lastElement();
     }
 
     @Override

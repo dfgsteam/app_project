@@ -31,7 +31,7 @@ public class PlayerGameBoard {
     public boolean doMove(final Move move) {
         if (deposited_cards.contains(move.getTaken()))
             deposited_cards.remove(move.getTaken());
-        else if(drawpile_cards.firstElement().equals(move.getTaken()))
+        else if(drawpile_cards.lastElement().equals(move.getTaken()))
             drawpile_cards.pop();
         //else return false;
        /* if (!playergamecards[activeplayerid].contains(move.getDeposited()))

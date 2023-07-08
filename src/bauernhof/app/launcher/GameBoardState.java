@@ -9,7 +9,7 @@ import bauernhof.preset.card.Card;
 import java.util.*;
 
 /**
- * Diese Klasse ist der  Generelle Main Handler für das gesamte Spielbrett.
+ * Diese Klasse ist der Generelle Main Handler für das gesamte Spielbrett.
  * Sie gibt über jeden Status des aktuellen Spiels bescheid.
  * Auch die Instanzen der aktuellen {@link Player} sind enthalten.
  * Zudem dient die Klasse auch zum Laden von gespeicherten Spielständen
@@ -19,7 +19,7 @@ import java.util.*;
  */
 
 public class GameBoardState implements Table {
-    private int round = 0;
+    private int round;
     public AbstractGamePlayer actual_player;
     private int activeplayerid = 0;
     private ArrayList<Card> deposited_cards = new ArrayList<>();
@@ -29,6 +29,7 @@ public class GameBoardState implements Table {
     private GameConfiguration configuration;
     public GameBoardState(final String[] playernames, final PlayerType[] types, GameConfiguration configuration, final ImmutableList<Card> cards) throws Exception {
         //Collections.shuffle(cards);
+        this.round = 0;
         final AbstractGamePlayer[] players = new AbstractGamePlayer[playernames.length];
         this.players = players;
         for (int i = 0; i < players.length; i++)
@@ -99,10 +100,16 @@ public class GameBoardState implements Table {
 
     @Override
     public boolean doMove(final Move move) throws Exception {
+        System.out.println("DRAWPILE_CARDS : " + drawpile_cards.lastElement().getName());
+        System.out.print("DEPOSITED_CARDS: ");
+        for (final Card card : deposited_cards)
+            System.out.print(card.getName() + ", ");
+        System.out.println("\n");
+        System.out.println("ACTIVEPLAYER: " + getActualPlayer().getName() + " " + activeplayerid);
         System.out.println(activeplayerid + " TAKEN : " + move.getTaken().getName() + "    DEPOSITED : " + move.getDeposited().getName());
         if (deposited_cards.contains(move.getTaken()))
             deposited_cards.remove(move.getTaken());
-        else if(drawpile_cards.firstElement().equals(move.getTaken()))
+        if(drawpile_cards.lastElement().equals(move.getTaken()))
             drawpile_cards.pop();
         else System.out.println("KEIN GÜLTIGER ZUG");
         //else return false;
@@ -111,28 +118,30 @@ public class GameBoardState implements Table {
         deposited_cards.add(move.getDeposited());
         getActualPlayer().add(move.getTaken());
         getActualPlayer().remove(move.getDeposited());
-        System.out.println("Anzahl : " + this.getActualPlayer().getCards().size());
-        for (final Card card : getActualPlayer().getCards()) {
-            System.out.print(card.getName() + ", ");
+        for (final AbstractGamePlayer gameplayer : this.getPlayers()) {
+            System.out.print(gameplayer.getPlayerID() + " > " + gameplayer.getName() + "\t|| ");
+            for (final Card card : gameplayer.getCards()) {
+                System.out.print(card.getName() + ", ");
+            }
+            System.out.println( "\t  [" + gameplayer.getCards().size() + "]");
         }
-        System.out.println("");
 
         for (final AbstractGamePlayer player : players)
-            if(!player.equals(actual_player))
+            if(!player.equals(getActualPlayer()))
                 player.update(move);
             else
-                actual_player.doMove(move);
+                getActualPlayer().doMove(move);
             activeplayerid++;
             if(activeplayerid == players.length) {
                 activeplayerid = 0;
-               this.round++;
+                this.round++;
             }
-        Thread.sleep(2000);
+            Thread.sleep(2000);
         graphics.move();
         System.out.println("===================");
-        switch (players[activeplayerid].getPlayerType()) {
+        switch (getActualPlayer().getPlayerType()) {
             case RANDOM_AI:
-                this.doMove(((Random_AI) players[activeplayerid]).calculateNextMove());
+                this.doMove(((Random_AI) getActualPlayer()).calculateNextMove());
                 break;
         }
 
