@@ -36,6 +36,7 @@ public class GameBoard implements ActionListener{
 
     private PlayerPanel panelPlayer;
     private PlayerNamePanel panelPlayerName;
+    private RoundPanal panelRound;
     private GameBoardState gameBoardState;
 
     private int playerId = 0;
@@ -51,13 +52,14 @@ public class GameBoard implements ActionListener{
         this.Frame.setVisible(true);
 
         // init Panels
-        this.panelPlayer = new PlayerPanel(mainPanel, this.gameBoardState.getPlayers().length, gameconf.getNumCardsPerPlayerHand(), this);
-        this.panelPlayerName = new PlayerNamePanel(mainPanel, gameBoardState);
+        this.panelPlayer = new PlayerPanel(this.mainPanel, this.gameBoardState.getPlayers().length, gameconf.getNumCardsPerPlayerHand(), this);
+        this.panelPlayerName = new PlayerNamePanel(this.mainPanel, this.gameBoardState);
+        this.panelRound = new RoundPanal(this.mainPanel, this.gameBoardState);
 
 
         // init load playerCards
         for (int index=0; index < this.gameBoardState.getPlayers().length; index++)
-            this.panelPlayer.updatePlayer(index, this.gameBoardState.getPlayers()[index], true);
+            this.panelPlayer.updatePlayer(index, this.gameBoardState.getPlayers()[index]);
 
 
         // test = 10 gui moves
@@ -69,7 +71,7 @@ public class GameBoard implements ActionListener{
         this.panelPlayerName.updatePlayerBgInactive(this.playerId);
 
         // Karten + Punkte updaten
-        this.panelPlayer.updatePlayer(this.playerId, this.gameBoardState.getPlayers()[this.playerId], false);
+        this.panelPlayer.updatePlayer(this.playerId, this.gameBoardState.getPlayers()[this.playerId]);
         this.panelPlayerName.updatePlayerName(this.playerId);
 
         // Wenn nicht letzer Zug
@@ -77,6 +79,7 @@ public class GameBoard implements ActionListener{
             // Nächsten Spieler aktiv setzen
             this.playerId = (this.playerId+1)%4;
             this.panelPlayerName.updatePlayerBgActive(this.playerId);
+            this.panelRound.update();
         } else {
             // -> Spielende Panel
             this.playerId = 5;

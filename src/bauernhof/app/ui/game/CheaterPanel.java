@@ -14,7 +14,6 @@ import sag.elements.GText;
 import sag.elements.shapes.GRect;
 
 public class CheaterPanel extends GGroup{
-
     public CheaterPanel (SAGPanel mainPanel, GameBoardState gameBoardState, AbstractGamePlayer player) throws Exception {
         // Panel
         GGroup panel = mainPanel.addLayer(LayerPosition.CENTER);
@@ -55,5 +54,4 @@ public class CheaterPanel extends GGroup{
 
         homeButton.setMouseEventListener(new HomeButtonListener(gameBoardState, homeHeadline));
     }
-
 }
