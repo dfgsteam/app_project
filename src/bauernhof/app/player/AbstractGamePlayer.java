@@ -20,8 +20,8 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
     private String name;
     protected Move move;
     private int playerid;
-    private GameConfiguration configuration;
-    private PlayerGameBoard state;
+    protected GameConfiguration configuration;
+    protected PlayerGameBoard state;
     private PlayerType type;
 
     /**
@@ -97,8 +97,8 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
     @Override
     public void update(Move opponentMove) throws Exception {
         if (!state.doMove(opponentMove)) {
-            System.out.println("Jemand hat geschummelt!");
-            System.exit(0);
+            //System.out.println("Jemand hat geschummelt!");
+            //System.exit(0);
         }
     }
 

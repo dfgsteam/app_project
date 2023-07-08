@@ -5,20 +5,20 @@ import bauernhof.app.player.types.MoveTree.MoveNode;
 import bauernhof.app.player.types.MoveTree.MoveTree;
 import bauernhof.app.player.types.MoveTree.Threads.SequenceThread;
 import bauernhof.app.player.types.MoveTree.Threads.WorkingThread;
-import bauernhof.app.settings.Se;
 import bauernhof.preset.Move;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 
 public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
-
-    public Advanced_AI(String name, GameBoardState state) {
-        super(name, state, PlayerType.ADVANCED_AI);
+    private GameBoardState gameboardstate;
+    public Advanced_AI(String name, final GameBoardState gameboardstate) {
+        super(name, PlayerType.ADVANCED_AI);
+        this.gameboardstate = gameboardstate;
     }
 
     @Override
-    public Move calculateNextMove() {
-        WorkingThread workingThread1 = new WorkingThread(this.getState());
+    public Move calculateNextMove() throws Exception {
+        WorkingThread workingThread1 = new WorkingThread(gameboardstate);
         WorkingThread workingThread2 = new WorkingThread(workingThread1.getTree());
         WorkingThread workingThread3 = new WorkingThread(workingThread1.getTree());
         WorkingThread workingThread4 = new WorkingThread(workingThread1.getTree());

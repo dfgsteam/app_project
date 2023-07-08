@@ -15,7 +15,7 @@ public interface ThreadHandler {
      * This method calculates a child MoveNode to given actual_node and given tree
      * @return false, if not possible
      */
-    public boolean calcNextNode(int cardNumTake, int cardNumPut);
+    public boolean calcNextNode(int cardNumTake, int cardNumPut) throws Exception;
 
     /**
      * Setter for the actual_tree for the thread
@@ -33,7 +33,7 @@ public interface ThreadHandler {
      * The action, the workingThread must do (synchronized)
      * @return false, if fail
      */
-    public boolean workingThreadAction();
+    public boolean workingThreadAction() throws Exception;
 
     /**
      * Setter for the actual_node of the node

@@ -6,6 +6,7 @@ import java.util.Queue;
 
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.player.PlayerGameBoard;
 import bauernhof.app.player.types.MoveTree.MoveNode;
 import bauernhof.app.player.types.MoveTree.MoveTree;
 import bauernhof.preset.Move;
@@ -16,7 +17,7 @@ public class WorkingThread extends AbstractThread {
     private static Queue<MoveNode> next_calculations = new LinkedList<MoveNode>();
     
 
-    public WorkingThread(GameBoardState actual_state) {
+    public WorkingThread(GameBoardState actual_state) throws Exception {
         this.setTree(new MoveTree(new MoveNode(actual_state)));
         this.setThreadNode(this.getTree().getActualNode());
         workingThreadAction();
@@ -31,7 +32,7 @@ public class WorkingThread extends AbstractThread {
 
 
     @Override
-    public boolean calcNextNode(int cardNumTake, int cardNumPut) {
+    public boolean calcNextNode(int cardNumTake, int cardNumPut) throws Exception {
         Card[] owncards = (Card[])this.getThreadNode().getActualBoardState().getActualPlayer().getCards().toArray();
         if (this.getThreadNode().getDepth()+1 < this.getMaxDepth()) { return false; }
 
@@ -53,7 +54,7 @@ public class WorkingThread extends AbstractThread {
         }
 
         Move new_move = new Move(to_take, to_put);
-        GameBoardState new_state = this.getThreadNode().getActualBoardState().clone();
+        GameBoardState new_state = (GameBoardState) this.getThreadNode().getActualBoardState().clone();
 
         if (!new_state.doMove(new_move)) { return false; }
         
@@ -63,14 +64,14 @@ public class WorkingThread extends AbstractThread {
     }
 
     @Override
-    public boolean workingThreadAction() {
+    public boolean workingThreadAction() throws Exception {
         synchronized (next_calculations) {
         if (this.getThreadNode() == null) {
             this.setThreadNode(WorkingThread.next_calculations.remove());
         }
 
         for (int i = -1; i < this.getThreadNode().getActualBoardState().getDepositedCards().size(); i++) {
-            for (int j = -1; j < this.getThreadNode().getActualBoardState().getActualPlayer().getCards().getSize(); j++) {
+            for (int j = -1; j < this.getThreadNode().getActualBoardState().getActualPlayer().getCards().size(); j++) {
                 if (!calcNextNode(i, j)) { return false; }
                 next_calculations.add(this.getThreadNode());
                 this.setThreadNode(this.getThreadNode().getPrevNode());
@@ -86,7 +87,11 @@ public class WorkingThread extends AbstractThread {
     @Override
     public void run() {
         while (!WorkingThread.next_calculations.isEmpty()) {
-            workingThreadAction();
+            try {
+                workingThreadAction();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
         interrupt();
     }

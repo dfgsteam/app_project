@@ -89,15 +89,21 @@ public class PlayerPanel extends GGroup{
     public void updatePlayer(int playerId, AbstractGamePlayer Player, boolean first) throws ChildNotFoundException {
         this.clearPlayerPanel(playerId);
         Object[] cards = Player.getCards().toArray();
+        //System.out.println("Karten von Spieler " + playerId);
         for (int item=0; item<cards.length; item++) {
+        //    System.out.println("Length : " + cards.length);
             GCard gCard = ((Ca) cards[item]).getGCard();
             gCard.setPosition(0f, 0f); // Setzte X/Y zurück
 
             CardListener cardListener = new CardListener(this.gameBoard, playerId);
             gCard.setMouseEventListener(cardListener);
+
+
+           // System.out.print("*" + ((Ca) cards[item]).getName() + "*, ");
             
             this.groupPlayer[playerId].addChild(gCard, this.pos[playerId][item][0], this.pos[playerId][item][1]);
         }
+       // System.out.println(" \n ");
         if (!first)
             this.setActivePlayer(playerId%4);
     }

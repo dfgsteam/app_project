@@ -1,6 +1,5 @@
 package bauernhof.app.player.types;
 
-import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.preset.Move;
 import bauernhof.preset.PlayerType;
@@ -8,14 +7,14 @@ import bauernhof.preset.card.Card;
 
 public class Simple_AI extends AbstractGamePlayer implements AIHeader {
 
-    public Simple_AI(String name, GameBoardState state) {
-        super(name, state, PlayerType.SIMPLE_AI);
+    public Simple_AI(String name) {
+        super(name, PlayerType.SIMPLE_AI);
     }
 
     @Override
     public Move calculateNextMove() {
         Card to_take, to_remove;
-        if (this.getState().getDepositedCards().isEmpty()) {
+        if (state.getDepositedCards().isEmpty()) {
             to_take = this.cardFromStack();
         }
 
@@ -32,10 +31,10 @@ public class Simple_AI extends AbstractGamePlayer implements AIHeader {
 
     @Override
     public Card cardFromDeposit() {
-       int max_score = this.getAddScore(this.getState().getDepositedCards().get(0));
-       Card from_deposit = this.getState().getDepositedCards().get(0);
+       int max_score = this.getAddScore(state.getDepositedCards().get(0));
+       Card from_deposit = state.getDepositedCards().get(0);
 
-       for (Card card : this.getState().getDepositedCards()) {
+       for (Card card : state.getDepositedCards()) {
             if (this.getAddScore(card) > max_score) {
                 from_deposit = card;
                 max_score = this.getAddScore(card);
@@ -47,7 +46,7 @@ public class Simple_AI extends AbstractGamePlayer implements AIHeader {
 
     @Override
     public Card cardFromStack() {
-        return this.getState().getDrawPileCards().firstElement();
+        return state.getDrawPileCards().firstElement();
     }
 
     @Override

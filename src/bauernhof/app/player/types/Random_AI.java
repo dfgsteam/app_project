@@ -1,5 +1,4 @@
 package bauernhof.app.player.types;
-import java.util.Iterator;
 
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.*;
@@ -7,11 +6,13 @@ import bauernhof.preset.Move;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 
+import java.util.Random;
+
 public class Random_AI extends AbstractGamePlayer implements AIHeader{
     PlayerType type;
 
-    public Random_AI(String name, GameBoardState actual_game) {
-        super(name, actual_game, PlayerType.RANDOM_AI);
+    public Random_AI(String name) {
+        super(name, PlayerType.RANDOM_AI);
     }
 
     @Override
@@ -19,7 +20,7 @@ public class Random_AI extends AbstractGamePlayer implements AIHeader{
         Card to_take = null;
         Card to_deposit = null;
 
-        if (this.getState().getDepositedCards().isEmpty() || Math.random() < 0.5) {
+        if (state.getDepositedCards().isEmpty() || Math.random() < 0.5) {
             to_take = cardFromStack();
         }
 
@@ -44,7 +45,9 @@ public class Random_AI extends AbstractGamePlayer implements AIHeader{
      * @return int
      */
     private final int ownCardNumber() {
-        return (int)Math.round((Math.random() * this.getState().getGameConfiguration().getNumCardsPerPlayerHand()));
+        Random random = new Random();
+        return random.nextInt(configuration.getNumCardsPerPlayerHand());
+       // return (int)Math.round((Math.random() * configuration.getNumCardsPerPlayerHand()));
     }
 
     /**
@@ -52,23 +55,26 @@ public class Random_AI extends AbstractGamePlayer implements AIHeader{
      * @return
      */
     private final int depositRandomNumber() {
-        return (int)(this.getState().getDepositedCards().size() * Math.random());
+        Random random = new Random();
+        return (int)(random.nextInt(state.getDepositedCards().size()));
     }
 
     @Override
     public Card cardFromDeposit() {
        int deposit_random_index = depositRandomNumber();
-       return this.getState().getDepositedCards().get(deposit_random_index);
+      // System.out.println("deposit_random_index : " + deposit_random_index);
+       return state.getDepositedCards().get(deposit_random_index);
     }
 
     @Override
     public Card cardFromStack() {
-        return this.getState().getDrawPileCards().firstElement();
+        return state.getDrawPileCards().firstElement();
     }
 
     @Override
     public Card removeFromOwn() {
         int own_random_index = ownCardNumber();
+        //System.out.println("own_random_index : " + own_random_index);
         return (Card)this.getCards().toArray()[own_random_index];
     }
     

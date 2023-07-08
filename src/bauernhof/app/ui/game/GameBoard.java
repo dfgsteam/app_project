@@ -61,7 +61,7 @@ public class GameBoard implements ActionListener{
 
 
         // test = 10 gui moves
-        this.test();
+        //this.test();
     }
 
     public void move() throws Exception {
