@@ -1,4 +1,4 @@
-package bauernhof.app.UI;
+package bauernhof.app.ui;
 
 import sag.*;
 import javax.swing.*;

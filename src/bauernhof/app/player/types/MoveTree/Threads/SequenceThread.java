@@ -5,31 +5,37 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.types.MoveTree.MoveNode;
 import bauernhof.app.player.types.MoveTree.MoveTree;
 import bauernhof.preset.PlayerType;
 
-public class SequenceThread extends AbstractThread{
+public class SequenceThread extends AbstractThread {
+
     private static Queue<MoveNode> next_calculations;
     private static ArrayList<Integer> differences;
 
-    public SequenceThread(MoveTree tree, boolean first) {
-        if (first) {
-            this.setThreadNode(tree.getRootNode());
-            next_calculations = new LinkedList<MoveNode>(this.getThreadNode().getNextNodes());
-            differences = new ArrayList<Integer>();
-            start();
-        }
 
-        else if (!next_calculations.isEmpty()) {
-            this.setThreadNode(this.getTree().getRootNode().getNextNodes().get(differences.indexOf(Collections.max(differences))));
-        }
+    /**
+     * Parametrized constructor as a sign for the first Thread-Object of the class
+     * @param board
+     */
+    public SequenceThread(GameBoardState board) {
+        super(board);
+        differences = new ArrayList<Integer>();
+        next_calculations = new LinkedList<MoveNode>(SequenceThread.getTree().getRootNode().getNextNodes());
+        start();
+    }
+
+    public SequenceThread() {
+        super();
+        start();
     }
 
 
 
-    private final int biggest_difference(MoveNode node) throws Exception {
+    private final int worst_difference(MoveNode node) throws Exception {
         int diff = node.getActualBoardState().getActualPlayer() == node.getActualBoardState().getPlayers()[0] ? node.getActualBoardState().getActualPlayer().getScore() - node.getActualBoardState().getPlayers()[1].getScore() : node.getActualBoardState().getActualPlayer().getScore() - node.getActualBoardState().getPlayers()[0].getScore();
         for (AbstractGamePlayer player : node.getActualBoardState().getPlayers()) {
             if (player == node.getActualBoardState().getActualPlayer()) { continue; }
@@ -37,71 +43,62 @@ public class SequenceThread extends AbstractThread{
         }
         return diff;
     }
-
-    private final int AdvancedAI_Advantage(MoveNode node) throws Exception {
-        AbstractGamePlayer advance = null;
-        for (AbstractGamePlayer player : node.getActualBoardState().getPlayers()) {
-            if (player.getPlayerID() == this.getTree().getRootNode().getActualBoardState().getActualPlayer().getPlayerID()) {
-                advance = player;
-                break;
-            }
-        }
-        int diff = advance == node.getActualBoardState().getPlayers()[0] ? advance.getScore() - node.getActualBoardState().getPlayers()[1].getScore() : advance.getScore() - node.getActualBoardState().getPlayers()[0].getScore();
-        for (AbstractGamePlayer player : node.getActualBoardState().getPlayers()) {
-            if (player == advance) { continue; }
-            if (advance.getScore() - player.getScore() < diff) {
-                diff = advance.getScore() - player.getScore();
-            }
-        }
-        return diff;
-
-    }
     
 
     @Override
     public MoveNode getBestOfActual() throws Exception {
         MoveNode best = this.getThreadNode().getNextNodes().get(0);
-        int diff = biggest_difference(best);
+        int best_diff = worst_difference(best);
         for (MoveNode node : this.getThreadNode().getNextNodes()) {
-            if (biggest_difference(node) > diff) {
+            if (worst_difference(node) > best_diff) {
                 best = node;
-                diff = biggest_difference(best);
+                best_diff = worst_difference(node);
             }
         }
         return best;
     }
 
-    @Override
-    synchronized public void sequenceThreadAction() {
-        this.setThreadNode(SequenceThread.next_calculations.remove());
-        while(goDeeper()) {
-            try {
-                this.setThreadNode(getBestOfActual());
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+    private final int sequenceDifference() throws Exception {
+        while (goDeeper()) {
+            this.setThreadNode(getBestOfActual());
         }
+       return this.worst_difference(getThreadNode().getPrevNode());
+    }
+
+    @Override
+    public boolean goDeeper() {
+        if (this.getThreadNode().getDepth() < this.getMaxDepth() && !this.getThreadNode().getNextNodes().isEmpty()) { return true; }
+        return false;
+    }
+
+    @Override
+    public void sequenceThreadAction() {
+        this.setThreadNode(next_calculations.remove());
         try {
-            differences.add(AdvancedAI_Advantage(getThreadNode()));
+            differences.add(sequenceDifference());
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    @Override
-    public boolean goDeeper() {
-        if (this.getThreadNode().getDepth() < this.getMaxDepth()) { return true; }
-        return false;
+    public static MoveNode bestNode() {
+        int index = differences.indexOf(Collections.max(differences));
+        return SequenceThread.getTree().getRootNode().getNextNodes().get(index);
     }
 
+    //--------------------
     @Override
     public void run() {
         while(!next_calculations.isEmpty()) {
-            sequenceThreadAction();
+            synchronized (next_calculations) {
+                if (next_calculations.isEmpty()) { continue; }
+                sequenceThreadAction();
+            }
         }
+
     }
+
     //Not usable methods
     @Override
     public boolean calcNextNode(int cardNumTake, int cardNumPut) {

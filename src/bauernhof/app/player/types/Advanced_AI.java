@@ -1,8 +1,6 @@
 package bauernhof.app.player.types;
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
-import bauernhof.app.player.types.MoveTree.MoveNode;
-import bauernhof.app.player.types.MoveTree.MoveTree;
 import bauernhof.app.player.types.MoveTree.Threads.SequenceThread;
 import bauernhof.app.player.types.MoveTree.Threads.WorkingThread;
 import bauernhof.preset.Move;
@@ -19,9 +17,9 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
     @Override
     public Move calculateNextMove() throws Exception {
         WorkingThread workingThread1 = new WorkingThread(gameboardstate);
-        WorkingThread workingThread2 = new WorkingThread(workingThread1.getTree());
-        WorkingThread workingThread3 = new WorkingThread(workingThread1.getTree());
-        WorkingThread workingThread4 = new WorkingThread(workingThread1.getTree());
+        WorkingThread workingThread2 = new WorkingThread();
+        WorkingThread workingThread3 = new WorkingThread();
+        WorkingThread workingThread4 = new WorkingThread();
 
         try {
             workingThread1.join();
@@ -29,28 +27,25 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
             workingThread3.join();
             workingThread4.join();
         }
-        
         catch (InterruptedException e) {
-            e.printStackTrace();
+            System.err.println("ERROR");
         }
 
-        MoveTree tree = workingThread1.getTree();
-
-        SequenceThread sequenceThread1 = new SequenceThread(tree, true);
-        SequenceThread sequenceThread2 = new SequenceThread(tree, false);
-        SequenceThread sequenceThread3 = new SequenceThread(tree, false);
+        SequenceThread sequenceThread1 = new SequenceThread(gameboardstate);
+        SequenceThread sequenceThread2 = new SequenceThread();
+        SequenceThread sequenceThread3 = new SequenceThread();
 
         try {
             sequenceThread1.join();
             sequenceThread2.join();
             sequenceThread3.join();
         }
-        catch (InterruptedException e) {
-            e.printStackTrace();
+
+        catch (InterruptedException e)  {
+            System.err.println("ERROR");
         }
 
-        MoveNode move_node = sequenceThread1.getThreadNode();
-        return move_node.getMove();
+        return SequenceThread.bestNode().getMove();
     }
 
     //Not usable methods

@@ -1,5 +1,6 @@
 package bauernhof.app.player.types.MoveTree.Threads;
 
+import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.types.MoveTree.MoveNode;
 import bauernhof.app.player.types.MoveTree.MoveTree;
 
@@ -13,16 +14,19 @@ import bauernhof.app.player.types.MoveTree.MoveTree;
  */
 public abstract class AbstractThread extends Thread implements ThreadHandler {
     private static final int MAX_DEPTH = 3;
-    private MoveTree move_tree;
+    private static MoveTree move_tree;
     private MoveNode actual_node;
 
-    @Override
-    public void setTree(MoveTree tree) {
-        this.move_tree = tree;
+    public AbstractThread(GameBoardState actual_state) {
+        move_tree = new MoveTree(new MoveNode(actual_state));
+        this.setThreadNode(AbstractThread.getTree().getRootNode());
     }
 
-    @Override
-    public MoveTree getTree() {
+    public AbstractThread() {
+        this.setThreadNode(AbstractThread.getTree().getRootNode());
+    }
+
+    public static MoveTree getTree() {
         return move_tree;
     }
 
