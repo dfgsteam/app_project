@@ -37,8 +37,7 @@ public class WorkingThread extends AbstractThread {
 
     @Override
     public boolean calcNextNode(int cardNumTake, int cardNumPut) throws Exception {
-        if (this.getThreadNode().getDepth()+1 < this.getMaxDepth()) { return false; }
-
+        
         Card to_take, to_put;
         if (cardNumTake < 0) {
             to_take = this.getThreadNode().getActualBoardState().getDrawPileCards().lastElement();
@@ -59,9 +58,12 @@ public class WorkingThread extends AbstractThread {
         Move new_move = new Move(to_take, to_put);
         GameBoardState new_state = (GameBoardState) this.getThreadNode().getActualBoardState().clone();
 
+        System.out.println(to_take);
+        System.out.println(to_put);
         if (!new_state.doMove(new_move)) { return false; }
         
         MoveNode next_MoveNode = new MoveNode(new_move, this.getThreadNode(), new_state);
+        this.setThreadNode(next_MoveNode);
         next_MoveNode.setDepth(this.getThreadNode().getDepth()+1);
         return true;
     }

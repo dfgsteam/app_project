@@ -83,7 +83,8 @@ public class SequenceThread extends AbstractThread {
     }
 
     public static MoveNode bestNode() {
-        int index = differences.indexOf(Collections.max(differences));
+        System.out.println(differences);
+        Integer index = differences.indexOf(Collections.max(differences));
         return SequenceThread.getTree().getRootNode().getNextNodes().get(index);
     }
 

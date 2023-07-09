@@ -23,7 +23,7 @@ public abstract class AbstractThread extends Thread implements ThreadHandler {
     }
 
     public AbstractThread() {
-        this.setThreadNode(AbstractThread.getTree().getRootNode());
+        this.setThreadNode(null);
     }
 
     public static MoveTree getTree() {

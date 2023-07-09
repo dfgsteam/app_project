@@ -1,6 +1,7 @@
 package bauernhof.app.player.types;
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.player.types.MoveTree.Threads.AbstractThread;
 import bauernhof.app.player.types.MoveTree.Threads.SequenceThread;
 import bauernhof.app.player.types.MoveTree.Threads.WorkingThread;
 import bauernhof.preset.Move;
@@ -9,10 +10,13 @@ import bauernhof.preset.card.Card;
 
 public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
     private GameBoardState gameboardstate;
-    public Advanced_AI(String name, final GameBoardState gameboardstate) {
+    public Advanced_AI(String name) {
         super(name, PlayerType.ADVANCED_AI);
+    }
+    public void setGameBoardState(final GameBoardState gameboardstate) {
         this.gameboardstate = gameboardstate;
     }
+
 
     @Override
     public Move calculateNextMove() throws Exception {
@@ -31,21 +35,7 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
             System.err.println("ERROR");
         }
 
-        SequenceThread sequenceThread1 = new SequenceThread(gameboardstate);
-        SequenceThread sequenceThread2 = new SequenceThread();
-        SequenceThread sequenceThread3 = new SequenceThread();
-
-        try {
-            sequenceThread1.join();
-            sequenceThread2.join();
-            sequenceThread3.join();
-        }
-
-        catch (InterruptedException e)  {
-            System.err.println("ERROR");
-        }
-
-        return SequenceThread.bestNode().getMove();
+        return null;
     }
 
     //Not usable methods

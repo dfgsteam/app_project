@@ -1,11 +1,13 @@
 package bauernhof.app.ui.game;
 
 import bauernhof.preset.GameConfiguration;
+import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.GCard;
 import bauernhof.app.card.Ca;
 import bauernhof.app.launcher.GameBoardState;
 import sag.LayerPosition;
 import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.ui.game.panel.*;
 import sag.SAGFrame;
 import sag.SAGPanel;
 import sag.elements.GGroup;
@@ -77,7 +79,7 @@ public class GameBoard implements ActionListener{
         // Wenn nicht letzer Zug
         if (!last) {
             // Nächsten Spieler aktiv setzen
-            this.playerId = (this.playerId+1)%4;
+            this.playerId = (this.playerId+1)%this.gameBoardState.getPlayers().length;
             this.panelPlayerName.updatePlayerBgActive(this.playerId);
             this.panelRound.update();
         } else {
@@ -88,7 +90,7 @@ public class GameBoard implements ActionListener{
     }
 
     public boolean check_move(int playerId) {
-        return this.playerId == playerId;
+        return (this.playerId == playerId) && (this.gameBoardState.getPlayers()[playerId].getPlayerType() == PlayerType.HUMAN) ;
     }
 
     public void createScorePanal() throws Exception {
