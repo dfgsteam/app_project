@@ -21,8 +21,11 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
     @Override
     public Move calculateNextMove() throws Exception {
         WorkingThread workingThread1 = new WorkingThread(gameboardstate);
+        System.out.println("MOVE");
         WorkingThread workingThread2 = new WorkingThread();
+        System.out.println("MOVE");
         WorkingThread workingThread3 = new WorkingThread();
+        System.out.println("MOVE");
         WorkingThread workingThread4 = new WorkingThread();
 
         try {
@@ -34,6 +37,7 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
         catch (InterruptedException e) {
             System.err.println("ERROR");
         }
+        System.out.println("ENDE");
 
         return null;
     }

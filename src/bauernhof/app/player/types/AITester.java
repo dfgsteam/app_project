@@ -19,7 +19,6 @@ public class AITester {
         GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
 
         ArrayList<AbstractGamePlayer> players = new ArrayList<AbstractGamePlayer>();
-
         GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Smila", "Alrun", "Lotta"}, new PlayerType[]{PlayerType.ADVANCED_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
 
         Advanced_AI a = new Advanced_AI("Florian");

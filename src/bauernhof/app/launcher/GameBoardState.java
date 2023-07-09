@@ -67,10 +67,11 @@ public class GameBoardState implements Table {
             this.drawpile_cards.pop();
         this.round = 0;
         actual_player = players[0];
+        this.configuration = configuration;
         for (final AbstractGamePlayer player : players)
             if (player.getPlayerType().equals(PlayerType.ADVANCED_AI))
                 ((Advanced_AI)player).setGameBoardState(this.clone());
-        this.configuration = configuration;
+
 
     }
     public GameBoardState() {
