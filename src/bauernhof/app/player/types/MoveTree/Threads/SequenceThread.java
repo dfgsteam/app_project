@@ -101,7 +101,6 @@ public class SequenceThread extends AbstractThread{
         while(!next_calculations.isEmpty()) {
             sequenceThreadAction();
         }
-        interr
     }
     //Not usable methods
     @Override

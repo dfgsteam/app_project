@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import bauernhof.app.launcher.GameBoardState;
+import bauernhof.app.player.PlayerGameBoard;
 import bauernhof.preset.Move;
 import bauernhof.preset.Player;
 
@@ -32,7 +33,7 @@ public interface MoveNodeHandler<T> {
 
     /**
      * Setter for the value of the evil-bar
-     * @param int
+     * @param depth
      */
     public void setDepth(int depth);
 
@@ -74,7 +75,7 @@ public interface MoveNodeHandler<T> {
 
     /**
      * Set the actual_boardState
-     * @param GameBoardState state
+     * @param state
      */
     public void setActualBoardState(GameBoardState state);
 

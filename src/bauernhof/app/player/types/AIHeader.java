@@ -14,7 +14,7 @@ public interface AIHeader {
      * @return null, if no nextMove available
      * @return Move, if successful
      */
-    public Move calculateNextMove();
+    public Move calculateNextMove() throws Exception;
 
     /**
      * Returning a card, which an AI (evtl.) is going to take from Deposit

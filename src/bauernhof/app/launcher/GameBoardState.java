@@ -1,7 +1,10 @@
 package bauernhof.app.launcher;
 
 import bauernhof.app.player.AbstractGamePlayer;
-import bauernhof.app.player.types.HumanPlayer;
+import bauernhof.app.player.types.Random_AI;
+import bauernhof.app.player.types.Simple_AI;
+import bauernhof.app.ui.game.GameBoard;
+import bauernhof.app.ui.game.ScorePanal;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 
@@ -18,26 +21,19 @@ import java.util.*;
  */
 
 public class GameBoardState implements Table {
-    /*
-    TO-DO: Laden von Spielständen durch eventuellen SaveGameLoader
-     */
     private int round;
+    private boolean run;
     public AbstractGamePlayer actual_player;
-    public Iterator<AbstractGamePlayer> player_iterator;
-    private ArrayList<Card> deposited_cards;
+    private int activeplayerid = 0;
+    private ArrayList<Card> deposited_cards = new ArrayList<>();
     private Stack<Card> drawpile_cards = new Stack<>();
     private AbstractGamePlayer[] players;
+    private GameBoard graphics;
     private GameConfiguration configuration;
-
-    // For new Game
-    public GameBoardState(final GameConfiguration configuration, final AbstractGamePlayer[] players, final ImmutableList<Card> drawpile_cards) throws Exception {
-        this.configuration = configuration;
-        this.players = players;
-        for (final Card card : drawpile_cards)
-            this.drawpile_cards.add(card);
-
-    }
     public GameBoardState(final String[] playernames, final PlayerType[] types, GameConfiguration configuration, final ImmutableList<Card> cards) throws Exception {
+        this.run = true;
+        //Collections.shuffle(cards);
+        this.round = 1;
         final AbstractGamePlayer[] players = new AbstractGamePlayer[playernames.length];
         this.players = players;
         for (int i = 0; i < players.length; i++)
@@ -49,34 +45,46 @@ public class GameBoardState implements Table {
                     players[i] = new AbstractGamePlayer(playernames[i], types[i]);
                     break;
                 case RANDOM_AI:
-                    players[i] = new AbstractGamePlayer(playernames[i], types[i]);
+                    players[i] = new Random_AI(playernames[i]);
                     break;
                 case REMOTE:
                     players[i] = new AbstractGamePlayer(playernames[i], types[i]);
                     break;
                 case SIMPLE_AI:
-                    players[i] = new AbstractGamePlayer(playernames[i], types[i]);
+                    players[i] = new Simple_AI(playernames[i]);
                     break;
                 default:
             }
-        byte playerid = -1;
-        for (final Player player : players)
-            player.init(configuration, cards, playernames.length, playerid++);
+        for (byte playerid = 0; playerid < playernames.length; playerid++)
+            players[playerid].init(configuration, cards, playernames.length, playerid);
         for (final Card card : cards)
             this.drawpile_cards.add(card);
         for (int i = 0; i < configuration.getNumCardsPerPlayerHand() * players.length; i++)
             this.drawpile_cards.pop();
         this.round = 0;
         actual_player = players[0];
+        this.configuration = configuration;
+
+    }
+    public void initGame(final GameBoard graphics) throws Exception {
+        this.graphics = graphics;
+        System.out.println("GAME WIRD GESTARTET");
+        switch (actual_player.getPlayerType()) {
+            case RANDOM_AI:
+                this.doMove(((Random_AI) actual_player).calculateNextMove());
+                break;
+            case ADVANCED_AI:
+                break;
+            case SIMPLE_AI:
+                this.doMove(((Simple_AI) actual_player).calculateNextMove());
+                break;
+            default:
+        }
+
     }
 
     @Override
     public Object clone() {
-        //
-       /* final Set<AbstractGamePlayer> players = new HashSet<>();
-        for (final AbstractGamePlayer player : getPlayers())
-            players.add(player.)
-        return new GameBoardState(round, getGameConfiguration(), getPlayers(), getDrawPileCards().clone(), getDepositedCards().clone()); */
         return null;
     }
 
@@ -97,26 +105,65 @@ public class GameBoardState implements Table {
 
     @Override
     public boolean doMove(final Move move) throws Exception {
+        if (!drawpile_cards.isEmpty())
+        System.out.println("DRAWPILE_CARDS : " + drawpile_cards.lastElement().getName());
+        System.out.print("DEPOSITED_CARDS: ");
+        for (final Card card : deposited_cards)
+            System.out.print(card.getName() + ", ");
+        System.out.println("\n");
+        System.out.println("ACTIVEPLAYER: " + getActualPlayer().getName() + " " + activeplayerid);
+        System.out.println(activeplayerid + " TAKEN : " + move.getTaken().getName() + "    DEPOSITED : " + move.getDeposited().getName());
         if (deposited_cards.contains(move.getTaken()))
             deposited_cards.remove(move.getTaken());
-        else if(drawpile_cards.get(0).equals(move.getTaken()))
+        if(!(drawpile_cards.isEmpty()) && drawpile_cards.lastElement().equals(move.getTaken()))
             drawpile_cards.pop();
-        else return false;
-        if (!getActualPlayer().getCards().contains(move.getDeposited()))
-            return false;
+        //else return false;
+        /*if (!getActualPlayer().getCards().contains(move.getDeposited()))
+            return false; */
         deposited_cards.add(move.getDeposited());
-        getActualPlayer().remove(move.getDeposited());
         getActualPlayer().add(move.getTaken());
+        getActualPlayer().remove(move.getDeposited());
+        for (final AbstractGamePlayer gameplayer : this.getPlayers()) {
+            System.out.print(gameplayer.getPlayerID() + " > " + gameplayer.getName() + "\t|| ");
+            for (final Card card : gameplayer.getCards()) {
+                System.out.print(card.getName() + ", ");
+            }
+            System.out.println( "\t  [" + gameplayer.getCards().size() + "]");
+        }
+
         for (final AbstractGamePlayer player : players)
-            if(!player.equals(actual_player))
+            if(!player.equals(getActualPlayer()))
                 player.update(move);
-        this.actual_player = player_iterator.next();
+            else
+                getActualPlayer().doMove(move);
+            activeplayerid++;
+            if(activeplayerid == players.length) {
+                activeplayerid = 0;
+                this.round++;
+            }
+            Thread.sleep(50);
+            if (round > 30) {
+                graphics.move(true);
+                run = false;
+            }else graphics.move(false);
+        System.out.println("===================");
+        if (run)
+            switch (getActualPlayer().getPlayerType()) {
+                case RANDOM_AI:
+                    this.doMove(((Random_AI) getActualPlayer()).calculateNextMove());
+                    break;
+                case SIMPLE_AI:
+                    this.doMove(((Simple_AI) getActualPlayer()).calculateNextMove());
+                    break;
+            }
+
+
         return true;
     }
 
     @Override
     public AbstractGamePlayer getActualPlayer() {
-        return this.actual_player;
+        return players[activeplayerid];
     }
 
     @Override
@@ -124,31 +171,4 @@ public class GameBoardState implements Table {
         return this.round;
     }
 
-    @Override
-    public void initNewGame() throws Exception {
-        byte count = 0;
-        for (final Player player : players) {
-            final ImmutableList<Card> drawpilecard_list = new ImmutableList<>();
-            for (byte i = 0; i < configuration.getNumCardsPerPlayerHand(); i++) {
-                drawpilecard_list.add(this.drawpile_cards.pop());
-            }
-            player.init(configuration, drawpilecard_list, players.length, count);
-            count++;
-        }
-    }
-
-    @Override
-    public GameConfiguration getGameConfiguration() {
-        return this.configuration;
-    }
-
-    @Override
-    public GameBoardState getState() {
-        return this;
-    }
-
-    @Override
-    public Stack<Card> getDrawPileStack() {
-        return this.drawpile_cards;
-    }
 }
