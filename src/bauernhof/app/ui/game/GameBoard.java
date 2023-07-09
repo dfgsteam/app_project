@@ -1,8 +1,8 @@
 package bauernhof.app.ui.game;
 
 import bauernhof.preset.GameConfiguration;
+import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
-import bauernhof.app.card.Ca;
 import bauernhof.app.launcher.GameBoardState;
 import sag.LayerPosition;
 import bauernhof.app.player.AbstractGamePlayer;
@@ -12,9 +12,8 @@ import sag.elements.GGroup;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashSet;
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.Stack;
 import java.util.concurrent.TimeUnit;
 
 public class GameBoard implements ActionListener{ 
@@ -22,7 +21,7 @@ public class GameBoard implements ActionListener{
     final private int WIDTH = 1600;
     final private int HEIGTH = 900;
 
-    private SAGFrame Frame = new SAGFrame("Hofbauern", 30, this.WIDTH, this.HEIGTH);
+    private final SAGFrame FRAME = new SAGFrame("Hofbauern", 30, this.WIDTH, this.HEIGTH);
     private SAGPanel mainPanel = new SAGPanel(this.WIDTH, this.HEIGTH);
     private SAGPanel CardPanel;
 
@@ -30,12 +29,14 @@ public class GameBoard implements ActionListener{
     private JButton Nachziehstapel;
     private JButton Ablagestapel;
 
-    private Set<GCard> NachziehstapelCards; 
-    private Set<GCard> AblagestapelCards;
+    private NachziehPanel nachziehPanel;
+    private AblagePanel ablagePanel;
 
     private PlayerPanel panelPlayer;
     private PlayerNamePanel panelPlayerName;
     private GameBoardState gameBoardState;
+
+    JButton Back;
 
     private int playerId = 0;
 
@@ -48,8 +49,8 @@ public class GameBoard implements ActionListener{
         prepareMain();
 
         //init Frame
-        this.Frame.setSAGPanel(this.mainPanel);
-        this.Frame.setVisible(true);
+        this.FRAME.setSAGPanel(this.mainPanel);
+        this.FRAME.setVisible(true);
 
         // init Panels
         this.panelPlayer = new PlayerPanel(mainPanel, this.gameBoardState.getPlayers().length, gameconf.getNumCardsPerPlayerHand(), this);
@@ -84,42 +85,76 @@ public class GameBoard implements ActionListener{
     }
 
 
-
-
     private void prepareMain(){
          //String path = "graphics/player_view"+i+".jpg";
 
         this.mainPanel = new SAGPanel(this.WIDTH, this.HEIGTH);
+        mainPanel.setLayout(null);
+
+        initNachziehstapelButton();
+        initAblagestapelButton();
+
+        mainPanel.add(Nachziehstapel);
+        mainPanel.add(Ablagestapel);
 
         GGroup Mid = mainPanel.addLayer(LayerPosition.CENTER_CENTER);
-        Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), -150, 0);
-        Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), 150, 0);
+        Mid.setScale(1.15f);
+        Mid.addChild(new GCard(gameBoardState.getDrawPileCards().iterator().next()), -200, 0);
+        //Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), 150, 0);
+        
     }
 
 
-    private void initNachziehstapel(){
+    private void initNachziehstapelButton(){
         
-        NachziehstapelCards = new HashSet<>();
-        for(int i = 0; i < 10; i++){
-             NachziehstapelCards.add(new GCard(new Ca("",0,null,null,null)));
-        }
         Nachziehstapel = new JButton();
+        Nachziehstapel.setBounds((WIDTH/2)-(WIDTH/10*2),(HEIGTH/2)-(HEIGTH/5),WIDTH/9,HEIGTH/10*3);
         Nachziehstapel.addActionListener(this::actionPerformed);
-
+        Nachziehstapel.setOpaque(false);
+        Nachziehstapel.setContentAreaFilled(false);
+        Nachziehstapel.setBorderPainted(false);
+        //Nachziehstapel.setBackground(new Color(0,0,0,0));
+        Nachziehstapel.setFocusable(false);
+        Nachziehstapel.setRolloverEnabled(false);
+    
 
     }
 
-    private void initAblagestapel(){
-        
-        AblagestapelCards = new HashSet<>();
+    private void initAblagestapelButton(){
         
         Ablagestapel = new JButton();
+        Ablagestapel.setBounds((WIDTH/2),(HEIGTH/2)-(HEIGTH/5),WIDTH/9,HEIGTH/10*3);
         Ablagestapel.addActionListener(this::actionPerformed);
+        Ablagestapel.setOpaque(false);
+        Ablagestapel.setContentAreaFilled(false);
+        Ablagestapel.setBorderPainted(false);
+        //Ablagestapel.setBackground(new Color(0, 0, 0, 0));
+        Nachziehstapel.setFocusable(false);
+        Nachziehstapel.setRolloverEnabled(false);
     
     }
 
+    public SAGFrame getFrame(){
+        return this.FRAME;
+    }
+    public SAGPanel getMain(){
+        return this.mainPanel;
+    } 
+
     @Override
     public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==Nachziehstapel){
+            nachziehPanel = new NachziehPanel(this.FRAME,gameBoardState.getDrawPileCards());
+            FRAME.setSAGPanel(nachziehPanel);
+        }
+
+        if(e.getSource()==Ablagestapel){
+            ablagePanel = new AblagePanel(gameBoardState.getDepositedCards());
+        }
+
+        if(e.getSource()==Back){
+            FRAME.setSAGPanel(mainPanel);
+        }
         
            
     }

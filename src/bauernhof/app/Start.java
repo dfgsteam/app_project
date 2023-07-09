@@ -7,7 +7,6 @@ import java.util.Set;
 
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
-import bauernhof.app.player.types.HumanPlayer;
 import bauernhof.app.ui.game.GameBoard;
 import bauernhof.app.ui.launcher.BaFr;
 import bauernhof.preset.*;
