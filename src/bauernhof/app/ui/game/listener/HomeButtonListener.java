@@ -1,6 +1,6 @@
 package bauernhof.app.ui.game.listener;
 
-import bauernhof.app.Launcher;
+import bauernhof.app.StartLauncher;
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.settings.SeEx;
 import bauernhof.app.ui.game.GameBoard;
@@ -27,7 +27,7 @@ public class HomeButtonListener implements MouseEventListener {
         System.out.println("zurück zum Hauptmenü");
         JFrame.getFrames()[0].dispose();
         try {
-            Launcher.main(new String[]{});
+            StartLauncher.main(new String[]{});
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {

@@ -1,21 +1,24 @@
-package bauernhof.app.ui.launcher;
+package bauernhof.app.ui.launcher.panel;
 
 import javax.swing.*;
+
+import bauernhof.app.ui.launcher.Launcher;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
-public class HoPa {
-    private BaFr BasicFrame;
+public class HomePanel {
+    private Launcher launcher;
     private JPanel panel;
     private int heigth, width;
 
 
-    public HoPa(BaFr BasicFrame, int width, int heigth) throws IOException {
+    public HomePanel(Launcher launcher, int width, int heigth) throws IOException {
         this.panel = new JPanel();
         this.heigth = heigth;
         this.width = width;
-        this.BasicFrame = BasicFrame;
+        this.launcher = launcher;
 
         this.panel = new JPanel() {
             @Override
@@ -23,7 +26,7 @@ public class HoPa {
                 super.paintComponent(g);
 
                 // Zeichne den Hintergrund
-                ImageIcon backgroundImage = new ImageIcon("graphics/home.jpg");
+                ImageIcon backgroundImage = new ImageIcon("graphics/launcher/main.jpg");
                 Image image = backgroundImage.getImage();
                 g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
             }
@@ -33,11 +36,11 @@ public class HoPa {
         this.panel.setLayout(null);
 
         
-        JButton buttonSinglePlayer = this.addButtonSinglePlayer();
-        this.panel.add(buttonSinglePlayer);
+        JButton buttonLocalPlayer = this.addButtonLocalPlayer();
+        this.panel.add(buttonLocalPlayer);
 
-        JButton buttonMultiPlayer = this.addButtonMultiPlayer();
-        this.panel.add(buttonMultiPlayer);
+        JButton buttonNetworkPlayer = this.addButtonNetworkPlayer();
+        this.panel.add(buttonNetworkPlayer);
 
         JButton buttonSettings = this.addButtonSettings();
         this.panel.add(buttonSettings);
@@ -51,53 +54,53 @@ public class HoPa {
         return buttonPanal;
     }
 
-    public JButton addButtonSinglePlayer() {
+    public JButton addButtonLocalPlayer() {
         // Erstelle den JButton
         JButton button = new JButton();
 
         button.addActionListener((ActionListener) new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                BasicFrame.setPanelSinglePlayer();
+                launcher.setPanelLocalPlayer();
             }
         });
         
         button.setContentAreaFilled(false);
-        button.setBorderPainted(false);
+        button.setBorderPainted(Launcher.debug);
         button.setBounds(199, 520, 280, 125);  
 
         return button;
     }
 
-    public JButton addButtonMultiPlayer() {
+    public JButton addButtonNetworkPlayer() {
         // Erstelle den JButton
         JButton button = new JButton();
 
         button.addActionListener((ActionListener) new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                BasicFrame.setPanelMultiPlayer();
+                launcher.setPanelNetworkPlayer();
             }
         });
         
         button.setContentAreaFilled(false);
-        button.setBorderPainted(false);
+        button.setBorderPainted(Launcher.debug);
         button.setBounds(500, 520, 280, 125);  
 
         return button;
     }
 
     public JButton addButtonSettings() {
-        BaFr BasicFrame = this.BasicFrame;
+        Launcher launcher = this.launcher;
         // Erstelle den JButton
         JButton button = new JButton();
 
-        button.addActionListener((ActionListener ) new ActionListener() {
+        button.addActionListener((ActionListener) new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                BasicFrame.setPanelSettings();
+                launcher.setPanelSettings();
             }
         });
         
         button.setContentAreaFilled(false);
-        button.setBorderPainted(false);
+        button.setBorderPainted(Launcher.debug);
         button.setBounds(803, 520, 280, 125);  
 
         return button;

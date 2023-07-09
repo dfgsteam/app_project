@@ -1,8 +1,8 @@
-package bauernhof.app.ui.launcher2.panel;
+package bauernhof.app.ui.launcher.panel;
 
 import javax.swing.*;
 
-import bauernhof.app.ui.launcher2.Launcher;
+import bauernhof.app.ui.launcher.Launcher;
 
 import java.awt.*;
 import java.awt.event.*;

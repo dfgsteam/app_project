@@ -3,11 +3,15 @@ package bauernhof.app.ui.launcher;
 import javax.swing.*;
 
 import bauernhof.app.settings.Se;
+import bauernhof.app.ui.launcher.panel.*;
 
 import java.io.IOException;
 
 
-public class BaFr {
+public class Launcher {
+
+    // Button outline
+    public static boolean debug = true;
 
     final private int width = 1280;
     final private int heigth = 720;
@@ -16,13 +20,13 @@ public class BaFr {
 
     protected Se Settings;
 
-    private HoPa homePanel;
-    private SePa settingsPanel;
-    private SiPl singlePlayer;
-    private MuPl multiPlayer;
+    private HomePanel homePanel;
+    private SettingsPanel settingsPanel;
+    private LocalPanel localPlayer;
+    private NetworkPanel networkPanel;
 
 
-    public BaFr(Se Settings) throws IOException, InterruptedException {
+    public Launcher(Se Settings) throws IOException, InterruptedException {
         // Erzeuge Frame
         this.frame = new JFrame("Hofbauern");
         
@@ -40,10 +44,10 @@ public class BaFr {
 
         this.Settings = Settings;
 
-        this.homePanel = new HoPa(this, this.width, this.heigth);
-        this.settingsPanel = new SePa(this, this.width, this.heigth);
-        this.singlePlayer = new SiPl(this, this.width, this.heigth);
-        this.multiPlayer = new MuPl(this, this.width, this.heigth);
+        this.homePanel = new HomePanel(this, this.width, this.heigth);
+        this.settingsPanel = new SettingsPanel(this, this.width, this.heigth);
+        this.localPlayer = new LocalPanel(this, this.width, this.heigth);
+        this.networkPanel = new NetworkPanel(this, this.width, this.heigth);
         
         this.setPanelHome(); 
         // Thread.sleep(2000);
@@ -64,13 +68,19 @@ public class BaFr {
         this.updateFrame();
     }
 
-    public void setPanelSinglePlayer() {
-        this.frame.setContentPane(this.singlePlayer.getPanel());
+    public void setPanelLocalPlayer() {
+        this.frame.setContentPane(this.localPlayer.getPanel());
         this.updateFrame();
     }
 
-    public void setPanelMultiPlayer() {
-        this.frame.setContentPane(this.multiPlayer.getPanel());
+    public void setPanelNetworkPlayer() {
+        System.out.println("ok");
+        this.frame.setContentPane(this.networkPanel.getPanel());
         this.updateFrame();
+    }
+
+
+    public Se getSettings() {
+        return this.Settings;
     }
 }
