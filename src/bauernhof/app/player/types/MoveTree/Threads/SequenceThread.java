@@ -21,11 +21,11 @@ public class SequenceThread extends AbstractThread {
      * Parametrized constructor as a sign for the first Thread-Object of the class
      * @param board
      */
-    public SequenceThread(GameBoardState board) {
-        super(board);
+    public SequenceThread(boolean first) {
+        super();
+        this.setThreadNode(AbstractThread.getTree().getRootNode());
+        next_calculations = new LinkedList<MoveNode>(this.getThreadNode().getNextNodes());
         differences = new ArrayList<Integer>();
-        next_calculations = new LinkedList<MoveNode>(SequenceThread.getTree().getRootNode().getNextNodes());
-        start();
     }
 
     public SequenceThread() {
@@ -83,7 +83,6 @@ public class SequenceThread extends AbstractThread {
     }
 
     public static MoveNode bestNode() {
-        System.out.println(differences);
         Integer index = differences.indexOf(Collections.max(differences));
         return SequenceThread.getTree().getRootNode().getNextNodes().get(index);
     }

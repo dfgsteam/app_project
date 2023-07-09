@@ -55,21 +55,14 @@ public class WorkingThread extends AbstractThread {
             to_put = this.getThreadNode().getActualBoardState().getActualPlayer().getCards().get(cardNumPut);
         }
 
-        System.out.println(this.getThreadNode().getActualBoardState().getDepositedCards().size());
-        System.out.println(this.getThreadNode().getActualBoardState().getActualPlayer().getCards().size());
         Move new_move = new Move(to_take, to_put);
         GameBoardState new_state = (GameBoardState) this.getThreadNode().getActualBoardState().clone();
 
-        System.out.println(new_state.getDepositedCards().size());
-        System.out.println(new_state.getActualPlayer().getCards().size());
-        System.exit(0);
         if (!new_state.doMove(new_move)) { return false; }
         
         MoveNode next_MoveNode = new MoveNode(new_move, this.getThreadNode(), new_state);
-        System.out.println(this.getThreadNode());
         next_MoveNode.setDepth(this.getThreadNode().getDepth()+1);
         this.setThreadNode(next_MoveNode);
-        System.out.println(this.getThreadNode());
         return true;
     }
 

@@ -39,16 +39,8 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
         catch (InterruptedException e) {
             System.err.println("ERROR");
         }
-        System.out.println("ENDE");
 
-        System.out.println(WorkingThread.getTree().getRootNode());
-        System.out.println(WorkingThread.getTree().getRootNode().getNextNodes().size());
-        for (MoveNode node : WorkingThread.getTree().getRootNode().getNextNodes()) {
-            System.out.println(node.getNextNodes().size());
-        }
-        System.exit(0);
-
-        SequenceThread sequenceThread1 = new SequenceThread(gameboardstate);
+        SequenceThread sequenceThread1 = new SequenceThread(true);
         SequenceThread sequenceThread2 = new SequenceThread();
         SequenceThread sequenceThread3 = new SequenceThread();
         SequenceThread sequenceThread4 = new SequenceThread();
