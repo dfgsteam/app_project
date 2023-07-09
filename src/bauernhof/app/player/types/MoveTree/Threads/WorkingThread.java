@@ -38,7 +38,7 @@ public class WorkingThread extends AbstractThread {
 
         Card to_take, to_put;
         if (cardNumTake < 0) {
-            to_take = this.getThreadNode().getActualBoardState().getDrawPileCards().firstElement();
+            to_take = this.getThreadNode().getActualBoardState().getDrawPileCards().lastElement();
         }
 
         else {

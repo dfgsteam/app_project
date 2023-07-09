@@ -41,6 +41,9 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
         this.name = name;
         this.type = type;
     }
+    public AbstractGamePlayer() {
+
+    }
 
     @Override
     public AbstractGamePlayer clone() {
@@ -50,6 +53,7 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
         final AbstractGamePlayer player = new AbstractGamePlayer(this.name, this.type, cards);
         player.setPlayerID(this.playerid);
         player.setGameConfiguration(configuration);
+        player.setPlayerGameBoard(state.clone());
         return player;
     }
     @Override
@@ -116,6 +120,9 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
 
     public int getPlayerID() {
         return playerid;
+    }
+    public void setPlayerGameBoard(final PlayerGameBoard state) {
+        this.state = state;
     }
 
 

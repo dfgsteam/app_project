@@ -5,14 +5,17 @@ import bauernhof.app.player.types.MoveTree.MoveNode;
 import bauernhof.app.player.types.MoveTree.MoveTree;
 import bauernhof.app.player.types.MoveTree.Threads.SequenceThread;
 import bauernhof.app.player.types.MoveTree.Threads.WorkingThread;
+import bauernhof.app.ui.game.GameBoard;
 import bauernhof.preset.Move;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 
 public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
     private GameBoardState gameboardstate;
-    public Advanced_AI(String name, final GameBoardState gameboardstate) {
+    public Advanced_AI(String name) {
         super(name, PlayerType.ADVANCED_AI);
+    }
+    public void setGameBoardState(final GameBoardState gameboardstate) {
         this.gameboardstate = gameboardstate;
     }
 

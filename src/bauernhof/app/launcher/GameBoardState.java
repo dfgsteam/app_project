@@ -1,6 +1,7 @@
 package bauernhof.app.launcher;
 
 import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.player.types.Advanced_AI;
 import bauernhof.app.player.types.Random_AI;
 import bauernhof.app.player.types.Simple_AI;
 import bauernhof.app.ui.game.GameBoard;
@@ -28,8 +29,12 @@ public class GameBoardState implements Table {
     private Stack<Card> drawpile_cards = new Stack<>();
     private AbstractGamePlayer[] players;
     private GameBoard graphics;
+    private String[] playernames;
+    private PlayerType[] types;
     private GameConfiguration configuration;
     public GameBoardState(final String[] playernames, final PlayerType[] types, GameConfiguration configuration, final ImmutableList<Card> cards) throws Exception {
+
+        this.playernames = playernames;
         this.run = true;
         //Collections.shuffle(cards);
         this.round = 1;
@@ -38,7 +43,7 @@ public class GameBoardState implements Table {
         for (int i = 0; i < players.length; i++)
             switch (types[i]) {
                 case ADVANCED_AI:
-                    players[i] = new AbstractGamePlayer(playernames[i], types[i]);
+                    players[i] = new Advanced_AI(playernames[i]);
                     break;
                 case HUMAN:
                     players[i] = new AbstractGamePlayer(playernames[i], types[i]);
@@ -62,7 +67,13 @@ public class GameBoardState implements Table {
             this.drawpile_cards.pop();
         this.round = 0;
         actual_player = players[0];
+        for (final AbstractGamePlayer player : players)
+            if (player.getPlayerType().equals(PlayerType.ADVANCED_AI))
+                ((Advanced_AI)player).setGameBoardState(this.clone());
         this.configuration = configuration;
+
+    }
+    public GameBoardState() {
 
     }
     public void initGame(final GameBoard graphics) throws Exception {
@@ -73,6 +84,7 @@ public class GameBoardState implements Table {
                 this.doMove(((Random_AI) actual_player).calculateNextMove());
                 break;
             case ADVANCED_AI:
+                this.doMove(((Advanced_AI) actual_player).calculateNextMove());
                 break;
             case SIMPLE_AI:
                 this.doMove(((Simple_AI) actual_player).calculateNextMove());
@@ -83,8 +95,25 @@ public class GameBoardState implements Table {
     }
 
     @Override
-    public Object clone() {
-        return null;
+    public GameBoardState clone() {
+        final GameBoardState state = new GameBoardState();
+        state.setActiveplayerid(activeplayerid);
+        final AbstractGamePlayer[] players = new AbstractGamePlayer[this.players.length];
+        for (int i = 0; i < players.length; i++)
+            players[i] = this.players[i].clone();
+        state.setPlayers(players);
+        state.setConfiguration(configuration);
+        state.setRound(round);
+        state.setRun(false);
+        final ArrayList<Card> deposited_cards = new ArrayList<>();
+        for (final Card card : this.deposited_cards)
+            deposited_cards.add(card);
+        state.setDeposited_cards(deposited_cards);
+        final Stack<Card> drawpile_cards = new Stack<>();
+        for (final Card card : this.drawpile_cards)
+            drawpile_cards.add(card);
+        state.setDrawpile_cards(drawpile_cards);
+        return state;
     }
 
     @Override
@@ -105,13 +134,13 @@ public class GameBoardState implements Table {
     @Override
     public boolean doMove(final Move move) throws Exception {
         if (!drawpile_cards.isEmpty())
-        System.out.println("DRAWPILE_CARDS : " + drawpile_cards.lastElement().getName());
+        /*System.out.println("DRAWPILE_CARDS : " + drawpile_cards.lastElement().getName());
         System.out.print("DEPOSITED_CARDS: ");
         for (final Card card : deposited_cards)
             System.out.print(card.getName() + ", ");
         System.out.println("\n");
         System.out.println("ACTIVEPLAYER: " + getActualPlayer().getName() + " " + activeplayerid);
-        System.out.println(activeplayerid + " TAKEN : " + move.getTaken().getName() + "    DEPOSITED : " + move.getDeposited().getName());
+        System.out.println(activeplayerid + " TAKEN : " + move.getTaken().getName() + "    DEPOSITED : " + move.getDeposited().getName());*/
         if (deposited_cards.contains(move.getTaken()))
             deposited_cards.remove(move.getTaken());
         if(!(drawpile_cards.isEmpty()) && drawpile_cards.lastElement().equals(move.getTaken()))
@@ -122,14 +151,14 @@ public class GameBoardState implements Table {
         deposited_cards.add(move.getDeposited());
         getActualPlayer().add(move.getTaken());
         getActualPlayer().remove(move.getDeposited());
-        for (final AbstractGamePlayer gameplayer : this.getPlayers()) {
+       /* for (final AbstractGamePlayer gameplayer : this.getPlayers()) {
             System.out.print(gameplayer.getPlayerID() + " > " + gameplayer.getName() + "\t|| ");
             for (final Card card : gameplayer.getCards()) {
                 System.out.print(card.getName() + ", ");
             }
             System.out.println( "\t  [" + gameplayer.getCards().size() + "]");
         }
-
+        */
         for (final AbstractGamePlayer player : players)
             if(!player.equals(getActualPlayer()))
                 player.update(move);
@@ -141,11 +170,12 @@ public class GameBoardState implements Table {
                 this.round++;
             }
             Thread.sleep(50);
+            if (graphics != null)
             if (round > 30) {
                 graphics.move(true);
                 run = false;
             }else graphics.move(false);
-        System.out.println("===================");
+        //System.out.println("===================");
         if (run)
             switch (getActualPlayer().getPlayerType()) {
                 case RANDOM_AI:
@@ -154,6 +184,12 @@ public class GameBoardState implements Table {
                 case SIMPLE_AI:
                     this.doMove(((Simple_AI) getActualPlayer()).calculateNextMove());
                     break;
+                case REMOTE:
+                    this.doMove(getActualPlayer().request());
+                    break;
+                case ADVANCED_AI:
+                    this.doMove(((Advanced_AI) getActualPlayer()).calculateNextMove());
+                    break;
                 default:
                     break;
             }
@@ -161,6 +197,7 @@ public class GameBoardState implements Table {
 
         return true;
     }
+
 
     @Override
     public AbstractGamePlayer getActualPlayer() {
@@ -171,5 +208,30 @@ public class GameBoardState implements Table {
     public int getRound() {
         return this.round;
     }
+    public void setRound(int round) {
+        this.round = round;
+    }
+    public void setActual_player(AbstractGamePlayer player) {
+        this.actual_player = player;
+    }
+    public void setRun(final boolean run) {
+        this.run = run;
+    }
+    public void setActiveplayerid(final int activeplayerid) {
+        this.activeplayerid = activeplayerid;
+    }
+    public void setDeposited_cards(final ArrayList<Card> deposited_cards) {
+        this.deposited_cards = deposited_cards;
+    }
+    public void setDrawpile_cards(final Stack<Card> drawpile_cards) {
+        this.drawpile_cards = drawpile_cards;
+    }
+    public void setPlayers(final AbstractGamePlayer[] players) {
+        this.players = players;
+    }
+    public void setConfiguration(final GameConfiguration configuration) {
+        this.configuration = configuration;
+    }
+
 
 }
