@@ -13,6 +13,10 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     private ArrayList<MoveNode> next_nodes;
     private int depth;
 
+    /**
+     * Empty Constructor
+     * Signalises an Empty Node -> the Root Node (empy Move)
+     */
     public MoveNode() {
         this.setMove(null);
         this.setNextNodes(new ArrayList<MoveNode>());
@@ -87,8 +91,8 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
 
     @Override
     public void addNextMoveNode(MoveNode next_MoveNode) {
-        this.next_nodes.add(next_MoveNode);
-        next_MoveNode.setPrevNode(this);
+        this.getNextNodes().add(next_MoveNode);
+        next_MoveNode.setPrevNode(this);        //And Sets The Prev_NOde of the added node to the actual
     }
 
     @Override
