@@ -40,10 +40,9 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
     public AbstractGamePlayer(final String name, final PlayerType type, final Set<Card> cards) {
         this.name = name;
         this.type = type;
+        this.cards = cards;
     }
-    public AbstractGamePlayer() {
-
-    }
+    public AbstractGamePlayer() {}
 
     @Override
     public AbstractGamePlayer clone() {
