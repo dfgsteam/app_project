@@ -105,16 +105,5 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
         this.actual_state = state;
     }
 
-    @Override
-    public String toString() {
-        String move_message = "Move: " + this.getMove();
-        String parent_message = "Parent: " + this.getPrevNode();
-        String board = "Actual Board: " + this.getActualBoardState();
-        String list = "List of next possible moves: " + this.getNextNodes();
-
-        String text = move_message + "\n" + parent_message + "\n" + board + "\n" + list + "\n" + "\n";
-        return text;
-    }
-
 
 }

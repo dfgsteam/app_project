@@ -13,7 +13,7 @@ import bauernhof.app.player.types.MoveTree.MoveTree;
  * This abstract class implements (not fully) the ThreadHanlder Interface
  */
 public abstract class AbstractThread extends Thread implements ThreadHandler {
-    private static final int MAX_DEPTH = 3;
+    private static final int MAX_DEPTH = 2;
     private static MoveTree move_tree;
     private MoveNode actual_node;
 

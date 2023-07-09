@@ -1,9 +1,11 @@
 package bauernhof.app.player.types;
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.player.types.MoveTree.MoveNode;
 import bauernhof.app.player.types.MoveTree.Threads.AbstractThread;
 import bauernhof.app.player.types.MoveTree.Threads.SequenceThread;
 import bauernhof.app.player.types.MoveTree.Threads.WorkingThread;
+import bauernhof.app.settings.Se;
 import bauernhof.preset.Move;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
@@ -39,7 +41,30 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
         }
         System.out.println("ENDE");
 
-        return null;
+        System.out.println(WorkingThread.getTree().getRootNode());
+        System.out.println(WorkingThread.getTree().getRootNode().getNextNodes().size());
+        for (MoveNode node : WorkingThread.getTree().getRootNode().getNextNodes()) {
+            System.out.println(node.getNextNodes().size());
+        }
+        System.exit(0);
+
+        SequenceThread sequenceThread1 = new SequenceThread(gameboardstate);
+        SequenceThread sequenceThread2 = new SequenceThread();
+        SequenceThread sequenceThread3 = new SequenceThread();
+        SequenceThread sequenceThread4 = new SequenceThread();
+
+        try {
+            sequenceThread1.join();
+            sequenceThread2.join();
+            sequenceThread3.join();
+            sequenceThread4.join();
+        }
+
+        catch (InterruptedException e) {
+            System.err.println("Error");
+        }
+
+        return SequenceThread.bestNode().getMove();
     }
 
     //Not usable methods
