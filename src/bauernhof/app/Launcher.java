@@ -7,10 +7,10 @@ import bauernhof.app.settings.*;
 import bauernhof.app.ui.launcher.BaFr;
 
 public class Launcher {
+    public static boolean debug;
+
     public static void main(String args[]) throws IOException, InterruptedException, SeEx {
-        File settConfFile = new File("gameconfigs/game/general.xml");
-        SePa SettPars = new SePa();
-        Se Settings = SettPars.parse(settConfFile);
+        Se Settings = new SePa().parse(new File("gameconfigs/game/general.xml"));
 
         System.out.println(Settings.getRawConfiguration());
 
