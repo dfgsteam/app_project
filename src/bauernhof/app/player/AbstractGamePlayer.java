@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
-public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
+public abstract class AbstractGamePlayer extends PlayerCards implements GamePlayer {
     private String name;
     protected Move move;
     private int playerid;
@@ -91,11 +91,6 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
 
     public void setGameConfiguration(final GameConfiguration configuration) {
         this.configuration = configuration;
-    }
-
-    @Override
-    public Move request() throws Exception {
-        return this.move;
     }
 
     @Override
