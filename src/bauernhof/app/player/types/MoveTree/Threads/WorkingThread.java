@@ -54,7 +54,7 @@ public class WorkingThread extends AbstractThread {
         }
 
         else {
-            if (this.getThreadNode().getActualBoardState().getDepositedCards().size() > this.getThreadNode().getActualBoardState().getActualPlayer().get
+            if (this.getThreadNode().getActualBoardState().getDepositedCards().size() > this.getThreadNode().getActualBoardState().getConfiguration().getNumDepositionAreaSlots()) { return false; }
             to_take = this.getThreadNode().getActualBoardState().getDepositedCards().get(cardNumTake);
         }
 
