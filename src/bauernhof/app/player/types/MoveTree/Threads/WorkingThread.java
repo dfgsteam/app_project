@@ -24,6 +24,7 @@ public class WorkingThread extends AbstractThread {
         this.setThreadNode(getTree().getRootNode());
         workingThreadAction();
          while (!WorkingThread.next_calculations.isEmpty()) { workingThreadAction(); }
+
     }
 
     /**
@@ -64,6 +65,7 @@ public class WorkingThread extends AbstractThread {
         Move new_move = new Move(to_take, to_put);
         GameBoardState new_state = (GameBoardState) this.getThreadNode().getActualBoardState().clone();
 
+        System.out.println("Schritt 1 wurde gemacht");
         if (!new_state.doMove(new_move)) { return false; }
         
         MoveNode next_MoveNode = new MoveNode(new_move, this.getThreadNode(), new_state);
@@ -85,6 +87,7 @@ public class WorkingThread extends AbstractThread {
                     if (!calcNextNode(i, j)) { continue; }
                     next_calculations.add(this.getThreadNode());
                     this.setThreadNode(this.getThreadNode().getPrevNode());
+                    System.out.println("Schritt 2 wurde gemacht");
                 }
             }
         this.setThreadNode(null);
