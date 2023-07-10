@@ -56,6 +56,7 @@ public class NetworkPanel {
     public void setServer() {
         this.status = 1;
         this.createNewPanal("multiGameServer");
+        this.addButtonStartGame();
         this.launcher.setPanelNetworkPlayer();
     }
 
@@ -70,12 +71,6 @@ public class NetworkPanel {
             this.launcher.setPanelHome();
         else
             this.setSelect(true);
-    }
-
-    public void resetButtons() {
-        this.buttonCreateServer.setVisible(false);
-        this.buttonJoinServer.setVisible(false);
-        this.buttonStartServer.setVisible(false);
     }
 
     public void addButtonReturn() {
@@ -132,7 +127,22 @@ public class NetworkPanel {
         this.panel.add(button);
     }
 
+    public void addButtonStartGame() {
+        // Erstelle den JButton
+        JButton button = new JButton();
 
+        button.addActionListener((ActionListener ) new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                System.out.println("Start");
+            }
+        });
+        
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(Launcher.debug);
+        button.setBounds(995, 280, 261, 125);
+
+        this.panel.add(button);
+    }
 
 
     public JPanel getPanel() {
