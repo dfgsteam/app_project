@@ -16,10 +16,10 @@ import javax.swing.*;
 public class Start {
 
     static int Port = 1409;
-    static int Network = 1;
+    static int network = 1;
 
     public static void main(String args[]) throws Exception {
-        if(Network<1){
+        if(network<1){
             File gameConfFile = new File("gameconfigs/bauernhof.xml");
             GameConfigurationParser GameConfPars = new GaCoPa();
             GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
@@ -32,13 +32,13 @@ public class Start {
 
             System.out.println(GaCo.getConfigDescription());
         }
-        else if(Network == 1){
+        else if(network == 1){
             ServerSocket socket = new ServerSocket(Port);
             for(int i = 0; i < playernames.length; i++){
                 Socket client = socket.accept();
             }
         }
-        else if(Network == 2){//HHH
+        else if(network == 2){//HHH
             Socket socket = new Socket("localhost", Port);
             C2SConnection(socket, GameConfigurationParser, "hi");
             socket.handlePacket();
