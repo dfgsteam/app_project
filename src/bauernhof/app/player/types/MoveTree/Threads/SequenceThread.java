@@ -21,13 +21,18 @@ public class SequenceThread extends AbstractThread {
         if (first) {
             this.setThreadNode(getTree().getRootNode());
             next_calculations = new LinkedList<MoveNode>(getTree().getRootNode().getNextNodes());
+            for (MoveNode node : getTree().getRootNode().getNextNodes()) {
+                System.out.println(node.getMove());
+            }
+            
+
             differences = new ArrayList<Integer>();
-            run();
+            while (!SequenceThread.next_calculations.isEmpty()) { sequenceThreadAction(); }
         }
 
         else {
             if (!next_calculations.isEmpty()) {
-                run();
+                while (!SequenceThread.next_calculations.isEmpty()) { sequenceThreadAction(); }
             }
         }
 
@@ -77,7 +82,7 @@ public class SequenceThread extends AbstractThread {
 
     @Override
     public void sequenceThreadAction() {
-        synchronized (next_calculations) {
+        // synchronized (next_calculations) {
             if (next_calculations.isEmpty()) {
                 return;
             }
@@ -85,13 +90,14 @@ public class SequenceThread extends AbstractThread {
                 this.setThreadNode(next_calculations.remove());
                 while (goDeeper());
                 try {
+
                     differences.add(this.getThreadNode().getActualBoardState().getPlayers()[getTree().getRootNode().getActualBoardState().getActualPlayer().getPlayerID()].getScore() - maxEnemyPoints());
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
-        }
+        // }
     }
 
     @Override
@@ -113,10 +119,10 @@ public class SequenceThread extends AbstractThread {
 
 
     //-------------
-    @Override
-    public void run() {
-        while (!SequenceThread.next_calculations.isEmpty()) { sequenceThreadAction(); }
-    }
+    // @Override
+    // public void run() {
+    //     while (!SequenceThread.next_calculations.isEmpty()) { sequenceThreadAction(); }
+    // }
     
     //Not usable methods
     @Override
