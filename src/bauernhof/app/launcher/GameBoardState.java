@@ -148,6 +148,9 @@ public class GameBoardState implements Table {
     public AbstractGamePlayer getActualPlayer() {
         return players[activeplayerid];
     }
+    public GameConfiguration getConfiguration() {
+        return configuration;
+    }
 
     @Override
     public int getRound() {
