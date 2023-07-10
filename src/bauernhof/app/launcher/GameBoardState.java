@@ -132,7 +132,7 @@ public class GameBoardState implements Table {
             activeplayerid = 0;
             this.round++;
         }
-        if (round > 30) run = false;
+        if (round > 30 || drawpile_cards.isEmpty() || deposited_cards.size() >= configuration.getNumDepositionAreaSlots()) run = false;
         if (graphics != null) graphics.move(!run);
         if (run) {
             Thread.sleep(50);
