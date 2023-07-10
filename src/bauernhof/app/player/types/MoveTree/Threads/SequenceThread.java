@@ -14,91 +14,80 @@ import bauernhof.preset.PlayerType;
 public class SequenceThread extends AbstractThread {
 
     private static Queue<MoveNode> next_calculations;
-    private static ArrayList<Integer> differences;
+    public static ArrayList<Integer> differences;
 
 
-    /**
-     * Parametrized constructor as a sign for the first Thread-Object of the class
-     * @param board
-     */
     public SequenceThread(boolean first) {
-        super();
-        this.setThreadNode(AbstractThread.getTree().getRootNode());
-        next_calculations = new LinkedList<MoveNode>(this.getThreadNode().getNextNodes());
-        differences = new ArrayList<Integer>();
-    }
-
-    public SequenceThread() {
-        super();
-        start();
-    }
-
-
-
-    private final int worst_difference(MoveNode node) throws Exception {
-        int diff = node.getActualBoardState().getActualPlayer() == node.getActualBoardState().getPlayers()[0] ? node.getActualBoardState().getActualPlayer().getScore() - node.getActualBoardState().getPlayers()[1].getScore() : node.getActualBoardState().getActualPlayer().getScore() - node.getActualBoardState().getPlayers()[0].getScore();
-        for (AbstractGamePlayer player : node.getActualBoardState().getPlayers()) {
-            if (player == node.getActualBoardState().getActualPlayer()) { continue; }
-            if (node.getActualBoardState().getActualPlayer().getScore() - player.getScore() < diff) { diff = node.getActualBoardState().getActualPlayer().getScore() - player.getScore(); }
+        if (first) {
+            next_calculations = new LinkedList<MoveNode>(getTree().getRootNode().getNextNodes());
+            differences = new ArrayList<Integer>();
+            start();
         }
-        return diff;
+        
+         else { start(); }
+    }
+
+    private final int mostScoreNode() throws Exception {
+        int max = this.getThreadNode().getNextNodes().get(0).getActualBoardState().getPlayers()[this.getThreadNode().getActualBoardState().getActualPlayer().getPlayerID()].getScore();
+        int index = 0;
+        for (MoveNode node : this.getThreadNode().getNextNodes()) {
+            if (node.getActualBoardState().getPlayers()[getThreadNode().getActualBoardState().getActualPlayer().getPlayerID()].getScore() > max) {
+                max = node.getActualBoardState().getPlayers()[getThreadNode().getActualBoardState().getActualPlayer().getPlayerID()].getScore();
+                index = this.getThreadNode().getNextNodes().indexOf(node);
+            }
+        }
+        return index;
+    }
+
+    private final int sumOfAllEnemyPoints() throws Exception {
+        int sum = 0;
+        for (AbstractGamePlayer player : this.getThreadNode().getActualBoardState().getPlayers()) {
+            if (player == getTree().getRootNode().getActualBoardState().getActualPlayer()) { continue; }
+            System.out.println(player.getScore());
+            sum += player.getScore();
+        }
+        
+        return sum;
     }
     
 
+    
+
     @Override
-    public MoveNode getBestOfActual() throws Exception {
-        MoveNode best = this.getThreadNode().getNextNodes().get(0);
-        int best_diff = worst_difference(best);
-        for (MoveNode node : this.getThreadNode().getNextNodes()) {
-            if (worst_difference(node) > best_diff) {
-                best = node;
-                best_diff = worst_difference(node);
+    public void sequenceThreadAction() {
+        synchronized (next_calculations) {
+            if (next_calculations.isEmpty()) {
+                return; 
+            }
+            this.setThreadNode(next_calculations.remove());
+            while (goDeeper());
+            try {
+                differences.add(sumOfAllEnemyPoints());
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
         }
-        return best;
-    }
-
-    private final int sequenceDifference() throws Exception {
-        while (goDeeper()) {
-            this.setThreadNode(getBestOfActual());
-        }
-       return this.worst_difference(getThreadNode().getPrevNode());
     }
 
     @Override
     public boolean goDeeper() {
-        if (this.getThreadNode().getDepth() < this.getMaxDepth() && !this.getThreadNode().getNextNodes().isEmpty()) { return true; }
-        return false;
-    }
-
-    @Override
-    public void sequenceThreadAction() {
-        this.setThreadNode(next_calculations.remove());
+        if (this.getThreadNode().getNextNodes().isEmpty() || this.getThreadNode().getDepth()+1 >= getMaxDepth()) { return false; }
         try {
-            differences.add(sequenceDifference());
+            this.setThreadNode(getThreadNode().getNextNodes().get(mostScoreNode()));
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.err.println("Deeper Error");
         }
+        return true;
     }
 
-    public static MoveNode bestNode() {
-        Integer index = differences.indexOf(Collections.max(differences));
-        return SequenceThread.getTree().getRootNode().getNextNodes().get(index);
-    }
 
-    //--------------------
+    //-------------
     @Override
     public void run() {
-        while(!next_calculations.isEmpty()) {
-            synchronized (next_calculations) {
-                if (next_calculations.isEmpty()) { continue; }
-                sequenceThreadAction();
-            }
-        }
-
+        while (!next_calculations.isEmpty()) { sequenceThreadAction(); }
     }
-
+    
     //Not usable methods
     @Override
     public boolean calcNextNode(int cardNumTake, int cardNumPut) {
@@ -111,5 +100,10 @@ public class SequenceThread extends AbstractThread {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'workingThreadAction'");
     }
-    
+
+    @Override
+    public MoveNode getBestOfActual() throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getBestOfActual'");
+    }
 }
