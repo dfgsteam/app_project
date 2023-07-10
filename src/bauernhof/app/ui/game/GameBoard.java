@@ -1,25 +1,24 @@
 package bauernhof.app.ui.game;
 
 import bauernhof.preset.GameConfiguration;
-import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
 import bauernhof.app.launcher.GameBoardState;
 import sag.LayerPosition;
 import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.ui.game.listener.CardListener;
 import sag.SAGFrame;
 import sag.SAGPanel;
+import sag.elements.GElement;
 import sag.elements.GGroup;
-
 import javax.swing.*;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-public class GameBoard implements ActionListener{ 
+public class GameBoard { 
 
     final private int WIDTH = 1600;
     final private int HEIGTH = 900;
@@ -27,12 +26,11 @@ public class GameBoard implements ActionListener{
     private final SAGFrame FRAME = new SAGFrame("Hofbauern", 30, this.WIDTH, this.HEIGTH);
     private SAGPanel mainPanel = new SAGPanel(this.WIDTH, this.HEIGTH);
 
+    private GCard drawPileDeck;
+    private GCard depositedDeck;
 
-    private JButton DrawPileButton;
-    private JButton DipositedButton;
-
-    private NachziehPanel nachziehPanel;
-    private AblagePanel ablagePanel;
+    private DrawPilePanel drawPilePanel;
+    private DepositedPanel depositedPanel;
 
     private PlayerPanel panelPlayer;
     private PlayerNamePanel panelPlayerName;
@@ -91,47 +89,20 @@ public class GameBoard implements ActionListener{
          //String path = "graphics/player_view"+i+".jpg";
 
         this.mainPanel = new SAGPanel(this.WIDTH, this.HEIGTH);
-        mainPanel.setLayout(new GridLayout(3,1));
+        mainPanel.setLayout(null);
         
-        initDrawPileButton();
-        initAblagestapelButton();
-
-        mainPanel.add(DrawPileButton);
-        mainPanel.add(DipositedButton);
 
         GGroup Mid = mainPanel.addLayer(LayerPosition.CENTER_CENTER);
         Mid.setScale(1.15f);
-        Mid.addChild(new GCard(gameBoardState.getDrawPileCards().iterator().next()), -200, 0);
+        drawPileDeck = new GCard(gameBoardState.getDrawPileCards().iterator().next());
+        drawPileDeck.setMouseEventListener(new CardListener(this, playerId));
+        Mid.addChild(drawPileDeck, -200, 0);
+        drawPilePanel = new DrawPilePanel(this, gameBoardState.getDrawPileCards());
+        depositedPanel = new DepositedPanel(this, gameBoardState.getDepositedCards());
         //Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), 150, 0);
         
     }
 
-
-    private void initDrawPileButton(){
-        
-        DrawPileButton = new JButton();
-        DrawPileButton.setBounds((WIDTH/2)-(WIDTH/10*2),(HEIGTH/2)-(HEIGTH/5),WIDTH/9,HEIGTH/10*3);
-        DrawPileButton.addActionListener(this::actionPerformed);
-        DrawPileButton.setOpaque(false);
-        DrawPileButton.setContentAreaFilled(false);
-        DrawPileButton.setBorderPainted(false);
-        DrawPileButton.setFocusable(false);
-        DrawPileButton.setRolloverEnabled(false);
-
-    }
-
-    private void initAblagestapelButton(){
-        
-        DipositedButton = new JButton();
-        DipositedButton.setBounds((WIDTH/2),(HEIGTH/2)-(HEIGTH/5),WIDTH/9,HEIGTH/10*3);
-        DipositedButton.addActionListener(this::actionPerformed);
-        DipositedButton.setOpaque(false);
-        DipositedButton.setContentAreaFilled(false);
-        DipositedButton.setBorderPainted(false);
-        DipositedButton.setFocusable(false);
-        DipositedButton.setRolloverEnabled(false);
-    
-    }
 
     public SAGFrame getFrame(){
         return this.FRAME;
@@ -140,23 +111,25 @@ public class GameBoard implements ActionListener{
         return this.mainPanel;
     } 
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==DrawPileButton){
-            nachziehPanel = new NachziehPanel(this.FRAME,gameBoardState.getDrawPileCards());
-            FRAME.setSAGPanel(nachziehPanel);
-        }
-
-        if(e.getSource()==DipositedButton){
-            ablagePanel = new AblagePanel(gameBoardState.getDepositedCards());
-        }
-
-        if(e.getSource()==Back){
-            FRAME.setSAGPanel(mainPanel);
-        }
-        
-           
+    public GCard getDrawPileDeck(){
+        return this.drawPileDeck;
     }
+
+    public GCard getDepositedDeck(){
+        return this.depositedDeck;
+    }
+
+    public SAGPanel getDrawPilePanel(){
+            return drawPilePanel;
+    }
+    public SAGPanel getDeposedPanel(){
+        return depositedPanel;
+    }
+    public GameBoardState getGameBoardState(){
+        return this.gameBoardState;
+    }
+
+
 
     
 }

@@ -12,10 +12,14 @@ import sag.LayerPosition;
 import sag.SAGPanel;
 import sag.elements.GGroup;
 
-public class AblagePanel extends SAGPanel implements ActionListener{
-    
+public class DepositedPanel extends SAGPanel implements ActionListener{
 
-    public AblagePanel(ArrayList<Card> stack){
+    GameBoard gameBoard;
+    JButton Back;
+
+    public DepositedPanel(GameBoard gameBoard, ArrayList<Card> stack){
+
+        this.gameBoard = gameBoard;
         
         GGroup top = this.addLayer(LayerPosition.TOP_LEFT);
         top.setScale(0.75f);
@@ -54,7 +58,9 @@ public class AblagePanel extends SAGPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //if()
+        if(e.getSource()==Back){
+            gameBoard.getFrame().setSAGPanel(gameBoard.getMain());
+        }
     
 }
 }

@@ -12,18 +12,17 @@ import bauernhof.preset.card.GCard;
 import sag.LayerPosition;
 import sag.SAGFrame;
 import sag.SAGPanel;
+import sag.elements.GElement;
 import sag.elements.GGroup;
 
-public class NachziehPanel extends SAGPanel implements ActionListener{
+public class DrawPilePanel extends SAGPanel implements ActionListener{
     
      JButton Back;
-     SAGFrame frame;
-     SAGPanel main;
+     GameBoard gameBoard;
 
-    public NachziehPanel(SAGFrame frame, Stack<Card> stack){
+    public DrawPilePanel(GameBoard gameBoard, Stack<Card> stack){
 
-        this.frame = frame;
-        this.main = frame.getSAGPanel();
+        this.gameBoard = gameBoard;
         
         GGroup top = this.addLayer(LayerPosition.TOP_LEFT);
         top.setScale(0.75f);
@@ -66,9 +65,10 @@ public class NachziehPanel extends SAGPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==Back){
-            this.setVisible(false);
-            frame.setSAGPanel(main);
+            gameBoard.getFrame().setSAGPanel(gameBoard.getMain());
+            
         }
     
 }
+
 }

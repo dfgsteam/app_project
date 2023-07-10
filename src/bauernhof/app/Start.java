@@ -18,8 +18,6 @@ public class Start {
         GameConfigurationParser GameConfPars = new GaCoPa();
         GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
 
-        
-
         ArrayList<AbstractGamePlayer> players = new ArrayList<AbstractGamePlayer>();
 
         GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Smila", "Alrun", "Lotta"}, new PlayerType[]{PlayerType.HUMAN, PlayerType.HUMAN, PlayerType.HUMAN, PlayerType.HUMAN}, GaCo, new ImmutableList<>(GaCo.getCards()));

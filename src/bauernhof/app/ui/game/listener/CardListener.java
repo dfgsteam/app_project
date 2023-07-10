@@ -23,6 +23,17 @@ public class CardListener implements MouseEventListener {
         //System.out.println("click");
         if (this.gameBoard.check_move(this.playerId))
             System.out.println("click");
+
+        if(var2.getGElement() == gameBoard.getDrawPileDeck() && var1.getClickCount()==1){
+            gameBoard.getFrame().setSAGPanel(gameBoard.getDrawPilePanel());
+        }
+
+        if(var2.getGElement() == gameBoard.getDepositedDeck() && var1.getClickCount()==1){
+            gameBoard.getFrame().setSAGPanel(gameBoard.getDrawPilePanel());
+        }
+        if(var2.getGElement() == gameBoard.getDrawPileDeck() && var1.getClickCount()==2){
+            
+        }
     }
 
     public void mousePressed(MouseButtonEvent var1, GElement var2) {}
@@ -30,7 +41,7 @@ public class CardListener implements MouseEventListener {
     public void mouseReleased(MouseButtonEvent var1, GElement var2) {}
 
     public void mouseEntered(MouseMotionEvent var1, GElement var2) {
-        var2.setScale(0.95f);
+        var2.setScale(1.25f);
     }
 
     public void mouseExited(MouseMotionEvent var1, GElement var2) {
