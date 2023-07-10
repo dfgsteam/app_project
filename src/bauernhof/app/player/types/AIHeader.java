@@ -24,5 +24,5 @@ public interface AIHeader {
      * Returning a card, which an AI is going to remove from the own hand
      * @return Card
      */
-    public Card removeFromOwn();
+    public Card removeFromOwn(Card to_take);
 }
