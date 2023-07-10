@@ -34,7 +34,6 @@ public class GameBoardState implements Table {
 
         this.playernames = playernames;
         this.run = true;
-        //Collections.shuffle(cards);
         this.round = 1;
         final AbstractGamePlayer[] players = new AbstractGamePlayer[playernames.length];
         this.players = players;
@@ -78,7 +77,7 @@ public class GameBoardState implements Table {
     public void initGame(final GameBoard graphics) throws Exception {
         this.graphics = graphics;
         System.out.println("GAME WIRD GESTARTET");
-        this.actual_player.doMove(actual_player.request());
+        this.doMove(actual_player.request());
 
     }
 
