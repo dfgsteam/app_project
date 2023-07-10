@@ -38,9 +38,9 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
         }
 
         SequenceThread sequenceThread1 = new SequenceThread(true);
-        SequenceThread sequenceThread2 = new SequenceThread();
-        SequenceThread sequenceThread3 = new SequenceThread();
-        SequenceThread sequenceThread4 = new SequenceThread();
+        SequenceThread sequenceThread2 = new SequenceThread(false);
+        SequenceThread sequenceThread3 = new SequenceThread(false);
+        SequenceThread sequenceThread4 = new SequenceThread(false);
 
         try {
             sequenceThread1.join();
@@ -53,7 +53,7 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
             System.err.println("Error");
         }
 
-        return SequenceThread.bestNode().getMove();
+        return null;
     }
 
     //Not usable methods
