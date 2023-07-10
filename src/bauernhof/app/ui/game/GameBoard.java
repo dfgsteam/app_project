@@ -8,6 +8,8 @@ import sag.LayerPosition;
 import bauernhof.app.player.AbstractGamePlayer;
 import sag.SAGFrame;
 import sag.SAGPanel;
+import sag.elements.GGroup;
+
 import javax.swing.*;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
