@@ -22,12 +22,12 @@ public class SequenceThread extends AbstractThread {
             this.setThreadNode(getTree().getRootNode());
             next_calculations = new LinkedList<MoveNode>(getTree().getRootNode().getNextNodes());
             differences = new ArrayList<Integer>();
-            run();
+            start();
         }
 
         else {
             if (!next_calculations.isEmpty()) {
-                run();
+                start();
             }
         }
 
