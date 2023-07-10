@@ -24,7 +24,7 @@ public class AITester {
         Advanced_AI a = new Advanced_AI("Florian");
         a.setGameBoardState(gameBoardState);
 
-        System.out.println(a.calculateNextMove());
+        System.out.println(a.request());
 
     }
 }

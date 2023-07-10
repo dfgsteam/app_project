@@ -52,8 +52,8 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
         catch (InterruptedException e) {
             System.err.println("Error");
         }
-
-        return null;
+        
+        return sequenceThread1.getBestOfActual().getMove();
     }
 
     //Not usable methods

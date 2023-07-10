@@ -43,12 +43,13 @@ public class SequenceThread extends AbstractThread {
         int sum = 0;
         for (AbstractGamePlayer player : this.getThreadNode().getActualBoardState().getPlayers()) {
             if (player == getTree().getRootNode().getActualBoardState().getActualPlayer()) { continue; }
-            System.out.println(player.getScore());
             sum += player.getScore();
         }
         
         return sum;
     }
+
+
     
 
     
@@ -81,6 +82,11 @@ public class SequenceThread extends AbstractThread {
         return true;
     }
 
+    @Override
+    public MoveNode getBestOfActual() throws Exception {
+        return getTree().getRootNode().getNextNodes().get(differences.indexOf(Collections.min(differences)));
+    }
+
 
     //-------------
     @Override
@@ -99,11 +105,5 @@ public class SequenceThread extends AbstractThread {
     public boolean workingThreadAction() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'workingThreadAction'");
-    }
-
-    @Override
-    public MoveNode getBestOfActual() throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBestOfActual'");
     }
 }
