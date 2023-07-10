@@ -19,12 +19,15 @@ public class AITester {
         GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
 
         ArrayList<AbstractGamePlayer> players = new ArrayList<AbstractGamePlayer>();
-        GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Smila", "Alrun", "Lotta"}, new PlayerType[]{PlayerType.SIMPLE_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
+        GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Smila", "Alrun", "Lotta"}, new PlayerType[]{PlayerType.ADVANCED_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
 
-        Advanced_AI a = new Advanced_AI("Florian");
-        a.setGameBoardState(gameBoardState);
+        GameBoardState gameBoardclone = gameBoardState.clone();
+        System.out.println(gameBoardclone.getActualPlayer().getName());
+        System.out.println(gameBoardState.getActualPlayer().getPlayerType());
+        gameBoardclone.doMove(gameBoardclone.getActualPlayer().request());
 
-        System.out.println(a.request());
+
+        
 
     }
 }
