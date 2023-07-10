@@ -8,12 +8,13 @@ import sag.LayerPosition;
 import bauernhof.app.player.AbstractGamePlayer;
 import sag.SAGFrame;
 import sag.SAGPanel;
-import sag.elements.GGroup;
 import javax.swing.*;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Stack;
 import java.util.concurrent.TimeUnit;
 
 public class GameBoard implements ActionListener{ 
@@ -23,11 +24,10 @@ public class GameBoard implements ActionListener{
 
     private final SAGFrame FRAME = new SAGFrame("Hofbauern", 30, this.WIDTH, this.HEIGTH);
     private SAGPanel mainPanel = new SAGPanel(this.WIDTH, this.HEIGTH);
-    private SAGPanel CardPanel;
 
 
-    private JButton Nachziehstapel;
-    private JButton Ablagestapel;
+    private JButton DrawPileButton;
+    private JButton DipositedButton;
 
     private NachziehPanel nachziehPanel;
     private AblagePanel ablagePanel;
@@ -89,13 +89,13 @@ public class GameBoard implements ActionListener{
          //String path = "graphics/player_view"+i+".jpg";
 
         this.mainPanel = new SAGPanel(this.WIDTH, this.HEIGTH);
-        mainPanel.setLayout(null);
-
-        initNachziehstapelButton();
+        mainPanel.setLayout(new GridLayout(3,1));
+        
+        initDrawPileButton();
         initAblagestapelButton();
 
-        mainPanel.add(Nachziehstapel);
-        mainPanel.add(Ablagestapel);
+        mainPanel.add(DrawPileButton);
+        mainPanel.add(DipositedButton);
 
         GGroup Mid = mainPanel.addLayer(LayerPosition.CENTER_CENTER);
         Mid.setScale(1.15f);
@@ -105,32 +105,29 @@ public class GameBoard implements ActionListener{
     }
 
 
-    private void initNachziehstapelButton(){
+    private void initDrawPileButton(){
         
-        Nachziehstapel = new JButton();
-        Nachziehstapel.setBounds((WIDTH/2)-(WIDTH/10*2),(HEIGTH/2)-(HEIGTH/5),WIDTH/9,HEIGTH/10*3);
-        Nachziehstapel.addActionListener(this::actionPerformed);
-        Nachziehstapel.setOpaque(false);
-        Nachziehstapel.setContentAreaFilled(false);
-        Nachziehstapel.setBorderPainted(false);
-        //Nachziehstapel.setBackground(new Color(0,0,0,0));
-        Nachziehstapel.setFocusable(false);
-        Nachziehstapel.setRolloverEnabled(false);
-    
+        DrawPileButton = new JButton();
+        DrawPileButton.setBounds((WIDTH/2)-(WIDTH/10*2),(HEIGTH/2)-(HEIGTH/5),WIDTH/9,HEIGTH/10*3);
+        DrawPileButton.addActionListener(this::actionPerformed);
+        DrawPileButton.setOpaque(false);
+        DrawPileButton.setContentAreaFilled(false);
+        DrawPileButton.setBorderPainted(false);
+        DrawPileButton.setFocusable(false);
+        DrawPileButton.setRolloverEnabled(false);
 
     }
 
     private void initAblagestapelButton(){
         
-        Ablagestapel = new JButton();
-        Ablagestapel.setBounds((WIDTH/2),(HEIGTH/2)-(HEIGTH/5),WIDTH/9,HEIGTH/10*3);
-        Ablagestapel.addActionListener(this::actionPerformed);
-        Ablagestapel.setOpaque(false);
-        Ablagestapel.setContentAreaFilled(false);
-        Ablagestapel.setBorderPainted(false);
-        //Ablagestapel.setBackground(new Color(0, 0, 0, 0));
-        Nachziehstapel.setFocusable(false);
-        Nachziehstapel.setRolloverEnabled(false);
+        DipositedButton = new JButton();
+        DipositedButton.setBounds((WIDTH/2),(HEIGTH/2)-(HEIGTH/5),WIDTH/9,HEIGTH/10*3);
+        DipositedButton.addActionListener(this::actionPerformed);
+        DipositedButton.setOpaque(false);
+        DipositedButton.setContentAreaFilled(false);
+        DipositedButton.setBorderPainted(false);
+        DipositedButton.setFocusable(false);
+        DipositedButton.setRolloverEnabled(false);
     
     }
 
@@ -143,12 +140,12 @@ public class GameBoard implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==Nachziehstapel){
+        if(e.getSource()==DrawPileButton){
             nachziehPanel = new NachziehPanel(this.FRAME,gameBoardState.getDrawPileCards());
             FRAME.setSAGPanel(nachziehPanel);
         }
 
-        if(e.getSource()==Ablagestapel){
+        if(e.getSource()==DipositedButton){
             ablagePanel = new AblagePanel(gameBoardState.getDepositedCards());
         }
 
@@ -159,4 +156,5 @@ public class GameBoard implements ActionListener{
            
     }
 
+    
 }
