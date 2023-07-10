@@ -53,6 +53,7 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
         player.setPlayerID(this.playerid);
         player.setGameConfiguration(configuration);
         player.setPlayerGameBoard(state.clone());
+        player.setScore(this.score);
         return player;
     }
     @Override
