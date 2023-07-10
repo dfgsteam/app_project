@@ -38,7 +38,7 @@ public class Start {
                 Socket client = socket.accept();
             }
         }
-        else if(Network == 2){
+        else if(Network == 2){//HHH
             Socket socket = new Socket("localhost", Port);
             C2SConnection(socket, GameConfigurationParser, "hi");
             socket.handlePacket();
