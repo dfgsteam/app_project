@@ -1,8 +1,6 @@
 package bauernhof.app.ui.game;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;

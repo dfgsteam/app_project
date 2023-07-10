@@ -170,14 +170,15 @@ public class GameBoardState implements Table {
                 activeplayerid = 0;
                 this.round++;
             }
-            Thread.sleep(50);
+
             if (graphics != null)
             if (round > 30) {
                 graphics.move(true);
                 run = false;
             }else graphics.move(false);
         //System.out.println("===================");
-        if (run)
+        if (run) {
+            Thread.sleep(50);
             switch (getActualPlayer().getPlayerType()) {
                 case RANDOM_AI:
                     this.doMove(((Random_AI) getActualPlayer()).calculateNextMove());
@@ -194,6 +195,7 @@ public class GameBoardState implements Table {
                 default:
                     break;
             }
+        }
 
 
         return true;

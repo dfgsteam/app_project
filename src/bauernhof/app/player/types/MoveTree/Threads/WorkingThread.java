@@ -73,7 +73,6 @@ public class WorkingThread extends AbstractThread {
                 if (next_calculations.isEmpty()) { return false; }
                 this.setThreadNode(WorkingThread.next_calculations.remove());
             }
-
             for (int i = -1; i < this.getThreadNode().getActualBoardState().getDepositedCards().size(); i++) {
                 for (int j = -1; j < this.getThreadNode().getActualBoardState().getActualPlayer().getCards().size(); j++) {
                     if (!calcNextNode(i, j)) { continue; }
