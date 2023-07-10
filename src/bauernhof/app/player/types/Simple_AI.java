@@ -12,7 +12,7 @@ public class Simple_AI extends AbstractGamePlayer implements AIHeader {
     }
 
     @Override
-    public Move calculateNextMove() {
+    public Move request() {
         Card to_take, to_remove;
         if (!state.getDepositedCards().isEmpty() && !state.getDrawPileCards().isEmpty()) {
             if (this.getAddScore(cardFromDeposit()) > this.getAddScore(cardFromStack()))

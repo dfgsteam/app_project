@@ -21,7 +21,7 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
 
 
     @Override
-    public Move calculateNextMove() throws Exception {
+    public Move request() throws Exception {
         WorkingThread workingThread1 = new WorkingThread(gameboardstate);
         WorkingThread workingThread2 = new WorkingThread();
         WorkingThread workingThread3 = new WorkingThread();

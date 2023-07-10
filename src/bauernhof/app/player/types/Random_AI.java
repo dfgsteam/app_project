@@ -16,7 +16,7 @@ public class Random_AI extends AbstractGamePlayer implements AIHeader{
     }
 
     @Override
-    public Move calculateNextMove() {
+    public Move request() {
         Card to_take = null;
         Card to_deposit = null;
 

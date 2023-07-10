@@ -2,6 +2,7 @@ package bauernhof.app.player.types;
 
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.preset.Move;
 import bauernhof.preset.PlayerType;
 
 /**
@@ -13,5 +14,10 @@ import bauernhof.preset.PlayerType;
 public class HumanPlayer extends AbstractGamePlayer {
     public HumanPlayer(String name) {
         super(name, PlayerType.HUMAN);
+    }
+
+    @Override
+    public Move request() throws Exception {
+        return null;
     }
 }

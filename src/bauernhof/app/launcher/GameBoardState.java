@@ -1,10 +1,7 @@
 package bauernhof.app.launcher;
 
 import bauernhof.app.player.AbstractGamePlayer;
-import bauernhof.app.player.types.Advanced_AI;
-import bauernhof.app.player.types.HumanPlayer;
-import bauernhof.app.player.types.Random_AI;
-import bauernhof.app.player.types.Simple_AI;
+import bauernhof.app.player.types.*;
 import bauernhof.app.ui.game.GameBoard;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
@@ -47,13 +44,13 @@ public class GameBoardState implements Table {
                     players[i] = new Advanced_AI(playernames[i]);
                     break;
                 case HUMAN:
-                    players[i] = new HumanPlayer(playernames[i])
+                    players[i] = new HumanPlayer(playernames[i]);
                     break;
                 case RANDOM_AI:
                     players[i] = new Random_AI(playernames[i]);
                     break;
                 case REMOTE:
-                    players[i] = new AbstractGamePlayer(playernames[i], types[i]);
+                    players[i] = new LocalRemotePlayer(playernames[i]);
                     break;
                 case SIMPLE_AI:
                     players[i] = new Simple_AI(playernames[i]);
@@ -81,18 +78,7 @@ public class GameBoardState implements Table {
     public void initGame(final GameBoard graphics) throws Exception {
         this.graphics = graphics;
         System.out.println("GAME WIRD GESTARTET");
-        switch (actual_player.getPlayerType()) {
-            case RANDOM_AI:
-                this.doMove(((Random_AI) actual_player).calculateNextMove());
-                break;
-            case ADVANCED_AI:
-                this.doMove(((Advanced_AI) actual_player).calculateNextMove());
-                break;
-            case SIMPLE_AI:
-                this.doMove(((Simple_AI) actual_player).calculateNextMove());
-                break;
-            default:
-        }
+        this.actual_player.doMove(actual_player.request());
 
     }
 
@@ -136,31 +122,13 @@ public class GameBoardState implements Table {
     @Override
     public boolean doMove(final Move move) throws Exception {
         if (!drawpile_cards.isEmpty())
-        /*System.out.println("DRAWPILE_CARDS : " + drawpile_cards.lastElement().getName());
-        System.out.print("DEPOSITED_CARDS: ");
-        for (final Card card : deposited_cards)
-            System.out.print(card.getName() + ", ");
-        System.out.println("\n");
-        System.out.println("ACTIVEPLAYER: " + getActualPlayer().getName() + " " + activeplayerid);
-        System.out.println(activeplayerid + " TAKEN : " + move.getTaken().getName() + "    DEPOSITED : " + move.getDeposited().getName());*/
         if (deposited_cards.contains(move.getTaken()))
             deposited_cards.remove(move.getTaken());
         if(!(drawpile_cards.isEmpty()) && drawpile_cards.lastElement().equals(move.getTaken()))
             drawpile_cards.pop();
-        //else return false;
-        /*if (!getActualPlayer().getCards().contains(move.getDeposited()))
-            return false; */
         deposited_cards.add(move.getDeposited());
         getActualPlayer().add(move.getTaken());
         getActualPlayer().remove(move.getDeposited());
-       /* for (final AbstractGamePlayer gameplayer : this.getPlayers()) {
-            System.out.print(gameplayer.getPlayerID() + " > " + gameplayer.getName() + "\t|| ");
-            for (final Card card : gameplayer.getCards()) {
-                System.out.print(card.getName() + ", ");
-            }
-            System.out.println( "\t  [" + gameplayer.getCards().size() + "]");
-        }
-        */
         for (final AbstractGamePlayer player : players)
             if(!player.equals(getActualPlayer()))
                 player.update(move);
@@ -177,26 +145,9 @@ public class GameBoardState implements Table {
                 graphics.move(true);
                 run = false;
             }else graphics.move(false);
-        //System.out.println("===================");
         if (run) {
             Thread.sleep(50);
             this.doMove(getActualPlayer().request());
-            switch (getActualPlayer().getPlayerType()) {
-                case RANDOM_AI:
-                    this.doMove(((Random_AI) getActualPlayer()).calculateNextMove());
-                    break;
-                case SIMPLE_AI:
-                    this.doMove(((Simple_AI) getActualPlayer()).calculateNextMove());
-                    break;
-                case REMOTE:
-                    this.doMove(getActualPlayer().request());
-                    break;
-                case ADVANCED_AI:
-                    this.doMove(((Advanced_AI) getActualPlayer()).calculateNextMove());
-                    break;
-                default:
-                    break;
-            }
         }
 
 

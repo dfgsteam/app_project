@@ -49,7 +49,12 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
         final Set<Card> cards = new HashSet<>();
         for (final Card card : getCards())
             cards.add(card);
-        final AbstractGamePlayer player = new AbstractGamePlayer(this.name, this.type, cards);
+        final AbstractGamePlayer player = new AbstractGamePlayer(this.name, this.type, cards) {
+            @Override
+            public Move request() {
+                return null;
+            }
+        };
         player.setPlayerID(this.playerid);
         player.setGameConfiguration(configuration);
         player.setPlayerGameBoard(state.clone());
