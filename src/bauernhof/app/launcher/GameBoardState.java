@@ -135,7 +135,7 @@ public class GameBoardState implements Table {
         if (round > 30) run = false;
         if (graphics != null) graphics.move(!run);
         if (run) {
-            Thread.sleep(2000);
+            Thread.sleep(50);
             this.doMove(getActualPlayer().request());
         }
 
