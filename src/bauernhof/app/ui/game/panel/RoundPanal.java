@@ -22,10 +22,10 @@ public class RoundPanal extends GGroup{
         GGroup panel = mainPanel.addLayer(LayerPosition.TOP_RIGHT);
 
         // Feld
-        GRect area = new GRect(0f, 0f, 70f, 50f, false, 0f, 0f);
+        GRect area = new GRect(0f, 0f, 80f, 50f, false, 0f, 0f);
         area.setFill(new Color(255, 255, 255, 255));
         area.setStroke(new Color(0, 0, 0), 3f);
-        panel.addChild(area, -80f, 10f);
+        panel.addChild(area, -90f, 10f);
 
         // Zähler
         this.headline.setAlignment(GText.TextAnchor.END);
