@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/commons-cli-1.5.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/Bauernhof-Preset-v1.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/Simple-APP-Graphics-v2.1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/Simple-APP-Graphics-v2.1.0-source.jar!/" />
+    </SOURCES>
+  </library>
+</component>
