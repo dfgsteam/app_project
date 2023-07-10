@@ -11,6 +11,7 @@ import bauernhof.preset.card.Card;
 public class WorkingThread extends AbstractThread {
 
     private static Queue<MoveNode> next_calculations = new LinkedList<MoveNode>();
+
     
 
     /**
@@ -22,7 +23,10 @@ public class WorkingThread extends AbstractThread {
         super(actual_state);
         this.setThreadNode(getTree().getRootNode());
         workingThreadAction();
-        start();
+         while (!WorkingThread.next_calculations.isEmpty()) { 
+            workingThreadAction();
+        }
+
     }
 
     /**
@@ -31,7 +35,12 @@ public class WorkingThread extends AbstractThread {
      */
     public WorkingThread() {
         this.setThreadNode(null);
-        start();
+         while (!WorkingThread.next_calculations.isEmpty()) { try {
+            workingThreadAction();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } }
     }
 
 
@@ -40,6 +49,7 @@ public class WorkingThread extends AbstractThread {
         if (this.getThreadNode().getDepth()+1 > this.getMaxDepth()) { return false; }
         Card to_take, to_put;
         if (cardNumTake < 0) {
+            if (this.getThreadNode().getActualBoardState().getDrawPileCards().isEmpty()) { return false; }
             to_take = this.getThreadNode().getActualBoardState().getDrawPileCards().lastElement();
         }
 
@@ -58,6 +68,7 @@ public class WorkingThread extends AbstractThread {
         Move new_move = new Move(to_take, to_put);
         GameBoardState new_state = (GameBoardState) this.getThreadNode().getActualBoardState().clone();
 
+        System.out.println("Schritt 1 wurde gemacht");
         if (!new_state.doMove(new_move)) { return false; }
         
         MoveNode next_MoveNode = new MoveNode(new_move, this.getThreadNode(), new_state);
@@ -68,11 +79,12 @@ public class WorkingThread extends AbstractThread {
 
     @Override
     public boolean workingThreadAction() throws Exception {
-        synchronized (next_calculations) {
+        // synchronized (next_calculations) {
             if (this.getThreadNode() == null) {
                 if (next_calculations.isEmpty()) { return false; }
                 this.setThreadNode(WorkingThread.next_calculations.remove());
             }
+
             for (int i = -1; i < this.getThreadNode().getActualBoardState().getDepositedCards().size(); i++) {
                 for (int j = -1; j < this.getThreadNode().getActualBoardState().getActualPlayer().getCards().size(); j++) {
                     if (!calcNextNode(i, j)) { continue; }
@@ -82,20 +94,21 @@ public class WorkingThread extends AbstractThread {
             }
         this.setThreadNode(null);
         return true;
-        }
+        // }
     }
 
 
     //------------
-    @Override
-    public void run() {
-        try {
-            while (!WorkingThread.next_calculations.isEmpty()) { workingThreadAction(); }
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+    // @Override
+    // public void run() {
+    //     try {
+    //         while (!WorkingThread.next_calculations.isEmpty()) { workingThreadAction(); }
+    //     } catch (Exception e) {
+    //         // TODO Auto-generated catch block
+    //         e.printStackTrace();
+    //     }
+    //     Thread.interrupted();
+    // }
 
 
     //This methods are not used by this Thread

@@ -132,10 +132,10 @@ public class GameBoardState implements Table {
             activeplayerid = 0;
             this.round++;
         }
-        if (round > 30) run = false;
+        if (round > 30 || drawpile_cards.isEmpty() || deposited_cards.size() >= configuration.getNumDepositionAreaSlots()) run = false;
         if (graphics != null) graphics.move(!run);
         if (run) {
-            Thread.sleep(2000);
+            Thread.sleep(50);
             this.doMove(getActualPlayer().request());
         }
 
@@ -147,6 +147,9 @@ public class GameBoardState implements Table {
     @Override
     public AbstractGamePlayer getActualPlayer() {
         return players[activeplayerid];
+    }
+    public GameConfiguration getConfiguration() {
+        return configuration;
     }
 
     @Override

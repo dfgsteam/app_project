@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><General version="1">
-	<Sound>2</Sound>
+	<Sound>6</Sound>
 	<CardSet>player.xml</CardSet>
-	<AI>4</AI>
+	<AI>3</AI>
 	<Name>dfgsteam</Name>
 </General>
