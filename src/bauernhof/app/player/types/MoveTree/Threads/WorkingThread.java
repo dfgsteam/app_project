@@ -23,7 +23,9 @@ public class WorkingThread extends AbstractThread {
         super(actual_state);
         this.setThreadNode(getTree().getRootNode());
         workingThreadAction();
-         while (!WorkingThread.next_calculations.isEmpty()) { workingThreadAction(); }
+         while (!WorkingThread.next_calculations.isEmpty()) { 
+            workingThreadAction();
+        }
 
     }
 
@@ -47,6 +49,7 @@ public class WorkingThread extends AbstractThread {
         if (this.getThreadNode().getDepth()+1 > this.getMaxDepth()) { return false; }
         Card to_take, to_put;
         if (cardNumTake < 0) {
+            if (this.getThreadNode().getActualBoardState().getDrawPileCards().isEmpty()) { return false; }
             to_take = this.getThreadNode().getActualBoardState().getDrawPileCards().lastElement();
         }
 
@@ -87,7 +90,6 @@ public class WorkingThread extends AbstractThread {
                     if (!calcNextNode(i, j)) { continue; }
                     next_calculations.add(this.getThreadNode());
                     this.setThreadNode(this.getThreadNode().getPrevNode());
-                    System.out.println("Schritt 2 wurde gemacht");
                 }
             }
         this.setThreadNode(null);
