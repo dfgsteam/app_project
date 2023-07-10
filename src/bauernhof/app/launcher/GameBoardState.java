@@ -31,12 +31,10 @@ public class GameBoardState implements Table {
     private PlayerType[] types;
     private GameConfiguration configuration;
     public GameBoardState(final String[] playernames, final PlayerType[] types, GameConfiguration configuration, final ImmutableList<Card> cards) throws Exception {
-
         this.playernames = playernames;
         this.run = true;
         this.round = 1;
-        final AbstractGamePlayer[] players = new AbstractGamePlayer[playernames.length];
-        this.players = players;
+        this.players = new AbstractGamePlayer[playernames.length];
         for (int i = 0; i < players.length; i++)
             switch (types[i]) {
                 case ADVANCED_AI:
@@ -67,13 +65,9 @@ public class GameBoardState implements Table {
         this.configuration = configuration;
         for (final AbstractGamePlayer player : players)
             if (player.getPlayerType().equals(PlayerType.ADVANCED_AI))
-                ((Advanced_AI)player).setGameBoardState(this.clone());
-
-
+                ((Advanced_AI)player).setGameBoardState(this);
     }
-    public GameBoardState() {
-
-    }
+    public GameBoardState() {}
     public void initGame(final GameBoard graphics) throws Exception {
         this.graphics = graphics;
         System.out.println("GAME WIRD GESTARTET");
@@ -133,19 +127,15 @@ public class GameBoardState implements Table {
                 player.update(move);
             else
                 getActualPlayer().doMove(move);
-            activeplayerid++;
-            if(activeplayerid == players.length) {
-                activeplayerid = 0;
-                this.round++;
-            }
-
-            if (graphics != null)
-            if (round > 30) {
-                graphics.move(true);
-                run = false;
-            }else graphics.move(false);
+        activeplayerid++;
+        if(activeplayerid == players.length) {
+            activeplayerid = 0;
+            this.round++;
+        }
+        if (round > 30) run = false;
+        if (graphics != null) graphics.move(!run);
         if (run) {
-            Thread.sleep(50);
+            Thread.sleep(2000);
             this.doMove(getActualPlayer().request());
         }
 
