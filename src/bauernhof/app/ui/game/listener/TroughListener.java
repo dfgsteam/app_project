@@ -20,21 +20,7 @@ public class TroughListener implements MouseEventListener{
     @Override
     public void mouseClicked(MouseButtonEvent arg0, GElement arg1) {
 
-        if(arg1.getGElement() != card){
-            System.out.println("hi");
         
-                //gameBoard.getGameBoardState().getActualPlayer().doMove(new Move((Card)gameBoard.getGameBoardState().getDrawPileCards().pop(),
-                //(Card)arg1.getGElement()));
-                //gameBoard.updateMain();
-                this.gameBoard.getFrame().setSAGPanel(this.gameBoard.getMain());
-        }
-        if(arg1.getGElement() == card){
-            System.out.println("not hi");
-                this.gameBoard.getGameBoardState().getDepositedCards().add(this.gameBoard.getGameBoardState().getDrawPileCards().iterator().next());
-                this.gameBoard.getGameBoardState().getDrawPileCards().remove(this.gameBoard.getGameBoardState().getDepositedCards().get(this.gameBoard.getGameBoardState().getDepositedCards().size()-1));
-                this.gameBoard.updateMain();
-                this.gameBoard.getFrame().setSAGPanel(this.gameBoard.getMain());
-        }
     }
 
     @Override

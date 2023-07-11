@@ -155,19 +155,7 @@ public class GameBoard {
         return this.playerId;
     }
 
-    public void updateMain(){
-        System.out.println("hi");
-        drawPileDeck = new GCard(gameBoardState.getDrawPileCards().iterator().next());
-        drawPileDeck.setMouseEventListener(cardListenetr);
-        Mid.addChild(drawPileDeck, -200, 0);
-        drawPilePanel = new DrawPilePanel(this, gameBoardState.getDrawPileCards());
-
-        depositedDeck = new GCard(gameBoardState.getDepositedCards().iterator().next());
-        depositedDeck.setMouseEventListener(cardListenetr);
-        Mid.addChild(depositedDeck, 150,0);
-        depositedPanel = new DepositedPanel(this, gameBoardState.getDepositedCards());
-
-    }
+    
 
 
     public SAGFrame getFrame(){

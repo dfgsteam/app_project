@@ -95,7 +95,7 @@ public class PlayerPanel extends GGroup{
             GCard gCard = new GCard((Card) cards[item]);
             gCard.setPosition(0f, 0f); // Setzte X/Y zurück
 
-            CardListener cardListener = new CardListener(this.gameBoard, playerId);
+            CardListener cardListener = new CardListener();
             gCard.setMouseEventListener(cardListener);
             if (Player.getBlockedCards().contains(cards[item]))
                 gCard.setStroke(Color.RED, 20);

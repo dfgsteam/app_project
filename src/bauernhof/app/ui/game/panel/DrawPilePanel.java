@@ -80,7 +80,8 @@ public class DrawPilePanel extends SAGPanel implements ActionListener{
     }
 
     public SAGPanel getPanel() {
-        return this.panel;
+        return null;
+        //this.panel;
     } 
 
     @Override
