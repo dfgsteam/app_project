@@ -156,6 +156,7 @@ public class GameBoard {
     }
 
     
+    // -> Rest kann gelöscht werden. Listener sollen rest über andere Funktionen übernehmen
 
 
     public SAGFrame getFrame(){
