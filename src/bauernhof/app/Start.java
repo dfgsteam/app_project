@@ -23,8 +23,8 @@ import javax.swing.*;
 
 public class  Start {
     private static int client_connections = 1;
-
-    private static int port = 5055;
+    private static int port = 1000;
+    private static int network = 1;
     public static void main(String args[]) throws Exception {
         int network = Integer.valueOf(args[0]);
         if (args.length > 0)
@@ -107,9 +107,7 @@ public class  Start {
     }
     private static final void initClient(final GameConfigurationParser parser, final String projectname) throws IOException, RemoteException {
         Socket socket = new Socket("localhost", port);
-        ClientConnector connector = new ClientConnector(PlayerType.SIMPLE_AI, socket, parser, projectname);
-        System.out.println(connector.isOpen());
-        connector.handlePackets();
+        new ClientConnector(PlayerType.SIMPLE_AI, socket, parser, projectname);
     }
     // Habe die Funktion erstellt weil ich das Fenster gerne im FULLSCREEN HABEN WILL!!!
     private static void setDefaultDesigns() {
