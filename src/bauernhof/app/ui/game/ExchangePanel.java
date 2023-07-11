@@ -16,6 +16,7 @@ import sag.events.MouseWheelEvent;
 public class ExchangePanel extends SAGPanel{
 
     GameBoard gameBoard;
+    GCard card;
 
     public ExchangePanel(GameBoard gameBoard){
             this.gameBoard = gameBoard;
@@ -25,8 +26,6 @@ public class ExchangePanel extends SAGPanel{
             GGroup Mid = this.addLayer(LayerPosition.CENTER_CENTER);
             int x = -750, y = 0;
             Mid.setScale(0.9f);
-
-            GCard card;
 
             for(int i = 0; i < 7; i++){
                 card = new GCard(gameBoard.getGameBoardState().getPlayers()[0].getCards().get(i));
@@ -39,23 +38,35 @@ public class ExchangePanel extends SAGPanel{
             card.setMouseEventListener(new MyLIstener());
 
             Mid.addChild(card, x, y);
+
+        
             
 
     }
+
+    public GCard getCard(){
+        return this.card;
+    }
+
+
     class MyLIstener implements MouseEventListener{
 
         @Override
         public void mouseClicked(MouseButtonEvent arg0, GElement arg1) {
-                        if(arg1.getGElement()!=gameBoard.getDrawPileDeck()){
+
+                        if(arg1.getGElement() != card){
+                            System.out.println("hi");
                      
                                 //gameBoard.getGameBoardState().getActualPlayer().doMove(new Move((Card)gameBoard.getGameBoardState().getDrawPileCards().pop(),
                                 //(Card)arg1.getGElement()));
                                 //gameBoard.updateMain();
                                 gameBoard.getFrame().setSAGPanel(gameBoard.getMain());
-                        }else{
-                                gameBoard.getGameBoardState().getDepositedCards().add(gameBoard.getGameBoardState().getDrawPileCards().pop());
-                                System.out.println(gameBoard.getGameBoardState().getDepositedCards().iterator().next().getName());
-                                gameBoard.updateMain();
+                        }
+                        if(arg1.getGElement() == card){
+                            System.out.println("not hi");
+                                //gameBoard.getGameBoardState().getDepositedCards().add(gameBoard.getGameBoardState().getDrawPileCards().pop());
+                                //System.out.println(gameBoard.getGameBoardState().getDepositedCards().iterator().next().getName());
+                                //gameBoard.updateMain();
                                 gameBoard.getFrame().setSAGPanel(gameBoard.getMain());
                         }
         }

@@ -104,7 +104,7 @@ public class GameBoard {
     }
 
     public void updateMain(){
-        sout("hellö");
+        System.out.println("hi");
         drawPileDeck = new GCard(gameBoardState.getDrawPileCards().iterator().next());
         drawPileDeck.setMouseEventListener(cardListenetr);
         Mid.addChild(drawPileDeck, -200, 0);
