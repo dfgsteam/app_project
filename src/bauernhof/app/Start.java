@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.networking.ClientConnector;
@@ -13,38 +14,43 @@ import bauernhof.app.ui.game.GameBoard;
 import bauernhof.preset.*;
 import bauernhof.preset.networking.RemoteException;
 import bauernhof.preset.networking.S2CConnection;
-import sag.SAGPanel;
 
+import javax.swing.*;
 
 public class Start {
     private static int client_connections = 1;
     private static int port = 1000;
-    private static int network = 1;
+    private static int client = 1100;
+    private static int network = 0;
     public static void main(String args[]) throws Exception {
-
-        File gameConfFile = new File("gameconfigs/bauernhof.xml");
-        GameConfigurationParser GameConfPars = new GaCoPa();
-        GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
+        network = Integer.valueOf(args[0]);
+            File gameConfFile = new File("gameconfigs/bauernhof.xml");
+            GameConfigurationParser GameConfPars = new GaCoPa();
+            GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
         if (network < 1) {
-            final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Smila"}, new PlayerType[]{PlayerType.SIMPLE_AI, PlayerType.ADVANCED_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
+            final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Smila"}, new PlayerType[]{PlayerType.SIMPLE_AI, PlayerType.RANDOM_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
             GameBoard GB = new GameBoard(GaCo, gameBoardState);
             setDefaultDesigns();
             gameBoardState.initGame(GB);
             System.out.println(GaCo.getConfigDescription());
         }
-        Socket client_socket;
         if (network == 1) {
             initServer(GaCo);
         } else {
-            initClient(GameConfPars, "HOFBAUERN");
+            initClient(GameConfPars, "Player 4");
         }
     }
     private static final void initServer(final GameConfiguration configuration) throws Exception {
         // SERVER
         final ServerSocket server_socket = new ServerSocket(port);
         final ArrayList<S2CConnection> s2cconnections = new ArrayList<>();
-        for (int i = 0; i < client_connections; i++)
+        for (int i = 0; i < client_connections; i++) {
+            System.out.println("Wait for Client...");
             s2cconnections.add(new S2CConnection(server_socket.accept()));
+            System.out.println("Client connected");
+        }
+
+
         final String[] playernames = new String[4];
         playernames[0] = "Player 1";
         playernames[1] = "Player 2";
@@ -55,8 +61,25 @@ public class Start {
         types[1] = PlayerType.RANDOM_AI;
         types[2] = PlayerType.RANDOM_AI;
         types[3] = PlayerType.RANDOM_AI;
+
+        /*for (int i = playernames.length - 1; i > playernames.length - 1 - client_connections; i--) {
+            playernames[i] = s2cconnections.get(i - (playernames.length - client_connections)).getProjectName();
+            System.out.println(s2cconnections.get(i - (playernames.length - client_connections)).getProjectName());
+            System.out.println(i);
+            System.out.println(i - (playernames.length - client_connections));
+        } */
+        for (final S2CConnection connection : s2cconnections) {
+            connection.setPlayerNames(new ImmutableList<>(Arrays.asList(playernames)));
+            for (final String name : new ImmutableList<>(Arrays.asList(playernames)))
+                System.out.println(name);
+
+            connection.getRemotePlayer().init(configuration, new ImmutableList<>(configuration.getCards()), playernames.length, 3);
+            System.out.println(connection.isOpen());
+        }
         for (int i = playernames.length - 1; i > playernames.length - 1 - client_connections; i--) {
-            playernames[i] = s2cconnections.get(i - (playernames.length - client_connections)).getRemotePlayer().getName();
+            System.out.println(i - (playernames.length - client_connections));
+            //s2cconnections.get(i - (playernames.length - client_connections))
+            s2cconnections.get(i - (playernames.length - client_connections)).getRemotePlayer().init(configuration, new ImmutableList<>(configuration.getCards()), playernames.length, 3);
             types[i] = PlayerType.REMOTE;
         }
         final GameBoardState gameBoardState = new GameBoardState(playernames, types, configuration, new ImmutableList<>(configuration.getCards()));
@@ -70,7 +93,8 @@ public class Start {
     }
     private static final void initClient(final GameConfigurationParser parser, final String projectname) throws IOException, RemoteException {
         Socket socket = new Socket("localhost", port);
-        new ClientConnector(PlayerType.SIMPLE_AI, socket, parser, projectname);
+        ClientConnector connector = new ClientConnector(PlayerType.SIMPLE_AI, socket, parser, projectname);
+        System.out.println(connector.isOpen());
     }
     // Habe die Funktion erstellt weil ich das Fenster gerne im FULLSCREEN HABEN WILL!!!
     private static void setDefaultDesigns() {

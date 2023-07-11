@@ -18,11 +18,11 @@ public class ClientConnector extends C2SConnection {
     public ClientConnector(final PlayerType type, final Socket socket, final GameConfigurationParser parser, final String porjectname) throws IOException, RemoteException {
         super(socket, parser, porjectname);
         this.type = type;
-        handlePackets();
     }
 
     @Override
     protected void onInit(GameConfiguration game_configuration, ImmutableList<Card> initialDrawPile, ImmutableList<String> playerNames, int playerid) throws Exception {
+        System.out.println("INIT");
         final PlayerType[] types = new PlayerType[playerNames.size()];
         for (int i = 0; i < playerNames.size(); i++) {
             if (i == playerid)
