@@ -136,7 +136,7 @@ public class GameBoard {
     public SAGPanel getDrawPilePanel(){
             return drawPilePanel;
     }
-    public SAGPanel getDeposedPanel(){
+    public SAGPanel getDepositedPanel(){
         return depositedPanel;
     }
     public GameBoardState getGameBoardState(){

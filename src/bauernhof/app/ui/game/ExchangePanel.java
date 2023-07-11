@@ -15,8 +15,8 @@ import sag.events.MouseWheelEvent;
 
 public class ExchangePanel extends SAGPanel{
 
-    GameBoard gameBoard;
-    GCard card;
+    private GameBoard gameBoard;
+    private GCard card;
 
     public ExchangePanel(GameBoard gameBoard){
             this.gameBoard = gameBoard;
@@ -38,9 +38,6 @@ public class ExchangePanel extends SAGPanel{
             card.setMouseEventListener(new MyLIstener());
 
             Mid.addChild(card, x, y);
-
-        
-            
 
     }
 
@@ -64,9 +61,9 @@ public class ExchangePanel extends SAGPanel{
                         }
                         if(arg1.getGElement() == card){
                             System.out.println("not hi");
-                                //gameBoard.getGameBoardState().getDepositedCards().add(gameBoard.getGameBoardState().getDrawPileCards().pop());
-                                //System.out.println(gameBoard.getGameBoardState().getDepositedCards().iterator().next().getName());
-                                //gameBoard.updateMain();
+                                gameBoard.getGameBoardState().getDepositedCards().add(gameBoard.getGameBoardState().getDrawPileCards().iterator().next());
+                                gameBoard.getGameBoardState().getDrawPileCards().remove(gameBoard.getGameBoardState().getDepositedCards().get(gameBoard.getGameBoardState().getDepositedCards().size()-1));
+                                gameBoard.updateMain();
                                 gameBoard.getFrame().setSAGPanel(gameBoard.getMain());
                         }
         }

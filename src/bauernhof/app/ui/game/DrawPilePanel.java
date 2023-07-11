@@ -18,8 +18,8 @@ import sag.elements.GGroup;
 
 public class DrawPilePanel extends SAGPanel implements ActionListener{
     
-     JButton Back;
-     GameBoard gameBoard;
+     private JButton Back;
+     private GameBoard gameBoard;
 
     public DrawPilePanel(GameBoard gameBoard, Stack<Card> stack){
 

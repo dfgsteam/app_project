@@ -12,8 +12,8 @@ import sag.events.MouseMotionEvent;
 import sag.events.MouseWheelEvent;
 
 public class CardListener implements MouseEventListener {
-    GameBoard gameBoard;
-    int playerId;
+    private GameBoard gameBoard;
+    private int playerId;
 
     public CardListener(GameBoard gameBoard, int playerId) {
         this.gameBoard = gameBoard;
@@ -58,7 +58,7 @@ public class CardListener implements MouseEventListener {
         }
 
         if(var2.getGElement() == gameBoard.getDepositedDeck()){// && var1.getClickCount()==1){
-            gameBoard.getFrame().setSAGPanel(gameBoard.getDrawPilePanel());
+            gameBoard.getFrame().setSAGPanel(gameBoard.getDepositedPanel());
         }
 
     }
