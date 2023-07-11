@@ -11,7 +11,6 @@ import bauernhof.app.networking.ClientConnector;
 import bauernhof.app.player.types.LocalRemotePlayer;
 import bauernhof.app.ui.game.GameBoard;
 import bauernhof.preset.*;
-import bauernhof.preset.networking.C2SConnection;
 import bauernhof.preset.networking.RemoteException;
 import bauernhof.preset.networking.S2CConnection;
 

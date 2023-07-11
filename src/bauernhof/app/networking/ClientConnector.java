@@ -2,6 +2,7 @@ package bauernhof.app.networking;
 
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.player.types.LocalRemotePlayer;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.networking.C2SConnection;
@@ -45,7 +46,7 @@ public class ClientConnector extends C2SConnection {
 
     @Override
     protected void onUpdate(Move move) throws Exception {
-        gameboardstate.doMove(move);
+        ((LocalRemotePlayer) gameboardstate.getActualPlayer()).setNextMove(move);
     }
 
     @Override

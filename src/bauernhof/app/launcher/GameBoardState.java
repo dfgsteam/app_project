@@ -138,8 +138,6 @@ public class GameBoardState implements Table {
             Thread.sleep(50);
             this.doMove(getActualPlayer().request());
         }
-
-
         return true;
     }
 
