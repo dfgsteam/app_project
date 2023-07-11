@@ -13,8 +13,8 @@ import bauernhof.app.ui.game.GameBoard;
 import bauernhof.preset.*;
 import bauernhof.preset.networking.RemoteException;
 import bauernhof.preset.networking.S2CConnection;
+import sag.SAGPanel;
 
-import javax.swing.*;
 
 public class Start {
     private static int client_connections = 1;
@@ -22,9 +22,9 @@ public class Start {
     private static int network = 1;
     public static void main(String args[]) throws Exception {
 
-            File gameConfFile = new File("gameconfigs/bauernhof.xml");
-            GameConfigurationParser GameConfPars = new GaCoPa();
-            GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
+        File gameConfFile = new File("gameconfigs/bauernhof.xml");
+        GameConfigurationParser GameConfPars = new GaCoPa();
+        GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
         if (network < 1) {
             final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Smila"}, new PlayerType[]{PlayerType.SIMPLE_AI, PlayerType.ADVANCED_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
             GameBoard GB = new GameBoard(GaCo, gameBoardState);

@@ -5,6 +5,7 @@ import java.awt.Color;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.GameBoard;
 import bauernhof.app.ui.game.listener.CardListener;
+import bauernhof.app.ui.game.listener.CardPopListener;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
@@ -88,17 +89,21 @@ public class PlayerPanel extends GGroup{
     public void updatePlayer(int playerId, AbstractGamePlayer Player) throws ChildNotFoundException {
         this.clearPlayerPanel(playerId);
         Object[] cards = Player.getCards().toArray();
-        //System.out.println("Karten von Spieler " + playerId);
+
         for (int item=0; item<cards.length; item++) {
             //GCard gCard = ((Ca) cards[item]).getGCard(); //-> Position wird falsch angezeigt
             //gCard.getPositionX();
+
             GCard gCard = new GCard((Card) cards[item]); //-> zieht viel performance
             gCard.setPosition(0f, 0f); // Setzte X/Y zurück
 
-            CardListener cardListener = new CardListener(this.gameBoard, playerId);
-            gCard.setMouseEventListener(cardListener);
+            gCard.setMouseEventListener(new CardListener());
+
+            // Wenn Karte blockiert = rote umrandung
             if (Player.getBlockedCards().contains(cards[item]))
                 gCard.setStroke(Color.RED, 20);
+
+            // Karte der Gruppe hinzufügen
             this.groupPlayer[playerId].addChild(gCard, this.pos[playerId][item][0], this.pos[playerId][item][1]);
         }
     }
