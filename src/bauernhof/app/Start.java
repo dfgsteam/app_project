@@ -6,6 +6,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.networking.ClientConnector;
 import bauernhof.app.player.types.LocalRemotePlayer;
@@ -26,7 +29,7 @@ public class Start {
         GameConfigurationParser GameConfPars = new GaCoPa();
         GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
         if (network < 1) {
-            final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Smila"}, new PlayerType[]{PlayerType.SIMPLE_AI, PlayerType.ADVANCED_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
+            final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Smila"}, new PlayerType[]{PlayerType.HUMAN, PlayerType.ADVANCED_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
             GameBoard GB = new GameBoard(GaCo, gameBoardState);
             //setDefaultDesigns();
             gameBoardState.initGame(GB);

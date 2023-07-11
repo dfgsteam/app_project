@@ -1,7 +1,7 @@
 package bauernhof.app.ui.game.panel;
 
 import bauernhof.app.ui.game.GameBoard;
-import bauernhof.app.ui.game.listener.CardPopListener;
+import bauernhof.app.ui.game.listener.card.CardPopListener;
 import bauernhof.preset.card.GCard;
 import sag.LayerPosition;
 import sag.SAGPanel;
