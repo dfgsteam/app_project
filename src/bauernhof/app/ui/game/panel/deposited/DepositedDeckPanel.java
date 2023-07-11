@@ -1,4 +1,4 @@
-package bauernhof.app.ui.game.panel;
+package bauernhof.app.ui.game.panel.deposited;
 
 import bauernhof.app.card.Ca;
 

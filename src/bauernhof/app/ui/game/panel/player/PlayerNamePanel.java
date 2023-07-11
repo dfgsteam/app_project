@@ -1,4 +1,4 @@
-package bauernhof.app.ui.game.panel;
+package bauernhof.app.ui.game.panel.player;
 
 import java.awt.Color;
 

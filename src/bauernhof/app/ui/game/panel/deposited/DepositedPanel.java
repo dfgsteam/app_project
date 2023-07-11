@@ -1,4 +1,4 @@
-package bauernhof.app.ui.game.panel;
+package bauernhof.app.ui.game.panel.deposited;
 
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 
 import bauernhof.app.ui.game.GameBoard;
-import bauernhof.app.ui.game.listener.CardPopListener;
+import bauernhof.app.ui.game.listener.card.CardPopListener;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
 import sag.LayerPosition;
