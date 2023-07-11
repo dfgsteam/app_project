@@ -46,7 +46,7 @@ public class WorkingThread extends AbstractThread {
 
     @Override
     public boolean calcNextNode(int cardNumTake, int cardNumPut) throws Exception {
-        if (this.getThreadNode().getDepth()+1 > this.getMaxDepth()) { return false; }
+        if (this.getThreadNode().getDepth()+1 > this.getMaxDepth() || this.getThreadNode().getActualBoardState().getRound() > 30) { return false; }
         Card to_take, to_put;
         if (cardNumTake < 0) {
             if (this.getThreadNode().getActualBoardState().getDrawPileCards().isEmpty()) { return false; }
