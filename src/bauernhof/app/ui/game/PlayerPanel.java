@@ -5,7 +5,6 @@ import java.awt.Color;
 import bauernhof.app.card.Ca;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.listener.CardListener;
-import bauernhof.app.ui.game.listener.HoverListener;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;

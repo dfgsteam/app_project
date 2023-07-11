@@ -95,6 +95,7 @@ public class Start {
         Socket socket = new Socket("localhost", port);
         ClientConnector connector = new ClientConnector(PlayerType.SIMPLE_AI, socket, parser, projectname);
         System.out.println(connector.isOpen());
+        connector.handlePackets();
     }
     // Habe die Funktion erstellt weil ich das Fenster gerne im FULLSCREEN HABEN WILL!!!
     private static void setDefaultDesigns() {
