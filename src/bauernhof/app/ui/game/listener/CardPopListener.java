@@ -8,21 +8,27 @@ import sag.events.MouseEventListener;
 import sag.events.MouseMotionEvent;
 import sag.events.MouseWheelEvent;
 
-public class CardListener implements MouseEventListener {
+public class CardPopListener implements MouseEventListener {
+    private GameBoard gameBoard;
+    private int playerId;
 
-    public void mouseClicked(MouseButtonEvent var1, GElement var2) {}
+    public CardPopListener(GameBoard gameBoard, int playerId) {
+        this.gameBoard = gameBoard;
+        this.playerId = playerId;
+    }
+
+    public void mouseClicked(MouseButtonEvent var1, GElement var2) {
+        if (this.gameBoard.check_move(this.playerId))
+            this.gameBoard.movePopCard((GCard) var2);
+    }
     
 
-    public void mousePressed(MouseButtonEvent var1, GElement var2) {
-        var2.setScale(1.2f);
-    }
+    public void mousePressed(MouseButtonEvent var1, GElement var2) {}
 
-    public void mouseReleased(MouseButtonEvent var1, GElement var2) {
-        var2.setScale(1f);
-    }
+    public void mouseReleased(MouseButtonEvent var1, GElement var2) {}
 
     public void mouseEntered(MouseMotionEvent var1, GElement var2) {
-        var2.setScale(0.95f);
+        var2.setScale(1.1f);
     }
 
     public void mouseExited(MouseMotionEvent var1, GElement var2) {
