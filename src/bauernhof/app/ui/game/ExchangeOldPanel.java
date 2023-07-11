@@ -1,7 +1,5 @@
 package bauernhof.app.ui.game;
 
-import bauernhof.preset.Move;
-import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
 import sag.LayerPosition;
 import sag.SAGPanel;
@@ -13,12 +11,12 @@ import sag.events.MouseEventListener;
 import sag.events.MouseMotionEvent;
 import sag.events.MouseWheelEvent;
 
-public class ExchangePanel extends SAGPanel{
+public class ExchangeOldPanel extends SAGPanel {
 
     private GameBoard gameBoard;
     private GCard card;
 
-    public ExchangePanel(GameBoard gameBoard){
+    public ExchangeOldPanel(GameBoard gameBoard){
             this.gameBoard = gameBoard;
             GGroup Top = this.addLayer(LayerPosition.TOP_CENTER);
             Top.addChild(new GText("Insert the Card You want to get rid of:"), -350,100);
@@ -34,9 +32,6 @@ public class ExchangePanel extends SAGPanel{
                 x+=200;
             }
 
-            card = new GCard(gameBoard.getGameBoardState().getDrawPileCards().elementAt(0));
-            card.setMouseEventListener(new MyLIstener());
-
             Mid.addChild(card, x, y);
 
     }
@@ -50,22 +45,12 @@ public class ExchangePanel extends SAGPanel{
 
         @Override
         public void mouseClicked(MouseButtonEvent arg0, GElement arg1) {
-
-                        if(arg1.getGElement() != card){
-                            System.out.println("hi");
-                     
                                 //gameBoard.getGameBoardState().getActualPlayer().doMove(new Move((Card)gameBoard.getGameBoardState().getDrawPileCards().pop(),
                                 //(Card)arg1.getGElement()));
                                 //gameBoard.updateMain();
                                 gameBoard.getFrame().setSAGPanel(gameBoard.getMain());
-                        }
-                        if(arg1.getGElement() == card){
-                            System.out.println("not hi");
-                                gameBoard.getGameBoardState().getDepositedCards().add(gameBoard.getGameBoardState().getDrawPileCards().iterator().next());
-                                gameBoard.getGameBoardState().getDrawPileCards().remove(gameBoard.getGameBoardState().getDepositedCards().get(gameBoard.getGameBoardState().getDepositedCards().size()-1));
-                                gameBoard.updateMain();
-                                gameBoard.getFrame().setSAGPanel(gameBoard.getMain());
-                        }
+                       
+                        
         }
 
         @Override
@@ -92,5 +77,5 @@ public class ExchangePanel extends SAGPanel{
 
     }
 
-
+    
 }

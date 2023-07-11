@@ -1,24 +1,16 @@
 package bauernhof.app.ui.game;
 
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Stack;
-
-import javax.swing.JButton;
-
-import bauernhof.app.ui.game.listener.CardListener;
+import bauernhof.app.ui.game.listener.DepositedDrawListener;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
 import sag.LayerPosition;
-import sag.SAGFrame;
 import sag.SAGPanel;
-import sag.elements.GElement;
 import sag.elements.GGroup;
+import sag.elements.GText;
 
-public class DrawPilePanel extends SAGPanel implements ActionListener{
+public class DrawPilePanel extends SAGPanel{
     
-     private JButton Back;
      private GameBoard gameBoard;
 
     public DrawPilePanel(GameBoard gameBoard, Stack<Card> stack){
@@ -64,20 +56,12 @@ public class DrawPilePanel extends SAGPanel implements ActionListener{
 
         }
 
-        Back = new JButton("Zuruck");
-        Back.addActionListener(this::actionPerformed);
-        Back.setBounds(this.VIEWPORT_WIDTH-250, this.VIEWPORT_HEIGHT-130, 150, 30);
-        this.add(Back);
+        GText Back = new GText("Zurück");
+        Back.setMouseEventListener(new DepositedDrawListener(gameBoard));
+        bot.addChild(Back, 1700 , -350);
+
 
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==Back){
-            gameBoard.getFrame().setSAGPanel(gameBoard.getMain());
-            
-        }
-    
-}
 
 }

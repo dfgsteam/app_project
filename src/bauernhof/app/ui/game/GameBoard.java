@@ -110,7 +110,7 @@ public class GameBoard {
         Mid.addChild(drawPileDeck, -200, 0);
         drawPilePanel = new DrawPilePanel(this, gameBoardState.getDrawPileCards());
 
-        depositedDeck = new GCard(gameBoardState.getDepositedCards().iterator().next());
+        depositedDeck = new GCard(gameBoardState.getDepositedCards().get(gameBoardState.getDepositedCards().size()-1));
         depositedDeck.setMouseEventListener(cardListenetr);
         Mid.addChild(depositedDeck, 150,0);
         depositedPanel = new DepositedPanel(this, gameBoardState.getDepositedCards());

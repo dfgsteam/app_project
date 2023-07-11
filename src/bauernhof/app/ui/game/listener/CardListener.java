@@ -2,7 +2,7 @@ package bauernhof.app.ui.game.listener;
 
 import javax.swing.JLabel;
 
-import bauernhof.app.ui.game.ExchangePanel;
+import bauernhof.app.ui.game.ExchangeNewPanel;
 import bauernhof.app.ui.game.GameBoard;
 import sag.SAGPanel;
 import sag.elements.GElement;
@@ -30,10 +30,11 @@ public class CardListener implements MouseEventListener {
 
         if(var2.getGElement() == gameBoard.getDrawPileDeck() && var1.getClickCount()==1){
           
-            ExchangePanel sagMyPanel = new ExchangePanel(this.gameBoard);
+            ExchangeNewPanel sagMyPanel = new ExchangeNewPanel(this.gameBoard);
             gameBoard.getFrame().setSAGPanel(sagMyPanel);
 
             }
+        
         
     }
     
