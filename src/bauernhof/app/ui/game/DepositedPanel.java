@@ -30,22 +30,30 @@ public class DepositedPanel extends SAGPanel implements ActionListener{
         this.setLayout(null);
         int x=100,y=120,i=0;
 
+        GCard card;
+
         for(; i< stack.size(); i++ ){
             if(x+200 >= WIDTH){break;}
-            top.addChild(new GCard(stack.get(i)),x,y);
+            card = new GCard(stack.get(i));
+            card.setMouseEventListener(gameBoard.getCardListener());
+            top.addChild(card,x,y);
             x+=200;
             
         }
         x=100;y=-150;
         for(; i< stack.size(); i++ ){
             if(x+200 >= WIDTH){break;}
-            cen.addChild(new GCard(stack.get(i)),x,y);
+            card = new GCard(stack.get(i));
+            card.setMouseEventListener(gameBoard.getCardListener());
+            cen.addChild(card,x,y);
             x+=200;
         
         }
         x=100;y=-350;
         for(; i< stack.size(); i++ ){
-            bot.addChild(new GCard(stack.get(i)),x,y);
+            card = new GCard(stack.get(i));
+            card.setMouseEventListener(gameBoard.getCardListener());
+            bot.addChild(card,x,y);
             x+=200;
 
         }

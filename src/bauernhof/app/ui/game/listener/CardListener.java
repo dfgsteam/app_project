@@ -1,6 +1,10 @@
 package bauernhof.app.ui.game.listener;
 
+import javax.swing.JLabel;
+
+import bauernhof.app.ui.game.ExchangePanel;
 import bauernhof.app.ui.game.GameBoard;
+import sag.SAGPanel;
 import sag.elements.GElement;
 import sag.events.MouseButtonEvent;
 import sag.events.MouseEventListener;
@@ -25,16 +29,14 @@ public class CardListener implements MouseEventListener {
             System.out.println("click");
 
         if(var2.getGElement() == gameBoard.getDrawPileDeck() && var1.getClickCount()==1){
-            gameBoard.getFrame().setSAGPanel(gameBoard.getDrawPilePanel());
-        }
+          
+            ExchangePanel sagMyPanel = new ExchangePanel(this.gameBoard);
+            gameBoard.getFrame().setSAGPanel(sagMyPanel);
 
-        if(var2.getGElement() == gameBoard.getDepositedDeck() && var1.getClickCount()==1){
-            gameBoard.getFrame().setSAGPanel(gameBoard.getDrawPilePanel());
-        }
-        if(var2.getGElement() == gameBoard.getDrawPileDeck() && var1.getClickCount()==2){
-            
-        }
+            }
+        
     }
+    
 
     public void mousePressed(MouseButtonEvent var1, GElement var2) {}
 
@@ -50,5 +52,14 @@ public class CardListener implements MouseEventListener {
 
     public void mouseMoved(MouseMotionEvent var1, GElement var2) {}
 
-    public void mouseWheelMoved(MouseWheelEvent var1, GElement var2) {}
+    public void mouseWheelMoved(MouseWheelEvent var1, GElement var2) {
+        if(var2.getGElement() == gameBoard.getDrawPileDeck()){// && var1.getClickCount()==1){
+            gameBoard.getFrame().setSAGPanel(gameBoard.getDrawPilePanel());
+        }
+
+        if(var2.getGElement() == gameBoard.getDepositedDeck()){// && var1.getClickCount()==1){
+            gameBoard.getFrame().setSAGPanel(gameBoard.getDrawPilePanel());
+        }
+
+    }
 }

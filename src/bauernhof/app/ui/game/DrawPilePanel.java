@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import javax.swing.JButton;
 
+import bauernhof.app.ui.game.listener.CardListener;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
 import sag.LayerPosition;
@@ -35,22 +36,30 @@ public class DrawPilePanel extends SAGPanel implements ActionListener{
 
         this.setVisible(true);
 
+        GCard card;
+
         for(; i< stack.size(); i++ ){
             if(x+200 >= this.VIEWPORT_WIDTH){break;}
-            top.addChild(new GCard(stack.get(i)),x,y);
+            card = new GCard(stack.get(i));
+            card.setMouseEventListener(gameBoard.getCardListener());
+            top.addChild(card,x,y);
             x+=200;
             
         }
         x=100;y=-150;
         for(; i< stack.size(); i++ ){
             if(x+200 >= this.VIEWPORT_WIDTH){break;}
-            cen.addChild(new GCard(stack.get(i)),x,y);
+            card = new GCard(stack.get(i));
+            card.setMouseEventListener(gameBoard.getCardListener());
+            cen.addChild(card,x,y);
             x+=200;
         
         }
         x=100;y=-350;
         for(; i< stack.size(); i++ ){
-            bot.addChild(new GCard(stack.get(i)),x,y);
+            card = new GCard(stack.get(i));
+            card.setMouseEventListener(gameBoard.getCardListener());
+            bot.addChild(card,x,y);
             x+=200;
 
         }

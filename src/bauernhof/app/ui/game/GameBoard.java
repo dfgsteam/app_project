@@ -29,6 +29,8 @@ public class GameBoard {
     private GCard drawPileDeck;
     private GCard depositedDeck;
 
+    private GGroup Mid; 
+
     private DrawPilePanel drawPilePanel;
     private DepositedPanel depositedPanel;
 
@@ -36,12 +38,9 @@ public class GameBoard {
     private PlayerNamePanel panelPlayerName;
     private GameBoardState gameBoardState;
 
-    JButton Back;
+    private CardListener cardListenetr;
 
     private int playerId = 0;
-
-    GameBoardState GaBoS;
-    ArrayList<AbstractGamePlayer> playerSet = new ArrayList<>();
 
     public GameBoard(GameConfiguration gameconf, GameBoardState gameBoardState) throws Exception{
         this.gameBoardState = gameBoardState;
@@ -62,7 +61,7 @@ public class GameBoard {
             this.panelPlayer.updatePlayer(index, this.gameBoardState.getPlayers()[index], true);
 
         // test = 10 gui moves
-        this.test();
+        //this.test();
     }
 
     public void move() throws Exception {
@@ -91,16 +90,31 @@ public class GameBoard {
         this.mainPanel = new SAGPanel(this.WIDTH, this.HEIGTH);
         mainPanel.setLayout(null);
         
+        cardListenetr = new CardListener(this, playerId);
 
-        GGroup Mid = mainPanel.addLayer(LayerPosition.CENTER_CENTER);
+        Mid = mainPanel.addLayer(LayerPosition.CENTER_CENTER);
         Mid.setScale(1.15f);
         drawPileDeck = new GCard(gameBoardState.getDrawPileCards().iterator().next());
-        drawPileDeck.setMouseEventListener(new CardListener(this, playerId));
+        drawPileDeck.setMouseEventListener(cardListenetr);
         Mid.addChild(drawPileDeck, -200, 0);
         drawPilePanel = new DrawPilePanel(this, gameBoardState.getDrawPileCards());
         depositedPanel = new DepositedPanel(this, gameBoardState.getDepositedCards());
-        //Mid.addChild( new GCard(playerSet.get(0).getCards().iterator().next()), 150, 0);
+    
         
+    }
+
+    public void updateMain(){
+        sout("hellö");
+        drawPileDeck = new GCard(gameBoardState.getDrawPileCards().iterator().next());
+        drawPileDeck.setMouseEventListener(cardListenetr);
+        Mid.addChild(drawPileDeck, -200, 0);
+        drawPilePanel = new DrawPilePanel(this, gameBoardState.getDrawPileCards());
+
+        depositedDeck = new GCard(gameBoardState.getDepositedCards().iterator().next());
+        depositedDeck.setMouseEventListener(cardListenetr);
+        Mid.addChild(depositedDeck, 150,0);
+        depositedPanel = new DepositedPanel(this, gameBoardState.getDepositedCards());
+
     }
 
 
@@ -128,8 +142,9 @@ public class GameBoard {
     public GameBoardState getGameBoardState(){
         return this.gameBoardState;
     }
-
-
+    public CardListener getCardListener(){
+        return this.cardListenetr;
+    }
 
     
 }
