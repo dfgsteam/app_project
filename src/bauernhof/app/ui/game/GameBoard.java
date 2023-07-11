@@ -3,47 +3,47 @@ package bauernhof.app.ui.game;
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.GCard;
-import bauernhof.app.card.Ca;
 import bauernhof.app.launcher.GameBoardState;
 import sag.LayerPosition;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.panel.*;
+import bauernhof.app.ui.game.listener.CardListener;
 import sag.SAGFrame;
 import sag.SAGPanel;
+import sag.elements.GElement;
 import sag.elements.GGroup;
 import javax.swing.*;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashSet;
+
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-public class GameBoard implements ActionListener{ 
+public class GameBoard { 
 
     final private int WIDTH = 1600;
     final private int HEIGTH = 900;
 
-    private SAGFrame Frame = new SAGFrame("Hofbauern", 30, this.WIDTH, this.HEIGTH);
+    private final SAGFrame FRAME = new SAGFrame("Hofbauern", 30, this.WIDTH, this.HEIGTH);
     private SAGPanel mainPanel = new SAGPanel(this.WIDTH, this.HEIGTH);
-    private SAGPanel CardPanel;
 
+    private GCard drawPileDeck;
+    private GCard depositedDeck;
 
-    private JButton Nachziehstapel;
-    private JButton Ablagestapel;
+    private GGroup Mid; 
 
-    private Set<GCard> NachziehstapelCards; 
-    private Set<GCard> AblagestapelCards;
+    private DrawPilePanel drawPilePanel;
+    private DepositedPanel depositedPanel;
 
     private PlayerPanel panelPlayer;
     private PlayerNamePanel panelPlayerName;
     private RoundPanal panelRound;
     private GameBoardState gameBoardState;
 
-    private int playerId = 0;
+    private CardListener cardListenetr;
 
-    GameBoardState GaBoS;
-    ArrayList<AbstractGamePlayer> playerSet = new ArrayList<>();
+    private int playerId = 0;
 
     public GameBoard(GameConfiguration gameconf, GameBoardState gameBoardState) throws Exception{
         this.gameBoardState = gameBoardState;
@@ -51,8 +51,8 @@ public class GameBoard implements ActionListener{
         prepareMain();
 
         //init Frame
-        this.Frame.setSAGPanel(this.mainPanel);
-        this.Frame.setVisible(true);
+        this.FRAME.setSAGPanel(this.mainPanel);
+        this.FRAME.setVisible(true);
 
         // init Panels
         this.panelRound = new RoundPanal(this.mainPanel, this.gameBoardState);
@@ -129,29 +129,61 @@ public class GameBoard implements ActionListener{
 
     private void initNachziehstapel(){
         
-        NachziehstapelCards = new HashSet<>();
-        for(int i = 0; i < 10; i++){
-             NachziehstapelCards.add(new GCard(new Ca("",0,null,null,null)));
-        }
-        Nachziehstapel = new JButton();
-        Nachziehstapel.addActionListener(this::actionPerformed);
+        cardListenetr = new CardListener(this, playerId);
 
-
-    }
-
-    private void initAblagestapel(){
-        
-        AblagestapelCards = new HashSet<>();
-        
-        Ablagestapel = new JButton();
-        Ablagestapel.addActionListener(this::actionPerformed);
+        Mid = mainPanel.addLayer(LayerPosition.CENTER_CENTER);
+        Mid.setScale(1.15f);
+        drawPileDeck = new GCard(gameBoardState.getDrawPileCards().iterator().next());
+        drawPileDeck.setMouseEventListener(cardListenetr);
+        Mid.addChild(drawPileDeck, -200, 0);
+        drawPilePanel = new DrawPilePanel(this, gameBoardState.getDrawPileCards());
+        depositedPanel = new DepositedPanel(this, gameBoardState.getDepositedCards());
     
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
         
-           
     }
 
+    public void updateMain(){
+        System.out.println("hi");
+        drawPileDeck = new GCard(gameBoardState.getDrawPileCards().iterator().next());
+        drawPileDeck.setMouseEventListener(cardListenetr);
+        Mid.addChild(drawPileDeck, -200, 0);
+        drawPilePanel = new DrawPilePanel(this, gameBoardState.getDrawPileCards());
+
+        depositedDeck = new GCard(gameBoardState.getDepositedCards().iterator().next());
+        depositedDeck.setMouseEventListener(cardListenetr);
+        Mid.addChild(depositedDeck, 150,0);
+        depositedPanel = new DepositedPanel(this, gameBoardState.getDepositedCards());
+
+    }
+
+
+    public SAGFrame getFrame(){
+        return this.FRAME;
+    }
+    public SAGPanel getMain(){
+        return this.mainPanel;
+    } 
+
+    public GCard getDrawPileDeck(){
+        return this.drawPileDeck;
+    }
+
+    public GCard getDepositedDeck(){
+        return this.depositedDeck;
+    }
+
+    public SAGPanel getDrawPilePanel(){
+            return drawPilePanel;
+    }
+    public SAGPanel getDepositedPanel(){
+        return depositedPanel;
+    }
+    public GameBoardState getGameBoardState(){
+        return this.gameBoardState;
+    }
+    public CardListener getCardListener(){
+        return this.cardListenetr;
+    }
+
+    
 }

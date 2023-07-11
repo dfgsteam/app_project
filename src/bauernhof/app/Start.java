@@ -7,6 +7,7 @@ import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.GameBoard;
 import bauernhof.preset.*;
+import sag.SAGPanel;
 
 public class Start {
     public static void main(String args[]) throws Exception {
