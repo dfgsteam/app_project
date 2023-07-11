@@ -19,7 +19,7 @@ import sag.SAGPanel;
 public class Start {
     private static int client_connections = 1;
     private static int port = 1000;
-    private static int network = 1;
+    private static int network = 0;
     public static void main(String args[]) throws Exception {
 
         File gameConfFile = new File("gameconfigs/bauernhof.xml");
@@ -28,7 +28,7 @@ public class Start {
         if (network < 1) {
             final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Smila"}, new PlayerType[]{PlayerType.SIMPLE_AI, PlayerType.ADVANCED_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
             GameBoard GB = new GameBoard(GaCo, gameBoardState);
-            setDefaultDesigns();
+            //setDefaultDesigns();
             gameBoardState.initGame(GB);
             System.out.println(GaCo.getConfigDescription());
         }
