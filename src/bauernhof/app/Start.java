@@ -18,17 +18,17 @@ import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.networking.RemoteException;
 import bauernhof.preset.networking.S2CConnection;
+import com.sun.jdi.IntegerValue;
 
 import javax.swing.*;
 
 public class  Start {
     private static int client_connections = 1;
     private static int port = 1000;
-    private static int network = 1;
     public static void main(String args[]) throws Exception {
         int network = Integer.valueOf(args[0]);
         if (args.length > 0)
-        network = Integer.valueOf(args[0]);
+        int network = Integer.valueOf(args[0]);
             File gameConfFile = new File("gameconfigs/bauernhof.xml");
             GameConfigurationParser GameConfPars = new GaCoPa();
             GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
