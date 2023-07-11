@@ -19,6 +19,7 @@ import bauernhof.preset.card.Card;
 import bauernhof.preset.networking.RemoteException;
 import bauernhof.preset.networking.S2CConnection;
 import com.sun.jdi.IntegerValue;
+import com.sun.jdi.IntegerValue;
 
 import javax.swing.*;
 
