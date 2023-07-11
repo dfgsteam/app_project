@@ -22,8 +22,8 @@ import javax.swing.*;
 
 public class  Start {
     private static int client_connections = 1;
-    private static int port = 5055;
-    private static int network = 0;
+    private static int port = 1000;
+    private static int network = 2;
     public static void main(String args[]) throws Exception {
         // int network = Integer.valueOf(args[0]);
         // if (network >= 0)
