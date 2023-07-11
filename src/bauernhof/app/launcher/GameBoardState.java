@@ -1,8 +1,7 @@
 package bauernhof.app.launcher;
 
 import bauernhof.app.player.AbstractGamePlayer;
-import bauernhof.app.player.types.Random_AI;
-import bauernhof.app.player.types.Simple_AI;
+import bauernhof.app.player.types.*;
 import bauernhof.app.ui.game.GameBoard;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
@@ -28,26 +27,27 @@ public class GameBoardState implements Table {
     private Stack<Card> drawpile_cards = new Stack<>();
     private AbstractGamePlayer[] players;
     private GameBoard graphics;
+    private String[] playernames;
+    private PlayerType[] types;
     private GameConfiguration configuration;
     public GameBoardState(final String[] playernames, final PlayerType[] types, GameConfiguration configuration, final ImmutableList<Card> cards) throws Exception {
+        this.playernames = playernames;
         this.run = true;
-        //Collections.shuffle(cards);
         this.round = 1;
-        final AbstractGamePlayer[] players = new AbstractGamePlayer[playernames.length];
-        this.players = players;
+        this.players = new AbstractGamePlayer[playernames.length];
         for (int i = 0; i < players.length; i++)
             switch (types[i]) {
                 case ADVANCED_AI:
-                    players[i] = new AbstractGamePlayer(playernames[i], types[i]);
+                    players[i] = new Advanced_AI(playernames[i]);
                     break;
                 case HUMAN:
-                    players[i] = new AbstractGamePlayer(playernames[i], types[i]);
+                    players[i] = new HumanPlayer(playernames[i]);
                     break;
                 case RANDOM_AI:
                     players[i] = new Random_AI(playernames[i]);
                     break;
                 case REMOTE:
-                    players[i] = new AbstractGamePlayer(playernames[i], types[i]);
+                    players[i] = new LocalRemotePlayer(playernames[i]);
                     break;
                 case SIMPLE_AI:
                     players[i] = new Simple_AI(playernames[i]);
@@ -63,28 +63,38 @@ public class GameBoardState implements Table {
         this.round = 0;
         actual_player = players[0];
         this.configuration = configuration;
-
+        for (final AbstractGamePlayer player : players)
+            if (player.getPlayerType().equals(PlayerType.ADVANCED_AI))
+                ((Advanced_AI)player).setGameBoardState(this);
     }
+    public GameBoardState() {}
     public void initGame(final GameBoard graphics) throws Exception {
         this.graphics = graphics;
         System.out.println("GAME WIRD GESTARTET");
-        switch (actual_player.getPlayerType()) {
-            case RANDOM_AI:
-                this.doMove(((Random_AI) actual_player).calculateNextMove());
-                break;
-            case ADVANCED_AI:
-                break;
-            case SIMPLE_AI:
-                this.doMove(((Simple_AI) actual_player).calculateNextMove());
-                break;
-            default:
-        }
+        this.doMove(actual_player.request());
 
     }
 
     @Override
-    public Object clone() {
-        return null;
+    public GameBoardState clone() {
+        final GameBoardState state = new GameBoardState();
+        state.setActiveplayerid(activeplayerid);
+        final AbstractGamePlayer[] players = new AbstractGamePlayer[this.players.length];
+        for (int i = 0; i < players.length; i++)
+            players[i] = this.players[i].clone();
+        state.setPlayers(players);
+        state.setConfiguration(configuration);
+        state.setRound(round);
+        state.setRun(false);
+        final ArrayList<Card> deposited_cards = new ArrayList<>();
+        for (final Card card : this.deposited_cards)
+            deposited_cards.add(card);
+        state.setDeposited_cards(deposited_cards);
+        final Stack<Card> drawpile_cards = new Stack<>();
+        for (final Card card : this.drawpile_cards)
+            drawpile_cards.add(card);
+        state.setDrawpile_cards(drawpile_cards);
+        return state;
     }
 
     @Override
@@ -105,71 +115,69 @@ public class GameBoardState implements Table {
     @Override
     public boolean doMove(final Move move) throws Exception {
         if (!drawpile_cards.isEmpty())
-        System.out.println("DRAWPILE_CARDS : " + drawpile_cards.lastElement().getName());
-        System.out.print("DEPOSITED_CARDS: ");
-        for (final Card card : deposited_cards)
-            System.out.print(card.getName() + ", ");
-        System.out.println("\n");
-        System.out.println("ACTIVEPLAYER: " + getActualPlayer().getName() + " " + activeplayerid);
-        System.out.println(activeplayerid + " TAKEN : " + move.getTaken().getName() + "    DEPOSITED : " + move.getDeposited().getName());
         if (deposited_cards.contains(move.getTaken()))
             deposited_cards.remove(move.getTaken());
         if(!(drawpile_cards.isEmpty()) && drawpile_cards.lastElement().equals(move.getTaken()))
             drawpile_cards.pop();
-        //else return false;
-        /*if (!getActualPlayer().getCards().contains(move.getDeposited()))
-            return false; */
         deposited_cards.add(move.getDeposited());
         getActualPlayer().add(move.getTaken());
         getActualPlayer().remove(move.getDeposited());
-        for (final AbstractGamePlayer gameplayer : this.getPlayers()) {
-            System.out.print(gameplayer.getPlayerID() + " > " + gameplayer.getName() + "\t|| ");
-            for (final Card card : gameplayer.getCards()) {
-                System.out.print(card.getName() + ", ");
-            }
-            System.out.println( "\t  [" + gameplayer.getCards().size() + "]");
-        }
-
         for (final AbstractGamePlayer player : players)
             if(!player.equals(getActualPlayer()))
                 player.update(move);
             else
                 getActualPlayer().doMove(move);
-            activeplayerid++;
-            if(activeplayerid == players.length) {
-                activeplayerid = 0;
-                this.round++;
-            }
+        activeplayerid++;
+        if(activeplayerid == players.length) {
+            activeplayerid = 0;
+            this.round++;
+        }
+        if (round > 30 || drawpile_cards.isEmpty() || deposited_cards.size() >= configuration.getNumDepositionAreaSlots()) run = false;
+        if (graphics != null) graphics.move(!run);
+        if (run) {
             Thread.sleep(50);
-            if (round > 30) {
-                graphics.move(true);
-                run = false;
-            }else graphics.move(false);
-        System.out.println("===================");
-        if (run)
-            switch (getActualPlayer().getPlayerType()) {
-                case RANDOM_AI:
-                    this.doMove(((Random_AI) getActualPlayer()).calculateNextMove());
-                    break;
-                case SIMPLE_AI:
-                    this.doMove(((Simple_AI) getActualPlayer()).calculateNextMove());
-                    break;
-                default:
-                    break;
-            }
-
-
+            this.doMove(getActualPlayer().request());
+        }
         return true;
     }
+
 
     @Override
     public AbstractGamePlayer getActualPlayer() {
         return players[activeplayerid];
+    }
+    public GameConfiguration getConfiguration() {
+        return configuration;
     }
 
     @Override
     public int getRound() {
         return this.round;
     }
+    public void setRound(int round) {
+        this.round = round;
+    }
+    public void setActual_player(AbstractGamePlayer player) {
+        this.actual_player = player;
+    }
+    public void setRun(final boolean run) {
+        this.run = run;
+    }
+    public void setActiveplayerid(final int activeplayerid) {
+        this.activeplayerid = activeplayerid;
+    }
+    public void setDeposited_cards(final ArrayList<Card> deposited_cards) {
+        this.deposited_cards = deposited_cards;
+    }
+    public void setDrawpile_cards(final Stack<Card> drawpile_cards) {
+        this.drawpile_cards = drawpile_cards;
+    }
+    public void setPlayers(final AbstractGamePlayer[] players) {
+        this.players = players;
+    }
+    public void setConfiguration(final GameConfiguration configuration) {
+        this.configuration = configuration;
+    }
+
 
 }

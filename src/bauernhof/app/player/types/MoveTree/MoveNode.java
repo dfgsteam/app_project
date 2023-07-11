@@ -13,6 +13,10 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     private ArrayList<MoveNode> next_nodes;
     private int depth;
 
+    /**
+     * Empty Constructor
+     * Signalises an Empty Node -> the Root Node (empy Move)
+     */
     public MoveNode() {
         this.setMove(null);
         this.setNextNodes(new ArrayList<MoveNode>());
@@ -87,8 +91,8 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
 
     @Override
     public void addNextMoveNode(MoveNode next_MoveNode) {
-        this.next_nodes.add(next_MoveNode);
-        next_MoveNode.setPrevNode(this);
+        this.getNextNodes().add(next_MoveNode);
+        next_MoveNode.setPrevNode(this);        //And Sets The Prev_NOde of the added node to the actual
     }
 
     @Override
@@ -99,17 +103,6 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     @Override
     public void setActualBoardState(GameBoardState state) {
         this.actual_state = state;
-    }
-
-    @Override
-    public String toString() {
-        String move_message = "Move: " + this.getMove();
-        String parent_message = "Parent: " + this.getPrevNode();
-        String board = "Actual Board: " + this.getActualBoardState();
-        String list = "List of next possible moves: " + this.getNextNodes();
-
-        String text = move_message + "\n" + parent_message + "\n" + board + "\n" + list + "\n" + "\n";
-        return text;
     }
 
 

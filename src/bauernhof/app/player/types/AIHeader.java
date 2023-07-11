@@ -10,13 +10,6 @@ import bauernhof.preset.card.Card;
  */
 public interface AIHeader {
     /**
-     * Method for AI to calculate which move has to be done
-     * @return null, if no nextMove available
-     * @return Move, if successful
-     */
-    public Move calculateNextMove() throws Exception;
-
-    /**
      * Returning a card, which an AI (evtl.) is going to take from Deposit
      * @return Card
      */
@@ -31,5 +24,5 @@ public interface AIHeader {
      * Returning a card, which an AI is going to remove from the own hand
      * @return Card
      */
-    public Card removeFromOwn();
+    public Card removeFromOwn(Card to_take);
 }
