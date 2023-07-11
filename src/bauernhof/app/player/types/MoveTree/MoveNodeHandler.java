@@ -62,7 +62,7 @@ public interface MoveNodeHandler<T> {
     public void setPrevNode(T prev_node);
 
     /**
-     * Set a new move to the hashset of next_moves
+     * Set a new moveNode to the ArrayList of Next_Moves (AND SET THE PREV_NODE OF ADDED MOVE TO THE ACTUAL_NODE)
      * @param nextMoveNode
      */
     public void addNextMoveNode(T nextMoveNode);
