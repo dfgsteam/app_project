@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 
 import bauernhof.app.ui.game.GameBoard;
+import bauernhof.app.ui.game.listener.card.CardListener;
 import bauernhof.app.ui.game.listener.card.CardPopListener;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
@@ -16,8 +17,10 @@ import sag.SAGFrame;
 import sag.SAGPanel;
 import sag.elements.GElement;
 import sag.elements.GGroup;
+import sag.elements.GText;
+import sag.elements.shapes.GRect;
 
-public class DepositedPanel extends SAGPanel implements ActionListener{
+public class DepositedPanel extends SAGPanel{
     
      private JButton Back;
      private GameBoard gameBoard;
@@ -25,6 +28,7 @@ public class DepositedPanel extends SAGPanel implements ActionListener{
     public DepositedPanel(GameBoard gameBoard, ArrayList<Card> list){
 
         this.gameBoard = gameBoard;
+        CardListener cardListener = new CardListener();
         
         GGroup top = this.addLayer(LayerPosition.TOP_LEFT);
         top.setScale(0.75f);
@@ -42,7 +46,7 @@ public class DepositedPanel extends SAGPanel implements ActionListener{
         for(; i< list.size(); i++ ){
             if(x+200 >= this.VIEWPORT_WIDTH){break;}
             card = new GCard(list.get(i));
-            card.setMouseEventListener(gameBoard.getCardListener());
+            card.setMouseEventListener(cardListener);
             top.addChild(card,x,y);
             x+=200;
             
@@ -51,7 +55,7 @@ public class DepositedPanel extends SAGPanel implements ActionListener{
         for(; i< list.size(); i++ ){
             if(x+200 >= this.VIEWPORT_WIDTH){break;}
             card = new GCard(list.get(i));
-            card.setMouseEventListener(gameBoard.getCardListener());
+            card.setMouseEventListener(cardListener);
             cen.addChild(card,x,y);
             x+=200;
         
@@ -59,25 +63,18 @@ public class DepositedPanel extends SAGPanel implements ActionListener{
         x=100;y=-350;
         for(; i< list.size(); i++ ){
             card = new GCard(list.get(i));
-            card.setMouseEventListener(gameBoard.getCardListener());
+            card.setMouseEventListener(cardListener);
             bot.addChild(card,x,y);
             x+=200;
 
         }
 
-        Back = new JButton("Zuruck");
-        Back.addActionListener(this::actionPerformed);
-        Back.setBounds(this.VIEWPORT_WIDTH-250, this.VIEWPORT_HEIGHT-130, 150, 30);
-        this.add(Back);
-
+        GText back = new GText("Zurück");
+        GRect backRect = new GRect(x, y+80, 70, 30, getFocusTraversalKeysEnabled());
+        bot.addChild(back,x,y);
+        bot.addChild(backRect);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==Back){
-            gameBoard.getFrame().setSAGPanel(gameBoard.getMain());
-            
-        }
     
 }
-}
+

@@ -7,6 +7,11 @@ import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.card.Ca;
 import sag.LayerPosition;
 import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.ui.game.listener.DepositedDrawListener;
+import bauernhof.app.ui.game.listener.DepositedListener;
+import bauernhof.app.ui.game.listener.DrawPileListener;
+import bauernhof.app.ui.game.listener.card.CardAddListener;
+import bauernhof.app.ui.game.listener.card.CardListener;
 import bauernhof.app.ui.game.listener.card.CardPopListener;
 import bauernhof.app.ui.game.panel.*;
 import bauernhof.app.ui.game.panel.deposited.DepositedDeckPanel;
@@ -60,6 +65,7 @@ public class GameBoard {
         this.gameBoardState = gameBoardState;
 
         //init Frame
+
         this.FRAME.setSAGPanel(this.mainPanel);
         this.FRAME.setVisible(true);
 
@@ -176,15 +182,14 @@ public class GameBoard {
         this.mainPanel = new SAGPanel(this.WIDTH, this.HEIGTH);
         mainPanel.setLayout(null);
         
-        cardListenetr = new CardListener(this, playerId);
 
         Mid = mainPanel.addLayer(LayerPosition.CENTER_CENTER);
         Mid.setScale(1.15f);
         drawPileDeck = new GCard(gameBoardState.getDrawPileCards().iterator().next());
-        drawPileDeck.setMouseEventListener(cardListenetr);
+        drawPileDeck.setMouseEventListener(new DrawPileListener(this, playerId));
         Mid.addChild(drawPileDeck, -200, 0);
-        drawPilePanel = new DrawPilePanel(this, gameBoardState.getDrawPileCards());
-        depositedPanel = new DepositedPanel(this, gameBoardState.getDepositedCards());
+        panelDrawPile = new DrawPilePanel(this, gameBoardState.getDrawPileCards());
+        panelDeposited = new DepositedPanel(this, gameBoardState.getDepositedCards());
     
         
     }
@@ -197,14 +202,14 @@ public class GameBoard {
     public void updateMain(){
         System.out.println("hi");
         drawPileDeck = new GCard(gameBoardState.getDrawPileCards().iterator().next());
-        drawPileDeck.setMouseEventListener(cardListenetr);
+        drawPileDeck.setMouseEventListener(new DrawPileListener(this, playerId));
         Mid.addChild(drawPileDeck, -200, 0);
-        drawPilePanel = new DrawPilePanel(this, gameBoardState.getDrawPileCards());
+        panelDrawPile = new DrawPilePanel(this, gameBoardState.getDrawPileCards());
 
         depositedDeck = new GCard(gameBoardState.getDepositedCards().get(gameBoardState.getDepositedCards().size()-1));
-        depositedDeck.setMouseEventListener(cardListenetr);
+        depositedDeck.setMouseEventListener(new DepositedListener(this, playerId));
         Mid.addChild(depositedDeck, 150,0);
-        depositedPanel = new DepositedPanel(this, gameBoardState.getDepositedCards());
+        panelDeposited = new DepositedPanel(this, gameBoardState.getDepositedCards());
 
     }
 
@@ -276,8 +281,9 @@ public class GameBoard {
      * @return this implementation of CardListener
      */
 
-    public CardListener getCardListener(){
-        return this.cardListenetr;
+    public int getPlayerId(){
+        return playerId;
     }
+
 
 }
