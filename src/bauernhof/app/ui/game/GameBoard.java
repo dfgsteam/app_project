@@ -103,8 +103,10 @@ public class GameBoard {
     }
 
     public void moveAddCard(GCard gCard) {
-        ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
         this.createExchangePanel();
+        //((HumanPlayer) this.gameBoardStat8e.getActualPlayer()).setAdd(gCard.getCard());
+        System.out.print("addCard: ");
+        System.out.println(gCard.getCard().getName());
     }
 
     public void movePopCard(GCard gCard) throws Exception {
