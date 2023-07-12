@@ -139,10 +139,14 @@ public class GameBoardState implements Table {
             this.round++;
         }
         if (round > 30 || drawpile_cards.isEmpty() || deposited_cards.size() >= configuration.getNumDepositionAreaSlots()) run = false;
-        if (graphics != null) graphics.move(!run);
+        if (graphics != null) {
+            System.out.println("Florian klaut keine Karte");
+            graphics.move(!run);
+        }
         if (run) {
-            Thread.sleep(1000);
+            //Thread.sleep(1000);
             if(!this.getActualPlayer().getPlayerType().equals(PlayerType.HUMAN)) {
+                Thread.sleep(1000);
                 System.out.println("MOVE RANDOM GEMACHT");
                 this.doMove(getActualPlayer().request());
             }
