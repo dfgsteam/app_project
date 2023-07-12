@@ -101,8 +101,8 @@ public class GameBoard {
     }
 
     public void moveAddCard(GCard gCard) {
-        this.createExchangePanel();
         ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
+        this.createExchangePanel();
         System.out.print("addCard: ");
         System.out.println(gCard.getCard().getName());
     }
