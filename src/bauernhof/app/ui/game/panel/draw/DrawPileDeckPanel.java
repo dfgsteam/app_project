@@ -33,7 +33,7 @@ public class DrawPileDeckPanel {
             if (this.panel.getChildByRenderingIndex(0) != null)
                 this.panel.removeChild(this.panel.getChildByRenderingIndex(0));
         } catch (Exception e) {
-            System.out.println(e);
+            //System.out.println(e);
         }
         
         GCard gCard = ((Ca) this.gameBoardState.getDrawPileCards().iterator().next()).getGCard();

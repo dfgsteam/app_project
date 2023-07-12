@@ -30,7 +30,7 @@ public class Start {
             GameConfigurationParser GameConfPars = new GaCoPa();
             GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
         if (args.length == 0) {
-            final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Smila"}, new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
+            final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Smila", "Alrun", "Lotta"}, new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.SIMPLE_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
             GameBoard GB = new GameBoard(GaCo, gameBoardState);
             setDefaultDesigns();
             gameBoardState.initGame(GB);
@@ -52,7 +52,6 @@ public class Start {
             s2cconnections.add(new S2CConnection(server_socket.accept()));
             System.out.println("Client connected");
         }
-
 
         final String[] playernames = new String[4];
         playernames[0] = "Player 1";

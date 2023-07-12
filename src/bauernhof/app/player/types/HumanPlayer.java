@@ -36,7 +36,4 @@ public class HumanPlayer extends AbstractGamePlayer {
         this.add = card;
         this.add(card);
     }
-    public final void setMove(final Card card) {
-        this.remove(card);
-    }
 }

@@ -142,8 +142,10 @@ public class GameBoardState implements Table {
         if (graphics != null) graphics.move(!run);
         if (run) {
             Thread.sleep(1000);
-            if(!this.getActualPlayer().getPlayerType().equals(PlayerType.HUMAN))
+            if(!this.getActualPlayer().getPlayerType().equals(PlayerType.HUMAN)) {
+                System.out.println("MOVE RANDOM GEMACHT");
                 this.doMove(getActualPlayer().request());
+            }
         }
         return true;
     }
