@@ -1,0 +1,7 @@
+#Ant properties
+#Tue Jul 11 03:34:55 CEST 2023
+preset.DSTAMP=20230711
+preset.TSTAMP=0334
+preset.version=indev_flwi
+preset.TODAY=July 11 2023
+preset.builddate=2023-07-11T03_34_52.581+0200
