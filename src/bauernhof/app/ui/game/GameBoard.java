@@ -80,8 +80,8 @@ public class GameBoard {
         this.panelPlayerName.updatePlayerName(this.playerId);
 
         // (Nach)ziehstapel update
-        //this.panelDrawPileDeck.update();
-        //this.panelDepositedDeck.update();
+        this.panelDrawPileDeck.update();
+        this.panelDepositedDeck.update();
 
         // Wenn nicht letzer Zug
         if (!last) {
@@ -97,7 +97,7 @@ public class GameBoard {
     }
 
     public boolean check_move(int playerId) {
-        return (this.playerId == playerId) && (this.gameBoardState.getPlayers()[playerId].getPlayerType() == PlayerType.HUMAN) ;
+        return this.gameBoardState.getPlayers()[this.playerId].getPlayerType() == PlayerType.HUMAN;
     }
 
     public void moveAddCard(GCard gCard) {
@@ -113,7 +113,7 @@ public class GameBoard {
 
         System.out.print("popCard: ");
         System.out.println(gCard.getCard().getName());
-        Thread.sleep(1000);
+        //Thread.sleep(1000);
         ((HumanPlayer) this.gameBoardState.getActualPlayer()).doMove(gCard.getCard());
     }
 
