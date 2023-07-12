@@ -5,6 +5,7 @@ import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.*;
 import bauernhof.app.launcher.GameBoardState;
+
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.listener.DepositedDrawListener;
 import bauernhof.app.ui.game.listener.DepositedListener;
@@ -23,6 +24,7 @@ import sag.SAGFrame;
 import sag.SAGPanel;
 import sag.elements.GGroup;
 
+
 import java.util.concurrent.TimeUnit;
 
 public class GameBoard { 
@@ -35,6 +37,8 @@ public class GameBoard {
 
     private GCard drawPileDeck;
     private GCard depositedDeck;
+
+    
 
     private PlayerPanel panelPlayer;
     private PlayerNamePanel panelPlayerName;
@@ -116,6 +120,8 @@ public class GameBoard {
     public void moveAddCard(GCard gCard) {
         ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
         this.createExchangePanel();
+        //-> Schnittstelle zum Game
+
         System.out.print("addCard: ");
         System.out.println(gCard.getCard().getName());
     }
@@ -175,42 +181,14 @@ public class GameBoard {
      */
 
 
-    private void prepareMain(){
-         //String path = "graphics/player_view"+i+".jpg";
-
-        this.mainPanel = new SAGPanel(this.WIDTH, this.HEIGTH);
-        mainPanel.setLayout(null);
-        
-
-        Mid = mainPanel.addLayer(LayerPosition.CENTER_CENTER);
-        Mid.setScale(1.15f);
-        drawPileDeck = new GCard(gameBoardState.getDrawPileCards().iterator().next());
-        drawPileDeck.setMouseEventListener(new DrawPileListener(this, playerId));
-        Mid.addChild(drawPileDeck, -200, 0);
-        panelDrawPile = new DrawPilePanel(this, gameBoardState.getDrawPileCards());
-        panelDeposited = new DepositedPanel(this, gameBoardState.getDepositedCards());
     
-        
-    }
 
     /**
      * redraws the the DrawPile and Deposited decks
      * puts the top element from the DrawPile stack and the last element of the Deposited list on the top of their deck
      */
 
-    public void updateMain(){
-        System.out.println("hi");
-        drawPileDeck = new GCard(gameBoardState.getDrawPileCards().iterator().next());
-        drawPileDeck.setMouseEventListener(new DrawPileListener(this, playerId));
-        Mid.addChild(drawPileDeck, -200, 0);
-        panelDrawPile = new DrawPilePanel(this, gameBoardState.getDrawPileCards());
-
-        depositedDeck = new GCard(gameBoardState.getDepositedCards().get(gameBoardState.getDepositedCards().size()-1));
-        depositedDeck.setMouseEventListener(new DepositedListener(this, playerId));
-        Mid.addChild(depositedDeck, 150,0);
-        panelDeposited = new DepositedPanel(this, gameBoardState.getDepositedCards());
-
-    }
+    
 
     /**
      * get the frame
