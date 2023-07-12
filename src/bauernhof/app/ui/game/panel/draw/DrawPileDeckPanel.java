@@ -10,6 +10,7 @@ import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
 import sag.LayerPosition;
 import sag.SAGPanel;
+import sag.elements.GElement;
 import sag.elements.GGroup;
 
 public class DrawPileDeckPanel {
@@ -28,14 +29,10 @@ public class DrawPileDeckPanel {
 
     }
 
-    public void update() {
-        try {
-            if (this.panel.getChildByRenderingIndex(0) != null)
-                this.panel.removeChild(this.panel.getChildByRenderingIndex(0));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        
+    public void update() throws ChildNotFoundException {
+        for (int cardIndex=0; cardIndex < this.panel.getNumChildren(); cardIndex++)
+            this.panel.removeChild(this.panel.getChildByRenderingIndex(cardIndex));
+            
         GCard gCard = ((Ca) this.gameBoardState.getDrawPileCards().iterator().next()).getGCard();
         //GCard gCard = new GCard(this.gameBoardState.getDrawPileCards().iterator().next());
         gCard.setMouseEventListener(new DrawPileListener(this.gameBoard, this.gameBoard.getPlayerId()));
