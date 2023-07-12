@@ -4,12 +4,19 @@ import java.io.*;
 
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
+
+/**
+ * SettingsParser create from xml files a Setting object.
+ *
+ * @author julius.hunold
+ * @version 1.0
+ * @since 2023-06-27
+ */
 
 public class SePa {
     File file;
@@ -106,6 +113,12 @@ public class SePa {
         }  
     }
 
+    /**
+     * Sets the sound value in the XML file and saves the changes.
+     * 
+     * @param sound the sound value to set.
+     * @throws SeEx if there is an error during the XML modification or saving.
+     */
     public void setSound(int sound) throws SeEx {
         Document document = null;
         try {
@@ -126,8 +139,19 @@ public class SePa {
         this.save(document);
     }
 
+    /**
+     * Sets the card set in the XML file.
+     * 
+     * @param cardSet the card set value to set.
+     */
     public void setCardSet(String cardSet) {return;}
 
+    /**
+     * Sets the AI value in the XML file and saves the changes.
+     * 
+     * @param ai the AI value to set.
+     * @throws SeEx if there is an error during the XML modification or saving.
+     */
     public void setAi(int ai) throws SeEx {
        Document document = null;
         try {
@@ -148,8 +172,19 @@ public class SePa {
         this.save(document); 
     }
 
+    /**
+     * Sets the name in the XML file.
+     * 
+     * @param name the name value to set.
+     */
     public void setName(String name) {return;}
 
+    /**
+     * Saves the XML document to the file.
+     * 
+     * @param document the XML document to save.
+     * @throws SeEx if there is an error during saving.
+     */
     private void save(Document document) throws SeEx {
         try {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();

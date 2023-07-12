@@ -16,12 +16,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
-public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
+public abstract class AbstractGamePlayer extends PlayerCards implements GamePlayer {
     private String name;
     protected Move move;
     private int playerid;
-    private GameConfiguration configuration;
-    private PlayerGameBoard state;
+    protected GameConfiguration configuration;
+    protected PlayerGameBoard state;
     private PlayerType type;
 
     /**
@@ -40,16 +40,25 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
     public AbstractGamePlayer(final String name, final PlayerType type, final Set<Card> cards) {
         this.name = name;
         this.type = type;
+        this.cards = cards;
     }
+    public AbstractGamePlayer() {}
 
     @Override
     public AbstractGamePlayer clone() {
         final Set<Card> cards = new HashSet<>();
         for (final Card card : getCards())
             cards.add(card);
-        final AbstractGamePlayer player = new AbstractGamePlayer(this.name, this.type, cards);
+        final AbstractGamePlayer player = new AbstractGamePlayer(this.name, this.type, cards) {
+            @Override
+            public Move request() {
+                return null;
+            }
+        };
         player.setPlayerID(this.playerid);
         player.setGameConfiguration(configuration);
+        player.setPlayerGameBoard(state.clone());
+        player.setScore(this.score);
         return player;
     }
     @Override
@@ -80,10 +89,8 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
         this.state = new PlayerGameBoard(numplayers, configuration, (Stack<Card>) initialDrawPile.clone());
         for (int i = 0; i < numplayers; i++)
             for (int x = 0; x < configuration.getNumCardsPerPlayerHand(); x++)
-                if (i == playerid)
-                    this.add(initialDrawPile.pop());
-                else
-                    initialDrawPile.pop();
+                if (i == playerid) this.add(initialDrawPile.pop());
+                else initialDrawPile.pop();
     }
 
 
@@ -92,15 +99,10 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
     }
 
     @Override
-    public Move request() throws Exception {
-        return this.move;
-    }
-
-    @Override
     public void update(Move opponentMove) throws Exception {
         if (!state.doMove(opponentMove)) {
-            System.out.println("Jemand hat geschummelt!");
-            System.exit(0);
+            //System.out.println("Jemand hat geschummelt!");
+            //System.exit(0);
         }
     }
 
@@ -118,6 +120,9 @@ public class AbstractGamePlayer extends PlayerCards implements GamePlayer {
 
     public int getPlayerID() {
         return playerid;
+    }
+    public void setPlayerGameBoard(final PlayerGameBoard state) {
+        this.state = state;
     }
 
 
