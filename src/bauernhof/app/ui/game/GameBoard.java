@@ -13,6 +13,8 @@ import bauernhof.app.ui.game.panel.deposited.DepositedDeckPanel;
 import bauernhof.app.ui.game.panel.deposited.DepositedPanel;
 import bauernhof.app.ui.game.panel.draw.DrawPileDeckPanel;
 import bauernhof.app.ui.game.panel.draw.DrawPilePanel;
+import bauernhof.app.ui.game.panel.player.PlayerNamePanel;
+import bauernhof.app.ui.game.panel.player.PlayerPanel;
 import sag.SAGFrame;
 import sag.SAGPanel;
 import sag.elements.GGroup;
