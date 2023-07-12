@@ -98,7 +98,10 @@ public abstract class PlayerCards implements CardSetHandler {
                 }
         }
     }
-    private void updateBlockedCards() {
+    public final void setScore(final int score) {
+        this.score = score;
+    }
+     private void updateBlockedCards() {
         blocked_cards.clear();
         active_cards.clear();
         for (final Card hand_card : cards)

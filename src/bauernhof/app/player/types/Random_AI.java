@@ -16,7 +16,7 @@ public class Random_AI extends AbstractGamePlayer implements AIHeader{
     }
 
     @Override
-    public Move calculateNextMove() {
+    public Move request() {
         Card to_take = null;
         Card to_deposit = null;
 
@@ -35,7 +35,7 @@ public class Random_AI extends AbstractGamePlayer implements AIHeader{
         }
         
         else {
-            to_deposit = removeFromOwn();
+            to_deposit = removeFromOwn(to_take);
         }
 
         return new Move(to_take, to_deposit);
@@ -76,7 +76,7 @@ public class Random_AI extends AbstractGamePlayer implements AIHeader{
     }
 
     @Override
-    public Card removeFromOwn() {
+    public Card removeFromOwn(Card to_take) {
         int own_random_index = ownCardNumber();
         //System.out.println("own_random_index : " + own_random_index);
         return (Card)this.getCards().toArray()[own_random_index];

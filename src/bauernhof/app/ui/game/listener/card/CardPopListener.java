@@ -1,4 +1,4 @@
-package bauernhof.app.ui.game.listener;
+package bauernhof.app.ui.game.listener.card;
 
 import bauernhof.app.ui.game.GameBoard;
 import bauernhof.preset.card.GCard;

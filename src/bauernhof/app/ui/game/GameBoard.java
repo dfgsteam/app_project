@@ -7,8 +7,12 @@ import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.card.Ca;
 import sag.LayerPosition;
 import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.ui.game.listener.card.CardPopListener;
 import bauernhof.app.ui.game.panel.*;
-import bauernhof.app.ui.game.listener.CardPopListener;
+import bauernhof.app.ui.game.panel.deposited.DepositedDeckPanel;
+import bauernhof.app.ui.game.panel.deposited.DepositedPanel;
+import bauernhof.app.ui.game.panel.draw.DrawPileDeckPanel;
+import bauernhof.app.ui.game.panel.draw.DrawPilePanel;
 import sag.SAGFrame;
 import sag.SAGPanel;
 import sag.elements.GGroup;
@@ -155,19 +159,8 @@ public class GameBoard {
         return this.playerId;
     }
 
-    public void updateMain(){
-        System.out.println("hi");
-        drawPileDeck = new GCard(gameBoardState.getDrawPileCards().iterator().next());
-        drawPileDeck.setMouseEventListener(cardListenetr);
-        Mid.addChild(drawPileDeck, -200, 0);
-        drawPilePanel = new DrawPilePanel(this, gameBoardState.getDrawPileCards());
-
-        depositedDeck = new GCard(gameBoardState.getDepositedCards().iterator().next());
-        depositedDeck.setMouseEventListener(cardListenetr);
-        Mid.addChild(depositedDeck, 150,0);
-        depositedPanel = new DepositedPanel(this, gameBoardState.getDepositedCards());
-
-    }
+    
+    // -> Rest kann gelöscht werden. Listener sollen rest über andere Funktionen übernehmen
 
 
     public SAGFrame getFrame(){
