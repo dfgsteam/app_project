@@ -102,7 +102,7 @@ public class GameBoard {
 
     public void moveAddCard(GCard gCard) {
         this.createExchangePanel();
-        ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
+        //((HumanPlayer) this.gameBoardStat8e.getActualPlayer()).setAdd(gCard.getCard());
         System.out.print("addCard: ");
         System.out.println(gCard.getCard().getName());
     }

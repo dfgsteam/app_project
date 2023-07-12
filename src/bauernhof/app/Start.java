@@ -19,7 +19,7 @@ import bauernhof.preset.networking.S2CConnection;
 
 import javax.swing.*;
 
-public class Start {
+public class  Start {
     private static int client_connections = 1;
     private static int port = 5055;
     private static int network = 0;
