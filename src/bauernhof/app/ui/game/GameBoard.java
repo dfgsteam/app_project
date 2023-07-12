@@ -1,6 +1,8 @@
 package bauernhof.app.ui.game;
 
+import bauernhof.app.player.types.HumanPlayer;
 import bauernhof.preset.GameConfiguration;
+import bauernhof.preset.Move;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.*;
 import bauernhof.app.launcher.GameBoardState;
@@ -31,7 +33,8 @@ public class GameBoard {
     private GCard drawPileDeck;
     private GCard depositedDeck;
 
-    private GGroup Mid; 
+    private GGroup Mid;
+    private Card add, remove;
 
     private PlayerPanel panelPlayer;
     private PlayerNamePanel panelPlayerName;
@@ -102,17 +105,18 @@ public class GameBoard {
 
     public void moveAddCard(GCard gCard) {
         this.createExchangePanel();
+        ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
         //-> Schnittstelle zum Game
 
         System.out.print("addCard: ");
         System.out.println(gCard.getCard().getName());
     }
 
-    public void movePopCard(GCard gCard) {
+    public void movePopCard(GCard gCard) throws Exception {
         this.setMainPanel();
-        //-> Schnittstelle zum game
-
+        ((HumanPlayer) this.gameBoardState.getActualPlayer()).doMove(gCard.getCard());
         System.out.print("popCard: ");
+
         System.out.println(gCard.getCard().getName());
     }
 
