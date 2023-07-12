@@ -69,7 +69,6 @@ public class WorkingThread extends AbstractThread {
         Move new_move = new Move(to_take, to_put);
         GameBoardState new_state = (GameBoardState) this.getThreadNode().getActualBoardState().clone();
 
-        System.out.println("Schritt 1 wurde gemacht");
         if (!new_state.doMove(new_move)) { return false; }
         
         MoveNode next_MoveNode = new MoveNode(new_move, this.getThreadNode(), new_state);

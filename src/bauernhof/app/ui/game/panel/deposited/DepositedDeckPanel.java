@@ -28,13 +28,10 @@ public class DepositedDeckPanel {
 
     }
 
-    public void update() {
-        try {
-            if (this.panel.getChildByRenderingIndex(0) != null)
-                this.panel.removeChild(this.panel.getChildByRenderingIndex(0));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+    public void update() throws ChildNotFoundException {
+        for (int cardIndex=0; cardIndex < this.panel.getNumChildren(); cardIndex++)
+            this.panel.removeChild(this.panel.getChildByRenderingIndex(cardIndex));
+        
         
         GCard gCard = ((Ca) this.gameBoardState.getDepositedCards().iterator().next()).getGCard();
         //GCard gCard = new GCard(this.gameBoardState.getDrawPileCards().iterator().next());
