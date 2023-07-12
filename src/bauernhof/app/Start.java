@@ -29,7 +29,7 @@ public class Start {
         GameConfigurationParser GameConfPars = new GaCoPa();
         GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
         if (network < 1) {
-            final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Smila"}, new PlayerType[]{PlayerType.HUMAN, PlayerType.ADVANCED_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
+            final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Smila", "Test", "Test2"}, new PlayerType[]{PlayerType.SIMPLE_AI, PlayerType.SIMPLE_AI, PlayerType.RANDOM_AI, PlayerType.HUMAN}, GaCo, new ImmutableList<>(GaCo.getCards()));
             GameBoard GB = new GameBoard(GaCo, gameBoardState);
             //setDefaultDesigns();
             gameBoardState.initGame(GB);
