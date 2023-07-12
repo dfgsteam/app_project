@@ -1,5 +1,6 @@
 package bauernhof.app.ui.game;
 
+import bauernhof.app.player.types.HumanPlayer;
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.*;
@@ -79,8 +80,8 @@ public class GameBoard {
         this.panelPlayerName.updatePlayerName(this.playerId);
 
         // (Nach)ziehstapel update
-        this.panelDrawPileDeck.update();
-        this.panelDepositedDeck.update();
+        //this.panelDrawPileDeck.update();
+        //this.panelDepositedDeck.update();
 
         // Wenn nicht letzer Zug
         if (!last) {
@@ -101,18 +102,19 @@ public class GameBoard {
 
     public void moveAddCard(GCard gCard) {
         this.createExchangePanel();
-        //-> Schnittstelle zum Game
-
+        ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
         System.out.print("addCard: ");
         System.out.println(gCard.getCard().getName());
     }
 
-    public void movePopCard(GCard gCard) {
+    public void movePopCard(GCard gCard) throws Exception {
         this.setMainPanel();
-        //-> Schnittstelle zum game
+        //
 
         System.out.print("popCard: ");
         System.out.println(gCard.getCard().getName());
+        Thread.sleep(1000);
+        ((HumanPlayer) this.gameBoardState.getActualPlayer()).doMove(gCard.getCard());
     }
 
     public void createDrawPilePanel() {

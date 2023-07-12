@@ -32,7 +32,7 @@ public class DrawPileDeckPanel {
     public void update() throws ChildNotFoundException {
         for (int cardIndex=0; cardIndex < this.panel.getNumChildren(); cardIndex++)
             this.panel.removeChild(this.panel.getChildByRenderingIndex(cardIndex));
-            
+
         GCard gCard = ((Ca) this.gameBoardState.getDrawPileCards().iterator().next()).getGCard();
         //GCard gCard = new GCard(this.gameBoardState.getDrawPileCards().iterator().next());
         gCard.setMouseEventListener(new DrawPileListener(this.gameBoard, this.gameBoard.getPlayerId()));
