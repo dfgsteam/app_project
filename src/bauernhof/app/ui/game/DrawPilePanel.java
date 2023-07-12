@@ -16,6 +16,8 @@ public class DrawPilePanel extends SAGPanel{
     public DrawPilePanel(GameBoard gameBoard, Stack<Card> stack){
 
         this.gameBoard = gameBoard;
+
+        //3 groups 
         
         GGroup top = this.addLayer(LayerPosition.TOP_LEFT);
         top.setScale(0.75f);
@@ -24,11 +26,13 @@ public class DrawPilePanel extends SAGPanel{
         GGroup bot = this.addLayer(LayerPosition.BOTTOM_LEFT);
         bot.setScale(0.75f);
         this.setLayout(null);
-        int x=100,y=120,i=0;
+        int x=100,y=120,i=0; // start values
 
         this.setVisible(true);
 
         GCard card;
+
+        //filling the groups with cards
 
         for(; i< stack.size(); i++ ){
             if(x+200 >= this.VIEWPORT_WIDTH){break;}
@@ -55,6 +59,8 @@ public class DrawPilePanel extends SAGPanel{
             x+=200;
 
         }
+
+        //button to go back to main panel
 
         GText Back = new GText("Zurück");
         Back.setMouseEventListener(new DepositedDrawListener(gameBoard));

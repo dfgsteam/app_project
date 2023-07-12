@@ -4,18 +4,10 @@ import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.card.GCard;
 import bauernhof.app.launcher.GameBoardState;
 import sag.LayerPosition;
-import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.listener.CardListener;
 import sag.SAGFrame;
 import sag.SAGPanel;
-import sag.elements.GElement;
 import sag.elements.GGroup;
-import javax.swing.*;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class GameBoard { 
@@ -42,6 +34,13 @@ public class GameBoard {
 
     private int playerId = 0;
 
+    /**
+     * Constructor
+     * @param gameconf
+     * @param gameBoardState 
+     * @throws Exception
+     */
+
     public GameBoard(GameConfiguration gameconf, GameBoardState gameBoardState) throws Exception{
         this.gameBoardState = gameBoardState;
 
@@ -61,7 +60,7 @@ public class GameBoard {
             this.panelPlayer.updatePlayer(index, this.gameBoardState.getPlayers()[index], true);
 
         // test = 10 gui moves
-        //this.test();
+        this.test();
     }
 
     public void move() throws Exception {
@@ -83,6 +82,11 @@ public class GameBoard {
         }
     }
 
+    /**
+     * prepare the main panel
+     * initialize the card panels of two decks in the middle, draws the DrawPile deck
+     */
+
 
     private void prepareMain(){
          //String path = "graphics/player_view"+i+".jpg";
@@ -103,6 +107,11 @@ public class GameBoard {
         
     }
 
+    /**
+     * redraws the the DrawPile and Deposited decks
+     * puts the top element from the DrawPile stack and the last element of the Deposited list on the top of their deck
+     */
+
     public void updateMain(){
         System.out.println("hi");
         drawPileDeck = new GCard(gameBoardState.getDrawPileCards().iterator().next());
@@ -117,34 +126,76 @@ public class GameBoard {
 
     }
 
+    /**
+     * get the frame
+     * @return this frame
+     */
+
 
     public SAGFrame getFrame(){
         return this.FRAME;
     }
+
+    /**
+     * get the main panel
+     * @return main panel
+     */
     public SAGPanel getMain(){
         return this.mainPanel;
     } 
+
+    /**
+     * get first card of DrawPile stack
+     * @return DrawPileDeck
+     */
 
     public GCard getDrawPileDeck(){
         return this.drawPileDeck;
     }
 
+    /**
+     * get last card of Deposited list
+     * @return DepositedFeck
+     */
+
     public GCard getDepositedDeck(){
         return this.depositedDeck;
     }
 
+    /**
+     * get the card panel
+     * @return the panel of cards in DrawPile stack 
+     */
+
     public SAGPanel getDrawPilePanel(){
             return drawPilePanel;
     }
+
+    /**
+     * get the card panel
+     * @return the panel of cards in Deposited list
+     */
+
     public SAGPanel getDepositedPanel(){
         return depositedPanel;
     }
+
+    /**
+     * get the gameboard state
+     * @return gameBoardState
+     */
+
     public GameBoardState getGameBoardState(){
         return this.gameBoardState;
     }
+
+    /**
+     * get the CardListener
+     * @return this implementation of CardListener
+     */
+
     public CardListener getCardListener(){
         return this.cardListenetr;
     }
 
-    
 }

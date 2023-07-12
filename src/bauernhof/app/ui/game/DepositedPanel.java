@@ -13,11 +13,13 @@ import sag.elements.GText;
 
 public class DepositedPanel extends SAGPanel{
     
-     private GameBoard gameBoard;
+    private GameBoard gameBoard;
 
     public DepositedPanel(GameBoard gameBoard, ArrayList<Card> list){
 
         this.gameBoard = gameBoard;
+
+        //create 3 groups 
         
         GGroup top = this.addLayer(LayerPosition.TOP_LEFT);
         top.setScale(0.75f);
@@ -32,6 +34,8 @@ public class DepositedPanel extends SAGPanel{
 
         GCard card;
 
+        //draw about 8 cards on the top droup
+
         for(; i< list.size(); i++ ){
             if(x+200 >= this.VIEWPORT_WIDTH){break;}
             card = new GCard(list.get(i));
@@ -40,6 +44,9 @@ public class DepositedPanel extends SAGPanel{
             x+=200;
             
         }
+
+        //same 8 cards in the middle
+
         x=100;y=-150;
         for(; i< list.size(); i++ ){
             if(x+200 >= this.VIEWPORT_WIDTH){break;}
@@ -49,6 +56,9 @@ public class DepositedPanel extends SAGPanel{
             x+=200;
         
         }
+
+        //rest comes at the bottom
+
         x=100;y=-350;
         for(; i< list.size(); i++ ){
             card = new GCard(list.get(i));
@@ -57,6 +67,8 @@ public class DepositedPanel extends SAGPanel{
             x+=200;
 
         }
+
+        //the back button to carry the player back to the main panel 
 
         GText Back = new GText("Zurück");
         Back.setMouseEventListener(new DepositedDrawListener(gameBoard));

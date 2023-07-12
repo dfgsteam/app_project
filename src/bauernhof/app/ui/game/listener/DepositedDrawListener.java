@@ -9,6 +9,10 @@ import sag.events.MouseEventListener;
 import sag.events.MouseMotionEvent;
 import sag.events.MouseWheelEvent;
 
+/**
+ * MouseEventListener for Deposited and DrawPilePanel
+ */
+
 public class DepositedDrawListener implements MouseEventListener {
 
     private GameBoard gameBoard;
