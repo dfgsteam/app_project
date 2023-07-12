@@ -1,11 +1,10 @@
 package bauernhof.app.ui.game;
 
+import bauernhof.app.player.types.HumanPlayer;
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.*;
 import bauernhof.app.launcher.GameBoardState;
-import bauernhof.app.card.Ca;
-import sag.LayerPosition;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.listener.DepositedDrawListener;
 import bauernhof.app.ui.game.listener.DepositedListener;
@@ -24,7 +23,6 @@ import sag.SAGFrame;
 import sag.SAGPanel;
 import sag.elements.GGroup;
 
-import java.util.Stack;
 import java.util.concurrent.TimeUnit;
 
 public class GameBoard { 
@@ -37,8 +35,6 @@ public class GameBoard {
 
     private GCard drawPileDeck;
     private GCard depositedDeck;
-
-    private GGroup Mid; 
 
     private PlayerPanel panelPlayer;
     private PlayerNamePanel panelPlayerName;
@@ -77,6 +73,8 @@ public class GameBoard {
         this.panelDrawPileDeck = new DrawPileDeckPanel(this, this.mainPanel, this.playerId, this.gameBoardState);
         this.panelDeposited = new DepositedPanel(this, gameBoardState.getDepositedCards());
         this.panelDepositedDeck = new DepositedDeckPanel(this, this.mainPanel, this.playerId, this.gameBoardState);
+        new SreenshotPanal(this.mainPanel, this);
+        new SaveGamePanel(this.mainPanel, this);
 
         // init load playerCards
         for (int index=0; index < this.gameBoardState.getPlayers().length; index++)
@@ -112,23 +110,24 @@ public class GameBoard {
     }
 
     public boolean check_move(int playerId) {
-        return (this.playerId == playerId) && (this.gameBoardState.getPlayers()[playerId].getPlayerType() == PlayerType.HUMAN) ;
+        return this.gameBoardState.getPlayers()[this.playerId].getPlayerType() == PlayerType.HUMAN;
     }
 
     public void moveAddCard(GCard gCard) {
+        ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
         this.createExchangePanel();
-        //-> Schnittstelle zum Game
-
         System.out.print("addCard: ");
         System.out.println(gCard.getCard().getName());
     }
 
-    public void movePopCard(GCard gCard) {
+    public void movePopCard(GCard gCard) throws Exception {
         this.setMainPanel();
-        //-> Schnittstelle zum game
+        //
 
         System.out.print("popCard: ");
         System.out.println(gCard.getCard().getName());
+        //Thread.sleep(1000);
+        ((HumanPlayer) this.gameBoardState.getActualPlayer()).doMove(gCard.getCard());
     }
 
     public void createDrawPilePanel() {

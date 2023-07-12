@@ -18,8 +18,13 @@ public class CardAddListener implements MouseEventListener {
     }
 
     public void mouseClicked(MouseButtonEvent var1, GElement var2) {
-        if (this.gameBoard.check_move(this.playerId))
-            this.gameBoard.movePopCard((GCard) var2);
+        if (this.gameBoard.check_move(this.playerId)) {
+            try {
+                this.gameBoard.movePopCard((GCard) var2);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
     
 

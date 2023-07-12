@@ -3,6 +3,7 @@ package bauernhof.app.networking;
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.types.LocalRemotePlayer;
+import bauernhof.app.ui.game.GameBoard;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.networking.C2SConnection;
@@ -18,22 +19,33 @@ public class ClientConnector extends C2SConnection {
     public ClientConnector(final PlayerType type, final Socket socket, final GameConfigurationParser parser, final String porjectname) throws IOException, RemoteException {
         super(socket, parser, porjectname);
         this.type = type;
-        handlePackets();
     }
 
     @Override
     protected void onInit(GameConfiguration game_configuration, ImmutableList<Card> initialDrawPile, ImmutableList<String> playerNames, int playerid) throws Exception {
+        System.out.println(initialDrawPile);
+        System.out.println("INIT");
         final PlayerType[] types = new PlayerType[playerNames.size()];
+        System.out.println("TYPES");
         for (int i = 0; i < playerNames.size(); i++) {
             if (i == playerid)
                 types[i] = this.type;
             else types[i] = PlayerType.REMOTE;
         }
+        System.out.println("NAMES");
         final String[] names = new String[types.length];
         for (int i = 0; i < names.length; i++)
             names[i] = playerNames.get(i);
+        System.out.println("1");
+        System.out.println(initialDrawPile);
         this.gameboardstate = new GameBoardState(names, types, game_configuration, initialDrawPile);
+        System.out.println("2");
+        GameBoard gameBoard = new GameBoard(game_configuration, gameboardstate);
+        System.out.println("3");
+        gameboardstate.initGame(gameBoard);
+        System.out.println("4");
         this.player = gameboardstate.getPlayers()[playerid];
+        System.out.println("END INIT");
     }
     public GameBoardState getGameBoardState() {
         return this.gameboardstate;
