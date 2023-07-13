@@ -18,11 +18,11 @@ public class DepositedPanel extends SAGPanel implements ActionListener {
     private JButton Back;
     private GameBoard gameBoard;
 
-    public DepositedPanel(GameBoard gameBoard) {
+    public DepositedPanel(GameBoard gameBoard){
 
         this.gameBoard = gameBoard;
         ArrayList<Card> list = this.gameBoard.getGameBoardState().getDepositedCards();
-
+        
         GGroup top = this.addLayer(LayerPosition.TOP_LEFT);
         top.setScale(0.75f);
         GGroup cen = this.addLayer(LayerPosition.CENTER_LEFT);

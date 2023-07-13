@@ -18,11 +18,19 @@ public class PlayerPanel extends GGroup{
 
 
     public PlayerPanel (GameBoard gameBoard) {
+    public PlayerPanel (GameBoard gameBoard) {
         this.gameBoard = gameBoard;
         int maxCards = this.gameBoard.getGameBoardState().getConfiguration().getNumCardsPerPlayerHand();
         this.pos = new float[this.gameBoard.getGameBoardState().getPlayers().length][maxCards][2];
         for (int counter=0; counter<this.gameBoard.getGameBoardState().getPlayers().length; counter++) {
+        int maxCards = this.gameBoard.getGameBoardState().getConfiguration().getNumCardsPerPlayerHand();
+        this.pos = new float[this.gameBoard.getGameBoardState().getPlayers().length][maxCards][2];
+        for (int counter=0; counter<this.gameBoard.getGameBoardState().getPlayers().length; counter++) {
             switch (counter) {
+                case 0: this.groupPlayer[0] = this.gameBoard.getMainPanel().addLayer(LayerPosition.BOTTOM_CENTER); break;
+                case 1: this.groupPlayer[1] = this.gameBoard.getMainPanel().addLayer(LayerPosition.CENTER_LEFT); break;
+                case 2: this.groupPlayer[2] = this.gameBoard.getMainPanel().addLayer(LayerPosition.TOP_CENTER); break;
+                case 3: this.groupPlayer[3] = this.gameBoard.getMainPanel().addLayer(LayerPosition.CENTER_RIGHT); break;
                 case 0: this.groupPlayer[0] = this.gameBoard.getMainPanel().addLayer(LayerPosition.BOTTOM_CENTER); break;
                 case 1: this.groupPlayer[1] = this.gameBoard.getMainPanel().addLayer(LayerPosition.CENTER_LEFT); break;
                 case 2: this.groupPlayer[2] = this.gameBoard.getMainPanel().addLayer(LayerPosition.TOP_CENTER); break;
@@ -88,8 +96,10 @@ public class PlayerPanel extends GGroup{
         Object[] cards = player.getCards().toArray();
 
         for (int item=0; item<cards.length; item++) {
-            GCard gCard = ((Ca) cards[item]).getGCard();
+            GCard gCard = ((Ca) cards[item]).getGCard(); //-> Position wird falsch angezeigt
             
+            //GCard gCard = new GCard((Ca)cards[item]);
+            gCard.setPosition(0, 0);
             gCard.setMouseEventListener(new CardListener());
 
             // Wenn Karte blockiert = rote umrandung
@@ -97,6 +107,10 @@ public class PlayerPanel extends GGroup{
                 System.out.println(gCard.getCard().getName());
 
             // Karte der Gruppe hinzufügen
+            if (gCard.getPositionX() != 0f || gCard.getPositionY() != 0f) {
+                System.out.println(gCard.getCard().getName());
+                Thread.sleep(10000000);
+            }
             this.groupPlayer[playerId].addChild(gCard, this.pos[playerId][item][0], this.pos[playerId][item][1]);
         }
     }
@@ -104,6 +118,8 @@ public class PlayerPanel extends GGroup{
     private void clearPlayerPanel(int playerId) throws ChildNotFoundException {
         for (int cardIndex=this.groupPlayer[playerId].getNumChildren()-1; cardIndex >= 0 ; cardIndex--) {
             this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex).unsetStrokeWidth();
+            this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex).setPosition(0, 0);
+            //this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex).setPosition(0f, 0f);
             this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex).setMouseEventListener(null);
             this.groupPlayer[playerId].removeChild(this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex));
         }
