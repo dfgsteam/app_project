@@ -62,7 +62,7 @@ public class GameBoard {
         this.panelPlayer = new PlayerPanel(this.mainPanel, this.gameBoardState.getPlayers().length, gameconf.getNumCardsPerPlayerHand(), this);
         this.panelPlayerName = new PlayerNamePanel(this.mainPanel, this.gameBoardState);
         this.panelDrawPile = new DrawPilePanel(this, gameBoardState.getDrawPileCards());
-        this.panelDrawPileDeck = new DrawPileDeckPanel(this, this.mainPanel, this.playerId, this.gameBoardState);
+        this.panelDrawPileDeck = new DrawPileDeckPanel(this);
         this.panelDeposited = new DepositedPanel(this, gameBoardState.getDepositedCards());
         this.panelDepositedDeck = new DepositedDeckPanel(this, this.mainPanel, this.playerId, this.gameBoardState);
         new SreenshotPanal(this.mainPanel, this);
@@ -107,22 +107,13 @@ public class GameBoard {
         return this.gameBoardState.getPlayers()[this.playerId].getPlayerType() == PlayerType.HUMAN;
     }
 
-    // panels
-
     public void moveAddCard(GCard gCard) {
         ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
         this.createExchangePanel();
-        System.out.print("addCard: ");
-        System.out.println(gCard.getCard().getName());
     }
 
     public void movePopCard(GCard gCard) throws Exception {
-        this.setMainPanel();
-        //
-
-        System.out.print("popCard: ");
-        System.out.println(gCard.getCard().getName());
-        //Thread.sleep(1000);
+        this.setMainPanel(); //aktuallisiert nicht richtig. Panel wird erst bei HUMAN move wieder angezeigt
         ((HumanPlayer) this.gameBoardState.getActualPlayer()).doMove(gCard.getCard());
     }
 
@@ -189,39 +180,7 @@ public class GameBoard {
         return this.playerId;
     }
 
-    
-    // -> Rest kann gelöscht werden. Listener sollen rest über andere Funktionen übernehmen
-
-
-    public SAGFrame getFrame(){
-        return this.FRAME;
-    }
-
-    public SAGPanel getMain(){
+    public SAGPanel getMaiPanel() {
         return this.mainPanel;
-    } 
-
-    public GCard getDrawPileDeck(){
-        return this.drawPileDeck;
     }
-
-    public GCard getDepositedDeck(){
-        return this.depositedDeck;
-    }
-
-    public SAGPanel getDrawPilePanel(){
-        return this.panelDrawPile;
-    }
-
-    public SAGPanel getDepositedPanel(){
-        return this.panelDeposited;
-    }
-    public GameBoardState getGameBoardState(){
-        return this.gameBoardState;
-    }
-    public CardPopListener getCardListener(){
-        return this.cardListenetr;
-    }
-
-    
 }
