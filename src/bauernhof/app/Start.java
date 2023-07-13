@@ -10,7 +10,6 @@ import java.util.Arrays;
 
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.launcher.Tournament;
-import bauernhof.app.launcher.Tournament;
 import bauernhof.app.networking.ClientConnector;
 import bauernhof.app.player.types.LocalRemotePlayer;
 import bauernhof.app.ui.game.GameBoard;
@@ -33,7 +32,8 @@ public class  Start {
             GameConfigurationParser GameConfPars = new GaCoPa();
             GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
         if (args.length == 0) {
-            final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Julius", "Cemil", "Horst"}, new PlayerType[]{PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
+            final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Lotta"}, new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
+
             GameBoard GB = new GameBoard(GaCo, gameBoardState);
             setDefaultDesigns();
             gameBoardState.initGame(GB);
@@ -41,9 +41,6 @@ public class  Start {
         }
         if (network == 1) {
             initServer(GaCo);
-        }
-        if (network == 3) {
-            new Tournament(new String[]{"Flo", "PLAYER"}, new PlayerType[]{PlayerType.ADVANCED_AI, PlayerType.SIMPLE_AI}, GaCo, new ImmutableList<>(GaCo.getCards()), 100);
         }
         if (network == 3) {
             new Tournament(new String[]{"Flo", "PLAYER"}, new PlayerType[]{PlayerType.ADVANCED_AI, PlayerType.SIMPLE_AI}, GaCo, new ImmutableList<>(GaCo.getCards()), 100);
