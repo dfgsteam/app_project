@@ -1,4 +1,5 @@
 package bauernhof.app.player.types;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -17,6 +18,8 @@ import bauernhof.preset.card.Card;
 
 public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
     private GameBoardState gameboardstate;
+    private ArrayList<Integer> times = new ArrayList<>();
+    private long first, second;
     public Advanced_AI(String name) {
         super(name, PlayerType.ADVANCED_AI);
     }
@@ -27,6 +30,7 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
 
     @Override
     public Move request() throws Exception {
+        first = System.currentTimeMillis();
         WorkingThread workingThread1 = new WorkingThread(gameboardstate.clone());
         // WorkingThread workingThread2 = new WorkingThread();
         // WorkingThread workingThread3 = new WorkingThread();
@@ -56,9 +60,18 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
         // catch (InterruptedException e) {
         //     System.out.println("ERROR");
         // }
-        System.out.println(SequenceThread.differences);
-       
-        return AbstractThread.getTree().getRootNode().getNextNodes().get(SequenceThread.differences.indexOf(Collections.max(SequenceThread.differences))).getMove();
+
+        final Move move  = AbstractThread.getTree().getRootNode().getNextNodes().get(SequenceThread.differences.indexOf(Collections.max(SequenceThread.differences))).getMove();
+        times.add((int) (System.currentTimeMillis() - first));
+        System.out.println("AI ROUND: " + this.gameboardstate.getRound());
+        System.out.println("CURRENT: " + (System.currentTimeMillis() - first));
+        int y = 0;
+        for (final int x : times)
+            y += x;
+        System.out.println("AVERAGE: " + (y/times.size()));
+        System.out.println("");
+
+        return move;
     }
 
     //Not usable methods

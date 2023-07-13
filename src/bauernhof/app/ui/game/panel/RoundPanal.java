@@ -35,9 +35,6 @@ public class RoundPanal extends GGroup{
     }
 
     public void update() {
-        //System.out.println("ok2");
-        //System.out.println(this.headline);
-        //System.out.println(this.gameBoardState.getRound());
         if (this.headline != null)
             this.headline.setText("R. " + Integer.toString(this.gameBoardState.getRound()));
     }

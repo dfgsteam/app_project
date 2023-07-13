@@ -87,10 +87,14 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
         for (final Card card : cards)
             initialDrawPile.add(card);
         this.state = new PlayerGameBoard(numplayers, configuration, (Stack<Card>) initialDrawPile.clone());
-        for (int i = 0; i < numplayers; i++)
-            for (int x = 0; x < configuration.getNumCardsPerPlayerHand(); x++)
-                if (i == playerid) this.add(initialDrawPile.pop());
-                else initialDrawPile.pop();
+        for (int i = 0; i < numplayers; i++) {
+            for (int x = 0; x < configuration.getNumCardsPerPlayerHand(); x++) {
+                if (i == playerid)
+                    this.add(initialDrawPile.pop());
+                else
+                    initialDrawPile.pop();
+            }
+        }
     }
 
 
@@ -101,8 +105,11 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
     @Override
     public void update(Move opponentMove) throws Exception {
         if (!state.doMove(opponentMove)) {
-            //System.out.println("Jemand hat geschummelt!");
-            //System.exit(0);
+            /*
+
+
+            SCHUMMELN
+             */
         }
     }
 

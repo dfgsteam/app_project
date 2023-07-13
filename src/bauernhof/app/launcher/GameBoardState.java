@@ -41,7 +41,7 @@ public class GameBoardState implements Table {
                     players[i] = new Advanced_AI(playernames[i]);
                     break;
                 case HUMAN:
-                    players[i] = new HumanPlayer(playernames[i]);
+                    players[i] = new HumanPlayer(playernames[i], this);
                     break;
                 case RANDOM_AI:
                     players[i] = new Random_AI(playernames[i]);
@@ -70,7 +70,7 @@ public class GameBoardState implements Table {
     public GameBoardState() {}
     public void initGame(final GameBoard graphics) throws Exception {
         this.graphics = graphics;
-        System.out.println("GAME WIRD GESTARTET");
+        if (!this.getActualPlayer().getPlayerType().equals(PlayerType.HUMAN))
         this.doMove(actual_player.request());
 
     }
@@ -135,8 +135,10 @@ public class GameBoardState implements Table {
         if (round > 30 || drawpile_cards.isEmpty() || deposited_cards.size() >= configuration.getNumDepositionAreaSlots()) run = false;
         if (graphics != null) graphics.move(!run);
         if (run) {
-            Thread.sleep(50);
-            this.doMove(getActualPlayer().request());
+            if(!this.getActualPlayer().getPlayerType().equals(PlayerType.HUMAN)) {
+                if (graphics != null) Thread.sleep(1000);
+                this.doMove(getActualPlayer().request());
+            }
         }
         return true;
     }
@@ -162,6 +164,9 @@ public class GameBoardState implements Table {
     }
     public void setRun(final boolean run) {
         this.run = run;
+    }
+    public boolean getRun() {
+        return this.run;
     }
     public void setActiveplayerid(final int activeplayerid) {
         this.activeplayerid = activeplayerid;
