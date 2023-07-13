@@ -25,9 +25,9 @@ public class  Start {
     private static int port = 5055;
     private static int network = 0;
     public static void main(String args[]) throws Exception {
-        //int network = Integer.valueOf(args[0]);
-        //if (network >= 0)
-        //network = Integer.valueOf(args[0]);
+        // int network = Integer.valueOf(args[0]);
+        // if (network >= 0)
+        // network = Integer.valueOf(args[0]);
             File gameConfFile = new File("gameconfigs/bauernhof.xml");
             GameConfigurationParser GameConfPars = new GaCoPa();
             GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
