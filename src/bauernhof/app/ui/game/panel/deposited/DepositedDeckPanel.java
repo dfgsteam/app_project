@@ -29,7 +29,7 @@ public class DepositedDeckPanel {
             System.out.println(gCard.getCard().getName());
             Thread.sleep(10000000);
         }
-        //this.panel.addChild(gCard, 180f, 0f);
+        this.panel.addChild(gCard, 180f, 0f);
     }
 
     public void clear()  throws ChildNotFoundException {
