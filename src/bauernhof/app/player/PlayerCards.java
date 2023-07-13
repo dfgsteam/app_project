@@ -1,5 +1,6 @@
 package bauernhof.app.player;
 
+import bauernhof.app.card.Ca;
 import bauernhof.preset.Either;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.card.CardColor;
@@ -16,12 +17,12 @@ import java.util.Set;
  * @date 12.06.2023 00:40
  */
 public abstract class PlayerCards implements CardSetHandler {
-    protected Set<Card> cards = new HashSet<>(), blocked_cards = new HashSet<>(), active_cards = new HashSet<>();
+    protected Set<Ca> cards = new HashSet<>(), blocked_cards = new HashSet<>(), active_cards = new HashSet<>();
     protected int score = 0;
     @Override
     public void add(final Card added_card) {
         if(!cards.contains(added_card)) {
-            cards.add(added_card);
+            cards.add((Ca)added_card);
             updateBlockedCards();
             updateScore();
         }
@@ -111,8 +112,8 @@ public abstract class PlayerCards implements CardSetHandler {
                         for (final Either<Card, CardColor> either : effect.getSelector())
                             if (either.get() instanceof Card) {
                                 if (cards.contains(either.get()))
-                                    blocked_cards.add(hand_card);
-                            } else if (getCardColorCardsInHand(either.getRight()).size() != 0) blocked_cards.add(hand_card);
+                                    blocked_cards.add((Ca) hand_card);
+                            } else if (getCardColorCardsInHand(either.getRight()).size() != 0) blocked_cards.add((Ca) hand_card);
                         break;
                     case BLOCKED_IF_WITHOUT:
                         boolean is_contained = false;
@@ -121,22 +122,22 @@ public abstract class PlayerCards implements CardSetHandler {
                                 is_contained |= (cards.contains(either.getLeft())) ? true : false;
                             else is_contained |= getCardColorCardsInHand(either.getRight()).size() != 0 ? true : false;
                         if (!is_contained)
-                            blocked_cards.add(hand_card);
+                            blocked_cards.add((Ca) hand_card);
                         break;
                     case BLOCKS_EVERY:
                         for (final Either<Card, CardColor> either : effect.getSelector())
                             if (either.get() instanceof Card) {
                                 if (cards.contains(either.get()))
-                                    blocked_cards.add(either.getLeft());
+                                    blocked_cards.add((Ca) either.getLeft());
                             } else
                                 for (final Card card : getCardColorCardsInHand(either.getRight()))
-                                    blocked_cards.add(card);
+                                    blocked_cards.add((Ca) card);
                         break;
                     default:
                 }
         for (final Card card : cards)
             if (!blocked_cards.contains(card))
-                active_cards.add(card);
+                active_cards.add((Ca) card);
     }
 
     @Override
