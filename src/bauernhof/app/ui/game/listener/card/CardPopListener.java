@@ -10,15 +10,13 @@ import sag.events.MouseWheelEvent;
 
 public class CardPopListener implements MouseEventListener {
     private GameBoard gameBoard;
-    private int playerId;
 
-    public CardPopListener(GameBoard gameBoard, int playerId) {
+    public CardPopListener(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
-        this.playerId = playerId;
     }
 
     public void mouseClicked(MouseButtonEvent var1, GElement var2) {
-        if (this.gameBoard.check_move(this.playerId)) {
+        if (this.gameBoard.check_move()) {
             try {
 
                 this.gameBoard.movePopCard((GCard) var2);

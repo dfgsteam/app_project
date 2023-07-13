@@ -23,17 +23,20 @@ import bauernhof.app.ui.game.panel.player.PlayerPanel;
 import sag.SAGFrame;
 import sag.SAGPanel;
 import sag.elements.GGroup;
-
-
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+
+import javax.imageio.ImageIO;
 
 public class GameBoard { 
 
-    public static int WIDTH = 1600;
-    public static int HEIGTH = 900;
+    public static int WIDTH = 1920;
+    public static int HEIGTH = 1080;
 
     private final SAGFrame FRAME = new SAGFrame("Hofbauern", 30, GameBoard.WIDTH, GameBoard.HEIGTH);
-    private SAGPanel mainPanel = new SAGPanel(GameBoard.WIDTH, GameBoard.HEIGTH);
+    private SAGPanel mainPanel = new SAGPanel();
 
     private GCard drawPileDeck;
     private GCard depositedDeck;
@@ -82,18 +85,20 @@ public class GameBoard {
 
         // init load playerCards
         for (int index=0; index < this.gameBoardState.getPlayers().length; index++)
-            this.panelPlayer.updatePlayer(index, this.gameBoardState.getPlayers()[index]);
+            this.panelPlayer.updatePlayer(index);
 
         // test = 10 gui moves
         this.test();
     }
 
     public void move(boolean last) throws Exception { 
+        //this.FRAME.setSAGPanel(this.mainPanel);
+
         // Spieler inaktiv setzten
         this.panelPlayerName.updatePlayerBgInactive(this.playerId);
 
         // Karten + Punkte updaten
-        this.panelPlayer.updatePlayer(this.playerId, this.gameBoardState.getPlayers()[this.playerId]);
+        this.panelPlayer.updatePlayer(this.playerId);
         this.panelPlayerName.updatePlayerName(this.playerId);
 
         // (Nach)ziehstapel update
@@ -113,9 +118,11 @@ public class GameBoard {
         }
     }
 
-    public boolean check_move(int playerId) {
+    public boolean check_move() {
         return this.gameBoardState.getPlayers()[this.playerId].getPlayerType() == PlayerType.HUMAN;
     }
+
+    // panels
 
     public void moveAddCard(GCard gCard) {
         ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
@@ -150,7 +157,7 @@ public class GameBoard {
     }
 
     public void createExchangePanel() {
-        this.FRAME.setSAGPanel(new ExchangePanel(this));
+        this.FRAME.setSAGPanel(new ExchangePanel(this).getPanel());
     }
 
     public void createScorePanal() throws Exception {
@@ -161,10 +168,30 @@ public class GameBoard {
         new CheaterPanel(this.mainPanel, this.gameBoardState, player);
     }
 
-    public void setMainPanel() {
-        this.FRAME.setSAGPanel(this.mainPanel);
+    public void setMainPanel() throws InterruptedException {
+        System.out.println("pop1");
+        System.out.println(this.FRAME.setSAGPanel(this.mainPanel));
+        // Thread.sleep(2000);
+        System.out.println("pop2");
     }
 
+    // screenshot
+    public void createScreenshot() {
+        BufferedImage img = new BufferedImage(this.FRAME.getWidth(), this.FRAME.getHeight(), BufferedImage.TYPE_INT_RGB);
+        this.FRAME.paint(img.getGraphics());
+        File outputfile = new File("saved.png");
+        try {
+            ImageIO.write(img, "png", outputfile);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
+    }
+
+    // saveGame
+    public void saveGame() {
+        System.out.println("saveGame");
+    }
 
 
     private void test() throws Exception {

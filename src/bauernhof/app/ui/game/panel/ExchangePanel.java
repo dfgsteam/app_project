@@ -16,13 +16,16 @@ public class ExchangePanel extends SAGPanel{
 
     private GameBoard gameBoard;
     private GCard card;
+    private SAGPanel panel;
 
     public ExchangePanel(GameBoard gameBoard){
         this.gameBoard = gameBoard;
-        GGroup Top = this.addLayer(LayerPosition.TOP_CENTER);
+        this.panel = new SAGPanel(GameBoard.WIDTH, GameBoard.HEIGTH);
+
+        GGroup Top = this.panel.addLayer(LayerPosition.TOP_CENTER);
         Top.addChild(new GText("Welche Karte soll abgelegt werden?").setAlignment(GText.TextAnchor.MIDDLE), 0f,100f);
 
-        GGroup Mid = this.addLayer(LayerPosition.CENTER_CENTER);
+        GGroup Mid = this.panel.addLayer(LayerPosition.CENTER_CENTER);
         
         ArrayList<Card> cards = this.gameBoard.getGameBoardState().getPlayers()[this.gameBoard.getPlayerId()].getCards();
         
@@ -34,12 +37,13 @@ public class ExchangePanel extends SAGPanel{
         for (int index=0; index < cards.size(); index++) {
             System.out.println(cards.size());
             card = new GCard(cards.get(index));
-            card.setMouseEventListener(new CardPopListener(this.gameBoard, this.gameBoard.getPlayerId()));
+            card.setMouseEventListener(new CardPopListener(this.gameBoard));
             Mid.addChild(card,x, y);
             x+=210;
         }
+    }
 
-        
-
+    public SAGPanel getPanel() {
+        return this.panel;
     }
 }

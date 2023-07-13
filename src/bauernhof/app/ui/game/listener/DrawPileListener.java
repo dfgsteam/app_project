@@ -10,15 +10,12 @@ import sag.events.MouseWheelEvent;
 
 public class DrawPileListener implements MouseEventListener {
     private GameBoard gameBoard;
-    private int playerId;
-
-    public DrawPileListener(GameBoard gameBoard, int playerId) {
+    public DrawPileListener(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
-        this.playerId = playerId;
     }
 
     public void mouseClicked(MouseButtonEvent var1, GElement var2) {
-        if (this.gameBoard.check_move(this.playerId))
+        if (this.gameBoard.check_move())
             this.gameBoard.moveAddCard((GCard) var2);
     }
     
@@ -37,7 +34,7 @@ public class DrawPileListener implements MouseEventListener {
     public void mouseMoved(MouseMotionEvent var1, GElement var2) {}
 
     public void mouseWheelMoved(MouseWheelEvent var1, GElement var2) {
-        if (this.gameBoard.check_move(this.playerId))
+        if (this.gameBoard.check_move())
             this.gameBoard.createDrawPilePanel();
     }
 }
