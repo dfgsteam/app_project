@@ -1,6 +1,6 @@
 <project name="BauernhofPreset" default="default" basedir=".">
 	<description>
-		Ant Build File für die Gruppe Hofbauern des APP Spiel im Sommersemester 2023.
+		Ant Build File für das Preset für das APP Spiel im Sommersemester 2023.
 	</description>
 	
 
