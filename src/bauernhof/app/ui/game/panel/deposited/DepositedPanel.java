@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 
 import bauernhof.app.ui.game.GameBoard;
+import bauernhof.app.ui.game.listener.card.CardAddListener;
 import bauernhof.app.ui.game.listener.card.CardPopListener;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
@@ -42,7 +43,7 @@ public class DepositedPanel extends SAGPanel implements ActionListener{
         for(; i< list.size(); i++ ){
             if(x+200 >= this.VIEWPORT_WIDTH){break;}
             card = new GCard(list.get(i));
-            card.setMouseEventListener(gameBoard.getCardListener());
+            card.setMouseEventListener(new CardAddListener(this.gameBoard, this.gameBoard.getPlayerId()));
             top.addChild(card,x,y);
             x+=200;
             
@@ -51,7 +52,7 @@ public class DepositedPanel extends SAGPanel implements ActionListener{
         for(; i< list.size(); i++ ){
             if(x+200 >= this.VIEWPORT_WIDTH){break;}
             card = new GCard(list.get(i));
-            card.setMouseEventListener(gameBoard.getCardListener());
+            card.setMouseEventListener(new CardAddListener(this.gameBoard, this.gameBoard.getPlayerId()));
             cen.addChild(card,x,y);
             x+=200;
         
@@ -59,7 +60,7 @@ public class DepositedPanel extends SAGPanel implements ActionListener{
         x=100;y=-350;
         for(; i< list.size(); i++ ){
             card = new GCard(list.get(i));
-            card.setMouseEventListener(gameBoard.getCardListener());
+            card.setMouseEventListener(new CardAddListener(this.gameBoard, this.gameBoard.getPlayerId()));
             bot.addChild(card,x,y);
             x+=200;
 
