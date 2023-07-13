@@ -14,15 +14,12 @@ import sag.events.MouseWheelEvent;
 
 public class DepositedListener implements MouseEventListener {
     private GameBoard gameBoard;
-    private int playerId;
 
-    public DepositedListener(GameBoard gameBoard, int playerId) {
+    public DepositedListener(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
-        this.playerId = playerId;
     }
 
     public void mouseClicked(MouseButtonEvent var1, GElement var2) {
-        if (this.gameBoard.check_move(this.playerId))
             this.gameBoard.moveAddCard((GCard) var2);
     }
     
@@ -41,7 +38,7 @@ public class DepositedListener implements MouseEventListener {
     public void mouseMoved(MouseMotionEvent var1, GElement var2) {}
 
     public void mouseWheelMoved(MouseWheelEvent var1, GElement var2) {
-        if (this.gameBoard.check_move(this.playerId))
+        if (this.gameBoard.check_move())
             this.gameBoard.createDepositedPanel();
 
     }

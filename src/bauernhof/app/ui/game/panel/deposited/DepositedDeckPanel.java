@@ -5,7 +5,6 @@ import bauernhof.app.card.Ca;
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.ui.game.GameBoard;
 import bauernhof.app.ui.game.listener.DepositedListener;
-import bauernhof.app.ui.game.listener.DrawPileListener;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
 import sag.LayerPosition;
@@ -35,7 +34,7 @@ public class DepositedDeckPanel {
         
         GCard gCard = ((Ca) this.gameBoardState.getDepositedCards().iterator().next()).getGCard();
         //GCard gCard = new GCard(this.gameBoardState.getDrawPileCards().iterator().next());
-        gCard.setMouseEventListener(new DepositedListener(this.gameBoard, this.gameBoard.getPlayerId()));
+        gCard.setMouseEventListener(new DepositedListener(this.gameBoard));
         this.panel.addChild(gCard, 150, 0);
     }
 

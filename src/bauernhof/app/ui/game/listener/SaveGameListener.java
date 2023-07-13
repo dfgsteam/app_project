@@ -21,7 +21,7 @@ public class SaveGameListener implements MouseEventListener{
 
     @Override
     public void mouseClicked(MouseButtonEvent arg0, GElement arg1) {
-        System.out.println("save game");
+        this.gameBoard.saveGame();
     }
 
     @Override
