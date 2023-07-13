@@ -4,20 +4,19 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.ui.game.GameBoard;
 import bauernhof.app.ui.game.listener.HomeButtonListener;
 import sag.LayerPosition;
-import sag.SAGPanel;
 import sag.elements.GGroup;
 import sag.elements.GText;
 import sag.elements.shapes.GRect;
 
 public class ScorePanal extends GGroup{
 
-    public ScorePanal (SAGPanel mainPanel, GameBoardState gameBoardState) throws Exception {
+    public ScorePanal (GameBoard gameBoard) throws Exception {
         // Panel
-        GGroup panel = mainPanel.addLayer(LayerPosition.CENTER);
+        GGroup panel = gameBoard.getMainPanel().addLayer(LayerPosition.CENTER);
 
         // Feld
         GRect area = new GRect(0f, 0f, 700f, 500f, true, 0f, 0f);
@@ -32,12 +31,11 @@ public class ScorePanal extends GGroup{
         headline.setFontSize(55f);
         panel.addChild(headline, 0f, -150f);
 
-
         // Spielerreihenfolge berechnen
         HashMap<String, Integer> playerScores = new HashMap<>();
         ArrayList<String> scores = new ArrayList<>();
 
-        for (AbstractGamePlayer player : gameBoardState.getPlayers()) {
+        for (AbstractGamePlayer player : gameBoard.getGameBoardState().getPlayers()) {
             playerScores.put(player.getName(), player.getScore());
             scores.add(player.getName());
             String temp;
@@ -61,22 +59,20 @@ public class ScorePanal extends GGroup{
             position++;
         }
 
- 
         // Hauptmenü Button
         GRect homeButton = new GRect(0f, 0f, 450f, 75f, true, 0f, 0f);
         homeButton.setFill(new Color(144, 238, 155, 50));
         homeButton.setStroke(new Color(0, 0, 0), 5f);
         panel.addChild(homeButton, 0f, 175f);
 
-        // Überschrift
+        // Hauptmenü Überschrift
         GText homeHeadline = new GText("Zurück zum Hauptmenü");
         homeHeadline.setBold(true);
         homeHeadline.setAlignment(GText.TextAnchor.MIDDLE);
         homeHeadline.setFontSize(25f);
         panel.addChild(homeHeadline, 0f, 183f);
 
-
-        homeButton.setMouseEventListener(new HomeButtonListener(gameBoardState, homeHeadline));
+        homeButton.setMouseEventListener(new HomeButtonListener(gameBoard.getGameBoardState(), homeHeadline));
     }
 
 }

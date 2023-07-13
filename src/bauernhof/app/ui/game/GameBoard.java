@@ -6,7 +6,6 @@ import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.*;
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
-import bauernhof.app.ui.game.listener.card.CardPopListener;
 import bauernhof.app.ui.game.panel.*;
 import bauernhof.app.ui.game.panel.deposited.DepositedDeckPanel;
 import bauernhof.app.ui.game.panel.deposited.DepositedPanel;
@@ -14,14 +13,12 @@ import bauernhof.app.ui.game.panel.draw.DrawPileDeckPanel;
 import bauernhof.app.ui.game.panel.draw.DrawPilePanel;
 import bauernhof.app.ui.game.panel.player.PlayerNamePanel;
 import bauernhof.app.ui.game.panel.player.PlayerPanel;
+import sag.ChildNotFoundException;
 import sag.SAGFrame;
 import sag.SAGPanel;
-import sag.elements.GGroup;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 
@@ -33,20 +30,13 @@ public class GameBoard {
     private final SAGFrame FRAME = new SAGFrame("Hofbauern", 30, GameBoard.WIDTH, GameBoard.HEIGTH);
     private SAGPanel mainPanel = new SAGPanel();
 
-    private GCard drawPileDeck;
-    private GCard depositedDeck;
-
     private PlayerPanel panelPlayer;
     private PlayerNamePanel panelPlayerName;
     private RoundPanal panelRound;
-    private DrawPilePanel panelDrawPile;
     private DrawPileDeckPanel panelDrawPileDeck;
-    private DepositedPanel panelDeposited;
     private DepositedDeckPanel panelDepositedDeck;
     
     private GameBoardState gameBoardState;
-
-    private CardPopListener cardListenetr;
 
     private int playerId = 0;
 
@@ -58,15 +48,13 @@ public class GameBoard {
         this.FRAME.setVisible(true);
 
         // init Panels
-        this.panelRound = new RoundPanal(this.mainPanel, this.gameBoardState);
-        this.panelPlayer = new PlayerPanel(this.mainPanel, this.gameBoardState.getPlayers().length, gameconf.getNumCardsPerPlayerHand(), this);
-        this.panelPlayerName = new PlayerNamePanel(this.mainPanel, this.gameBoardState);
-        this.panelDrawPile = new DrawPilePanel(this, gameBoardState.getDrawPileCards());
+        this.panelRound = new RoundPanal(this);
+        this.panelPlayer = new PlayerPanel(this);
+        this.panelPlayerName = new PlayerNamePanel(this);
         this.panelDrawPileDeck = new DrawPileDeckPanel(this);
-        this.panelDeposited = new DepositedPanel(this, gameBoardState.getDepositedCards());
-        this.panelDepositedDeck = new DepositedDeckPanel(this, this.mainPanel, this.playerId, this.gameBoardState);
-        new SreenshotPanal(this.mainPanel, this);
-        new SaveGamePanel(this.mainPanel, this);
+        this.panelDepositedDeck = new DepositedDeckPanel(this);
+        new SreenshotPanal(this);
+        new SaveGamePanel(this);
 
         // init load playerCards
         for (int index=0; index < this.gameBoardState.getPlayers().length; index++)
@@ -82,13 +70,20 @@ public class GameBoard {
         // Spieler inaktiv setzten
         this.panelPlayerName.updatePlayerBgInactive(this.playerId);
 
+
+        // (Nach)Ziehstapel löschen
+        this.panelDepositedDeck.clear();
+        this.panelDrawPileDeck.clear();
+
+
         // Karten + Punkte updaten
         this.panelPlayer.updatePlayer(this.playerId);
         this.panelPlayerName.updatePlayerName(this.playerId);
 
-        // (Nach)ziehstapel update
-        this.panelDrawPileDeck.update();
+
+        // (Nach)Ziehstapel update
         this.panelDepositedDeck.update();
+        this.panelDrawPileDeck.update();
 
         // Wenn nicht letzer Zug
         if (!last) {
@@ -99,7 +94,7 @@ public class GameBoard {
         } else {
             // -> Spielende Panel
             this.playerId = 5;
-            new ScorePanal(mainPanel, gameBoardState);
+            new ScorePanal(this);
         }
     }
 
@@ -119,12 +114,12 @@ public class GameBoard {
 
     public void createDrawPilePanel() {
         System.out.println("createDrawPilePanel");
-        this.FRAME.setSAGPanel(new DrawPilePanel(this, this.gameBoardState.getDrawPileCards()));
+        this.FRAME.setSAGPanel(new DrawPilePanel(this));
     }
 
     public void createDepositedPanel() {
         System.out.println("createDepositedPanel");
-        this.FRAME.setSAGPanel(new DepositedPanel(this, this.gameBoardState.getDepositedCards()));
+        this.FRAME.setSAGPanel(new DepositedPanel(this));
     }
 
     public void createExchangePanel() {
@@ -132,16 +127,17 @@ public class GameBoard {
     }
 
     public void createScorePanal() throws Exception {
-        new ScorePanal(this.mainPanel, this.gameBoardState);
+        new ScorePanal(this);
     }
 
     public void createCheaterPanal(AbstractGamePlayer player) throws Exception {
-        new CheaterPanel(this.mainPanel, this.gameBoardState, player);
+        new CheaterPanel(this, player);
     }
 
-    public void setMainPanel() throws InterruptedException {
+    public void setMainPanel() {
         System.out.println("pop1");
         System.out.println(this.FRAME.setSAGPanel(this.mainPanel));
+        this.FRAME.requestRepaint();
         // Thread.sleep(2000);
         System.out.println("pop2");
     }
@@ -168,7 +164,11 @@ public class GameBoard {
         return this.playerId;
     }
 
-    public SAGPanel getMaiPanel() {
+    public SAGPanel getMainPanel() {
         return this.mainPanel;
+    }
+
+    public GameBoardState getGameBoardState() {
+        return this.gameBoardState;
     }
 }

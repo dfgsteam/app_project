@@ -23,6 +23,8 @@ public class CardListener implements MouseEventListener {
 
     public void mouseEntered(MouseMotionEvent var1, GElement var2) {
         var2.setScale(0.95f);
+        // System.out.println(var2.getPositionX());
+        // System.out.println(var2.getPositionY());
     }
 
     public void mouseExited(MouseMotionEvent var1, GElement var2) {

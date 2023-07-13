@@ -2,40 +2,41 @@ package bauernhof.app.ui.game.panel.deposited;
 
 import bauernhof.app.card.Ca;
 
-import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.ui.game.GameBoard;
 import bauernhof.app.ui.game.listener.DepositedListener;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
 import sag.LayerPosition;
-import sag.SAGPanel;
 import sag.elements.GGroup;
 
 public class DepositedDeckPanel {
 
     GGroup panel;
-    GameBoardState gameBoardState;
     GameBoard gameBoard;
 
-    public DepositedDeckPanel(GameBoard gameBoard, SAGPanel mainPanel, int playerId, GameBoardState gameBoardState) throws ChildNotFoundException {
-        this.gameBoardState = gameBoardState;
+    public DepositedDeckPanel(GameBoard gameBoard) {
+        // init Klassenvariabeln
         this.gameBoard = gameBoard;
-        this.panel = mainPanel.addLayer(LayerPosition.CENTER_CENTER);
-        //this.panel.setScale(1.15f);
-
-        //this.update();
-
+        this.panel = this.gameBoard.getMainPanel().addLayer(LayerPosition.CENTER_CENTER); // neue ggroup auf panel erzeugen
     }
 
-    public void update() throws ChildNotFoundException {
-        for (int cardIndex=0; cardIndex < this.panel.getNumChildren(); cardIndex++)
-            this.panel.removeChild(this.panel.getChildByRenderingIndex(cardIndex));
-        
-        
-        GCard gCard = ((Ca) this.gameBoardState.getDepositedCards().iterator().next()).getGCard();
-        //GCard gCard = new GCard(this.gameBoardState.getDrawPileCards().iterator().next());
+    public void update() throws InterruptedException {
+        // Füge die erste Karte aus dem DepositedCards hinzu und gib ihm den passenden Listener
+        GCard gCard = ((Ca) this.gameBoard.getGameBoardState().getDepositedCards().iterator().next()).getGCard();
+        gCard.setPosition(0, 0);
         gCard.setMouseEventListener(new DepositedListener(this.gameBoard));
-        this.panel.addChild(gCard, 150, 0);
+        if (gCard.getPositionX() != 0f || gCard.getPositionY() != 0f) {
+            System.out.println(gCard.getCard().getName());
+            Thread.sleep(10000000);
+        }
+        //this.panel.addChild(gCard, 180f, 0f);
     }
 
+    public void clear()  throws ChildNotFoundException {
+        // Lösche alte Karte und setzte position (move) zurück
+        for (int cardIndex=0; cardIndex < this.panel.getNumChildren(); cardIndex++) {
+            this.panel.getChildByRenderingIndex(cardIndex).setPosition(0f, 0f);
+            this.panel.removeChild(this.panel.getChildByRenderingIndex(cardIndex));
+        }
+    }
 }

@@ -19,9 +19,9 @@ public class DrawPilePanel extends SAGPanel implements ActionListener{
     private GameBoard gameBoard;
     private SAGPanel panel;
 
-    public DrawPilePanel(GameBoard gameBoard, Stack<Card> stack){
+    public DrawPilePanel(GameBoard gameBoard){
         this.panel = new SAGPanel(GameBoard.WIDTH, GameBoard.HEIGTH);
-
+        Stack<Card> stack = gameBoard.getGameBoardState().getDrawPileCards();
         // Muss neu
         this.gameBoard = gameBoard;
         

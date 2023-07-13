@@ -11,7 +11,7 @@ import java.io.IOException;
 public class Launcher {
 
     // Button outline
-    public static boolean debug = true;
+    public static boolean debug = false;
 
     final private int width = 1280;
     final private int heigth = 720;
