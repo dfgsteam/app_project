@@ -18,8 +18,6 @@ import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.networking.RemoteException;
 import bauernhof.preset.networking.S2CConnection;
-import com.sun.jdi.IntegerValue;
-import com.sun.jdi.IntegerValue;
 
 import javax.swing.*;
 
@@ -30,10 +28,8 @@ public class  Start {
     public static void main(String args[]) throws Exception {
         int network = Integer.valueOf(args[0]);
         if (args.length > 0)
-            network = Integer.valueOf(args[0]);
+        network = Integer.valueOf(args[0]);
             File gameConfFile = new File("gameconfigs/bauernhof.xml");
-
-
             GameConfigurationParser GameConfPars = new GaCoPa();
             GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
         if (network == 0) {
@@ -113,8 +109,8 @@ public class  Start {
     private static final void initClient(final GameConfigurationParser parser, final String projectname) throws IOException, RemoteException {
         Socket socket = new Socket("localhost", port);
         ClientConnector connector = new ClientConnector(PlayerType.SIMPLE_AI, socket, parser, projectname);
+        System.out.println(connector.isOpen());
         connector.handlePackets();
-        return;
     }
     // Habe die Funktion erstellt weil ich das Fenster gerne im FULLSCREEN HABEN WILL!!!
     private static void setDefaultDesigns() {
