@@ -14,6 +14,7 @@ import bauernhof.app.ui.game.GameBoard;
 import bauernhof.app.ui.game.listener.BackButtonListener;
 import bauernhof.app.ui.game.listener.card.CardListener;
 import bauernhof.app.ui.game.listener.card.CardPopListener;
+import bauernhof.app.ui.game.panel.BackButton;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
 import sag.LayerPosition;
@@ -76,10 +77,11 @@ public class DrawPilePanel extends SAGPanel{
 
         }
 
-        GText back = new GText("Zurück");
-        GRect backRect = new GRect(x, y+80, 70, 30, getFocusTraversalKeysEnabled());
-        bot.addChild(back,x,y);
-        bot.addChild(backRect);
+        try {
+            new BackButton(this, gameBoard);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

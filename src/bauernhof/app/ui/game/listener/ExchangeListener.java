@@ -2,6 +2,7 @@ package bauernhof.app.ui.game.listener;
 
 import bauernhof.app.ui.game.GameBoard;
 import bauernhof.preset.card.GCard;
+import sag.ChildNotFoundException;
 import sag.elements.GElement;
 import sag.events.MouseButtonEvent;
 import sag.events.MouseEventListener;
@@ -48,13 +49,18 @@ public class ExchangeListener implements MouseEventListener {
                     System.out.println("hi");
                 gameBoard.getGameBoardState().getDepositedCards().add(gameBoard.getGameBoardState().getDrawPileCards().iterator().next());
                 gameBoard.getGameBoardState().getDrawPileCards().remove(gameBoard.getGameBoardState().getDepositedCards().get(gameBoard.getGameBoardState().getDepositedCards().size()-1));
-                gameBoard.updateMain();
+                try {
+                    gameBoard.getDepositedDeck().update();
+                    gameBoard.getDrawPileDeck().update();
+                } catch (ChildNotFoundException e) {
+                    e.printStackTrace();
+                }
                 gameBoard.getFrame().setSAGPanel(gameBoard.getMain());
             }
             //TODO taking cards from deposited
              if(arg1.getGElement() == gameBoard.getGameBoardState().getDepositedCards().get(gameBoard.getGameBoardState().getDepositedCards().size()-1)){
                 //TODO place chosen card into the hand and put the second chosen card in the Drawpile deck
-                gameBoard.updateMain();
+                //gameBoard.updateMain();
                 gameBoard.getFrame().setSAGPanel(gameBoard.getMain());
             }
 

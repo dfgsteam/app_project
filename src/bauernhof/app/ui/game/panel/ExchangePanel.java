@@ -3,6 +3,7 @@ package bauernhof.app.ui.game.panel;
 import java.util.ArrayList;
 
 import bauernhof.app.ui.game.GameBoard;
+import bauernhof.app.ui.game.listener.card.CardAddListener;
 import bauernhof.app.ui.game.listener.card.CardPopListener;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
@@ -31,6 +32,7 @@ public class ExchangePanel extends SAGPanel{
         System.out.println(x);
 
         for (int index=0; index < cards.size(); index++) {
+            System.out.println(cards.size());
             card = new GCard(cards.get(index));
             card.setMouseEventListener(new CardPopListener(this.gameBoard, this.gameBoard.getPlayerId()));
             Mid.addChild(card,x, y);

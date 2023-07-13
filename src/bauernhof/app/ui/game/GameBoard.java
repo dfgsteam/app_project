@@ -127,13 +127,16 @@ public class GameBoard {
     }
 
     public void movePopCard(GCard gCard) throws Exception {
-        this.setMainPanel();
+       // this.setMainPanel();
         //
 
         System.out.print("popCard: ");
         System.out.println(gCard.getCard().getName());
         //Thread.sleep(1000);
         ((HumanPlayer) this.gameBoardState.getActualPlayer()).doMove(gCard.getCard());
+        this.panelDepositedDeck.update();
+        this.panelDrawPileDeck.update();
+        this.setMainPanel();
     }
 
     public void createDrawPilePanel() {
@@ -213,8 +216,8 @@ public class GameBoard {
      * @return DrawPileDeck
      */
 
-    public GCard getDrawPileDeck(){
-        return this.drawPileDeck;
+    public DrawPileDeckPanel getDrawPileDeck(){
+        return this.panelDrawPileDeck;
     }
 
     /**
@@ -222,8 +225,8 @@ public class GameBoard {
      * @return DepositedFeck
      */
 
-    public GCard getDepositedDeck(){
-        return this.depositedDeck;
+    public DepositedDeckPanel getDepositedDeck(){
+        return this.panelDepositedDeck;
     }
 
     /**
