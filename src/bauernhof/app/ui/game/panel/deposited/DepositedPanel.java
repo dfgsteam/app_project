@@ -19,10 +19,8 @@ public class DepositedPanel extends SAGPanel implements ActionListener {
     private GameBoard gameBoard;
 
     public DepositedPanel(GameBoard gameBoard){
-    public DepositedPanel(GameBoard gameBoard){
 
         this.gameBoard = gameBoard;
-        ArrayList<Card> list = this.gameBoard.getGameBoardState().getDepositedCards();
         ArrayList<Card> list = this.gameBoard.getGameBoardState().getDepositedCards();
         
         GGroup top = this.addLayer(LayerPosition.TOP_LEFT);
