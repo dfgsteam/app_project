@@ -1,7 +1,10 @@
 package bauernhof.app.ui.game.panel;
 
+import java.util.ArrayList;
+
 import bauernhof.app.ui.game.GameBoard;
 import bauernhof.app.ui.game.listener.card.CardPopListener;
+import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
 import sag.LayerPosition;
 import sag.SAGPanel;
@@ -16,23 +19,25 @@ public class ExchangePanel extends SAGPanel{
     public ExchangePanel(GameBoard gameBoard){
         this.gameBoard = gameBoard;
         GGroup Top = this.addLayer(LayerPosition.TOP_CENTER);
-        Top.addChild(new GText("Welche Karte soll abgelegt werden?"), -350,100);
+        Top.addChild(new GText("Welche Karte soll abgelegt werden?").setAlignment(GText.TextAnchor.MIDDLE), 0f,100f);
 
         GGroup Mid = this.addLayer(LayerPosition.CENTER_CENTER);
-        int x = -750, y = 0;
-        Mid.setScale(0.9f);
+        
+        ArrayList<Card> cards = this.gameBoard.getGameBoardState().getPlayers()[this.gameBoard.getPlayerId()].getCards();
+        
+        
+        Mid.setScale(1.1f - (0.05f*cards.size()));
+        int x = (int)(-210*((float)cards.size()/2)), y = 0;
+        System.out.println(x);
 
-        for(int i = 0; i < 7; i++){
-            card = new GCard(gameBoard.getGameBoardState().getPlayers()[0].getCards().get(i));
+        for (int index=0; index < cards.size(); index++) {
+            card = new GCard(cards.get(index));
             card.setMouseEventListener(new CardPopListener(this.gameBoard, this.gameBoard.getPlayerId()));
             Mid.addChild(card,x, y);
-            x+=200;
+            x+=210;
         }
 
-        card = new GCard(gameBoard.getGameBoardState().getDrawPileCards().elementAt(0));
-        card.setMouseEventListener(new CardPopListener(this.gameBoard, this.gameBoard.getPlayerId()));
-
-        Mid.addChild(card, x, y);
+        
 
     }
 }

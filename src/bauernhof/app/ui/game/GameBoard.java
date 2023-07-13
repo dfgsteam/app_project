@@ -72,6 +72,8 @@ public class GameBoard {
     }
 
     public void move(boolean last) throws Exception { 
+        //this.FRAME.setSAGPanel(this.mainPanel);
+
         // Spieler inaktiv setzten
         this.panelPlayerName.updatePlayerBgInactive(this.playerId);
 
@@ -101,8 +103,8 @@ public class GameBoard {
     }
 
     public void moveAddCard(GCard gCard) {
+        ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
         this.createExchangePanel();
-        //((HumanPlayer) this.gameBoardStat8e.getActualPlayer()).setAdd(gCard.getCard());
         System.out.print("addCard: ");
         System.out.println(gCard.getCard().getName());
     }
@@ -139,8 +141,12 @@ public class GameBoard {
         new CheaterPanel(this.mainPanel, this.gameBoardState, player);
     }
 
-    public void setMainPanel() {
+    public void setMainPanel() throws InterruptedException {
+        System.out.println("pop1");
         this.FRAME.setSAGPanel(this.mainPanel);
+        this.FRAME.setVisible(true);
+        // Thread.sleep(2000);
+        System.out.println("pop2");
     }
 
 

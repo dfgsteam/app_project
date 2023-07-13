@@ -33,8 +33,8 @@ public class DrawPileDeckPanel {
         for (int cardIndex=0; cardIndex < this.panel.getNumChildren(); cardIndex++)
             this.panel.removeChild(this.panel.getChildByRenderingIndex(cardIndex));
 
-        System.out.println(this.gameBoardState.getDrawPileCards());
-        GCard gCard = ((Ca) this.gameBoardState.getDrawPileCards().iterator().next()).getGCard();
+        //System.out.println(this.gameBoardState.getDrawPileCards());
+        GCard gCard = ((Ca) this.gameBoardState.getDrawPileCards().lastElement()).getGCard();
         //GCard gCard = new GCard(this.gameBoardState.getDrawPileCards().iterator().next());
         gCard.setMouseEventListener(new DrawPileListener(this.gameBoard, this.gameBoard.getPlayerId()));
         this.panel.addChild(gCard, -150, 0);
