@@ -15,7 +15,7 @@ public class BackButtonListener implements MouseEventListener {
     }
 
     public void mouseClicked(MouseButtonEvent var1, GElement var2) {
-        this.gameBoard.getFrame().setSAGPanel(gameBoard.getMain());
+        this.gameBoard.setMainPanel();
     }
     
     public void mousePressed(MouseButtonEvent var1, GElement var2) {}
