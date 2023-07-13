@@ -120,6 +120,7 @@ public class GameBoardState implements Table {
 
     @Override
     public boolean doMove(final Move move) throws Exception {
+        System.out.println(drawpile_cards.lastElement());
         if (!drawpile_cards.isEmpty())
         if (deposited_cards.contains(move.getTaken()))
             deposited_cards.remove(move.getTaken());
