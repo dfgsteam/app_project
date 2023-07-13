@@ -21,7 +21,8 @@ public class ScreenshotListener implements MouseEventListener{
 
     @Override
     public void mouseClicked(MouseButtonEvent arg0, GElement arg1) {
-        System.out.println("screen");
+        this.mouseExited(null, arg1); // Damit Button klein wird
+        this.gameBoard.createScreenshot();
     }
 
     @Override
