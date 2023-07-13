@@ -122,6 +122,7 @@ public class GameBoardState implements Table {
         deposited_cards.add(move.getDeposited());
         getActualPlayer().add(move.getTaken());
         getActualPlayer().remove(move.getDeposited());
+        //Thread.sleep(2000);
         for (final AbstractGamePlayer player : players)
             if(!player.equals(getActualPlayer()))
                 player.update(move);
