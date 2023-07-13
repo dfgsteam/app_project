@@ -164,18 +164,6 @@ public class GameBoard {
         System.out.println("saveGame");
     }
 
-
-    private void test() throws Exception {
-        int maxTestRounds = 3;
-        int index2 = 0;
-        while (index2++ < maxTestRounds) {
-            System.out.println(this.playerId);
-            TimeUnit.SECONDS.sleep(1);
-            this.move(index2 == maxTestRounds);
-        }
-        this.createScorePanal();
-    }
-
     public int getPlayerId() {
         return this.playerId;
     }
