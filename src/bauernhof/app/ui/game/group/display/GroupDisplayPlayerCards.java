@@ -40,34 +40,6 @@ public class GroupDisplayPlayerCards extends GGroup {
      * 
      * @param UiGame The UiGame object that represents the game UI.
      */
-    public GroupDisplayPlayerCards(UiGame UiGame) {
-        this.UiGame = UiGame;
-        int maxCards = this.UiGame.getGameBoardState().getConfiguration().getNumCardsPerPlayerHand();
-        this.pos = new float[this.UiGame.getGameBoardState().getPlayers().length][maxCards][2];
-        for (int counter = 0; counter < this.UiGame.getGameBoardState().getPlayers().length; counter++) {
-            switch (counter) {
-                case 0:
-                    this.groupPlayer[0] = this.UiGame.getMainPanel().addLayer(LayerPosition.BOTTOM_CENTER);
-                    break;
-                case 1:
-                    this.groupPlayer[1] = this.UiGame.getMainPanel().addLayer(LayerPosition.CENTER_LEFT);
-                    break;
-                case 2:
-                    this.groupPlayer[2] = this.UiGame.getMainPanel().addLayer(LayerPosition.TOP_CENTER);
-                    break;
-                case 3:
-                    this.groupPlayer[3] = this.UiGame.getMainPanel().addLayer(LayerPosition.CENTER_RIGHT);
-                    break;
-            }
-            this.groupPlayer[counter].setScale(0.65f - (0.01f * maxCards));
-public class GroupDisplayPlayerCards extends GGroup{
-
-    private GGroup groupPlayer[] = new GGroup[4];
-    private float pos[][][];
-
-    private UiGame UiGame;
-
-
     public GroupDisplayPlayerCards (UiGame UiGame) {
         this.UiGame = UiGame;
         int maxCards = this.UiGame.getGameBoardState().getConfiguration().getNumCardsPerPlayerHand();
