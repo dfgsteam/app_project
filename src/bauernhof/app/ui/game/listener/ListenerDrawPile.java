@@ -43,6 +43,6 @@ public class ListenerDrawPile implements MouseEventListener {
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent var1, GElement var2) {
-        this.UiGame.createDrawPilePanel();
+        this.UiGame.showPanelDrawPileCards();
     }
 }

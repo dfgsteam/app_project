@@ -16,6 +16,7 @@ import bauernhof.app.ui.game.group.display.GroupDisplayRound;
 import bauernhof.app.ui.game.group.popup.GroupPopupCheater;
 import bauernhof.app.ui.game.group.popup.GroupPopupScore;
 import bauernhof.app.ui.game.panel.*;
+import sag.ChildNotFoundException;
 import sag.SAGFrame;
 import sag.SAGPanel;
 
@@ -29,15 +30,24 @@ public class UiGame {
     public static int WIDTH = 1920;
     public static int HEIGTH = 1080;
 
+    // Frame
     private final SAGFrame FRAME = new SAGFrame("Hofbauern", 30, UiGame.WIDTH, UiGame.HEIGTH);
+    
+    // Panels
     private SAGPanel mainPanel = new SAGPanel();
+    private PanelDepositedCards panelDepositedCards;
+    private PanelDrawPileCards panelDrawPileCards;
+    private PanelExchangeCards panelExchangeCards;
 
+    // GGroups
     private GroupDisplayPlayerCards groupDisplayPlayerCards;
     private GroupDisplayPlayerName groupDisplayPlayerName;
     private GroupDisplayRound groupDisplayRound;
     private GroupDisplayDrawPileDeck groupDisplayDrawPileDeck;
     private GroupDisplayDepositedDeck groupDisplayDepositedDeck;
     
+
+
     private GameBoardState gameBoardState;
 
     private int playerId = 0;
@@ -47,7 +57,13 @@ public class UiGame {
 
         //init Frame
         this.FRAME.setSAGPanel(this.mainPanel);
+
+        // init Frames
         this.FRAME.setVisible(true);
+        this.panelDepositedCards = new PanelDepositedCards(this);
+        this.panelDrawPileCards = new PanelDrawPileCards(this);
+        //this.panelExchangeCards = new PanelExchangeCards(this);
+
 
         // init Groups
         this.groupDisplayRound = new GroupDisplayRound(this);
@@ -110,14 +126,14 @@ public class UiGame {
         ((HumanPlayer) this.gameBoardState.getActualPlayer()).doMove(gCard.getCard());
     }
 
-    public void createDrawPilePanel() {
-        System.out.println("createDrawPilePanel");
-        this.FRAME.setSAGPanel(new PanelDrawPileCards(this));
+    public void showPanelDrawPileCards() {
+        this.FRAME.setSAGPanel(this.panelDrawPileCards.getPanel());
+        this.panelDrawPileCards.update();
     }
 
-    public void createDepositedPanel() {
-        System.out.println("createDepositedPanel");
-        this.FRAME.setSAGPanel(new PanelDepositedCards(this));
+    public void showPanelDepositedCards() {
+        this.FRAME.setSAGPanel(this.panelDepositedCards.getPanel());
+        this.panelDepositedCards.update();
     }
 
     public void createExchangePanel() {
@@ -133,7 +149,15 @@ public class UiGame {
     }
 
     public void setMainPanel() {
-        this.FRAME.setSAGPanel(this.mainPanel);
+        try {
+            this.panelDrawPileCards.clear();
+            this.panelDepositedCards.clear();
+            //this.panelExchangeCards.clear();
+            this.FRAME.setSAGPanel(this.mainPanel);
+        } catch (ChildNotFoundException e) {
+            System.out.println(e);
+            System.exit(0);
+        }
     }
 
     // screenshot

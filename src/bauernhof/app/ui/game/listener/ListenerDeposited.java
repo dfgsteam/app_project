@@ -43,6 +43,6 @@ public class ListenerDeposited implements MouseEventListener {
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent var1, GElement var2) {
-        this.UiGame.createDepositedPanel();
+        this.UiGame.showPanelDepositedCards();
     }
 }
