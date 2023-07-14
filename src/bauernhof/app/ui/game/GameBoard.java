@@ -130,6 +130,8 @@ public class GameBoard {
        // this.setMainPanel();
         //
 
+        this.gameBoardState.getActualPlayer();
+
         System.out.print("popCard: ");
         System.out.println(gCard.getCard().getName());
         //Thread.sleep(1000);

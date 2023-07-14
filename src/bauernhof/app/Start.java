@@ -31,6 +31,7 @@ public class Start {
             GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
         if (args.length == 0) {
             final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Smila", "Caren", "Lotta"}, new PlayerType[]{PlayerType.HUMAN, PlayerType.HUMAN, PlayerType.RANDOM_AI, PlayerType.SIMPLE_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
+            //final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Caren"}, new PlayerType[]{ PlayerType.RANDOM_AI, PlayerType.SIMPLE_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
             GameBoard GB = new GameBoard(GaCo, gameBoardState);
             setDefaultDesigns();
             gameBoardState.initGame(GB);

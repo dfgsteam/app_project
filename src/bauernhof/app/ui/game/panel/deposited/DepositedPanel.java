@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 
 import bauernhof.app.ui.game.GameBoard;
+import bauernhof.app.ui.game.listener.DepositedListener;
 import bauernhof.app.ui.game.listener.card.CardListener;
 import bauernhof.app.ui.game.listener.card.CardPopListener;
 import bauernhof.app.ui.game.panel.BackButton;
@@ -29,7 +30,7 @@ public class DepositedPanel extends SAGPanel{
     public DepositedPanel(GameBoard gameBoard, ArrayList<Card> list){
 
         this.gameBoard = gameBoard;
-        CardListener cardListener = new CardListener();
+        DepositedListener cardListener = new DepositedListener(this.gameBoard,this.gameBoard.getPlayerId());
         
         GGroup top = this.addLayer(LayerPosition.TOP_LEFT);
         top.setScale(0.75f);
