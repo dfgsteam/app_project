@@ -2,21 +2,28 @@ package bauernhof.app.ui.game.listener;
 
 import bauernhof.app.ui.game.UiGame;
 import sag.elements.GElement;
+import sag.elements.GText;
 import sag.events.MouseButtonEvent;
 import sag.events.MouseEventListener;
 import sag.events.MouseMotionEvent;
 import sag.events.MouseWheelEvent;
 
 public class ListenerBackButton implements MouseEventListener {
-    private UiGame UiGame;
 
-    public ListenerBackButton(UiGame UiGame) {
-        this.UiGame = UiGame;
+    private UiGame uiGame;
+    private GText headline;
+    private int updateVersion;
+
+    public ListenerBackButton(UiGame uiGame, GText headline, int updateVersion) {
+        this.uiGame = uiGame;
+        this.headline = headline;
+        this.updateVersion = updateVersion;
     }
 
     @Override
     public void mouseClicked(MouseButtonEvent var1, GElement var2) {
-        this.UiGame.setMainPanel();
+
+        this.uiGame.setMainPanel(updateVersion);
     }
     
     @Override
@@ -28,11 +35,13 @@ public class ListenerBackButton implements MouseEventListener {
     @Override
     public void mouseEntered(MouseMotionEvent var1, GElement var2) {
         var2.setScale(1.25f);
+        this.headline.setScale(1.25f);
     }
 
     @Override
     public void mouseExited(MouseMotionEvent var1, GElement var2) {
         var2.setScale(1f);
+        this.headline.setScale(1f);
     }
 
     @Override

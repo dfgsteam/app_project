@@ -49,37 +49,41 @@ public class ListenerHomeButton implements MouseEventListener {
     }
 
     @Override
-    public void mouseClicked(MouseButtonEvent event, GElement element) {
+    public void mouseClicked(MouseButtonEvent var1, GElement var2) {
         System.out.println("->home menu");
         JFrame.getFrames()[0].dispose();
         try {
             StartLauncher.main(new String[]{});
-        } catch (IOException | InterruptedException | SeEx e) {
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (SeEx e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void mousePressed(MouseButtonEvent event, GElement element) {}
+    public void mousePressed(MouseButtonEvent var1, GElement var2) {}
 
     @Override
-    public void mouseReleased(MouseButtonEvent event, GElement element) {}
+    public void mouseReleased(MouseButtonEvent var1, GElement var2) {}
 
     @Override
-    public void mouseEntered(MouseMotionEvent event, GElement element) {
-        element.setScale(1.1f);
+    public void mouseEntered(MouseMotionEvent var1, GElement var2) {
+        var2.setScale(1.1f);
         this.homeHeadline.setScale(1.1f);
     }
 
     @Override
-    public void mouseExited(MouseMotionEvent event, GElement element) {
-        element.setScale(1f);
+    public void mouseExited(MouseMotionEvent var1, GElement var2) {
+        var2.setScale(1f);
         this.homeHeadline.setScale(1f);
     }
 
     @Override
-    public void mouseMoved(MouseMotionEvent event, GElement element) {}
+    public void mouseMoved(MouseMotionEvent var1, GElement var2) {}
 
     @Override
-    public void mouseWheelMoved(MouseWheelEvent event, GElement element) {}
+    public void mouseWheelMoved(MouseWheelEvent var1, GElement var2) {}
 }

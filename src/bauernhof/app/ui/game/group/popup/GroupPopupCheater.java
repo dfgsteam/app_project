@@ -31,7 +31,7 @@ import sag.elements.shapes.GRect;
  * @param player The AbstractGamePlayer object representing the detected cheater.
  * @throws Exception If an error occurs during initialization.
  *
- * @author [Your Name]
+ * @author Juliud Hunold
  * @version 1.0
  * @since 2023-07-14
  */

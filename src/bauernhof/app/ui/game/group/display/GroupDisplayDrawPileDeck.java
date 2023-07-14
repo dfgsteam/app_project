@@ -21,7 +21,7 @@ import sag.elements.GGroup;
  * - The group provides a method to update its contents with the latest card from the draw pile.
  * - The group provides a method to clear its contents and reset the position of the cards.
  * 
- * @author [Your Name]
+ * @author Julius Hunold
  * @version 1.0
  * @since 2023-07-14
  */
@@ -54,6 +54,7 @@ public class GroupDisplayDrawPileDeck {
      */
     public void update() throws InterruptedException {
         // Add the first card from the draw pile and attach the appropriate listener
+
         GCard gCard = ((Ca) this.UiGame.getGameBoardState().getDrawPileCards().lastElement()).getGCard();
         gCard.setMouseEventListener(new ListenerDrawPile(this.UiGame));
         this.panel.addChild(gCard, -180, 0);
@@ -71,3 +72,4 @@ public class GroupDisplayDrawPileDeck {
         }
     }
 }
+

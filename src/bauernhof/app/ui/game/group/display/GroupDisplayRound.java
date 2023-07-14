@@ -23,7 +23,7 @@ import sag.elements.shapes.GRect;
  * - The group has a round counter text that shows the current round number.
  * - The round counter is updated dynamically based on the game state.
  * 
- * @author [Your Name]
+ * @author Julius Hunold
  * @version 1.0
  * @since 2023-07-14
  */
@@ -47,19 +47,19 @@ public class GroupDisplayRound extends GGroup {
         // Panel
         GGroup panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER);
 
-        // Field
+        // Feld
         GRect area = new GRect(0f, 0f, 110f, 90f, true, 0f, 0f);
         area.setFill(new Color(255, 255, 255, 255));
         area.setStroke(new Color(0, 0, 0), 3f);
         panel.addChild(area, 0f, -10f);
 
-        // Headline
+        // Überschrift
         GText headline = new GText("Runde");
         headline.setAlignment(GText.TextAnchor.MIDDLE);
         headline.setFontSize(25f);
         panel.addChild(headline, 0f, -15f);
 
-        // Round counter
+        // Rundenzähler
         this.roundCounter.setAlignment(GText.TextAnchor.MIDDLE);
         this.roundCounter.setFontSize(25f);
         panel.addChild(this.roundCounter, 0f, 15f);

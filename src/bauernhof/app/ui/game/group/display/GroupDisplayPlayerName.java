@@ -24,7 +24,7 @@ import sag.elements.shapes.GRect;
  * - The player panels are initially populated with player names and scores from the game state.
  * - The player names and scores can be updated dynamically using the provided update methods.
  *
- * @author [Your Name]
+ * @author Julius Hunold
  * @version 1.0
  * @since 2023-07-14
  */
@@ -52,13 +52,12 @@ public class GroupDisplayPlayerName extends GGroup {
         GGroup panel;
         GRect area = new GRect(0f, 0f, 0f, 0f, false);
         GText text = new GText(null);
-
-        // Create player panels at the appropriate positions for each player
-        for (int counter = 0; counter < this.gameBoardState.getPlayers().length; counter++) {
+        // Erstelle für den jeweiligen Spieler das Panel an der richtigen Position 
+        for (int counter=0; counter<this.gameBoardState.getPlayers().length; counter++) {
             switch (counter) {
                 case 0: {
-                    // Create panel (with starting position)
-                    panel = UiGame.getMainPanel().addLayer(LayerPosition.BOTTOM_CENTER);
+                    // panel erzeugen (mit Startpunkt)
+                    panel = UiGame.getMainPanel().addLayer(LayerPosition.BOTTOM_CENTER); 
 
                     // playerBg
                     area = new GRect(0f, 0f, 400f, 50f, true, 0f, 0f);
@@ -67,17 +66,15 @@ public class GroupDisplayPlayerName extends GGroup {
                     panel.addChild(area, 0f, -210f);
 
                     // playerName
-                    text = new GText(this.gameBoardState.getPlayers()[counter].getName() + " - " +
-                            Integer.toString(this.gameBoardState.getPlayers()[counter].getScore()));
+                    text = new GText(this.gameBoardState.getPlayers()[counter].getName() + " - " + Integer.toString(this.gameBoardState.getPlayers()[counter].getScore()));
                     text.setAlignment(GText.TextAnchor.MIDDLE);
                     panel.addChild(text, 0f, -200f);
 
                     break;
                 }
                 case 1: {
-                    // Create panel (with starting position)
-                    panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER_LEFT);
-
+                    // panel erzeugen (mit Startpunkt)
+                    panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER_LEFT); 
                     // playerBg
                     area = new GRect(0f, 0f, 50f, 400f, true, 0f, 0f);
                     area.setFill(this.colorInactive);
@@ -85,8 +82,7 @@ public class GroupDisplayPlayerName extends GGroup {
                     panel.addChild(area, 280f, 0f);
 
                     // playerName
-                    text = new GText(this.gameBoardState.getPlayers()[counter].getName() + " - " +
-                            Integer.toString(this.gameBoardState.getPlayers()[counter].getScore()));
+                    text = new GText(this.gameBoardState.getPlayers()[counter].getName() + " - " + Integer.toString(this.gameBoardState.getPlayers()[counter].getScore()));
                     text.setAlignment(GText.TextAnchor.MIDDLE);
                     text.rotate(-90f);
                     panel.addChild(text, 290f, 0f);
@@ -94,9 +90,9 @@ public class GroupDisplayPlayerName extends GGroup {
                     break;
                 }
                 case 2: {
-                    // Create panel (with starting position)
-                    panel = UiGame.getMainPanel().addLayer(LayerPosition.TOP_CENTER);
-
+                    // panel erzeugen (mit Startpunkt)
+                    panel = UiGame.getMainPanel().addLayer(LayerPosition.TOP_CENTER); 
+                  
                     // playerBg
                     area = new GRect(0f, 0f, 400f, 50f, true, 0f, 0f);
                     area.setFill(this.colorInactive);
@@ -104,16 +100,15 @@ public class GroupDisplayPlayerName extends GGroup {
                     panel.addChild(area, 0f, 210f);
 
                     // playerName
-                    text = new GText(this.gameBoardState.getPlayers()[counter].getName() + " - " +
-                            Integer.toString(this.gameBoardState.getPlayers()[counter].getScore()));
+                    text = new GText(this.gameBoardState.getPlayers()[counter].getName() + " - " + Integer.toString(this.gameBoardState.getPlayers()[counter].getScore()));
                     text.setAlignment(GText.TextAnchor.MIDDLE);
                     panel.addChild(text, 0f, 220f);
 
                     break;
                 }
                 case 3: {
-                    // Create panel (with starting position)
-                    panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER_RIGHT);
+                    // panel erzeugen (mit Startpunkt)
+                    panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER_RIGHT); 
 
                     // playerBg
                     area = new GRect(0f, 0f, 50f, 400f, true, 0f, 0f);
@@ -122,8 +117,7 @@ public class GroupDisplayPlayerName extends GGroup {
                     panel.addChild(area, -280f, 0f);
 
                     // playerName
-                    text = new GText(this.gameBoardState.getPlayers()[counter].getName() + " - " +
-                            Integer.toString(this.gameBoardState.getPlayers()[counter].getScore()));
+                    text = new GText(this.gameBoardState.getPlayers()[counter].getName() + " - " + Integer.toString(this.gameBoardState.getPlayers()[counter].getScore()));
                     text.setAlignment(GText.TextAnchor.MIDDLE);
                     text.rotate(90f);
                     panel.addChild(text, -290f, 0f);

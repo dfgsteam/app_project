@@ -21,11 +21,10 @@ import sag.elements.GGroup;
  * - The displayed card can have an event listener attached to it.
  * - The group can be cleared, removing all displayed cards.
  *
- * @author [Your Name]
+ * @author Julius Hunold
  * @version 1.0
  * @since 2023-07-14
  */
-
 public class GroupDisplayDepositedDeck {
 
     GGroup panel;
@@ -51,6 +50,7 @@ public class GroupDisplayDepositedDeck {
      */
     public void update() throws InterruptedException {
         // Add the first card from the deposited cards and assign the appropriate listener to it
+
         GCard gCard = ((Ca) this.UiGame.getGameBoardState().getDepositedCards().iterator().next()).getGCard();
         gCard.setMouseEventListener(new ListenerDeposited(this.UiGame));
         this.panel.addChild(gCard, 180f, 0f);

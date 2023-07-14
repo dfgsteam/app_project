@@ -15,7 +15,7 @@ import sag.elements.shapes.GRect;
  * It extends the {@code GGroup} class from the {@code sag.elements} package.
  * The panel contains a rectangular button with text and an event listener for capturing screenshots.
 
- * @author [Your Name]
+ * @author Julius Hunold
  * @version 1.0
  * @since 2023-07-14
 */
@@ -46,8 +46,5 @@ public PanelButtonScreenshot(UiGame UiGame) throws Exception {
 
     // Eventlistener
     area.setMouseEventListener(new ListenerScreenshot(UiGame, headline));
+  }
 }
-}
-
-
-

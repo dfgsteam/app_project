@@ -27,7 +27,7 @@ import sag.elements.shapes.GRect;
  * - Each player's score is shown with their position and name.
  * - The return to the main menu button allows the player to navigate back to the main menu.
  *
- * @author [Your Name]
+ * @author Julius Hunold
  * @version 1.0
  * @since 2023-07-14
  */
