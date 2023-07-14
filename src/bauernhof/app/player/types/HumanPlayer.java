@@ -27,12 +27,6 @@ public class HumanPlayer extends AbstractGamePlayer {
         return this.humanmove;
     }
     public final void doMove(final Card remove) throws Exception {
-
-        this.remove(add);
-        for (final Card card : configuration.getCards())
-            if (card.equals(add))
-                this.add = card;
-        System.out.println(add);
         this.humanmove = new Move(add, remove);
         state.doMove(this.humanmove);
         System.out.println("THIS");

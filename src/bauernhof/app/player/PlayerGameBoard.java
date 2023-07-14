@@ -36,6 +36,9 @@ public class PlayerGameBoard {
             deposited_cards.remove(move.getTaken());
         else if(!(drawpile_cards.isEmpty()) && drawpile_cards.lastElement().equals(move.getTaken()))
             drawpile_cards.pop();
+        //else return false;
+       /* if (!playergamecards[activeplayerid].contains(move.getDeposited()))
+            return false;*/
         deposited_cards.add(move.getDeposited());
         playergamecards[activeplayerid].remove(move.getDeposited());
         playergamecards[activeplayerid].add(move.getTaken());
