@@ -46,8 +46,6 @@ public class UiGame {
     private GroupDisplayDrawPileDeck groupDisplayDrawPileDeck;
     private GroupDisplayDepositedDeck groupDisplayDepositedDeck;
     
-
-
     private GameBoardState gameBoardState;
 
     private int playerId = 0;
@@ -63,7 +61,6 @@ public class UiGame {
         this.panelDepositedCards = new PanelDepositedCards(this);
         this.panelDrawPileCards = new PanelDrawPileCards(this);
         //this.panelExchangeCards = new PanelExchangeCards(this);
-
 
         // init Groups
         this.groupDisplayRound = new GroupDisplayRound(this);
@@ -111,7 +108,7 @@ public class UiGame {
             new GroupPopupScore(this);
         }
     }
-
+  
     public void moveAddCard(GCard gCard) {
         ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
         this.createExchangePanel();
@@ -187,7 +184,7 @@ public class UiGame {
     public boolean check_move() {
         return this.gameBoardState.getPlayers()[this.playerId].getPlayerType() == PlayerType.HUMAN;
     }
-
+  
     public int getPlayerId() {
         return this.playerId;
     }

@@ -9,6 +9,7 @@ import sag.events.MouseMotionEvent;
 import sag.events.MouseWheelEvent;
 
 public class ListenerBackButton implements MouseEventListener {
+
     private UiGame uiGame;
     private GText headline;
     private int updateVersion;
@@ -21,6 +22,7 @@ public class ListenerBackButton implements MouseEventListener {
 
     @Override
     public void mouseClicked(MouseButtonEvent var1, GElement var2) {
+
         this.uiGame.setMainPanel(updateVersion);
     }
     

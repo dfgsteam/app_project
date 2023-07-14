@@ -105,7 +105,6 @@ public class PanelDrawPileCards extends SAGPanel{
             x+=200;
 
         }
-
         try {
             new BackButton(this, gameBoard);
         } catch (Exception e) {

@@ -10,8 +10,43 @@ import sag.elements.GGroup;
 import sag.elements.GText;
 import sag.elements.shapes.GRect;
 
-public class GroupPopupCheater extends GGroup{
-    public GroupPopupCheater (UiGame UiGame, AbstractGamePlayer player) throws Exception {
+/**
+ * This class represents a cheater popup group in the game UI.
+ * It extends the GGroup class from the sag.elements package.
+ * The popup group is displayed at the center of the main panel and provides information about a detected cheater.
+ * The class is designed to be used within the UiGame class.
+ * 
+ * The GroupPopupCheater class provides the following functionality:
+ * - Creates a popup group for displaying information about a detected cheater.
+ * - The popup group is added to the main panel of the UiGame instance.
+ * - The popup group contains a rectangular area with a red translucent background and a thick black border.
+ * - The popup group displays a bold headline text indicating the detection of a cheater.
+ * - The popup group displays the name of the cheater.
+ * - The popup group contains a button for returning to the main menu.
+ * - The button has a yellow translucent background and a thick black border.
+ * - The button displays a bold text for indicating the action of returning to the main menu.
+ * - The button triggers an event listener when clicked, redirecting to the main menu.
+ *
+ * @param UiGame The UiGame object that represents the game UI.
+ * @param player The AbstractGamePlayer object representing the detected cheater.
+ * @throws Exception If an error occurs during initialization.
+ *
+ * @author Juliud Hunold
+ * @version 1.0
+ * @since 2023-07-14
+ */
+
+public class GroupPopupCheater extends GGroup {
+    
+    /**
+     * Constructs a new GroupPopupCheater object.
+     * The object represents a cheater popup group in the game UI.
+     * 
+     * @param UiGame The UiGame object that represents the game UI.
+     * @param player The AbstractGamePlayer object representing the detected cheater.
+     * @throws Exception If an error occurs during initialization.
+     */
+    public GroupPopupCheater(UiGame UiGame, AbstractGamePlayer player) throws Exception {
         // Panel
         GGroup panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER);
 
@@ -33,7 +68,7 @@ public class GroupPopupCheater extends GGroup{
         playerName.setAlignment(GText.TextAnchor.MIDDLE);
         playerName.setFontSize(40f);
         panel.addChild(playerName, 0f, 0f);
- 
+
         // Hauptmenü Button
         GRect homeButton = new GRect(0f, 0f, 450f, 75f, true, 0f, 0f);
         homeButton.setFill(new Color(255, 255, 0, 70));
