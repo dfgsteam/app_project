@@ -32,7 +32,6 @@ public class PlayerPanel extends GGroup{
 
             this.initPlayer(counter, maxCards);
         }
-        return;
     }
 
     private void initPlayer(int playerId, int maxCards) {
