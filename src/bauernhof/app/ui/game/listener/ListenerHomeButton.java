@@ -27,7 +27,7 @@ import java.io.IOException;
  * - Handles the mouseExited event for the home button.
  *   - Resets the scale of the home button and its associated headline.
  * 
- * @author [Your Name]
+ * @author Julius Hunold
  * @version 1.0
  * @since 2023-07-14
  */
