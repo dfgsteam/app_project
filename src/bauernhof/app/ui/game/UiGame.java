@@ -16,6 +16,7 @@ import bauernhof.app.ui.game.group.display.GroupDisplayRound;
 import bauernhof.app.ui.game.group.popup.GroupPopupCheater;
 import bauernhof.app.ui.game.group.popup.GroupPopupScore;
 import bauernhof.app.ui.game.panel.*;
+import sag.ChildNotFoundException;
 import sag.SAGFrame;
 import sag.SAGPanel;
 
@@ -29,15 +30,24 @@ public class UiGame {
     public static int WIDTH = 1920;
     public static int HEIGTH = 1080;
 
+    // Frame
     private final SAGFrame FRAME = new SAGFrame("Hofbauern", 30, UiGame.WIDTH, UiGame.HEIGTH);
+    
+    // Panels
     private SAGPanel mainPanel = new SAGPanel();
+    private PanelDepositedCards panelDepositedCards;
+    private PanelDrawPileCards panelDrawPileCards;
+    private PanelExchangeCards panelExchangeCards;
 
+    // GGroups
     private GroupDisplayPlayerCards groupDisplayPlayerCards;
     private GroupDisplayPlayerName groupDisplayPlayerName;
     private GroupDisplayRound groupDisplayRound;
     private GroupDisplayDrawPileDeck groupDisplayDrawPileDeck;
     private GroupDisplayDepositedDeck groupDisplayDepositedDeck;
     
+
+
     private GameBoardState gameBoardState;
 
     private int playerId = 0;
@@ -47,7 +57,13 @@ public class UiGame {
 
         //init Frame
         this.FRAME.setSAGPanel(this.mainPanel);
+
+        // init Frames
         this.FRAME.setVisible(true);
+        this.panelDepositedCards = new PanelDepositedCards(this);
+        this.panelDrawPileCards = new PanelDrawPileCards(this);
+        //this.panelExchangeCards = new PanelExchangeCards(this);
+
 
         // init Groups
         this.groupDisplayRound = new GroupDisplayRound(this);
@@ -96,28 +112,24 @@ public class UiGame {
         }
     }
 
-    public boolean check_move() {
-        return this.gameBoardState.getPlayers()[this.playerId].getPlayerType() == PlayerType.HUMAN;
-    }
-
     public void moveAddCard(GCard gCard) {
         ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
         this.createExchangePanel();
     }
 
     public void movePopCard(GCard gCard) throws Exception {
-        this.setMainPanel(); //aktuallisiert nicht richtig. Panel wird erst bei HUMAN move wieder angezeigt
+        this.setMainPanel(3); //aktuallisiert nicht richtig. Panel wird erst bei HUMAN move wieder angezeigt
         ((HumanPlayer) this.gameBoardState.getActualPlayer()).doMove(gCard.getCard());
     }
 
-    public void createDrawPilePanel() {
-        System.out.println("createDrawPilePanel");
-        this.FRAME.setSAGPanel(new PanelDrawPileCards(this));
+    public void showPanelDrawPileCards() throws ChildNotFoundException {
+        this.groupDisplayDepositedDeck.clear(); // lösche ref auf Karte in Deck
+        this.FRAME.setSAGPanel(this.panelDrawPileCards.getPanel());
     }
 
-    public void createDepositedPanel() {
-        System.out.println("createDepositedPanel");
-        this.FRAME.setSAGPanel(new PanelDepositedCards(this));
+    public void showPanelDepositedCards() throws ChildNotFoundException {
+        this.groupDisplayDepositedDeck.clear(); // lösche ref auf Karte in Deck
+        this.FRAME.setSAGPanel(this.panelDepositedCards.getPanel());
     }
 
     public void createExchangePanel() {
@@ -132,8 +144,25 @@ public class UiGame {
         new GroupPopupCheater(this, player);
     }
 
-    public void setMainPanel() {
-        this.FRAME.setSAGPanel(this.mainPanel);
+    public void setMainPanel(int v) { // v=1: DrawPile, v=2: Deposited, v=3: Exchange
+        System.out.println(v);
+        try {
+            if (v==1) { // DrawPile
+                this.panelDrawPileCards.clear(); // lösche ref auf Karte in Panel
+                this.groupDisplayDrawPileDeck.update();
+            } else if (v==2) { // Deposited
+                this.panelDepositedCards.clear(); // lösche ref auf Karte in Panel
+                this.groupDisplayDepositedDeck.update();
+            } else if (v==3) { // Exchange
+                System.out.println("test");
+                //this.panelExchangeCards.clear();
+            }
+            this.FRAME.setSAGPanel(this.mainPanel); // Setzte SAGPanel richtig
+
+        } catch (Exception e) {
+            System.out.println(e);
+            System.exit(0);
+        }
     }
 
     // screenshot
@@ -152,6 +181,11 @@ public class UiGame {
     // saveGame
     public void saveGame() {
         System.out.println("saveGame");
+    }
+
+    // Check if move by human
+    public boolean check_move() {
+        return this.gameBoardState.getPlayers()[this.playerId].getPlayerType() == PlayerType.HUMAN;
     }
 
     public int getPlayerId() {
