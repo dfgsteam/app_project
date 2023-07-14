@@ -15,8 +15,6 @@ import sag.elements.GGroup;
  * The group contains multiple layers, each representing a player's hand of cards.
  * The class provides methods for initializing and updating the player cards.
  * 
- * The GroupDisplayPlayerCards class requires an instance of UiGame to be constructed.
- * 
  * The GroupDisplayPlayerCards class provides the following functionality:
  * - Initializes the group of player cards with the specified UiGame instance.
  * - Creates separate layers for each player's hand of cards based on their position.

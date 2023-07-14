@@ -21,8 +21,6 @@ import sag.elements.GGroup;
  * - The group provides a method to update its contents with the latest card from the draw pile.
  * - The group provides a method to clear its contents and reset the position of the cards.
  * 
- * Note: This class assumes the existence of the Ca and GCard classes from the bauernhof.app.card and bauernhof.preset.card packages, respectively.
- * 
  * @author [Your Name]
  * @version 1.0
  * @since 2023-07-14

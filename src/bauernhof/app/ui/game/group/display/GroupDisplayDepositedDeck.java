@@ -14,17 +14,12 @@ import sag.elements.GGroup;
  * It provides methods to update and clear the displayed cards.
  * The class is designed to be used within the UiGame class.
  *
- * The GroupDisplayDepositedDeck class requires an instance of UiGame to be constructed.
- *
  * The GroupDisplayDepositedDeck class provides the following functionality:
  * - Creates a group for displaying the deposited deck of cards.
  * - The group is added to the main panel of the UiGame instance.
  * - The group can be updated to display the first card from the deposited deck.
  * - The displayed card can have an event listener attached to it.
  * - The group can be cleared, removing all displayed cards.
- *
- * Note: This class assumes the existence of a "Ca" class representing a card from the deposited deck.
- * It also assumes the existence of a "GCard" class representing the graphical representation of a card.
  *
  * @author [Your Name]
  * @version 1.0
