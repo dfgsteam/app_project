@@ -7,11 +7,6 @@ import bauernhof.preset.card.*;
 import bauernhof.app.launcher.GameBoardState;
 
 import bauernhof.app.player.AbstractGamePlayer;
-import bauernhof.app.ui.game.listener.DepositedDrawListener;
-import bauernhof.app.ui.game.listener.DepositedListener;
-import bauernhof.app.ui.game.listener.DrawPileListener;
-import bauernhof.app.ui.game.listener.card.CardAddListener;
-import bauernhof.app.ui.game.listener.card.CardListener;
 import bauernhof.app.ui.game.listener.card.CardPopListener;
 import bauernhof.app.ui.game.panel.*;
 import bauernhof.app.ui.game.panel.deposited.DepositedDeckPanel;
@@ -31,15 +26,8 @@ public class GameBoard {
 
     public static int WIDTH = 1600;
     public static int HEIGTH = 900;
-
     private final SAGFrame FRAME = new SAGFrame("Hofbauern", 30, GameBoard.WIDTH, GameBoard.HEIGTH);
     private SAGPanel mainPanel = new SAGPanel(GameBoard.WIDTH, GameBoard.HEIGTH);
-
-    private GCard drawPileDeck;
-    private GCard depositedDeck;
-
-    
-
     private PlayerPanel panelPlayer;
     private PlayerNamePanel panelPlayerName;
     private RoundPanal panelRound;
@@ -265,6 +253,9 @@ public class GameBoard {
 
     public int getPlayerId(){
         return playerId;
+    }
+    public static int getWidth(){
+        return this.WIDTH;
     }
 
 

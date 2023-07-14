@@ -33,11 +33,11 @@ public class DepositedPanel extends SAGPanel{
         DepositedListener cardListener = new DepositedListener(this.gameBoard,this.gameBoard.getPlayerId());
         
         GGroup top = this.addLayer(LayerPosition.TOP_LEFT);
-        top.setScale(0.75f);
+        top.setScale(0.5f);
         GGroup cen = this.addLayer(LayerPosition.CENTER_LEFT);
-        cen.setScale(0.75f);
+        cen.setScale(0.5f);
         GGroup bot = this.addLayer(LayerPosition.BOTTOM_LEFT);
-        bot.setScale(0.75f);
+        bot.setScale(0.5f);
         this.setLayout(null);
         int x=100,y=120,i=0;
 
@@ -46,7 +46,7 @@ public class DepositedPanel extends SAGPanel{
         GCard card;
 
         for(; i< list.size(); i++ ){
-            if(x+200 >= this.VIEWPORT_WIDTH){break;}
+            if(x+200 >= this.gameBoard.WIDTH*2){break;}
             card = new GCard(list.get(i));
             card.setMouseEventListener(cardListener);
             top.addChild(card,x,y);
@@ -55,7 +55,7 @@ public class DepositedPanel extends SAGPanel{
         }
         x=100;y=-150;
         for(; i< list.size(); i++ ){
-            if(x+200 >= this.VIEWPORT_WIDTH){break;}
+            if(x+200 >= this.gameBoard.WIDTH*2){break;}
             card = new GCard(list.get(i));
             card.setMouseEventListener(cardListener);
             cen.addChild(card,x,y);
