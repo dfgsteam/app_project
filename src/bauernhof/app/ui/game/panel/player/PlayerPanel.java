@@ -89,10 +89,8 @@ public class PlayerPanel extends GGroup{
         Object[] cards = player.getCards().toArray();
 
         for (int item=0; item<cards.length; item++) {
-            GCard gCard = ((Ca) cards[item]).getGCard(); //-> Position wird falsch angezeigt
+            GCard gCard = ((Ca) cards[item]).getGCard();
             
-            //GCard gCard = new GCard((Ca)cards[item]);
-            gCard.setPosition(0, 0);
             gCard.setMouseEventListener(new CardListener());
 
             // Wenn Karte blockiert = rote umrandung
@@ -100,19 +98,13 @@ public class PlayerPanel extends GGroup{
                 System.out.println(gCard.getCard().getName());
 
             // Karte der Gruppe hinzufügen
-            if (gCard.getPositionX() != 0f || gCard.getPositionY() != 0f) {
-                System.out.println(gCard.getCard().getName());
-                Thread.sleep(10000000);
-            }
             this.groupPlayer[playerId].addChild(gCard, this.pos[playerId][item][0], this.pos[playerId][item][1]);
         }
     }
 
     private void clearPlayerPanel(int playerId) throws ChildNotFoundException {
-        for (int cardIndex=0; cardIndex < this.groupPlayer[playerId].getNumChildren(); cardIndex++) {
+        for (int cardIndex=this.groupPlayer[playerId].getNumChildren()-1; cardIndex >= 0 ; cardIndex--) {
             this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex).unsetStrokeWidth();
-            this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex).setPosition(0, 0);
-            //this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex).setPosition(0f, 0f);
             this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex).setMouseEventListener(null);
             this.groupPlayer[playerId].removeChild(this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex));
         }
