@@ -1,18 +1,18 @@
-package bauernhof.app.ui.game.panel;
+package bauernhof.app.ui.game.group.button;
 
 import java.awt.Color;
 
-import bauernhof.app.ui.game.GameBoard;
-import bauernhof.app.ui.game.listener.ScreenshotListener;
+import bauernhof.app.ui.game.UiGame;
+import bauernhof.app.ui.game.listener.ListenerScreenshot;
 import sag.LayerPosition;
 import sag.elements.GGroup;
 import sag.elements.GText;
 import sag.elements.shapes.GRect;
 
-public class SreenshotPanal extends GGroup{
-    public SreenshotPanal (GameBoard gameBoard) throws Exception {
+public class PanelButtonScreenshot extends GGroup{
+    public PanelButtonScreenshot (UiGame UiGame) throws Exception {
         // Panel
-        GGroup panel = gameBoard.getMainPanel().addLayer(LayerPosition.BOTTOM_RIGHT);
+        GGroup panel = UiGame.getMainPanel().addLayer(LayerPosition.BOTTOM_RIGHT);
 
         // Feld (Button)
         GRect area = new GRect(0f, 0f, 140f, 35f, true, 0f, 0f);
@@ -27,6 +27,6 @@ public class SreenshotPanal extends GGroup{
         panel.addChild(headline, -90f, -33f);
 
         // Eventlistener
-        area.setMouseEventListener(new ScreenshotListener(gameBoard, headline));
+        area.setMouseEventListener(new ListenerScreenshot(UiGame, headline));
     }
 }

@@ -1,6 +1,6 @@
-package bauernhof.app.ui.game.panel.deposited;
+package bauernhof.app.ui.game.panel;
 
-import bauernhof.app.ui.game.GameBoard;
+import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.listener.card.CardAddListener;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
@@ -13,15 +13,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class DepositedPanel extends SAGPanel implements ActionListener {
+public class PanelDepositedCards extends SAGPanel implements ActionListener {
 
     private JButton Back;
-    private GameBoard gameBoard;
+    private UiGame UiGame;
 
-    public DepositedPanel(GameBoard gameBoard) {
+    public PanelDepositedCards(UiGame UiGame) {
 
-        this.gameBoard = gameBoard;
-        ArrayList<Card> list = this.gameBoard.getGameBoardState().getDepositedCards();
+        this.UiGame = UiGame;
+        ArrayList<Card> list = this.UiGame.getGameBoardState().getDepositedCards();
 
         GGroup top = this.addLayer(LayerPosition.TOP_LEFT);
         top.setScale(0.75f);
@@ -41,7 +41,7 @@ public class DepositedPanel extends SAGPanel implements ActionListener {
                 break;
             }
             card = new GCard(list.get(i));
-            card.setMouseEventListener(new CardAddListener(this.gameBoard, this.gameBoard.getPlayerId()));
+            card.setMouseEventListener(new CardAddListener(this.UiGame, this.UiGame.getPlayerId()));
             top.addChild(card, x, y);
             x += 200;
 
@@ -53,7 +53,7 @@ public class DepositedPanel extends SAGPanel implements ActionListener {
                 break;
             }
             card = new GCard(list.get(i));
-            card.setMouseEventListener(new CardAddListener(this.gameBoard, this.gameBoard.getPlayerId()));
+            card.setMouseEventListener(new CardAddListener(this.UiGame, this.UiGame.getPlayerId()));
             cen.addChild(card, x, y);
             x += 200;
 
@@ -62,7 +62,7 @@ public class DepositedPanel extends SAGPanel implements ActionListener {
         y = -350;
         for (; i < list.size(); i++) {
             card = new GCard(list.get(i));
-            card.setMouseEventListener(new CardAddListener(this.gameBoard, this.gameBoard.getPlayerId()));
+            card.setMouseEventListener(new CardAddListener(this.UiGame, this.UiGame.getPlayerId()));
             bot.addChild(card, x, y);
             x += 200;
 
@@ -77,7 +77,7 @@ public class DepositedPanel extends SAGPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == Back) {
-            //gameBoard.getFrame().setSAGPanel(gameBoard.getMain());
+            //UiGame.getFrame().setSAGPanel(UiGame.getMain());
         }
     }
 }

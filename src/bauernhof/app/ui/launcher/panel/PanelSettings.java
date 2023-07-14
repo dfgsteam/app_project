@@ -3,18 +3,18 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import bauernhof.app.ui.launcher.Launcher;
+import bauernhof.app.ui.launcher.UiLauncher;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
-public class SettingsPanel {
-    private Launcher launcher;
+public class PanelSettings {
+    private UiLauncher launcher;
     private JPanel panel;
     private int heigth, width;
 
-    public SettingsPanel(Launcher launcher, int width, int heigth) throws IOException {
+    public PanelSettings(UiLauncher launcher, int width, int heigth) throws IOException {
         this.panel = new JPanel();
         this.heigth = heigth;
         this.width = width;
@@ -50,7 +50,7 @@ public class SettingsPanel {
     }
 
     public JButton addButtonReturn() {
-        Launcher launcher = this.launcher;
+        UiLauncher launcher = this.launcher;
         // Erstelle den JButton
         JButton button = new JButton();
 
@@ -61,7 +61,7 @@ public class SettingsPanel {
         });
         
         button.setContentAreaFilled(false);
-        button.setBorderPainted(Launcher.debug);
+        button.setBorderPainted(UiLauncher.debug);
         button.setBounds(994, 532, 260, 125);  
 
         return button;

@@ -2,23 +2,23 @@ package bauernhof.app.ui.launcher.panel;
 
 import javax.swing.*;
 
-import bauernhof.app.ui.launcher.Launcher;
+import bauernhof.app.ui.launcher.UiLauncher;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
-public class HomePanel {
-    private Launcher launcher;
+public class PanelHome {
+    private UiLauncher uiLauncher;
     private JPanel panel;
     private int heigth, width;
 
 
-    public HomePanel(Launcher launcher, int width, int heigth) throws IOException {
+    public PanelHome(UiLauncher uiLauncher, int width, int heigth) throws IOException {
         this.panel = new JPanel();
         this.heigth = heigth;
         this.width = width;
-        this.launcher = launcher;
+        this.uiLauncher = uiLauncher;
 
         this.panel = new JPanel() {
             @Override
@@ -65,7 +65,7 @@ public class HomePanel {
         });
         
         button.setContentAreaFilled(false);
-        button.setBorderPainted(Launcher.debug);
+        button.setBorderPainted(UiLauncher.debug);
         button.setBounds(199, 520, 280, 125);  
 
         return button;
@@ -76,20 +76,22 @@ public class HomePanel {
         JButton button = new JButton();
 
         button.addActionListener((ActionListener) new ActionListener() {
+            private UiLauncher uiLauncher;
+
             public void actionPerformed(ActionEvent e){
-                launcher.setPanelNetworkPlayer();
+                this.uiLauncher.setPanelNetworkPlayer();
             }
         });
         
         button.setContentAreaFilled(false);
-        button.setBorderPainted(Launcher.debug);
+        button.setBorderPainted(UiLauncher.debug);
         button.setBounds(500, 520, 280, 125);  
 
         return button;
     }
 
     public JButton addButtonSettings() {
-        Launcher launcher = this.launcher;
+        UiLauncher launcher = this.uiLauncher;
         // Erstelle den JButton
         JButton button = new JButton();
 
@@ -100,7 +102,7 @@ public class HomePanel {
         });
         
         button.setContentAreaFilled(false);
-        button.setBorderPainted(Launcher.debug);
+        button.setBorderPainted(UiLauncher.debug);
         button.setBounds(803, 520, 280, 125);  
 
         return button;

@@ -1,19 +1,19 @@
-package bauernhof.app.ui.game.panel;
+package bauernhof.app.ui.game.group.popup;
 
 import java.awt.Color;
 
 import bauernhof.app.player.AbstractGamePlayer;
-import bauernhof.app.ui.game.GameBoard;
-import bauernhof.app.ui.game.listener.HomeButtonListener;
+import bauernhof.app.ui.game.UiGame;
+import bauernhof.app.ui.game.listener.ListenerHomeButton;
 import sag.LayerPosition;
 import sag.elements.GGroup;
 import sag.elements.GText;
 import sag.elements.shapes.GRect;
 
-public class CheaterPanel extends GGroup{
-    public CheaterPanel (GameBoard gameBoard, AbstractGamePlayer player) throws Exception {
+public class GroupPopupCheater extends GGroup{
+    public GroupPopupCheater (UiGame UiGame, AbstractGamePlayer player) throws Exception {
         // Panel
-        GGroup panel = gameBoard.getMainPanel().addLayer(LayerPosition.CENTER);
+        GGroup panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER);
 
         // Feld
         GRect area = new GRect(0f, 0f, 700f, 500f, true, 0f, 0f);
@@ -47,6 +47,6 @@ public class CheaterPanel extends GGroup{
         homeHeadline.setFontSize(25f);
         panel.addChild(homeHeadline, 0f, 183f);
 
-        homeButton.setMouseEventListener(new HomeButtonListener(gameBoard.getGameBoardState(), homeHeadline));
+        homeButton.setMouseEventListener(new ListenerHomeButton(UiGame.getGameBoardState(), homeHeadline));
     }
 }

@@ -6,14 +6,16 @@ import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.*;
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.ui.game.group.button.PanelButtonSaveGame;
+import bauernhof.app.ui.game.group.button.PanelButtonScreenshot;
+import bauernhof.app.ui.game.group.display.GroupDisplayDepositedDeck;
+import bauernhof.app.ui.game.group.display.GroupDisplayDrawPileDeck;
+import bauernhof.app.ui.game.group.display.GroupDisplayPlayerCards;
+import bauernhof.app.ui.game.group.display.GroupDisplayPlayerName;
+import bauernhof.app.ui.game.group.display.GroupDisplayRound;
+import bauernhof.app.ui.game.group.popup.GroupPopupCheater;
+import bauernhof.app.ui.game.group.popup.GroupPopupScore;
 import bauernhof.app.ui.game.panel.*;
-import bauernhof.app.ui.game.panel.deposited.DepositedDeckPanel;
-import bauernhof.app.ui.game.panel.deposited.DepositedPanel;
-import bauernhof.app.ui.game.panel.draw.DrawPileDeckPanel;
-import bauernhof.app.ui.game.panel.draw.DrawPilePanel;
-import bauernhof.app.ui.game.panel.player.PlayerNamePanel;
-import bauernhof.app.ui.game.panel.player.PlayerPanel;
-import sag.ChildNotFoundException;
 import sag.SAGFrame;
 import sag.SAGPanel;
 
@@ -22,79 +24,75 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-public class GameBoard { 
+public class UiGame { 
 
     public static int WIDTH = 1920;
     public static int HEIGTH = 1080;
 
-    private final SAGFrame FRAME = new SAGFrame("Hofbauern", 30, GameBoard.WIDTH, GameBoard.HEIGTH);
+    private final SAGFrame FRAME = new SAGFrame("Hofbauern", 30, UiGame.WIDTH, UiGame.HEIGTH);
     private SAGPanel mainPanel = new SAGPanel();
 
-    private PlayerPanel panelPlayer;
-    private PlayerNamePanel panelPlayerName;
-    private RoundPanal panelRound;
-    private DrawPileDeckPanel panelDrawPileDeck;
-    private DepositedDeckPanel panelDepositedDeck;
+    private GroupDisplayPlayerCards groupDisplayPlayerCards;
+    private GroupDisplayPlayerName groupDisplayPlayerName;
+    private GroupDisplayRound groupDisplayRound;
+    private GroupDisplayDrawPileDeck groupDisplayDrawPileDeck;
+    private GroupDisplayDepositedDeck groupDisplayDepositedDeck;
     
     private GameBoardState gameBoardState;
 
     private int playerId = 0;
 
-    public GameBoard(GameConfiguration gameconf, GameBoardState gameBoardState) throws Exception{
+    public UiGame(GameConfiguration gameconf, GameBoardState gameBoardState) throws Exception{
         this.gameBoardState = gameBoardState;
 
         //init Frame
         this.FRAME.setSAGPanel(this.mainPanel);
         this.FRAME.setVisible(true);
 
-        // init Panels
-        this.panelRound = new RoundPanal(this);
-        this.panelPlayer = new PlayerPanel(this);
-        this.panelPlayerName = new PlayerNamePanel(this);
-        this.panelDrawPileDeck = new DrawPileDeckPanel(this);
-        this.panelDepositedDeck = new DepositedDeckPanel(this);
-        new SreenshotPanal(this);
-        new SaveGamePanel(this);
+        // init Groups
+        this.groupDisplayRound = new GroupDisplayRound(this);
+        this.groupDisplayPlayerCards = new GroupDisplayPlayerCards(this);
+        this.groupDisplayPlayerName = new GroupDisplayPlayerName(this);
+        this.groupDisplayDrawPileDeck = new GroupDisplayDrawPileDeck(this);
+        this.groupDisplayDepositedDeck = new GroupDisplayDepositedDeck(this);
+        new PanelButtonScreenshot(this);
+        new PanelButtonSaveGame(this);
 
         // init load playerCards
         for (int index=0; index < this.gameBoardState.getPlayers().length; index++)
-            this.panelPlayer.updatePlayer(index);
+            this.groupDisplayPlayerCards.updatePlayer(index);
 
-        // test = 10 gui moves
-        //this.test();
     }
 
     public void move(boolean last) throws Exception { 
-        //this.FRAME.setSAGPanel(this.mainPanel);
-
         // Spieler inaktiv setzten
-        this.panelPlayerName.updatePlayerBgInactive(this.playerId);
+        this.groupDisplayPlayerName.updatePlayerBgInactive(this.playerId);
 
 
         // (Nach)Ziehstapel löschen
-        this.panelDepositedDeck.clear();
-        this.panelDrawPileDeck.clear();
+        this.groupDisplayDepositedDeck.clear();
+        this.groupDisplayDrawPileDeck.clear();
 
 
         // Karten + Punkte updaten
-        this.panelPlayer.updatePlayer(this.playerId);
-        this.panelPlayerName.updatePlayerName(this.playerId);
+        this.groupDisplayPlayerCards.updatePlayer(this.playerId);
+        this.groupDisplayPlayerName.updatePlayerName(this.playerId);
 
 
         // (Nach)Ziehstapel update
-        this.panelDepositedDeck.update();
-        this.panelDrawPileDeck.update();
+        this.groupDisplayDepositedDeck.update();
+        this.groupDisplayDrawPileDeck.update();
 
         // Wenn nicht letzer Zug
         if (!last) {
             // Nächsten Spieler aktiv setzen
             this.playerId = (this.playerId+1)%this.gameBoardState.getPlayers().length;
-            this.panelPlayerName.updatePlayerBgActive(this.playerId);
-            this.panelRound.update();
+            this.groupDisplayPlayerName.updatePlayerBgActive(this.playerId);
+            this.groupDisplayRound.update();
         } else {
             // -> Spielende Panel
             this.playerId = 5;
-            new ScorePanal(this);
+            new GroupPopupScore(this);
         }
     }
 
@@ -114,32 +112,28 @@ public class GameBoard {
 
     public void createDrawPilePanel() {
         System.out.println("createDrawPilePanel");
-        this.FRAME.setSAGPanel(new DrawPilePanel(this));
+        this.FRAME.setSAGPanel(new PanelDrawPileCards(this));
     }
 
     public void createDepositedPanel() {
         System.out.println("createDepositedPanel");
-        this.FRAME.setSAGPanel(new DepositedPanel(this));
+        this.FRAME.setSAGPanel(new PanelDepositedCards(this));
     }
 
     public void createExchangePanel() {
-        this.FRAME.setSAGPanel(new ExchangePanel(this).getPanel());
+        this.FRAME.setSAGPanel(new PanelExchangeCards(this).getPanel());
     }
 
     public void createScorePanal() throws Exception {
-        new ScorePanal(this);
+        new GroupPopupScore(this);
     }
 
     public void createCheaterPanal(AbstractGamePlayer player) throws Exception {
-        new CheaterPanel(this, player);
+        new GroupPopupCheater(this, player);
     }
 
     public void setMainPanel() {
-        System.out.println("pop1");
-        System.out.println(this.FRAME.setSAGPanel(this.mainPanel));
-        this.FRAME.requestRepaint();
-        // Thread.sleep(2000);
-        System.out.println("pop2");
+        this.FRAME.setSAGPanel(this.mainPanel);
     }
 
     // screenshot

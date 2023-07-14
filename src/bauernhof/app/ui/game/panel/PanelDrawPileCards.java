@@ -1,11 +1,11 @@
-package bauernhof.app.ui.game.panel.draw;
+package bauernhof.app.ui.game.panel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Stack;
 
 import javax.swing.JButton;
-import bauernhof.app.ui.game.GameBoard;
+import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.listener.card.CardAddListener;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
@@ -13,17 +13,17 @@ import sag.LayerPosition;
 import sag.SAGPanel;
 import sag.elements.GGroup;
 
-public class DrawPilePanel extends SAGPanel implements ActionListener{
+public class PanelDrawPileCards extends SAGPanel implements ActionListener{
     
     private JButton Back;
-    private GameBoard gameBoard;
+    private UiGame UiGame;
     private SAGPanel panel;
 
-    public DrawPilePanel(GameBoard gameBoard){
-        this.panel = new SAGPanel(GameBoard.WIDTH, GameBoard.HEIGTH);
-        Stack<Card> stack = gameBoard.getGameBoardState().getDrawPileCards();
+    public PanelDrawPileCards(UiGame UiGame){
+        this.panel = new SAGPanel(UiGame.WIDTH, UiGame.HEIGTH);
+        Stack<Card> stack = UiGame.getGameBoardState().getDrawPileCards();
         // Muss neu
-        this.gameBoard = gameBoard;
+        this.UiGame = UiGame;
         
         GGroup top = this.addLayer(LayerPosition.TOP_LEFT);
         top.setScale(0.75f);
@@ -41,7 +41,7 @@ public class DrawPilePanel extends SAGPanel implements ActionListener{
         for(; i< stack.size(); i++ ){
             if(x+200 >= this.VIEWPORT_WIDTH){break;}
             card = new GCard(stack.get(i));
-            card.setMouseEventListener(new CardAddListener(this.gameBoard, this.gameBoard.getPlayerId()));
+            card.setMouseEventListener(new CardAddListener(this.UiGame, this.UiGame.getPlayerId()));
             top.addChild(card,x,y);
             x+=200;
             
@@ -50,7 +50,7 @@ public class DrawPilePanel extends SAGPanel implements ActionListener{
         for(; i< stack.size(); i++ ){
             if(x+200 >= this.VIEWPORT_WIDTH){break;}
             card = new GCard(stack.get(i));
-            card.setMouseEventListener(new CardAddListener(this.gameBoard, this.gameBoard.getPlayerId()));
+            card.setMouseEventListener(new CardAddListener(this.UiGame, this.UiGame.getPlayerId()));
             cen.addChild(card,x,y);
             x+=200;
         
@@ -58,7 +58,7 @@ public class DrawPilePanel extends SAGPanel implements ActionListener{
         x=100;y=-350;
         for(; i< stack.size(); i++ ){
             card = new GCard(stack.get(i));
-            card.setMouseEventListener(new CardAddListener(this.gameBoard, this.gameBoard.getPlayerId()));
+            card.setMouseEventListener(new CardAddListener(this.UiGame, this.UiGame.getPlayerId()));
             bot.addChild(card,x,y);
             x+=200;
 
@@ -81,7 +81,7 @@ public class DrawPilePanel extends SAGPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==Back){
-            //gameBoard.getFrame().setSAGPanel(gameBoard.getMain());
+            //UiGame.getFrame().setSAGPanel(UiGame.getMain());
             
         }
     

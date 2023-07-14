@@ -1,23 +1,23 @@
-package bauernhof.app.ui.game.panel.draw;
+package bauernhof.app.ui.game.group.display;
 
 import bauernhof.app.card.Ca;
 
-import bauernhof.app.ui.game.GameBoard;
-import bauernhof.app.ui.game.listener.DrawPileListener;
+import bauernhof.app.ui.game.UiGame;
+import bauernhof.app.ui.game.listener.ListenerDrawPile;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
 import sag.LayerPosition;
 import sag.elements.GGroup;
 
-public class DrawPileDeckPanel {
+public class GroupDisplayDrawPileDeck {
 
     GGroup panel;
-    GameBoard gameBoard;
+    UiGame UiGame;
 
-    public DrawPileDeckPanel(GameBoard gameBoard) throws InterruptedException {
+    public GroupDisplayDrawPileDeck(UiGame UiGame) throws InterruptedException {
         // init Klassenvariabeln
-        this.gameBoard = gameBoard;
-        this.panel = this.gameBoard.getMainPanel().addLayer(LayerPosition.CENTER_CENTER); // neue ggroup auf panel erzeugen
+        this.UiGame = UiGame;
+        this.panel = this.UiGame.getMainPanel().addLayer(LayerPosition.CENTER_CENTER); // neue ggroup auf panel erzeugen
 
         // für erste Karte, wird this.update() einmal ausgeführt.
         this.update();
@@ -25,8 +25,8 @@ public class DrawPileDeckPanel {
 
     public void update() throws InterruptedException {
         // Füge die erste Karte aus dem DrawPile hinzu und gib ihm den passenden Listener
-        GCard gCard = ((Ca) this.gameBoard.getGameBoardState().getDrawPileCards().lastElement()).getGCard();
-        gCard.setMouseEventListener(new DrawPileListener(this.gameBoard));
+        GCard gCard = ((Ca) this.UiGame.getGameBoardState().getDrawPileCards().lastElement()).getGCard();
+        gCard.setMouseEventListener(new ListenerDrawPile(this.UiGame));
         this.panel.addChild(gCard, -180, 0);
     }
 

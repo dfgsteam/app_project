@@ -8,7 +8,7 @@ import bauernhof.app.ui.launcher.panel.*;
 import java.io.IOException;
 
 
-public class Launcher {
+public class UiLauncher {
 
     // Button outline
     public static boolean debug = false;
@@ -20,13 +20,13 @@ public class Launcher {
 
     protected Se Settings;
 
-    private HomePanel homePanel;
-    private SettingsPanel settingsPanel;
-    private LocalPanel localPlayer;
-    private NetworkPanel networkPanel;
+    private PanelHome homePanel;
+    private PanelSettings settingsPanel;
+    private PanelLocal localPlayer;
+    private PanelNetwork networkPanel;
 
 
-    public Launcher(Se Settings) throws IOException, InterruptedException {
+    public UiLauncher(Se Settings) throws IOException, InterruptedException {
         // Erzeuge Frame
         this.frame = new JFrame("Hofbauern");
         
@@ -44,10 +44,10 @@ public class Launcher {
 
         this.Settings = Settings;
 
-        this.homePanel = new HomePanel(this, this.width, this.heigth);
-        this.settingsPanel = new SettingsPanel(this, this.width, this.heigth);
-        this.localPlayer = new LocalPanel(this, this.width, this.heigth);
-        this.networkPanel = new NetworkPanel(this, this.width, this.heigth);
+        this.homePanel = new PanelHome(this, this.width, this.heigth);
+        this.settingsPanel = new PanelSettings(this, this.width, this.heigth);
+        this.localPlayer = new PanelLocal(this, this.width, this.heigth);
+        this.networkPanel = new PanelNetwork(this, this.width, this.heigth);
         
         this.setPanelHome(); 
         // Thread.sleep(2000);

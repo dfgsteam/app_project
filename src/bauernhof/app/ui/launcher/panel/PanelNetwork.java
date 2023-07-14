@@ -2,24 +2,24 @@ package bauernhof.app.ui.launcher.panel;
 
 import javax.swing.*;
 
-import bauernhof.app.ui.launcher.Launcher;
+import bauernhof.app.ui.launcher.UiLauncher;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
-public class NetworkPanel {
-    private Launcher launcher;
+public class PanelNetwork {
+    private UiLauncher uiLauncher;
     private JPanel panel;
     private int heigth, width, status;
 
     private JButton buttonCreateServer, buttonJoinServer, buttonStartServer;
 
-    public NetworkPanel(Launcher launcher, int width, int heigth) throws IOException {
+    public PanelNetwork(UiLauncher uiLauncher, int width, int heigth) throws IOException {
         this.panel = new JPanel();
         this.heigth = heigth;
         this.width = width;
-        this.launcher = launcher;
+        this.uiLauncher = uiLauncher;
 
         this.panel.setPreferredSize(new Dimension(this.width, this.heigth));
         this.panel.setLayout(null);
@@ -50,31 +50,31 @@ public class NetworkPanel {
         this.addButtonCreateServer();
         this.addButtonCreateClient();
         if (updateFrame)
-            this.launcher.setPanelNetworkPlayer();
+            this.uiLauncher.setPanelNetworkPlayer();
     }
 
     public void setServer() {
         this.status = 1;
         this.createNewPanal("multiGameServer");
         this.addButtonStartGame();
-        this.launcher.setPanelNetworkPlayer();
+        this.uiLauncher.setPanelNetworkPlayer();
     }
 
     public void setClient() {
         this.status = 2;
         this.createNewPanal("multiGameClient");
-        this.launcher.setPanelNetworkPlayer();
+        this.uiLauncher.setPanelNetworkPlayer();
     }
 
     public void doReturn() {
         if (this.status == 0)
-            this.launcher.setPanelHome();
+            this.uiLauncher.setPanelHome();
         else
             this.setSelect(true);
     }
 
     public void addButtonReturn() {
-        NetworkPanel networkPanel = this;
+        PanelNetwork networkPanel = this;
         // Erstelle den JButton
         JButton button = new JButton();
 
@@ -85,14 +85,14 @@ public class NetworkPanel {
         });
         
         button.setContentAreaFilled(false);
-        button.setBorderPainted(Launcher.debug);
+        button.setBorderPainted(UiLauncher.debug);
         button.setBounds(994, 532, 260, 125);  
 
         this.panel.add(button);
     }
 
     public void addButtonCreateServer() {
-        NetworkPanel networkPanel = this;
+        PanelNetwork networkPanel = this;
         // Erstelle den JButton
         JButton button = new JButton();
 
@@ -103,14 +103,14 @@ public class NetworkPanel {
         });
         
         button.setContentAreaFilled(false);
-        button.setBorderPainted(Launcher.debug);
+        button.setBorderPainted(UiLauncher.debug);
         button.setBounds(265, 248, 752, 100);
 
         this.panel.add(button);
     }
 
     public void addButtonCreateClient() {
-        NetworkPanel networkPanel = this;
+        PanelNetwork networkPanel = this;
         // Erstelle den JButton
         JButton button = new JButton();
 
@@ -121,7 +121,7 @@ public class NetworkPanel {
         });
         
         button.setContentAreaFilled(false);
-        button.setBorderPainted(Launcher.debug);
+        button.setBorderPainted(UiLauncher.debug);
         button.setBounds(773, 361, 245, 100);
 
         this.panel.add(button);
@@ -138,7 +138,7 @@ public class NetworkPanel {
         });
         
         button.setContentAreaFilled(false);
-        button.setBorderPainted(Launcher.debug);
+        button.setBorderPainted(UiLauncher.debug);
         button.setBounds(995, 280, 261, 125);
 
         this.panel.add(button);

@@ -2,7 +2,7 @@ package bauernhof.app.launcher;
 
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.types.*;
-import bauernhof.app.ui.game.GameBoard;
+import bauernhof.app.ui.game.UiGame;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 
@@ -26,7 +26,7 @@ public class GameBoardState implements Table {
     private ArrayList<Card> deposited_cards = new ArrayList<>();
     private Stack<Card> drawpile_cards = new Stack<>();
     private AbstractGamePlayer[] players;
-    private GameBoard graphics;
+    private UiGame graphics;
     private String[] playernames;
     private PlayerType[] types;
     private GameConfiguration configuration;
@@ -73,7 +73,7 @@ public class GameBoardState implements Table {
                 ((Advanced_AI)player).setGameBoardState(this);
     }
     public GameBoardState() {}
-    public void initGame(final GameBoard graphics) throws Exception {
+    public void initGame(final UiGame graphics) throws Exception {
         this.graphics = graphics;
         System.out.println("GAME WIRD GESTARTET");
         if (!this.getActualPlayer().getPlayerType().equals(PlayerType.HUMAN))

@@ -11,7 +11,7 @@ import java.util.Arrays;
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.networking.ClientConnector;
 import bauernhof.app.player.types.LocalRemotePlayer;
-import bauernhof.app.ui.game.GameBoard;
+import bauernhof.app.ui.game.UiGame;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.networking.RemoteException;
@@ -30,8 +30,8 @@ public class Start {
             GameConfigurationParser GameConfPars = new GaCoPa();
             GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
         if (args.length == 0) {
-            final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Julius", "Cemil", "Horst"}, new PlayerType[]{PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
-            GameBoard GB = new GameBoard(GaCo, gameBoardState);
+            final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Julius", "Cemil", "Horst"}, new PlayerType[]{PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.HUMAN}, GaCo, new ImmutableList<>(GaCo.getCards()));
+            UiGame GB = new UiGame(GaCo, gameBoardState);
             setDefaultDesigns();
             gameBoardState.initGame(GB);
             System.out.println(GaCo.getConfigDescription());
@@ -87,7 +87,7 @@ public class Start {
             types[i] = PlayerType.REMOTE;
         }
         final GameBoardState gameBoardState = new GameBoardState(playernames, types, configuration, new ImmutableList<>(configuration.getCards()));
-        GameBoard GB = new GameBoard(configuration, gameBoardState);
+        UiGame GB = new UiGame(configuration, gameBoardState);
         setDefaultDesigns();
         for (int i = 0; i < playernames.length; i++)
             if(gameBoardState.getPlayers()[i].getPlayerType() == PlayerType.REMOTE)

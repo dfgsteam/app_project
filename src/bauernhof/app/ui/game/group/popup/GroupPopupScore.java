@@ -1,22 +1,22 @@
-package bauernhof.app.ui.game.panel;
+package bauernhof.app.ui.game.group.popup;
 
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import bauernhof.app.player.AbstractGamePlayer;
-import bauernhof.app.ui.game.GameBoard;
-import bauernhof.app.ui.game.listener.HomeButtonListener;
+import bauernhof.app.ui.game.UiGame;
+import bauernhof.app.ui.game.listener.ListenerHomeButton;
 import sag.LayerPosition;
 import sag.elements.GGroup;
 import sag.elements.GText;
 import sag.elements.shapes.GRect;
 
-public class ScorePanal extends GGroup{
+public class GroupPopupScore extends GGroup{
 
-    public ScorePanal (GameBoard gameBoard) throws Exception {
+    public GroupPopupScore (UiGame UiGame) throws Exception {
         // Panel
-        GGroup panel = gameBoard.getMainPanel().addLayer(LayerPosition.CENTER);
+        GGroup panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER);
 
         // Feld
         GRect area = new GRect(0f, 0f, 700f, 500f, true, 0f, 0f);
@@ -35,7 +35,7 @@ public class ScorePanal extends GGroup{
         HashMap<String, Integer> playerScores = new HashMap<>();
         ArrayList<String> scores = new ArrayList<>();
 
-        for (AbstractGamePlayer player : gameBoard.getGameBoardState().getPlayers()) {
+        for (AbstractGamePlayer player : UiGame.getGameBoardState().getPlayers()) {
             playerScores.put(player.getName(), player.getScore());
             scores.add(player.getName());
             String temp;
@@ -72,7 +72,7 @@ public class ScorePanal extends GGroup{
         homeHeadline.setFontSize(25f);
         panel.addChild(homeHeadline, 0f, 183f);
 
-        homeButton.setMouseEventListener(new HomeButtonListener(gameBoard.getGameBoardState(), homeHeadline));
+        homeButton.setMouseEventListener(new ListenerHomeButton(UiGame.getGameBoardState(), homeHeadline));
     }
 
 }

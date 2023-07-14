@@ -1,29 +1,29 @@
-package bauernhof.app.ui.game.panel.deposited;
+package bauernhof.app.ui.game.group.display;
 
 import bauernhof.app.card.Ca;
 
-import bauernhof.app.ui.game.GameBoard;
-import bauernhof.app.ui.game.listener.DepositedListener;
+import bauernhof.app.ui.game.UiGame;
+import bauernhof.app.ui.game.listener.ListenerDeposited;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
 import sag.LayerPosition;
 import sag.elements.GGroup;
 
-public class DepositedDeckPanel {
+public class GroupDisplayDepositedDeck {
 
     GGroup panel;
-    GameBoard gameBoard;
+    UiGame UiGame;
 
-    public DepositedDeckPanel(GameBoard gameBoard) {
+    public GroupDisplayDepositedDeck(UiGame UiGame) {
         // init Klassenvariabeln
-        this.gameBoard = gameBoard;
-        this.panel = this.gameBoard.getMainPanel().addLayer(LayerPosition.CENTER_CENTER); // neue ggroup auf panel erzeugen
+        this.UiGame = UiGame;
+        this.panel = this.UiGame.getMainPanel().addLayer(LayerPosition.CENTER_CENTER); // neue ggroup auf panel erzeugen
     }
 
     public void update() throws InterruptedException {
         // Füge die erste Karte aus dem DepositedCards hinzu und gib ihm den passenden Listener
-        GCard gCard = ((Ca) this.gameBoard.getGameBoardState().getDepositedCards().iterator().next()).getGCard();
-        gCard.setMouseEventListener(new DepositedListener(this.gameBoard));
+        GCard gCard = ((Ca) this.UiGame.getGameBoardState().getDepositedCards().iterator().next()).getGCard();
+        gCard.setMouseEventListener(new ListenerDeposited(this.UiGame));
         this.panel.addChild(gCard, 180f, 0f);
     }
 

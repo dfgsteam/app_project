@@ -1,26 +1,26 @@
-package bauernhof.app.ui.game.panel;
+package bauernhof.app.ui.game.group.display;
 
 import java.awt.Color;
 
 import bauernhof.app.launcher.GameBoardState;
-import bauernhof.app.ui.game.GameBoard;
+import bauernhof.app.ui.game.UiGame;
 import sag.LayerPosition;
 import sag.elements.GGroup;
 import sag.elements.GText;
 import sag.elements.shapes.GRect;
 
-public class RoundPanal extends GGroup{
+public class GroupDisplayRound extends GGroup{
 
     GText roundCounter = new GText("1");
 
     GameBoardState gameBoardState;
 
-    public RoundPanal (GameBoard gameBoard) throws Exception {
+    public GroupDisplayRound (UiGame UiGame) throws Exception {
         // Klassenvariablen erstellen
-        this.gameBoardState = gameBoard.getGameBoardState();
+        this.gameBoardState = UiGame.getGameBoardState();
 
         // Panel
-        GGroup panel = gameBoard.getMainPanel().addLayer(LayerPosition.CENTER);
+        GGroup panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER);
 
         // Feld
         GRect area = new GRect(0f, 0f, 110f, 90f, true, 0f, 0f);
