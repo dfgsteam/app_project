@@ -1,12 +1,9 @@
 package bauernhof.app.ui.game.panel.player;
 
-import java.awt.Color;
-
+import bauernhof.app.card.Ca;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.GameBoard;
 import bauernhof.app.ui.game.listener.card.CardListener;
-import bauernhof.app.ui.game.listener.card.CardPopListener;
-import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
 import sag.LayerPosition;
@@ -86,22 +83,19 @@ public class PlayerPanel extends GGroup{
         }
     }
 
-    public void updatePlayer(int playerId, AbstractGamePlayer Player) throws ChildNotFoundException {
+    public void updatePlayer(int playerId) throws ChildNotFoundException {
+        AbstractGamePlayer player = this.gameBoard.getGameBoardState().getPlayers()[playerId];
         this.clearPlayerPanel(playerId);
-        Object[] cards = Player.getCards().toArray();
+        Object[] cards = player.getCards().toArray();
 
         for (int item=0; item<cards.length; item++) {
-            //GCard gCard = ((Ca) cards[item]).getGCard(); //-> Position wird falsch angezeigt
-            //gCard.getPositionX();
-
-            GCard gCard = new GCard((Card) cards[item]); //-> zieht viel performance
-            gCard.setPosition(0f, 0f); // Setzte X/Y zurück
+            GCard gCard = ((Ca) cards[item]).getGCard(); //-> Position wird falsch angezeigt
 
             gCard.setMouseEventListener(new CardListener());
 
             // Wenn Karte blockiert = rote umrandung
-            if (Player.getBlockedCards().contains(cards[item]))
-                gCard.setStroke(Color.RED, 20);
+            if (player.getBlockedCards().contains(cards[item]))
+                System.out.println(gCard.getCard().getName());
 
             // Karte der Gruppe hinzufügen
             this.groupPlayer[playerId].addChild(gCard, this.pos[playerId][item][0], this.pos[playerId][item][1]);
@@ -110,7 +104,9 @@ public class PlayerPanel extends GGroup{
 
     private void clearPlayerPanel(int playerId) throws ChildNotFoundException {
         for (int cardIndex=0; cardIndex < this.groupPlayer[playerId].getNumChildren(); cardIndex++) {
-            this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex).setPosition(0f, 0f);
+            this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex).unsetStrokeWidth();
+            this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex).move(0f, 0f);
+            //this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex).setPosition(0f, 0f);
             this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex).setMouseEventListener(null);
             this.groupPlayer[playerId].removeChild(this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex));
         }
