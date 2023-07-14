@@ -112,28 +112,24 @@ public class UiGame {
         }
     }
 
-    public boolean check_move() {
-        return this.gameBoardState.getPlayers()[this.playerId].getPlayerType() == PlayerType.HUMAN;
-    }
-
     public void moveAddCard(GCard gCard) {
         ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
         this.createExchangePanel();
     }
 
     public void movePopCard(GCard gCard) throws Exception {
-        this.setMainPanel(); //aktuallisiert nicht richtig. Panel wird erst bei HUMAN move wieder angezeigt
+        this.setMainPanel(3); //aktuallisiert nicht richtig. Panel wird erst bei HUMAN move wieder angezeigt
         ((HumanPlayer) this.gameBoardState.getActualPlayer()).doMove(gCard.getCard());
     }
 
-    public void showPanelDrawPileCards() {
+    public void showPanelDrawPileCards() throws ChildNotFoundException {
+        this.groupDisplayDepositedDeck.clear(); // lösche ref auf Karte in Deck
         this.FRAME.setSAGPanel(this.panelDrawPileCards.getPanel());
-        this.panelDrawPileCards.update();
     }
 
-    public void showPanelDepositedCards() {
+    public void showPanelDepositedCards() throws ChildNotFoundException {
+        this.groupDisplayDepositedDeck.clear(); // lösche ref auf Karte in Deck
         this.FRAME.setSAGPanel(this.panelDepositedCards.getPanel());
-        this.panelDepositedCards.update();
     }
 
     public void createExchangePanel() {
@@ -148,13 +144,22 @@ public class UiGame {
         new GroupPopupCheater(this, player);
     }
 
-    public void setMainPanel() {
+    public void setMainPanel(int v) { // v=1: DrawPile, v=2: Deposited, v=3: Exchange
+        System.out.println(v);
         try {
-            this.panelDrawPileCards.clear();
-            this.panelDepositedCards.clear();
-            //this.panelExchangeCards.clear();
-            this.FRAME.setSAGPanel(this.mainPanel);
-        } catch (ChildNotFoundException e) {
+            if (v==1) { // DrawPile
+                this.panelDrawPileCards.clear(); // lösche ref auf Karte in Panel
+                this.groupDisplayDrawPileDeck.update();
+            } else if (v==2) { // Deposited
+                this.panelDepositedCards.clear(); // lösche ref auf Karte in Panel
+                this.groupDisplayDepositedDeck.update();
+            } else if (v==3) { // Exchange
+                System.out.println("test");
+                //this.panelExchangeCards.clear();
+            }
+            this.FRAME.setSAGPanel(this.mainPanel); // Setzte SAGPanel richtig
+
+        } catch (Exception e) {
             System.out.println(e);
             System.exit(0);
         }
@@ -176,6 +181,11 @@ public class UiGame {
     // saveGame
     public void saveGame() {
         System.out.println("saveGame");
+    }
+
+    // Check if move by human
+    public boolean check_move() {
+        return this.gameBoardState.getPlayers()[this.playerId].getPlayerType() == PlayerType.HUMAN;
     }
 
     public int getPlayerId() {

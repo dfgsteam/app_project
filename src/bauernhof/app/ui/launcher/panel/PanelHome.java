@@ -60,7 +60,7 @@ public class PanelHome {
 
         button.addActionListener((ActionListener) new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                launcher.setPanelLocalPlayer();
+                uiLauncher.setPanelLocalPlayer();
             }
         });
         

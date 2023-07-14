@@ -11,15 +11,17 @@ import sag.events.MouseWheelEvent;
 public class ListenerBackButton implements MouseEventListener {
     private UiGame uiGame;
     private GText headline;
+    private int updateVersion;
 
-    public ListenerBackButton(UiGame uiGame, GText headline) {
+    public ListenerBackButton(UiGame uiGame, GText headline, int updateVersion) {
         this.uiGame = uiGame;
         this.headline = headline;
+        this.updateVersion = updateVersion;
     }
 
     @Override
     public void mouseClicked(MouseButtonEvent var1, GElement var2) {
-        this.uiGame.setMainPanel();
+        this.uiGame.setMainPanel(updateVersion);
     }
     
     @Override

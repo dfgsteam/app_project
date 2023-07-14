@@ -2,6 +2,7 @@ package bauernhof.app.ui.game.listener;
 
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.preset.card.GCard;
+import sag.ChildNotFoundException;
 import sag.elements.GElement;
 import sag.events.MouseButtonEvent;
 import sag.events.MouseEventListener;
@@ -43,6 +44,10 @@ public class ListenerDrawPile implements MouseEventListener {
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent var1, GElement var2) {
-        this.UiGame.showPanelDrawPileCards();
+        try {
+            this.UiGame.showPanelDrawPileCards();
+        } catch (ChildNotFoundException e) {
+            System.out.println(e);
+        }
     }
 }

@@ -49,7 +49,7 @@ public class PanelDrawPileCards extends SAGPanel{
         buttonBackPanel.addChild(buttonBackHeadline, 0f, -80f);
 
         // Eventlistener
-        buttonBackBG.setMouseEventListener(new ListenerBackButton(this.uiGame, buttonBackHeadline));
+        buttonBackBG.setMouseEventListener(new ListenerBackButton(this.uiGame, buttonBackHeadline, 1));
     }
 
     public void update() {
