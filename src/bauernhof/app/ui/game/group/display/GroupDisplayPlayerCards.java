@@ -57,51 +57,57 @@ public class GroupDisplayPlayerCards extends GGroup {
         }
     }
 
+    /**
+     * Initializes the player's card positions for the specified player.
+     * The method calculates and stores the X and Y positions for each card in the player's hand.
+     *
+     * @param playerId The ID of the player.
+     * @param maxCards The maximum number of cards in a player's hand.
+     */
     private void initPlayer(int playerId, int maxCards) {
-        switch (playerId%2) {
+        switch (playerId % 2) {
             case 0: {
                 int counter = 0;
                 int startpointX, startpointY;
-                if (playerId == 0) // Position ob oben/unten 
+                if (playerId == 0)
                     startpointY = -150;
                 else
-                    startpointY = 150; 
-                
+                    startpointY = 150;
+
                 while (counter < maxCards) {
-                    // Ermittel startpunkt
-                    startpointX = 0 - 180*(maxCards/2);
-                    
-                    this.pos[playerId][counter][0] = startpointX + 200f*counter; // X-Pos von Karte
-                    this.pos[playerId][counter][1] = startpointY; // Y-Pos von Karte
+                    startpointX = 0 - 180 * (maxCards / 2);
+
+                    this.pos[playerId][counter][0] = startpointX + 200f * counter;
+                    this.pos[playerId][counter][1] = startpointY;
                     counter++;
                 }
                 break;
-            } case 1: {
+            }
+            case 1: {
                 int counter = 0;
-                int startpointX, startpointY, side; // side = links/rechts
+                int startpointX, startpointY, side;
 
-                startpointY = -120 * (maxCards/2); // 1, weil immer 300, anderes um anzahl an zusätzlichen zeilen zu bestimmen
-              
+                startpointY = -120 * (maxCards / 2);
+
                 if (playerId == 1)
                     side = 1;
                 else
                     side = -1;
-                
-                while (counter < maxCards) {
 
-                    // Ermittel startpunkt
-                    startpointX = side*100 + side*(200*(counter%2));
-                    
-                    this.pos[playerId][counter][0] = startpointX; // X-Pos von Karte
-                    this.pos[playerId][counter][1] = startpointY; // Y-Pos von Karte
+                while (counter < maxCards) {
+                    startpointX = side * 100 + side * (200 * (counter % 2));
+
+                    this.pos[playerId][counter][0] = startpointX;
+                    this.pos[playerId][counter][1] = startpointY;
 
                     if (counter++ % 2 != 0)
-                        startpointY += 280; // nach zwei Karten, wird die Y-Achse um eine Zeile nach unten korigiert. 
+                        startpointY += 280;
                 }
                 break;
             }
         }
     }
+
 
     /**
      * Updates the player cards for the specified player.
