@@ -13,15 +13,16 @@ import sag.events.MouseWheelEvent;
 import javax.swing.*;
 import java.io.IOException;
 
-public class HomeButtonListener implements MouseEventListener {
+public class ListenerHomeButton implements MouseEventListener {
     GameBoardState gameBoardState;
     GText homeHeadline;
 
-    public HomeButtonListener(GameBoardState GameBoardState, GText homeHeadline) {
+    public ListenerHomeButton(GameBoardState GameBoardState, GText homeHeadline) {
         this.gameBoardState = GameBoardState;
         this.homeHeadline = homeHeadline;
     }
 
+    @Override
     public void mouseClicked(MouseButtonEvent var1, GElement var2) {
         System.out.println("->home menu");
         JFrame.getFrames()[0].dispose();
@@ -36,21 +37,27 @@ public class HomeButtonListener implements MouseEventListener {
         }
     }
 
+    @Override
     public void mousePressed(MouseButtonEvent var1, GElement var2) {}
 
+    @Override
     public void mouseReleased(MouseButtonEvent var1, GElement var2) {}
 
+    @Override
     public void mouseEntered(MouseMotionEvent var1, GElement var2) {
         var2.setScale(1.1f);
         this.homeHeadline.setScale(1.1f);
     }
 
+    @Override
     public void mouseExited(MouseMotionEvent var1, GElement var2) {
         var2.setScale(1f);
         this.homeHeadline.setScale(1f);
     }
 
+    @Override
     public void mouseMoved(MouseMotionEvent var1, GElement var2) {}
 
+    @Override
     public void mouseWheelMoved(MouseWheelEvent var1, GElement var2) {}
 }

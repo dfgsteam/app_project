@@ -1,6 +1,6 @@
 package bauernhof.app.ui.game.listener;
 
-import bauernhof.app.ui.game.GameBoard;
+import bauernhof.app.ui.game.UiGame;
 import sag.elements.GElement;
 import sag.elements.GText;
 import sag.events.MouseButtonEvent;
@@ -8,21 +8,19 @@ import sag.events.MouseEventListener;
 import sag.events.MouseMotionEvent;
 import sag.events.MouseWheelEvent;
 
-public class ScreenshotListener implements MouseEventListener{
+public class ListenerSaveGame implements MouseEventListener{
     
-    private GameBoard gameBoard;
+    private UiGame UiGame;
     private GText headline;
 
-    public ScreenshotListener(GameBoard gameBoard, GText headline) {
-        this.gameBoard = gameBoard;
+    public ListenerSaveGame(UiGame UiGame, GText headline) {
+        this.UiGame = UiGame;
         this.headline = headline;
-
     }
 
     @Override
     public void mouseClicked(MouseButtonEvent arg0, GElement arg1) {
-        this.mouseExited(null, arg1); // Damit Button klein wird
-        this.gameBoard.createScreenshot();
+        this.UiGame.saveGame();
     }
 
     @Override

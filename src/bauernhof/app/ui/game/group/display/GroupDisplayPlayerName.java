@@ -1,15 +1,15 @@
-package bauernhof.app.ui.game.panel.player;
+package bauernhof.app.ui.game.group.display;
 
 import java.awt.Color;
 
 import bauernhof.app.launcher.GameBoardState;
+import bauernhof.app.ui.game.UiGame;
 import sag.LayerPosition;
-import sag.SAGPanel;
 import sag.elements.GGroup;
 import sag.elements.GText;
 import sag.elements.shapes.GRect;
 
-public class PlayerNamePanel extends GGroup{
+public class GroupDisplayPlayerName extends GGroup{
 
     private GRect groupPlayerBg[] = new GRect[4];
     private GText groupPlayerName[] = new GText[4];
@@ -20,16 +20,18 @@ public class PlayerNamePanel extends GGroup{
     private Color colorInactive = new Color(255, 255, 255);
     private Color colorStroke = new Color(100, 100, 100);
 
-    public PlayerNamePanel (SAGPanel mainPanel, GameBoardState gameBoardState) throws Exception {
-        this.gameBoardState = gameBoardState;
+    public GroupDisplayPlayerName (UiGame UiGame) throws Exception {
+        this.gameBoardState = UiGame.getGameBoardState();
         GGroup panel;
         GRect area = new GRect(0f, 0f, 0f, 0f, false);
         GText text = new GText(null);
+
+        // Erstelle für den jeweiligen Spieler das Panel an der richtigen Position 
         for (int counter=0; counter<this.gameBoardState.getPlayers().length; counter++) {
             switch (counter) {
                 case 0: {
                     // panel erzeugen (mit Startpunkt)
-                    panel = mainPanel.addLayer(LayerPosition.BOTTOM_CENTER); 
+                    panel = UiGame.getMainPanel().addLayer(LayerPosition.BOTTOM_CENTER); 
 
                     // playerBg
                     area = new GRect(0f, 0f, 400f, 50f, true, 0f, 0f);
@@ -46,7 +48,7 @@ public class PlayerNamePanel extends GGroup{
                 }
                 case 1: {
                     // panel erzeugen (mit Startpunkt)
-                    panel = mainPanel.addLayer(LayerPosition.CENTER_LEFT); 
+                    panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER_LEFT); 
 
                     // playerBg
                     area = new GRect(0f, 0f, 50f, 400f, true, 0f, 0f);
@@ -64,7 +66,7 @@ public class PlayerNamePanel extends GGroup{
                 }
                 case 2: {
                     // panel erzeugen (mit Startpunkt)
-                    panel = mainPanel.addLayer(LayerPosition.TOP_CENTER); 
+                    panel = UiGame.getMainPanel().addLayer(LayerPosition.TOP_CENTER); 
 
                     // playerBg
                     area = new GRect(0f, 0f, 400f, 50f, true, 0f, 0f);
@@ -81,7 +83,7 @@ public class PlayerNamePanel extends GGroup{
                 }
                 case 3: {
                     // panel erzeugen (mit Startpunkt)
-                    panel = mainPanel.addLayer(LayerPosition.CENTER_RIGHT); 
+                    panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER_RIGHT); 
 
                     // playerBg
                     area = new GRect(0f, 0f, 50f, 400f, true, 0f, 0f);
