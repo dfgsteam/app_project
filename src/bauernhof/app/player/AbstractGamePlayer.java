@@ -82,15 +82,30 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
     @Override
     public void init(final GameConfiguration configuration, final ImmutableList<Card> cards, final int numplayers, final int playerid) throws Exception {
         this.playerid = playerid;
+        System.out.println("THIS 1");
         this.configuration = configuration;
         Stack<Card> initialDrawPile = new Stack<>();
+        System.out.println("THIS 2");
+        System.out.println(cards.size());
         for (final Card card : cards)
             initialDrawPile.add(card);
         this.state = new PlayerGameBoard(numplayers, configuration, (Stack<Card>) initialDrawPile.clone());
-        for (int i = 0; i < numplayers; i++)
-            for (int x = 0; x < configuration.getNumCardsPerPlayerHand(); x++)
-                if (i == playerid) this.add(initialDrawPile.pop());
-                else initialDrawPile.pop();
+        System.out.println("THIS 3");
+        for (int i = 0; i < numplayers; i++) {
+            System.out.println(configuration.getNumCardsPerPlayerHand());
+            for (int x = 0; x < configuration.getNumCardsPerPlayerHand(); x++) {
+                if (i == playerid) {
+                    System.out.println(i + " = i,  " + x + " = x: " + "FUNKTIONIERT");
+                    System.out.println("I am here " + initialDrawPile.lastElement());
+                    this.add(initialDrawPile.pop());
+                }
+                else {
+                    System.out.println(i + " = i, " + x + " = x; " + " FUNKTIONIERT ELSE");
+                    initialDrawPile.pop();
+                }
+            }
+        }
+        System.out.println("THIS 4");
     }
 
 

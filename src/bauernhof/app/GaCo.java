@@ -176,7 +176,7 @@ public class GaCo implements GameConfiguration{
      */
     public Card getCardByName(String cardname) {
         for (var item : this.cards) 
-            if (item.getName() == cardname)
+            if (item.getName().equals(cardname))
                 return item;
         return null;
     }

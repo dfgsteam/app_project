@@ -2,15 +2,15 @@ package bauernhof.app.ui.launcher.panel;
 
 import javax.swing.*;
 
-import bauernhof.app.ui.launcher.Launcher;
+import bauernhof.app.ui.launcher.UiLauncher;
 import bauernhof.preset.PlayerType;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
-public class LocalPanel {
-    private Launcher launcher;
+public class PanelLocal {
+    private UiLauncher launcher;
     private JPanel panel;
     private int heigth, width, playerCounter;
 
@@ -28,7 +28,7 @@ public class LocalPanel {
     private JButton playerAddButton = null;
 
 
-    public LocalPanel(Launcher launcher, int width, int heigth) throws IOException {
+    public PanelLocal(UiLauncher launcher, int width, int heigth) throws IOException {
         this.panel = new JPanel();
         this.heigth = heigth;
         this.width = width;
@@ -125,7 +125,7 @@ public class LocalPanel {
     }
 
     public void addButtonReturn() {
-        Launcher launcher = this.launcher;
+        UiLauncher launcher = this.launcher;
         // Erstelle den JButton
         JButton button = new JButton();
 
@@ -136,7 +136,7 @@ public class LocalPanel {
         });
         
         button.setContentAreaFilled(false);
-        button.setBorderPainted(Launcher.debug);
+        button.setBorderPainted(UiLauncher.debug);
         button.setBounds(994, 532, 260, 125);  
 
         this.panel.add(button);
@@ -153,7 +153,7 @@ public class LocalPanel {
         });
         
         button.setContentAreaFilled(false);
-        button.setBorderPainted(Launcher.debug);
+        button.setBorderPainted(UiLauncher.debug);
         button.setBounds(995, 280, 261, 125);
 
         this.panel.add(button);
