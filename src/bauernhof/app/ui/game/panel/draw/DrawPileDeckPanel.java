@@ -14,8 +14,7 @@ public class DrawPileDeckPanel {
     GGroup panel;
     GameBoard gameBoard;
 
-    public DrawPileDeckPanel(GameBoard gameBoard) throws InterruptedException {
-        // init Klassenvariabeln
+
     public DrawPileDeckPanel(GameBoard gameBoard) throws InterruptedException {
         // init Klassenvariabeln
         this.gameBoard = gameBoard;

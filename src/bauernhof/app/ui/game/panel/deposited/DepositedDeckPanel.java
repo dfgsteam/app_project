@@ -14,8 +14,7 @@ public class DepositedDeckPanel {
     GGroup panel;
     GameBoard gameBoard;
 
-    public DepositedDeckPanel(GameBoard gameBoard) {
-        // init Klassenvariabeln
+
     public DepositedDeckPanel(GameBoard gameBoard) {
         // init Klassenvariabeln
         this.gameBoard = gameBoard;

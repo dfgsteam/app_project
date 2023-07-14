@@ -25,14 +25,14 @@ public class  Start {
     private static int port = 5055;
     private static int network = 0;
     public static void main(String args[]) throws Exception {
-        int network = Integer.valueOf(args[0]);
-        if (args.length > 0)
-        network = Integer.valueOf(args[0]);
+        //int network = Integer.valueOf(args[0]);
+        //if (network >= 0)
+        //network = Integer.valueOf(args[0]);
             File gameConfFile = new File("gameconfigs/bauernhof.xml");
             GameConfigurationParser GameConfPars = new GaCoPa();
             GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
         if (args.length == 0) {
-            final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Lotta"}, new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
+            final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Lotta", "a", "b"}, new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
 
             GameBoard GB = new GameBoard(GaCo, gameBoardState);
             setDefaultDesigns();

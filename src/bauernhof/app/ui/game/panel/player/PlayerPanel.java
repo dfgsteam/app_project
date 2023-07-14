@@ -18,11 +18,7 @@ public class PlayerPanel extends GGroup{
 
 
     public PlayerPanel (GameBoard gameBoard) {
-    public PlayerPanel (GameBoard gameBoard) {
         this.gameBoard = gameBoard;
-        int maxCards = this.gameBoard.getGameBoardState().getConfiguration().getNumCardsPerPlayerHand();
-        this.pos = new float[this.gameBoard.getGameBoardState().getPlayers().length][maxCards][2];
-        for (int counter=0; counter<this.gameBoard.getGameBoardState().getPlayers().length; counter++) {
         int maxCards = this.gameBoard.getGameBoardState().getConfiguration().getNumCardsPerPlayerHand();
         this.pos = new float[this.gameBoard.getGameBoardState().getPlayers().length][maxCards][2];
         for (int counter=0; counter<this.gameBoard.getGameBoardState().getPlayers().length; counter++) {
@@ -31,10 +27,7 @@ public class PlayerPanel extends GGroup{
                 case 1: this.groupPlayer[1] = this.gameBoard.getMainPanel().addLayer(LayerPosition.CENTER_LEFT); break;
                 case 2: this.groupPlayer[2] = this.gameBoard.getMainPanel().addLayer(LayerPosition.TOP_CENTER); break;
                 case 3: this.groupPlayer[3] = this.gameBoard.getMainPanel().addLayer(LayerPosition.CENTER_RIGHT); break;
-                case 0: this.groupPlayer[0] = this.gameBoard.getMainPanel().addLayer(LayerPosition.BOTTOM_CENTER); break;
-                case 1: this.groupPlayer[1] = this.gameBoard.getMainPanel().addLayer(LayerPosition.CENTER_LEFT); break;
-                case 2: this.groupPlayer[2] = this.gameBoard.getMainPanel().addLayer(LayerPosition.TOP_CENTER); break;
-                case 3: this.groupPlayer[3] = this.gameBoard.getMainPanel().addLayer(LayerPosition.CENTER_RIGHT); break;
+
             }
             this.groupPlayer[counter].setScale(0.65f-(0.01f*maxCards));
 
