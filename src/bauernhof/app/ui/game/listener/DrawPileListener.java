@@ -25,17 +25,19 @@ public class DrawPileListener implements MouseEventListener {
     public void mouseReleased(MouseButtonEvent var1, GElement var2) {}
 
     public void mouseEntered(MouseMotionEvent var1, GElement var2) {
-        var2.setScale(1.1f);
+        if (this.gameBoard.check_move())
+            var2.setScale(1.1f);
     }
 
     public void mouseExited(MouseMotionEvent var1, GElement var2) {
-        var2.setScale(1f);
+        if (this.gameBoard.check_move())
+            var2.setScale(1f);
     }
 
     public void mouseMoved(MouseMotionEvent var1, GElement var2) {}
 
     public void mouseWheelMoved(MouseWheelEvent var1, GElement var2) {
-        if (this.gameBoard.check_move())
+        //if (this.gameBoard.check_move())
             this.gameBoard.createDrawPilePanel();
     }
 }
