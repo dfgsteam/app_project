@@ -9,30 +9,66 @@ import sag.ChildNotFoundException;
 import sag.LayerPosition;
 import sag.elements.GGroup;
 
+/**
+ * This class represents a group for displaying the draw pile deck in the game UI.
+ * It manages the visual representation of the draw pile deck and provides methods for updating and clearing it.
+ * The class is designed to be used within the UiGame class.
+ * 
+ * The GroupDisplayDrawPileDeck class provides the following functionality:
+ * - Creates a group for displaying the draw pile deck.
+ * - The group is added to the main panel of the UiGame instance.
+ * - The group is initially populated with the first card from the draw pile.
+ * - The group provides a method to update its contents with the latest card from the draw pile.
+ * - The group provides a method to clear its contents and reset the position of the cards.
+ * 
+ * Note: This class assumes the existence of the Ca and GCard classes from the bauernhof.app.card and bauernhof.preset.card packages, respectively.
+ * 
+ * @author [Your Name]
+ * @version 1.0
+ * @since 2023-07-14
+ */
+
 public class GroupDisplayDrawPileDeck {
 
     GGroup panel;
     UiGame UiGame;
 
+    /**
+     * Constructs a new GroupDisplayDrawPileDeck object.
+     * The object represents a group for displaying the draw pile deck in the game UI.
+     * 
+     * @param UiGame The UiGame object that represents the game UI.
+     * @throws InterruptedException If an error occurs during initialization.
+     */
     public GroupDisplayDrawPileDeck(UiGame UiGame) throws InterruptedException {
-        // init Klassenvariabeln
+        // Initialize class variables
         this.UiGame = UiGame;
-        this.panel = this.UiGame.getMainPanel().addLayer(LayerPosition.CENTER_CENTER); // neue ggroup auf panel erzeugen
+        this.panel = this.UiGame.getMainPanel().addLayer(LayerPosition.CENTER_CENTER);
 
-        // für erste Karte, wird this.update() einmal ausgeführt.
+        // Display the first card from the draw pile
         this.update();
     }
 
+    /**
+     * Updates the display of the draw pile deck with the latest card.
+     * 
+     * @throws InterruptedException If an error occurs during the update process.
+     */
     public void update() throws InterruptedException {
-        // Füge die erste Karte aus dem DrawPile hinzu und gib ihm den passenden Listener
+        // Add the first card from the draw pile and attach the appropriate listener
         GCard gCard = ((Ca) this.UiGame.getGameBoardState().getDrawPileCards().lastElement()).getGCard();
         gCard.setMouseEventListener(new ListenerDrawPile(this.UiGame));
         this.panel.addChild(gCard, -180, 0);
     }
 
+    /**
+     * Clears the display of the draw pile deck and resets the position of the cards.
+     * 
+     * @throws ChildNotFoundException If the child element is not found in the panel.
+     */
     public void clear() throws ChildNotFoundException {
-        // Lösche alte Karte und setzte position (move) zurück
-        for (int cardIndex=0; cardIndex < this.panel.getNumChildren(); cardIndex++) {
+        // Remove the old cards and reset their positions
+        for (int cardIndex = 0; cardIndex < this.panel.getNumChildren(); cardIndex++) {
             this.panel.removeChild(this.panel.getChildByRenderingIndex(cardIndex));
         }
     }
