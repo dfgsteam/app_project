@@ -11,7 +11,7 @@ import java.io.IOException;
 public class UiLauncher {
 
     // Button outline
-    public static boolean debug = true;
+    public static boolean debug = false;
 
     public final static int WIDTH = 1280;
     public final static int HEIGTH = 720;
@@ -50,8 +50,11 @@ public class UiLauncher {
         this.networkPanel = new PanelNetwork(this);
         
         this.setPanelHome(); 
-        // Thread.sleep(2000);
-        //this.setPanelSettings();
+        
+        // Wenn GameConfiguration aus Settingsparser = null -> Warnung -> setze eine neue GameConfiguration
+        if (this.Settings.getGameConf() == null) {
+            this.setDeckInvalid();
+        }
     }
 
     public void updateFrame() {
@@ -79,6 +82,10 @@ public class UiLauncher {
         this.updateFrame();
     }
 
+    public void setDeckInvalid() {
+        JOptionPane.showMessageDialog(null, "Dein gespeichertes Kartendeck ist nicht im Ornder. Solange wird ein anderes Deck verwendet.\nDeine Einstellungen wurden nicht überschrieben.", "Fehler", JOptionPane.INFORMATION_MESSAGE);
+        this.Settings.setGameConf(this.Settings.getGameConfs().iterator().next()); // setze eine neue GameConfiguration
+    }
 
     public Se getSettings() {
         return this.Settings;
