@@ -21,6 +21,9 @@ public class SequenceThread extends AbstractThread {
         if (first) {
             this.setThreadNode(getTree().getRootNode());
             next_calculations = new LinkedList<MoveNode>(getTree().getRootNode().getNextNodes());
+            for (MoveNode node : getTree().getRootNode().getNextNodes()) {
+                System.out.println(node.getMove());
+            }
             
 
             differences = new ArrayList<Integer>();

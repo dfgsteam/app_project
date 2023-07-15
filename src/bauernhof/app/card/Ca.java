@@ -144,12 +144,11 @@ public class Ca implements Card {
     * 
     * @return the GCard object.
     */
-    public GCard getGCard() {
+    public GCard getGCard() {        
         // Erzeuge neues Kartenobjekte, bei der ersten Abfrage
         if (this.gCard == null)
             this.gCard = new GCard(this);
-        this.gCard.setPosition(0f, 0f);
-        return this.gCard;
+        return (GCard) this.gCard.setPosition(0f, 0f);
     }
 
 }

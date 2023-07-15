@@ -9,10 +9,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import bauernhof.app.launcher.GameBoardState;
-import bauernhof.app.launcher.Tournament;
 import bauernhof.app.networking.ClientConnector;
 import bauernhof.app.player.types.LocalRemotePlayer;
-import bauernhof.app.ui.game.GameBoard;
+import bauernhof.app.ui.game.UiGame;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.networking.RemoteException;
@@ -20,7 +19,7 @@ import bauernhof.preset.networking.S2CConnection;
 
 import javax.swing.*;
 
-public class  Start {
+public class Start {
     private static int client_connections = 1;
     private static int port = 5055;
     private static int network = 0;
@@ -31,18 +30,14 @@ public class  Start {
             GameConfigurationParser GameConfPars = new GaCoPa();
             GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
         if (args.length == 0) {
-            final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Lotta"}, new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
-
-            GameBoard GB = new GameBoard(GaCo, gameBoardState);
+            final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Julius", "Cemil", "Horst"}, new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.HUMAN}, GaCo, new ImmutableList<>(GaCo.getCards()));
+            UiGame GB = new UiGame(GaCo, gameBoardState);
             setDefaultDesigns();
             gameBoardState.initGame(GB);
             System.out.println(GaCo.getConfigDescription());
         }
         if (network == 1) {
             initServer(GaCo);
-        }
-        if (network == 3) {
-            new Tournament(new String[]{"Flo", "PLAYER"}, new PlayerType[]{PlayerType.ADVANCED_AI, PlayerType.SIMPLE_AI}, GaCo, new ImmutableList<>(GaCo.getCards()), 100);
         }
         if (network == 2){
             initClient(GameConfPars, "HOFBAUERN");
@@ -92,7 +87,7 @@ public class  Start {
             types[i] = PlayerType.REMOTE;
         }
         final GameBoardState gameBoardState = new GameBoardState(playernames, types, configuration, new ImmutableList<>(configuration.getCards()));
-        GameBoard GB = new GameBoard(configuration, gameBoardState);
+        UiGame GB = new UiGame(configuration, gameBoardState);
         setDefaultDesigns();
         for (int i = 0; i < playernames.length; i++)
             if(gameBoardState.getPlayers()[i].getPlayerType() == PlayerType.REMOTE)
@@ -108,7 +103,7 @@ public class  Start {
     }
     // Habe die Funktion erstellt weil ich das Fenster gerne im FULLSCREEN HABEN WILL!!!
     private static void setDefaultDesigns() {
-        JFrame.getFrames()[0].setExtendedState(JFrame.MAXIMIZED_BOTH);
-        JFrame.getFrames()[0].setIconImage(new ImageIcon("graphics/bauernhof_logo.png").getImage());
+        // JFrame.getFrames()[0].setExtendedState(JFrame.MAXIMIZED_BOTH);
+        // JFrame.getFrames()[0].setIconImage(new ImageIcon("graphics/bauernhof_logo.png").getImage());
     }
 }
