@@ -11,10 +11,10 @@ import java.io.IOException;
 public class UiLauncher {
 
     // Button outline
-    public static boolean debug = false;
+    public static boolean debug = true;
 
-    final private int width = 1280;
-    final private int heigth = 720;
+    public final static int WIDTH = 1280;
+    public final static int HEIGTH = 720;
 
     private JFrame frame;
 
@@ -32,7 +32,7 @@ public class UiLauncher {
         
         // Größe Frame
         this.frame.setResizable(false);
-        this.frame.setSize(this.width, this.heigth);
+        this.frame.setSize(UiLauncher.WIDTH, UiLauncher.HEIGTH);
 
         // Appicon
         ImageIcon img = new ImageIcon("graphics/bauernhof_logo.png");
@@ -44,10 +44,10 @@ public class UiLauncher {
 
         this.Settings = Settings;
 
-        this.homePanel = new PanelHome(this, this.width, this.heigth);
-        this.settingsPanel = new PanelSettings(this, this.width, this.heigth);
-        this.localPlayer = new PanelLocal(this, this.width, this.heigth);
-        this.networkPanel = new PanelNetwork(this, this.width, this.heigth);
+        this.homePanel = new PanelHome(this);
+        this.settingsPanel = new PanelSettings(this);
+        this.localPlayer = new PanelLocal(this);
+        this.networkPanel = new PanelNetwork(this);
         
         this.setPanelHome(); 
         // Thread.sleep(2000);

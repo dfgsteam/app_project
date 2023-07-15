@@ -11,17 +11,15 @@ import java.io.IOException;
 public class PanelNetwork {
     private UiLauncher uiLauncher;
     private JPanel panel;
-    private int heigth, width, status;
+    private int status;
 
     private JButton buttonCreateServer, buttonJoinServer, buttonStartServer;
 
-    public PanelNetwork(UiLauncher uiLauncher, int width, int heigth) throws IOException {
+    public PanelNetwork(UiLauncher uiLauncher) throws IOException {
         this.panel = new JPanel();
-        this.heigth = heigth;
-        this.width = width;
         this.uiLauncher = uiLauncher;
 
-        this.panel.setPreferredSize(new Dimension(this.width, this.heigth));
+        this.panel.setPreferredSize(new Dimension(UiLauncher.HEIGTH, UiLauncher.WIDTH));
         this.panel.setLayout(null);
 
         this.setSelect(false);
@@ -39,7 +37,7 @@ public class PanelNetwork {
                 g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
             }  
         };
-        this.panel.setPreferredSize(new Dimension(this.width, this.heigth));
+        this.panel.setPreferredSize(new Dimension(UiLauncher.WIDTH, UiLauncher.HEIGTH));
         this.panel.setLayout(null);
         this.addButtonReturn();
     }

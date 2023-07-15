@@ -22,20 +22,14 @@ import java.io.IOException;
 public class PanelHome {
     private UiLauncher uiLauncher;
     private JPanel panel;
-    private int height, width;
 
     /**
      * Constructs a new PanelHome object.
      *
      * @param uiLauncher The UiLauncher object that represents the launcher UI.
-     * @param width      The width of the panel.
-     * @param height     The height of the panel.
      * @throws IOException If an I/O error occurs.
      */
-    public PanelHome(UiLauncher uiLauncher, int width, int height) throws IOException {
-        this.panel = new JPanel();
-        this.height = height;
-        this.width = width;
+    public PanelHome(UiLauncher uiLauncher) throws IOException {
         this.uiLauncher = uiLauncher;
 
         this.panel = new JPanel() {
@@ -50,7 +44,7 @@ public class PanelHome {
             }
         };
 
-        this.panel.setPreferredSize(new Dimension(this.width, this.height));
+        this.panel.setPreferredSize(new Dimension(UiLauncher.WIDTH, UiLauncher.HEIGTH));
         this.panel.setLayout(null);
 
         JButton buttonLocalPlayer = this.addButtonLocalPlayer();
