@@ -24,6 +24,7 @@ public class Start {
     private static int client_connections = 1;
     private static int port = 5055;
     private static int network = 0;
+    
     public static void main(String args[]) throws Exception {
         network = 3;
         if (args.length > 0)
