@@ -135,20 +135,22 @@ public class PanelLocal {
     }
 
     public void readAllPlayer() {
+        // ArrayListen (weil es kann ein leerer Player dazuwischen sein)
         ArrayList<PlayerType> playerTypes = new ArrayList<>(4);
         ArrayList<String> playerNames = new ArrayList<>(4);
-        ArrayList<Color> playerColor = new ArrayList<>(4);
-        for (int index=0; index < 4; index++) {
-            if (!(this.playerTypeCombo[index].getSelectedItem() == "Keiner")) {
+        ArrayList<Color> playerColors = new ArrayList<>(4);
+
+        // Fülle Listen für jeden spieler (4, weil das max spieler anzahl ist)
+        for (int index=0; index < 4; index++) { 
+            if (!(this.playerTypeCombo[index].getSelectedItem() == "Keiner") && this.playerNameField[index].getText() != "") { // Überprüfen, ob Spieler leer/aktiv ist
                 playerTypes.add(this.playerTypeType[this.playerTypeCombo[index].getSelectedIndex()]);
                 playerNames.add(this.playerNameField[index].getText());
-                playerColor.add(this.playerColorType[this.playerColorCombo[index].getSelectedIndex()]);
+                playerColors.add(this.playerColorType[this.playerColorCombo[index].getSelectedIndex()]);
             }
         }
 
-        for (int index=0; index < playerTypes.size(); index++) {
-            System.out.println(Integer.toString(index) + ": " + playerTypes.get(index) + " " + playerNames.get(index) + " " + playerColor.get(index));
-        }
+        // Starte das Game
+        this.uiLauncher.startGame("local", playerTypes.toArray(new PlayerType[playerTypes.size()]), playerNames.toArray(new String[playerNames.size()]), playerColors.toArray(new Color[playerColors.size()]));        
     }
     
     public void addPlayer(int playerId) {
