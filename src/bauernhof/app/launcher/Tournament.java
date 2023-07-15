@@ -31,7 +31,7 @@ public class Tournament {
                     states.add(new GameBoardState(players, types, configuration, cards));
                     states.get(i).initGame(null);
                 } else {
-                    while (states.get(i - 1).getRun()) ;
+      //              while (states.get(i - 1).getRun()) ;
                     states.add(new GameBoardState(players, types, configuration, cards));
                     states.get(i).initGame(null);
                 }

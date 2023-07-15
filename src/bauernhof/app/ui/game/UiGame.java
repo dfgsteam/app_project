@@ -132,7 +132,7 @@ public class UiGame {
      * @param gCard The GCard object representing the selected card.
      */
     public void moveAddCard(GCard gCard) {
-        ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
+       // ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
         this.createExchangePanel();
     }
 
@@ -144,7 +144,7 @@ public class UiGame {
      */
     public void movePopCard(GCard gCard) throws Exception {
         this.setMainPanel(3); // Does not update correctly. Panel is only displayed properly during HUMAN move
-        ((HumanPlayer) this.gameBoardState.getActualPlayer()).doMove(gCard.getCard());
+     //   ((HumanPlayer) this.gameBoardState.getActualPlayer()).doMove(gCard.getCard());
     }
 
     /**

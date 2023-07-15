@@ -42,7 +42,7 @@ public class GameBoardState implements Table {
                     players[i] = new Advanced_AI(playernames[i]);
                     break;
                 case HUMAN:
-                    players[i] = new HumanPlayer(playernames[i], this);
+//                    players[i] = new HumanPlayer(playernames[i], this);
                     break;
                 case RANDOM_AI:
                     players[i] = new Random_AI(playernames[i]);
