@@ -54,6 +54,8 @@ public class WorkingThread extends AbstractThread {
         Move new_move = checkMove(cardNumPut, cardNumTake);
         GameBoardState new_state = this.getThreadNode().getActualBoardState().clone();
 
+        new_state.doMove(new_move);
+
         MoveNode next_MoveNode = new MoveNode(new_move, this.getThreadNode(), new_state);
         next_MoveNode.setDepth(this.getThreadNode().getDepth()+1);
         this.setThreadNode(next_MoveNode);
