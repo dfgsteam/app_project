@@ -125,9 +125,9 @@ public class PanelLocal {
         ArrayList<Color> playerColor = new ArrayList<>(4);
         for (int index=0; index < 4; index++) {
             if (!(this.playerTypeCombo[index].getSelectedItem() == "Keiner")) {
-                playerTypes.add(this.playerTypeType[index]);
+                playerTypes.add(this.playerTypeType[this.playerTypeCombo[index].getSelectedIndex()]);
                 playerNames.add(this.playerNameField[index].getText());
-                playerColor.add(this.playerColorType[index]);
+                playerColor.add(this.playerColorType[this.playerColorCombo[index].getSelectedIndex()]);
             }
         }
 
