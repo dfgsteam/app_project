@@ -14,7 +14,7 @@ public class Start {
         GameConfigurationParser GameConfPars = new GaCoPa();
         GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
 
-        GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Smila"}, new PlayerType[]{PlayerType.SIMPLE_AI, PlayerType.ADVANCED_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
+        GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Smila", "Manfred"}, new PlayerType[]{PlayerType.ADVANCED_AI, PlayerType.SIMPLE_AI, PlayerType.SIMPLE_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
 
         GameBoard GB = new GameBoard(GaCo,gameBoardState);
         setDefaultDesigns();

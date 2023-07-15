@@ -41,7 +41,19 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
         // catch (InterruptedException e) {
         //     System.err.println("ERROR");
         // }
-
+        
+        for (MoveNode node : WorkingThread.getTree().getRootNode().getNextNodes()) {
+            System.out.println(node.getMove());
+            for (MoveNode node1 : node.getNextNodes()) {
+                System.out.println("--" + node1.getMove());
+                for (MoveNode node2 : node1.getNextNodes()) {
+                    System.out.println("---" + node2.getMove());
+                }
+            }
+        }
+        System.exit(0);
+        
+        
         SequenceThread sequenceThread1 = new SequenceThread(true);
         // SequenceThread sequenceThread2 = new SequenceThread(false);
         // SequenceThread sequenceThread3 = new SequenceThread(false);
@@ -56,8 +68,7 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
         // catch (InterruptedException e) {
         //     System.out.println("ERROR");
         // }
-        System.out.println(SequenceThread.differences);
-       
+        System.out.println(SequenceThread.differences);   
         return AbstractThread.getTree().getRootNode().getNextNodes().get(SequenceThread.differences.indexOf(Collections.max(SequenceThread.differences))).getMove();
     }
 
