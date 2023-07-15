@@ -5,17 +5,19 @@ import java.awt.event.ActionListener;
 
 import bauernhof.app.ui.launcher.panel.PanelLocal;
 
-public class ListenerStartLocalGame implements ActionListener {
+public class ListenerLocalDeleteUser implements ActionListener {
 
     private PanelLocal panelLocal;
+    private int playerId;
 
-    public ListenerStartLocalGame (PanelLocal panelLocal) {
+    public ListenerLocalDeleteUser (PanelLocal panelLocal, int playerId) {
         this.panelLocal = panelLocal;
+        this.playerId = playerId;
     }
 
     @Override
     public void actionPerformed(ActionEvent e){
-        this.panelLocal.readAllPlayer();
+        this.panelLocal.removePlayer(playerId);
     }
     
 }

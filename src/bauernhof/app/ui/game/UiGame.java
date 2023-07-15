@@ -4,6 +4,7 @@ import bauernhof.app.player.types.HumanPlayer;
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.*;
+import bauernhof.app.initLauncher;
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.group.button.PanelButtonSaveGame;
@@ -24,6 +25,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 /**
  * This class represents the game UI for the Hofbauern game.
  * @author Julius Hunold
@@ -273,5 +275,15 @@ public class UiGame {
      */
     public GameBoardState getGameBoardState() {
         return this.gameBoardState;
+    }
+
+
+    public void closeUiGame() {
+        JFrame.getFrames()[0].dispose();
+        try {
+            initLauncher.main(new String[]{});
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

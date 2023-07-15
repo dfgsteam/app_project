@@ -4,7 +4,9 @@ import javax.swing.*;
 
 import bauernhof.app.settings.Se;
 import bauernhof.app.ui.launcher.panel.*;
+import bauernhof.preset.PlayerType;
 
+import java.awt.Color;
 import java.io.IOException;
 
 
@@ -13,8 +15,8 @@ public class UiLauncher {
     // Button outline
     public static boolean debug = false;
 
-    final private int width = 1280;
-    final private int heigth = 720;
+    public final static int WIDTH = 1280;
+    public final static int HEIGTH = 720;
 
     private JFrame frame;
 
@@ -32,7 +34,7 @@ public class UiLauncher {
         
         // Größe Frame
         this.frame.setResizable(false);
-        this.frame.setSize(this.width, this.heigth);
+        this.frame.setSize(UiLauncher.WIDTH, UiLauncher.HEIGTH);
 
         // Appicon
         ImageIcon img = new ImageIcon("graphics/bauernhof_logo.png");
@@ -44,14 +46,17 @@ public class UiLauncher {
 
         this.Settings = Settings;
 
-        this.homePanel = new PanelHome(this, this.width, this.heigth);
-        this.settingsPanel = new PanelSettings(this, this.width, this.heigth);
-        this.localPlayer = new PanelLocal(this, this.width, this.heigth);
-        this.networkPanel = new PanelNetwork(this, this.width, this.heigth);
+        this.homePanel = new PanelHome(this);
+        this.settingsPanel = new PanelSettings(this);
+        this.localPlayer = new PanelLocal(this);
+        this.networkPanel = new PanelNetwork(this);
         
         this.setPanelHome(); 
-        // Thread.sleep(2000);
-        //this.setPanelSettings();
+        
+        // Wenn GameConfiguration aus Settingsparser = null -> Warnung -> setze eine neue GameConfiguration
+        if (this.Settings.getGameConf() == null) {
+            this.setDeckInvalid();
+        }
     }
 
     public void updateFrame() {
@@ -79,9 +84,19 @@ public class UiLauncher {
         this.updateFrame();
     }
 
+    public void setDeckInvalid() {
+        JOptionPane.showMessageDialog(null, "Dein gespeichertes Kartendeck ist nicht im Ornder. Solange wird ein anderes Deck verwendet.\nDeine Einstellungen wurden nicht überschrieben.", "Fehler", JOptionPane.INFORMATION_MESSAGE);
+        this.Settings.setGameConf(this.Settings.getGameConfs().iterator().next()); // setze eine neue GameConfiguration
+    }
 
     public Se getSettings() {
         return this.Settings;
+    }
+
+    public void startGame(String type, PlayerType[] playerTypes, String[] playerNames, Color[] playerColors) {
+        for (int index=0; index < playerTypes.length; index++) {
+            System.out.println(Integer.toString(index) + ": " + playerTypes[index].toString() + " " + playerNames[index] + " " + playerColors[index]);
+        }
     }
 
     public void startLocalGame() {
