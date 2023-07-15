@@ -5,10 +5,12 @@ import bauernhof.preset.Move;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 
+import java.awt.*;
+
 public class Simple_AI extends AbstractGamePlayer implements AIHeader {
 
-    public Simple_AI(String name) {
-        super(name, PlayerType.SIMPLE_AI);
+    public Simple_AI(String name, Color color) {
+        super(name, PlayerType.SIMPLE_AI, color);
     }
 
     @Override

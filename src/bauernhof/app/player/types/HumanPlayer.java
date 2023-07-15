@@ -6,6 +6,8 @@ import bauernhof.preset.Move;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 
+import java.awt.*;
+
 /**
  * Human Player - PlayerType Human Instanz
  *
@@ -17,8 +19,8 @@ public class HumanPlayer extends AbstractGamePlayer {
     private Card add;
     private Move humanmove;
     private GameBoardState state;
-    public HumanPlayer(String name, GameBoardState gameboardstate) {
-        super(name, PlayerType.HUMAN);
+    public HumanPlayer(String name, GameBoardState gameboardstate, Color color) {
+        super(name, PlayerType.HUMAN, color);
         this.state = gameboardstate;
     }
 

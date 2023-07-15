@@ -1,12 +1,15 @@
 package bauernhof.app.launcher;
 
 import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.player.PlayerCards;
 import bauernhof.app.player.types.*;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 /**
  * Diese Klasse ist der Generelle Main Handler für das gesamte Spielbrett.
@@ -25,12 +28,13 @@ public class GameBoardState implements Table {
     private int activeplayerid = 0;
     private ArrayList<Card> deposited_cards = new ArrayList<>();
     private Stack<Card> drawpile_cards = new Stack<>();
+    private PlayerCards[] playercards;
     private AbstractGamePlayer[] players;
     private UiGame graphics;
     private String[] playernames;
     private PlayerType[] types;
     private GameConfiguration configuration;
-    public GameBoardState(final String[] playernames, final PlayerType[] types, GameConfiguration configuration, ImmutableList<Card> cards) throws Exception {
+    public GameBoardState(final String[] playernames, final PlayerType[] types, GameConfiguration configuration, ImmutableList<Card> cards, List<Color> playercolors) throws Exception {
         cards = mixCards(cards);
         this.playernames = playernames;
         this.run = true;
@@ -39,19 +43,19 @@ public class GameBoardState implements Table {
         for (int i = 0; i < players.length; i++)
             switch (types[i]) {
                 case ADVANCED_AI:
-                    players[i] = new Advanced_AI(playernames[i]);
+                    players[i] = new Advanced_AI(playernames[i], playercolors.get(i));
                     break;
                 case HUMAN:
-                    players[i] = new HumanPlayer(playernames[i], this);
+                    players[i] = new HumanPlayer(playernames[i], this, playercolors.get(i));
                     break;
                 case RANDOM_AI:
-                    players[i] = new Random_AI(playernames[i]);
+                    players[i] = new Random_AI(playernames[i], playercolors.get(i));
                     break;
                 case REMOTE:
-                    players[i] = new LocalRemotePlayer(playernames[i]);
+                    players[i] = new LocalRemotePlayer(playernames[i], playercolors.get(i));
                     break;
                 case SIMPLE_AI:
-                    players[i] = new Simple_AI(playernames[i]);
+                    players[i] = new Simple_AI(playernames[i], playercolors.get(i));
                     break;
                 default:
             }

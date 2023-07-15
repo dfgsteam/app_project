@@ -6,13 +6,14 @@ import bauernhof.preset.Move;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 
+import java.awt.*;
 import java.util.Random;
 
 public class Random_AI extends AbstractGamePlayer implements AIHeader{
     PlayerType type;
 
-    public Random_AI(String name) {
-        super(name, PlayerType.RANDOM_AI);
+    public Random_AI(String name, final Color  color) {
+        super(name, PlayerType.RANDOM_AI, color);
     }
 
     @Override

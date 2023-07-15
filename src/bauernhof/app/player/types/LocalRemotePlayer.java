@@ -6,6 +6,8 @@ import bauernhof.preset.PlayerType;
 import bauernhof.preset.networking.RemotePlayer;
 import bauernhof.preset.networking.S2CConnection;
 
+import java.awt.*;
+
 /**
  * @author Ramon Cemil Kimyon
  * @date 10.07.2023 13:34
@@ -14,8 +16,8 @@ public class LocalRemotePlayer extends AbstractGamePlayer {
     private RemotePlayer remote;
     private S2CConnection connection;
     private Move move;
-    public LocalRemotePlayer(final String name) {
-        super(name, PlayerType.REMOTE);
+    public LocalRemotePlayer(final String name, final Color color) {
+        super(name, PlayerType.REMOTE, color);
     }
     public void setS2CConnection(final S2CConnection connection) {
         this.connection = connection;

@@ -12,6 +12,7 @@ package bauernhof.app.player;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 
+import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
@@ -23,6 +24,7 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
     protected GameConfiguration configuration;
     protected PlayerGameBoard state;
     private PlayerType type;
+    private Color color;
 
     /**
      * Setzt den aktuellen namen des Spielers.
@@ -32,15 +34,17 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
      * @param type
      */
 
-    public AbstractGamePlayer(final String name, final PlayerType type) {
+    public AbstractGamePlayer(final String name, final PlayerType type, final Color color) {
         this.name = name;
         this.type = type;
+        this.color = color;
     }
 
-    public AbstractGamePlayer(final String name, final PlayerType type, final Set<Card> cards) {
+    public AbstractGamePlayer(final String name, final PlayerType type, final Set<Card> cards, final Color color) {
         this.name = name;
         this.type = type;
         this.cards = cards;
+        this.color = color;
     }
     public AbstractGamePlayer() {}
 
@@ -49,7 +53,7 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
         final Set<Card> cards = new HashSet<>();
         for (final Card card : getCards())
             cards.add(card);
-        final AbstractGamePlayer player = new AbstractGamePlayer(this.name, this.type, cards) {
+        final AbstractGamePlayer player = new AbstractGamePlayer(this.name, this.type, cards, color) {
             @Override
             public Move request() {
                 return null;
@@ -98,6 +102,7 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
     }
 
 
+
     public void setGameConfiguration(final GameConfiguration configuration) {
         this.configuration = configuration;
     }
@@ -109,6 +114,10 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
             SCHUMMELN
              */
         }
+    }
+
+    public Color getColor() {
+        return this.color;
     }
 
     public boolean doMove(Move move) {

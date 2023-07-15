@@ -1,4 +1,5 @@
 package bauernhof.app.player.types;
+import java.awt.*;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -17,8 +18,8 @@ import bauernhof.preset.card.Card;
 
 public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
     private GameBoardState gameboardstate;
-    public Advanced_AI(String name) {
-        super(name, PlayerType.ADVANCED_AI);
+    public Advanced_AI(String name, final Color color) {
+        super(name, PlayerType.ADVANCED_AI, color);
     }
     public void setGameBoardState(final GameBoardState gameboardstate) {
         this.gameboardstate = gameboardstate;
