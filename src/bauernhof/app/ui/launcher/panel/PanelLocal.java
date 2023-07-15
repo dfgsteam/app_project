@@ -17,7 +17,7 @@ public class PanelLocal {
     private UiLauncher uiLauncher;
     private JPanel panel;
 
-    final private String[] examPlayerNames = {"Florian", "Cemil", "Viktor", "Julius"};
+    final private String[] examPlayerNames = {"Florian", "Cemil", "Viktor", "Kirill"};
     final private String[] playerTypeName = {"Computer Einfach", "Computer Mittel", "Computer Schwer", "Mensch"};
     final private PlayerType[] playerTypeType = {PlayerType.RANDOM_AI, PlayerType.SIMPLE_AI, PlayerType.ADVANCED_AI, PlayerType.HUMAN};
     final private String[] playerColorName = {"Rot", "Magenta", "Blau", "Orange", "Cyan", "Pink"};
