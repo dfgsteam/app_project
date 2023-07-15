@@ -24,15 +24,20 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javax.imageio.ImageIO;
-
-public class UiGame { 
+/**
+ * This class represents the game UI for the Hofbauern game.
+ * @author Julius Hunold
+ * @version 1.0
+ * @since 2023-07-14
+ */
+public class UiGame {
 
     public static int WIDTH = 1920;
     public static int HEIGTH = 1080;
 
     // Frame
     private final SAGFrame FRAME = new SAGFrame("Hofbauern", 30, UiGame.WIDTH, UiGame.HEIGTH);
-    
+
     // Panels
     private SAGPanel mainPanel = new SAGPanel();
     private PanelDepositedCards panelDepositedCards;
@@ -45,24 +50,31 @@ public class UiGame {
     private GroupDisplayRound groupDisplayRound;
     private GroupDisplayDrawPileDeck groupDisplayDrawPileDeck;
     private GroupDisplayDepositedDeck groupDisplayDepositedDeck;
-    
+
     private GameBoardState gameBoardState;
 
     private int playerId = 0;
 
-    public UiGame(GameConfiguration gameconf, GameBoardState gameBoardState) throws Exception{
+    /**
+     * Constructs a new UiGame object.
+     *
+     * @param gameconf      The GameConfiguration object representing the game configuration.
+     * @param gameBoardState The GameBoardState object representing the game board state.
+     * @throws Exception If an error occurs during initialization.
+     */
+    public UiGame(GameConfiguration gameconf, GameBoardState gameBoardState) throws Exception {
         this.gameBoardState = gameBoardState;
 
-        //init Frame
+        // Initialize Frame
         this.FRAME.setSAGPanel(this.mainPanel);
 
-        // init Frames
+        // Initialize Panels
         this.FRAME.setVisible(true);
         this.panelDepositedCards = new PanelDepositedCards(this);
         this.panelDrawPileCards = new PanelDrawPileCards(this);
         //this.panelExchangeCards = new PanelExchangeCards(this);
 
-        // init Groups
+        // Initialize GGroups
         this.groupDisplayRound = new GroupDisplayRound(this);
         this.groupDisplayPlayerCards = new GroupDisplayPlayerCards(this);
         this.groupDisplayPlayerName = new GroupDisplayPlayerName(this);
@@ -71,90 +83,133 @@ public class UiGame {
         new PanelButtonScreenshot(this);
         new PanelButtonSaveGame(this);
 
-        // init load playerCards
-        for (int index=0; index < this.gameBoardState.getPlayers().length; index++)
+        // Initialize playerCards
+        for (int index = 0; index < this.gameBoardState.getPlayers().length; index++)
             this.groupDisplayPlayerCards.updatePlayer(index);
 
     }
 
-    public void move(boolean last) throws Exception { 
-        // Spieler inaktiv setzten
+    /**
+     * Moves to the next turn in the game.
+     *
+     * @param last Determines if it is the last turn.
+     * @throws Exception If an error occurs during the move.
+     */
+    public void move(boolean last) throws Exception {
+        // Set current player as inactive
         this.groupDisplayPlayerName.updatePlayerBgInactive(this.playerId);
 
-
-        // (Nach)Ziehstapel löschen
+        // Clear Draw Pile and Deposited Deck
         this.groupDisplayDepositedDeck.clear();
         this.groupDisplayDrawPileDeck.clear();
 
-
-        // Karten + Punkte updaten
+        // Update player cards and points
         this.groupDisplayPlayerCards.updatePlayer(this.playerId);
         this.groupDisplayPlayerName.updatePlayerName(this.playerId);
 
-
-        // (Nach)Ziehstapel update
+        // Update Draw Pile and Deposited Deck
         this.groupDisplayDepositedDeck.update();
         this.groupDisplayDrawPileDeck.update();
 
-        // Wenn nicht letzer Zug
+        // If not the last turn
         if (!last) {
-            // Nächsten Spieler aktiv setzen
-            this.playerId = (this.playerId+1)%this.gameBoardState.getPlayers().length;
+            // Set next player as active
+            this.playerId = (this.playerId + 1) % this.gameBoardState.getPlayers().length;
             this.groupDisplayPlayerName.updatePlayerBgActive(this.playerId);
             this.groupDisplayRound.update();
         } else {
-            // -> Spielende Panel
+            // Show end of game panel
             this.playerId = 5;
             new GroupPopupScore(this);
         }
     }
-  
+
+    /**
+     * Moves the selected card from the draw pile to the player's hand.
+     *
+     * @param gCard The GCard object representing the selected card.
+     */
     public void moveAddCard(GCard gCard) {
         ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
         this.createExchangePanel();
     }
 
+    /**
+     * Moves the selected card from the player's hand to the discarded pile.
+     *
+     * @param gCard The GCard object representing the selected card.
+     * @throws Exception If an error occurs during the move.
+     */
     public void movePopCard(GCard gCard) throws Exception {
-        this.setMainPanel(3); //aktuallisiert nicht richtig. Panel wird erst bei HUMAN move wieder angezeigt
+        this.setMainPanel(3); // Does not update correctly. Panel is only displayed properly during HUMAN move
         ((HumanPlayer) this.gameBoardState.getActualPlayer()).doMove(gCard.getCard());
     }
 
+    /**
+     * Shows the panel for the draw pile cards.
+     *
+     * @throws ChildNotFoundException If a child element is not found in the group.
+     */
     public void showPanelDrawPileCards() throws ChildNotFoundException {
-        this.groupDisplayDepositedDeck.clear(); // lösche ref auf Karte in Deck
+        this.groupDisplayDepositedDeck.clear(); // Clear reference to card in the deck
         this.FRAME.setSAGPanel(this.panelDrawPileCards.getPanel());
     }
 
+    /**
+     * Shows the panel for the discarded pile cards.
+     *
+     * @throws ChildNotFoundException If a child element is not found in the group.
+     */
     public void showPanelDepositedCards() throws ChildNotFoundException {
-        this.groupDisplayDepositedDeck.clear(); // lösche ref auf Karte in Deck
+        this.groupDisplayDepositedDeck.clear(); // Clear reference to card in the deck
         this.FRAME.setSAGPanel(this.panelDepositedCards.getPanel());
     }
 
+    /**
+     * Creates the exchange panel for exchanging cards between players.
+     */
     public void createExchangePanel() {
         this.FRAME.setSAGPanel(new PanelExchangeCards(this).getPanel());
     }
 
-    public void createScorePanal() throws Exception {
+    /**
+     * Creates the score panel for displaying the final scores.
+     *
+     * @throws Exception If an error occurs during the creation of the panel.
+     */
+    public void createScorePanel() throws Exception {
         new GroupPopupScore(this);
     }
 
-    public void createCheaterPanal(AbstractGamePlayer player) throws Exception {
+    /**
+     * Creates the cheater panel for displaying the cheater information.
+     *
+     * @param player The AbstractGamePlayer object representing the cheater player.
+     * @throws Exception If an error occurs during the creation of the panel.
+     */
+    public void createCheaterPanel(AbstractGamePlayer player) throws Exception {
         new GroupPopupCheater(this, player);
     }
 
-    public void setMainPanel(int v) { // v=1: DrawPile, v=2: Deposited, v=3: Exchange
+    /**
+     * Sets the main panel based on the specified value.
+     *
+     * @param v The value representing the panel to set. (1: DrawPile, 2: Deposited, 3: Exchange)
+     */
+    public void setMainPanel(int v) {
         System.out.println(v);
         try {
-            if (v==1) { // DrawPile
-                this.panelDrawPileCards.clear(); // lösche ref auf Karte in Panel
+            if (v == 1) { // DrawPile
+                this.panelDrawPileCards.clear(); // Clear reference to card in the panel
                 this.groupDisplayDrawPileDeck.update();
-            } else if (v==2) { // Deposited
-                this.panelDepositedCards.clear(); // lösche ref auf Karte in Panel
+            } else if (v == 2) { // Deposited
+                this.panelDepositedCards.clear(); // Clear reference to card in the panel
                 this.groupDisplayDepositedDeck.update();
-            } else if (v==3) { // Exchange
+            } else if (v == 3) { // Exchange
                 System.out.println("test");
                 //this.panelExchangeCards.clear();
             }
-            this.FRAME.setSAGPanel(this.mainPanel); // Setzte SAGPanel richtig
+            this.FRAME.setSAGPanel(this.mainPanel); // Set the SAGPanel correctly
 
         } catch (Exception e) {
             System.out.println(e);
@@ -162,7 +217,9 @@ public class UiGame {
         }
     }
 
-    // screenshot
+    /**
+     * Creates a screenshot of the game UI and saves it as an image file.
+     */
     public void createScreenshot() {
         BufferedImage img = new BufferedImage(this.FRAME.getWidth(), this.FRAME.getHeight(), BufferedImage.TYPE_INT_RGB);
         this.FRAME.paint(img.getGraphics());
@@ -172,27 +229,48 @@ public class UiGame {
         } catch (Exception e) {
             System.out.println(e);
         }
-        
+
     }
 
-    // saveGame
+    /**
+     * Saves the current game state.
+     */
     public void saveGame() {
         System.out.println("saveGame");
     }
 
-    // Check if move by human
+    /**
+     * Checks if it is a human player's turn to make a move.
+     *
+     * @return True if it is a human player's turn, false otherwise.
+     */
     public boolean check_move() {
         return this.gameBoardState.getPlayers()[this.playerId].getPlayerType() == PlayerType.HUMAN;
     }
-  
+
+    /**
+     * Returns the current player ID.
+     *
+     * @return The player ID.
+     */
     public int getPlayerId() {
         return this.playerId;
     }
 
+    /**
+     * Returns the main panel.
+     *
+     * @return The main SAGPanel object.
+     */
     public SAGPanel getMainPanel() {
         return this.mainPanel;
     }
 
+    /**
+     * Returns the game board state.
+     *
+     * @return The GameBoardState object representing the game board state.
+     */
     public GameBoardState getGameBoardState() {
         return this.gameBoardState;
     }

@@ -8,15 +8,29 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
+/**
+ * This class represents the home panel in the launcher UI.
+ * @author [Your Name]
+ * @version 1.0
+ * @since 2023-07-14
+ */
+
 public class PanelHome {
     private UiLauncher uiLauncher;
     private JPanel panel;
-    private int heigth, width;
+    private int height, width;
 
-
-    public PanelHome(UiLauncher uiLauncher, int width, int heigth) throws IOException {
+    /**
+     * Constructs a new PanelHome object.
+     *
+     * @param uiLauncher The UiLauncher object that represents the launcher UI.
+     * @param width      The width of the panel.
+     * @param height     The height of the panel.
+     * @throws IOException If an I/O error occurs.
+     */
+    public PanelHome(UiLauncher uiLauncher, int width, int height) throws IOException {
         this.panel = new JPanel();
-        this.heigth = heigth;
+        this.height = height;
         this.width = width;
         this.uiLauncher = uiLauncher;
 
@@ -25,17 +39,16 @@ public class PanelHome {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
 
-                // Zeichne den Hintergrund
+                // Draw the background image
                 ImageIcon backgroundImage = new ImageIcon("graphics/launcher/main.jpg");
                 Image image = backgroundImage.getImage();
                 g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
             }
         };
 
-        this.panel.setPreferredSize(new Dimension(this.width, this.heigth));
+        this.panel.setPreferredSize(new Dimension(this.width, this.height));
         this.panel.setLayout(null);
 
-        
         JButton buttonLocalPlayer = this.addButtonLocalPlayer();
         this.panel.add(buttonLocalPlayer);
 
@@ -44,70 +57,88 @@ public class PanelHome {
 
         JButton buttonSettings = this.addButtonSettings();
         this.panel.add(buttonSettings);
-        
     }
 
+    /**
+     * Creates a panel for buttons.
+     *
+     * @return The JPanel object representing the button panel.
+     */
     public JPanel getButtons() {
-        JPanel buttonPanal = new JPanel();
-        buttonPanal.setPreferredSize(new Dimension(this.width, this.heigth));
-
-        return buttonPanal;
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setPreferredSize(new Dimension(this.width, this.height));
+        return buttonPanel;
     }
 
+    /**
+     * Adds a button for the local player.
+     *
+     * @return The JButton object representing the local player button.
+     */
     public JButton addButtonLocalPlayer() {
-        // Erstelle den JButton
         JButton button = new JButton();
 
-        button.addActionListener((ActionListener) new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 uiLauncher.setPanelLocalPlayer();
             }
         });
-        
+
         button.setContentAreaFilled(false);
         button.setBorderPainted(UiLauncher.debug);
-        button.setBounds(199, 520, 280, 125);  
+        button.setBounds(199, 520, 280, 125);
 
         return button;
     }
 
+    /**
+     * Adds a button for the network player.
+     *
+     * @return The JButton object representing the network player button.
+     */
     public JButton addButtonNetworkPlayer() {
-        // Erstelle den JButton
         JButton button = new JButton();
 
-        button.addActionListener((ActionListener) new ActionListener() {
-            private UiLauncher uiLauncher;
-
-            public void actionPerformed(ActionEvent e){
-                this.uiLauncher.setPanelNetworkPlayer();
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                uiLauncher.setPanelNetworkPlayer();
             }
         });
-        
+
         button.setContentAreaFilled(false);
         button.setBorderPainted(UiLauncher.debug);
-        button.setBounds(500, 520, 280, 125);  
+        button.setBounds(500, 520, 280, 125);
 
         return button;
     }
 
+    /**
+     * Adds a button for the settings.
+     *
+     * @return The JButton object representing the settings button.
+     */
     public JButton addButtonSettings() {
         UiLauncher launcher = this.uiLauncher;
-        // Erstelle den JButton
         JButton button = new JButton();
 
-        button.addActionListener((ActionListener) new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 launcher.setPanelSettings();
             }
         });
-        
+
         button.setContentAreaFilled(false);
         button.setBorderPainted(UiLauncher.debug);
-        button.setBounds(803, 520, 280, 125);  
+        button.setBounds(803, 520, 280, 125);
 
         return button;
     }
 
+    /**
+     * Returns the panel object.
+     *
+     * @return The JPanel object representing the panel.
+     */
     public JPanel getPanel() {
         return this.panel;
     }
