@@ -3,6 +3,7 @@ package bauernhof.app.ui.launcher.panel;
 import javax.swing.*;
 
 import bauernhof.app.ui.launcher.UiLauncher;
+import bauernhof.app.ui.launcher.listener.ListenerToHome;
 import bauernhof.preset.PlayerType;
 
 import java.awt.*;
@@ -10,7 +11,7 @@ import java.awt.event.*;
 import java.io.IOException;
 
 public class PanelLocal {
-    private UiLauncher launcher;
+    private UiLauncher uiLauncher;
     private JPanel panel;
     private int heigth, width, playerCounter;
 
@@ -28,11 +29,11 @@ public class PanelLocal {
     private JButton playerAddButton = null;
 
 
-    public PanelLocal(UiLauncher launcher, int width, int heigth) throws IOException {
+    public PanelLocal(UiLauncher uiLauncher, int width, int heigth) throws IOException {
         this.panel = new JPanel();
         this.heigth = heigth;
         this.width = width;
-        this.launcher = launcher;
+        this.uiLauncher = uiLauncher;
 
         this.panel = new JPanel() {
             @Override
@@ -125,15 +126,10 @@ public class PanelLocal {
     }
 
     public void addButtonReturn() {
-        UiLauncher launcher = this.launcher;
         // Erstelle den JButton
         JButton button = new JButton();
 
-        button.addActionListener((ActionListener ) new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                launcher.setPanelHome();
-            }
-        });
+        button.addActionListener(new ListenerToHome(this.uiLauncher));
         
         button.setContentAreaFilled(false);
         button.setBorderPainted(UiLauncher.debug);

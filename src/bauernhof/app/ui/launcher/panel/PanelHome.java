@@ -3,6 +3,7 @@ package bauernhof.app.ui.launcher.panel;
 import javax.swing.*;
 
 import bauernhof.app.ui.launcher.UiLauncher;
+import bauernhof.app.ui.launcher.listener.ListenerToHome;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -58,11 +59,7 @@ public class PanelHome {
         // Erstelle den JButton
         JButton button = new JButton();
 
-        button.addActionListener((ActionListener) new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-                uiLauncher.setPanelLocalPlayer();
-            }
-        });
+        button.addActionListener(new ListenerToHome(this.uiLauncher));
         
         button.setContentAreaFilled(false);
         button.setBorderPainted(UiLauncher.debug);

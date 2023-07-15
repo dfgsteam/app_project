@@ -83,4 +83,17 @@ public class UiLauncher {
     public Se getSettings() {
         return this.Settings;
     }
+
+    public void startLocalGame() {
+        System.out.println("startLocalGame");
+    }
+
+    public void startNetworkHostGame() {
+        System.out.println("startNetworkHostGame");
+    }
+
+    public void startNetworkClientGame() {
+        System.out.println("startNetworkClientGame");
+    }
+
 }
