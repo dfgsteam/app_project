@@ -28,7 +28,6 @@ public class Tournament {
                     System.out.println("Status: "+ (int) (((double) i / numbergames) * 100) + "%");
                 x = (int) (((double) i / numbergames) * 100);
             }
-            cards = mixCards(cards);
             if (List.of(types).contains(PlayerType.HUMAN))
                 if (i == 0) {
                     states.add(new GameBoardState(players, types, configuration, cards));
@@ -59,11 +58,5 @@ public class Tournament {
     public ArrayList<Integer> getWins() {
         return wins;
     }
-    private ImmutableList<Card> mixCards(final ImmutableList<Card> cards) {
-        ArrayList<Card> cards2 = new ArrayList<>(cards);
-        Collections.shuffle(cards2);
-        ImmutableList<Card> cards3 = new ImmutableList<>(cards2);
-        return cards3;
 
-    }
 }

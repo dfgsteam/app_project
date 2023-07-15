@@ -54,7 +54,6 @@ public class GroupDisplayDrawPileDeck {
      */
     public void update() throws InterruptedException {
         // Add the first card from the draw pile and attach the appropriate listener
-
         GCard gCard = ((Ca) this.UiGame.getGameBoardState().getDrawPileCards().lastElement()).getGCard();
         gCard.setMouseEventListener(new ListenerDrawPile(this.UiGame));
         this.panel.addChild(gCard, -180, 0);

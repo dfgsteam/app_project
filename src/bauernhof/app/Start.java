@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -30,9 +29,8 @@ public class Start {
             GameConfigurationParser GameConfPars = new GaCoPa();
             GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
         if (args.length == 0) {
-            final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Julius", "Cemil", "Horst"}, new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.HUMAN}, GaCo, new ImmutableList<>(GaCo.getCards()));
+            final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Julius", "Cemil", "Horst"}, new PlayerType[]{PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
             UiGame GB = new UiGame(GaCo, gameBoardState);
-            setDefaultDesigns();
             gameBoardState.initGame(GB);
             System.out.println(GaCo.getConfigDescription());
         }
@@ -81,7 +79,6 @@ public class Start {
         }
         final GameBoardState gameBoardState = new GameBoardState(playernames, types, configuration, new ImmutableList<>(configuration.getCards()));
         UiGame GB = new UiGame(configuration, gameBoardState);
-        setDefaultDesigns();
         for (int i = 0; i < playernames.length; i++)
             if(gameBoardState.getPlayers()[i].getPlayerType() == PlayerType.REMOTE)
                 ((LocalRemotePlayer) gameBoardState.getPlayers()[i]).setS2CConnection(s2cconnections.get(i - (playernames.length - client_connections)));
@@ -93,10 +90,5 @@ public class Start {
         ClientConnector connector = new ClientConnector(PlayerType.SIMPLE_AI, socket, parser, projectname);
         System.out.println(connector.isOpen());
         connector.handlePackets();
-    }
-    // Habe die Funktion erstellt weil ich das Fenster gerne im FULLSCREEN HABEN WILL!!!
-    private static void setDefaultDesigns() {
-        // JFrame.getFrames()[0].setExtendedState(JFrame.MAXIMIZED_BOTH);
-        // JFrame.getFrames()[0].setIconImage(new ImageIcon("graphics/bauernhof_logo.png").getImage());
     }
 }

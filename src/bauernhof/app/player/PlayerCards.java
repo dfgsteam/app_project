@@ -30,7 +30,6 @@ public abstract class PlayerCards implements CardSetHandler {
 
     @Override
     public boolean remove(final Card removed_card) {
-        //if (!cards.contains(removed_card)) return false;
         cards.remove(removed_card);
         updateBlockedCards();
         updateScore();

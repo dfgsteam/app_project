@@ -124,7 +124,7 @@ public abstract class AbstractGamePlayer extends PlayerCards implements GamePlay
     }
 
     public int getPlayerID() {
-        return playerid;
+        return playerid + 1;
     }
     public void setPlayerGameBoard(final PlayerGameBoard state) {
         this.state = state;

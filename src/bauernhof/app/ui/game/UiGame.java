@@ -2,6 +2,7 @@ package bauernhof.app.ui.game;
 
 import bauernhof.app.player.types.HumanPlayer;
 import bauernhof.preset.GameConfiguration;
+import bauernhof.preset.PlayerGUIAccess;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.*;
 import bauernhof.app.launcher.GameBoardState;
@@ -109,10 +110,11 @@ public class UiGame {
 
         // Update Draw Pile and Deposited Deck
         this.groupDisplayDepositedDeck.update();
-        this.groupDisplayDrawPileDeck.update();
+
 
         // If not the last turn
         if (!last) {
+            this.groupDisplayDrawPileDeck.update();
             // Set next player as active
             this.playerId = (this.playerId + 1) % this.gameBoardState.getPlayers().length;
             this.groupDisplayPlayerName.updatePlayerBgActive(this.playerId);
