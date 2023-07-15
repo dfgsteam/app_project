@@ -4,6 +4,9 @@ import javax.swing.*;
 
 import bauernhof.app.ui.launcher.UiLauncher;
 import bauernhof.app.ui.launcher.listener.ListenerToHome;
+import bauernhof.app.ui.launcher.listener.ListenerToLocal;
+import bauernhof.app.ui.launcher.listener.ListenerToNetwork;
+import bauernhof.app.ui.launcher.listener.ListenerToSettings;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -78,7 +81,9 @@ public class PanelHome {
      */
     public JButton addButtonLocalPlayer() {
         JButton button = new JButton();
-        button.addActionListener(new ListenerToHome(this.uiLauncher));
+
+        button.addActionListener(new ListenerToLocal(this.uiLauncher));
+        
         button.setContentAreaFilled(false);
         button.setBorderPainted(UiLauncher.debug);
         button.setBounds(199, 520, 280, 125);
@@ -94,12 +99,8 @@ public class PanelHome {
     public JButton addButtonNetworkPlayer() {
         JButton button = new JButton();
 
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                uiLauncher.setPanelNetworkPlayer();
-            }
-        });
-
+        button.addActionListener(new ListenerToNetwork(this.uiLauncher));
+        
         button.setContentAreaFilled(false);
         button.setBorderPainted(UiLauncher.debug);
         button.setBounds(500, 520, 280, 125);
@@ -113,15 +114,11 @@ public class PanelHome {
      * @return The JButton object representing the settings button.
      */
     public JButton addButtonSettings() {
-        UiLauncher launcher = this.uiLauncher;
+        // Erstelle den JButton
         JButton button = new JButton();
 
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                launcher.setPanelSettings();
-            }
-        });
-
+        button.addActionListener(new ListenerToSettings(this.uiLauncher));
+        
         button.setContentAreaFilled(false);
         button.setBorderPainted(UiLauncher.debug);
         button.setBounds(803, 520, 280, 125);
