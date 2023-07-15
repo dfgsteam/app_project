@@ -42,11 +42,14 @@ public class PanelNetwork {
         this.addButtonReturn();
     }
 
+    // Different views //
+
     public void setSelect(boolean updateFrame) {
         this.status = 0;
         this.createNewPanal("multiSelect");
         this.addButtonCreateServer();
         this.addButtonCreateClient();
+        this.addInputAdress();
         if (updateFrame)
             this.uiLauncher.setPanelNetworkPlayer();
     }
@@ -64,12 +67,16 @@ public class PanelNetwork {
         this.uiLauncher.setPanelNetworkPlayer();
     }
 
+    // Move //
+
     public void doReturn() {
         if (this.status == 0)
             this.uiLauncher.setPanelHome();
         else
             this.setSelect(true);
     }
+
+    // Buttons //
 
     public void addButtonReturn() {
         PanelNetwork networkPanel = this;
@@ -142,6 +149,35 @@ public class PanelNetwork {
         this.panel.add(button);
     }
 
+    // Inputs//
+
+    public void addInputAdress() {
+        // IP Part 1
+        JSpinner addInputAdressField1 = new JSpinner(new SpinnerNumberModel(127, 0, 255, 1));
+        addInputAdressField1.setBounds(352, 405, 55, 22);
+        this.panel.add(addInputAdressField1);
+
+
+        // IP Part 2
+        JSpinner addInputAdressField2 = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
+        addInputAdressField2.setBounds(419, 405, 55, 22);
+        this.panel.add(addInputAdressField2);
+
+        // IP Part 3
+        JSpinner addInputAdressField3 = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
+        addInputAdressField3.setBounds(486, 405, 55, 22);
+        this.panel.add(addInputAdressField3);
+
+        // IP Part 4
+        JSpinner addInputAdressField4 = new JSpinner(new SpinnerNumberModel(1, 0, 255, 1));
+        addInputAdressField4.setBounds(553, 405, 55, 22);
+        this.panel.add(addInputAdressField4);
+
+        // IP Part 5 (Port)
+        JSpinner addInputAdressField5 = new JSpinner(new SpinnerNumberModel(5000, 1, 10000, 1));
+        addInputAdressField5.setBounds(620, 405, 70, 22);
+        this.panel.add(addInputAdressField5);
+    }
 
     public JPanel getPanel() {
         return this.panel;
