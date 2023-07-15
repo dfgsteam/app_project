@@ -61,19 +61,22 @@ public class PanelLocal {
     }
 
     public void createPlayerView() {
-        int xPos = 247; // xPos wird pro Player statisch verändert. Die yPos wird anhand deinzelnen Objektlängen + 5px/15px Abstand berechnet
-        
+        int xPos = 218; // xPos wird pro Player statisch verändert. Die yPos wird anhand deinzelnen Objektlängen + 5px/15px Abstand berechnet
+        int yPos = 50;
         // Erstelle für jeden Spieler inputs
         for (int index=0; index < 4; index ++) { // playerId = 0, 1, 2, 3
-            // Spielertyp JLabel
+            
+            // Spielertyp //
+
+            // -> JLabel
             JLabel addPlayerTypeLabel = new JLabel("Spielertyp:");
             addPlayerTypeLabel.setForeground(Color.white);
-            addPlayerTypeLabel.setBounds(45, xPos, 68, 45); 
+            addPlayerTypeLabel.setBounds(yPos, xPos, 180, 45); 
             this.panel.add(addPlayerTypeLabel);
-
-            // Spielertyp JComboBox -> Dropdown
+            
+            // -> JComboBox - Dropdown
             JComboBox<String> addPlayerTypeCombo = new JComboBox<>(this.playerTypeName);
-            addPlayerTypeCombo.setBounds((int)(addPlayerTypeLabel.getX()+addPlayerTypeLabel.getSize().getWidth()+5), xPos, 170, 45);
+            addPlayerTypeCombo.setBounds(yPos, xPos+40, 180, 45);
             if (index > 1) {
                 addPlayerTypeCombo.addItem("Keiner");
                 addPlayerTypeCombo.addItemListener(new ListenerLocalAddUser(this, index));
@@ -81,40 +84,52 @@ public class PanelLocal {
             this.panel.add(addPlayerTypeCombo);
             this.playerTypeCombo[index] = addPlayerTypeCombo;
 
-            // Spielernamen Label
+            yPos += 200;
+
+            // Spielernamen //
+
+            // -> Label
             JLabel addPlayerNameLabel = new JLabel("Name:");
             addPlayerNameLabel.setForeground(Color.white);
-            addPlayerNameLabel.setBounds((int)(addPlayerTypeCombo.getX()+addPlayerTypeCombo.getSize().getWidth()+15), xPos, 40, 45);
+            addPlayerNameLabel.setBounds(yPos, xPos, 180, 45);
             this.panel.add(addPlayerNameLabel);
 
-            // Spielernamen JComboBox -> Dropdown
+            // -> JComboBox - Dropdown
             JTextField addPlayerNameField = new JTextField(this.examPlayerNames[index]);
-            addPlayerNameField.setBounds((int)(addPlayerNameLabel.getX()+addPlayerNameLabel.getSize().getWidth()+5), xPos, 120, 45);
+            addPlayerNameField.setBounds(yPos, xPos+40, 180, 45);
             this.panel.add(addPlayerNameField);
             this.playerNameField[index] = addPlayerNameField;
 
-            // Spielerfarbe Label
+            yPos += 200;
+
+            // Spielerfarbe
+
+            // -> Label
             JLabel addPlayerColoLabel = new JLabel("Farbe:");
             addPlayerColoLabel.setForeground(Color.white);
-            addPlayerColoLabel.setBounds((int)(addPlayerNameField.getX()+addPlayerNameField.getSize().getWidth()+15), xPos, 40, 45);
+            addPlayerColoLabel.setBounds(yPos, xPos, 180, 45);
             this.panel.add(addPlayerColoLabel);
 
-            // Spielerfarbe JComboBox -> Dropdown
+            // -> JComboBox - Dropdown
             JComboBox<String> addPlayerColorCombo = new JComboBox<>(this.playerColorName);
             addPlayerColorCombo.setSelectedIndex(index);
-            addPlayerColorCombo.setBounds((int)(addPlayerColoLabel.getX()+addPlayerColoLabel.getSize().getWidth()+5), xPos, 120, 45);
+            addPlayerColorCombo.setBounds(yPos, xPos+40, 180, 45);
             this.panel.add(addPlayerColorCombo);
             this.playerColorCombo[index] = addPlayerColorCombo;
 
-            // Delete Button
+            yPos += 200;
+
+            // Delete Button //
+            
             if (index > 1) { // 2 Spieler sind verpflichtend -> Spieler 1, 2 kann man löschen
                 JButton addPlayerDelButton = new JButton("Löschen");
-                addPlayerDelButton.setBounds((int)(addPlayerColorCombo.getX()+addPlayerColorCombo.getSize().getWidth()+15), xPos, 100, 45);
+                addPlayerDelButton.setBounds(yPos, xPos+17, 100, 68);
                 addPlayerDelButton.addActionListener(new ListenerLocalDeleteUser(this, index));
                 this.panel.add(addPlayerDelButton);
             }
 
             // Nächste Zeile
+            yPos = 50;
             xPos += 112;
         }  
     }
