@@ -1,4 +1,5 @@
 package bauernhof.app.player.types;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -16,6 +17,8 @@ import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 
 public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
+    private ArrayList<Long> currentimes = new ArrayList<>();
+    private long before;
     private GameBoardState gameboardstate;
     public Advanced_AI(String name) {
         super(name, PlayerType.ADVANCED_AI);
@@ -27,39 +30,24 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
 
     @Override
     public Move request() throws Exception {
+        before = System.currentTimeMillis();
         WorkingThread workingThread1 = new WorkingThread(gameboardstate.clone());
-        // WorkingThread workingThread2 = new WorkingThread();
-        // WorkingThread workingThread3 = new WorkingThread();
-        // WorkingThread workingThread4 = new WorkingThread();
 
-        // try {
-        //     workingThread1.join();
-        //     workingThread2.join();
-        //     workingThread3.join();
-        //     workingThread4.join();
-        // }
-        // catch (InterruptedException e) {
-        //     System.err.println("ERROR");
-        // }
-        
-        
         SequenceThread sequenceThread1 = new SequenceThread(true);
-        // SequenceThread sequenceThread2 = new SequenceThread(false);
-        // SequenceThread sequenceThread3 = new SequenceThread(false);
-        // SequenceThread sequenceThread4 = new SequenceThread(false);
+        
+        System.out.println(SequenceThread.differences);
+        Move move = AbstractThread.getTree().getRootNode().getNextNodes().get(SequenceThread.differences.indexOf(Collections.max(SequenceThread.differences))).getMove();
 
-        // try {
-        //     sequenceThread1.join();
-        //     sequenceThread2.join();
-        //     sequenceThread3.join();
-        //     sequenceThread4.join();
-        // }
-        // catch (InterruptedException e) {
-        //     System.out.println("ERROR");
-        // }
-        System.out.println(SequenceThread.differences);   
-        return AbstractThread.getTree().getRootNode().getNextNodes().get(SequenceThread.differences.indexOf(Collections.max(SequenceThread.differences))).getMove();
-    }
+        System.out.println("ROUND: " + gameboardstate.getRound());
+        System.out.println("CURRENT: " + (System.currentTimeMillis() - before));
+        currentimes.add(System.currentTimeMillis() - before);
+        int x = 0;
+        for(Long b : currentimes)
+            x += b;
+        System.out.println("AVERAGE: " + x/currentimes.size());
+        System.out.println("");
+        return move;
+      }
 
     //Not usable methods
     @Override

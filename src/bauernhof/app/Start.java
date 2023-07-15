@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import bauernhof.app.launcher.GameBoardState;
-import bauernhof.app.networking.ClientConnector;
+import bauernhof.app.launcher.Tournament;
+// import bauernhof.app.networking.ClientConnector;
 import bauernhof.app.player.types.LocalRemotePlayer;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.preset.*;
@@ -24,12 +25,13 @@ public class Start {
     private static int port = 5055;
     private static int network = 0;
     public static void main(String args[]) throws Exception {
+        network = 3;
         if (args.length > 0)
         network = Integer.valueOf(args[0]);
             File gameConfFile = new File("gameconfigs/bauernhof.xml");
             GameConfigurationParser GameConfPars = new GaCoPa();
             GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
-        if (args.length == 0) {
+        if (network == 0) {
             final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Julius", "Cemil", "Horst"}, new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.HUMAN}, GaCo, new ImmutableList<>(GaCo.getCards()));
             UiGame GB = new UiGame(GaCo, gameBoardState);
             setDefaultDesigns();
@@ -41,6 +43,10 @@ public class Start {
         }
         if (network == 2){
             initClient(GameConfPars, "HOFBAUERN");
+        }
+
+        if (network == 3) {
+            new Tournament(new String[]{"Florian", "Julius"}, new PlayerType[]{PlayerType.ADVANCED_AI, PlayerType.SIMPLE_AI}, GaCo, new ImmutableList<>(GaCo.getCards()), 10);
         }
     }
     private static final void initServer(final GameConfiguration configuration) throws Exception {
@@ -97,9 +103,9 @@ public class Start {
     }
     private static final void initClient(final GameConfigurationParser parser, final String projectname) throws IOException, RemoteException {
         Socket socket = new Socket("localhost", port);
-        ClientConnector connector = new ClientConnector(PlayerType.SIMPLE_AI, socket, parser, projectname);
-        System.out.println(connector.isOpen());
-        connector.handlePackets();
+        // ClientConnector connector = new ClientConnector(PlayerType.SIMPLE_AI, socket, parser, projectname);
+        // System.out.println(connector.isOpen());
+        // connector.handlePackets();
     }
     // Habe die Funktion erstellt weil ich das Fenster gerne im FULLSCREEN HABEN WILL!!!
     private static void setDefaultDesigns() {

@@ -35,14 +35,13 @@ public class GameBoardState implements Table {
         this.run = true;
         this.round = 1;
         this.players = new AbstractGamePlayer[playernames.length];
-        System.out.println("PLAYER INITIALISIEREN");
         for (int i = 0; i < players.length; i++)
             switch (types[i]) {
                 case ADVANCED_AI:
                     players[i] = new Advanced_AI(playernames[i]);
                     break;
                 case HUMAN:
-                    players[i] = new HumanPlayer(playernames[i], this);
+                     //players[i] = new HumanPlayer(playernames[i], this);
                     break;
                 case RANDOM_AI:
                     players[i] = new Random_AI(playernames[i]);
@@ -55,19 +54,15 @@ public class GameBoardState implements Table {
                     break;
                 default:
             }
-        System.out.println("PLAYERR INITAFAFJAFJA");
         for (byte playerid = 0; playerid < playernames.length; playerid++)
             players[playerid].init(configuration, cards, playernames.length, playerid);
-        System.out.println("2");
         for (final Card card : cards)
             this.drawpile_cards.add(card);
         for (int i = 0; i < configuration.getNumCardsPerPlayerHand() * players.length; i++)
             this.drawpile_cards.pop();
-        System.out.println("PLAYERR INITAFAFJAFJA 2 ");
         this.round = 0;
         actual_player = players[0];
         this.configuration = configuration;
-        System.out.println("PLAYERR INITAFAFJAFJA 3");
         for (final AbstractGamePlayer player : players)
             if (player.getPlayerType().equals(PlayerType.ADVANCED_AI))
                 ((Advanced_AI)player).setGameBoardState(this);
@@ -75,7 +70,6 @@ public class GameBoardState implements Table {
     public GameBoardState() {}
     public void initGame(final UiGame graphics) throws Exception {
         this.graphics = graphics;
-        System.out.println("GAME WIRD GESTARTET");
         if (!this.getActualPlayer().getPlayerType().equals(PlayerType.HUMAN))
         this.doMove(actual_player.request());
 
@@ -141,14 +135,12 @@ public class GameBoardState implements Table {
         }
         if (round > 30 || drawpile_cards.isEmpty() || deposited_cards.size() >= configuration.getNumDepositionAreaSlots()) run = false;
         if (graphics != null) {
-            System.out.println("Florian klaut keine Karte");
             graphics.move(!run);
         }
         if (run) {
             //Thread.sleep(1000);
             if(!this.getActualPlayer().getPlayerType().equals(PlayerType.HUMAN)) {
-                Thread.sleep(1000);
-                System.out.println("MOVE RANDOM GEMACHT");
+               // Thread.sleep(1000);
                 this.doMove(getActualPlayer().request());
             }
         }

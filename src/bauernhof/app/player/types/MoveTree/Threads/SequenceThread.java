@@ -54,14 +54,14 @@ public class SequenceThread extends AbstractThread {
     private final int maxEnemyPoints() {
         int points = 0;
         try {
-            points = this.getThreadNode().getActualBoardState().getPlayers()[0] == getTree().getRootNode().getActualBoardState().getActualPlayer() ? this.getThreadNode().getActualBoardState().getPlayers()[1].getScore() : this.getThreadNode().getActualBoardState().getPlayers()[0].getScore();
+            points = this.getThreadNode().getActualBoardState().getPlayers()[0].getPlayerID() == getTree().getRootNode().getActualBoardState().getActualPlayer().getPlayerID() ? this.getThreadNode().getActualBoardState().getPlayers()[1].getScore() : this.getThreadNode().getActualBoardState().getPlayers()[0].getScore();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
         for (AbstractGamePlayer player : this.getThreadNode().getActualBoardState().getPlayers()) {
-            if (player == getTree().getRootNode().getActualBoardState().getActualPlayer()) {
+            if (player.getPlayerID() == getTree().getRootNode().getActualBoardState().getActualPlayer().getPlayerID()) {
                 continue;
             }
         
