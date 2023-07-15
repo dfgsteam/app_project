@@ -77,7 +77,7 @@ public class GameBoardState implements Table {
         this.graphics = graphics;
         System.out.println("GAME WIRD GESTARTET");
         if (!this.getActualPlayer().getPlayerType().equals(PlayerType.HUMAN))
-        this.doMove(actual_player.request());
+            this.doMove(actual_player.request());
 
     }
 
@@ -102,6 +102,19 @@ public class GameBoardState implements Table {
         state.setDrawpile_cards(drawpile_cards);
         return state;
     }
+    public AbstractGamePlayer getWinner() throws Exception {
+        int[] scores = new int[getPlayers().length];
+        for (int i = 0; i < this.getPlayers().length; i++) {
+            scores[i] = this.getPlayers()[i].getScore();
+        }
+        Arrays.sort(scores);
+        if (scores[getPlayers().length - 1] == scores[getPlayers().length - 2])
+            return null;
+        for (final Player player : this.getPlayers())
+            if (player.getScore() == scores[getPlayers().length - 1])
+                return (AbstractGamePlayer) player;
+        return null;
+    }
 
     @Override
     public ArrayList<Card> getDepositedCards() {
@@ -121,8 +134,8 @@ public class GameBoardState implements Table {
     @Override
     public boolean doMove(final Move move) throws Exception {
         if (!drawpile_cards.isEmpty())
-        if (deposited_cards.contains(move.getTaken()))
-            deposited_cards.remove(move.getTaken());
+            if (deposited_cards.contains(move.getTaken()))
+                deposited_cards.remove(move.getTaken());
         if(!(drawpile_cards.isEmpty()) && drawpile_cards.lastElement().equals(move.getTaken()))
             drawpile_cards.pop();
         deposited_cards.add(move.getDeposited());

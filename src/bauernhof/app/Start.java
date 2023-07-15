@@ -63,13 +63,6 @@ public class Start {
         types[1] = PlayerType.RANDOM_AI;
         types[2] = PlayerType.RANDOM_AI;
         types[3] = PlayerType.REMOTE;
-
-        /*for (int i = playernames.length - 1; i > playernames.length - 1 - client_connections; i--) {
-            playernames[i] = s2cconnections.get(i - (playernames.length - client_connections)).getProjectName();
-            System.out.println(s2cconnections.get(i - (playernames.length - client_connections)).getProjectName());
-            System.out.println(i);
-            System.out.println(i - (playernames.length - client_connections));
-        } */
         for (final S2CConnection connection : s2cconnections) {
             connection.setPlayerNames(new ImmutableList<>(Arrays.asList(playernames)));
             for (final String name : new ImmutableList<>(Arrays.asList(playernames)))
