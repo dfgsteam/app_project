@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class PanelLocal {
-    private static final String ArrayList = null;
     private UiLauncher uiLauncher;
     private JPanel panel;
 

@@ -28,6 +28,7 @@ public class GaCoPa implements GameConfigurationParser{
      * @return The parsed GameConfiguration object.
      * @throws GameConfigurationException If there is an error parsing the game configuration.
      */
+    @SuppressWarnings("unchecked") // Suppress unchecked cast warning
     public GameConfiguration parse(String filecontents) throws GameConfigurationException {
         try {
             Document document = null;

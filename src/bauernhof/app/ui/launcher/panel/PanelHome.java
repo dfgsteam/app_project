@@ -58,17 +58,6 @@ public class PanelHome {
     }
 
     /**
-     * Creates a panel for buttons.
-     *
-     * @return The JPanel object representing the button panel.
-     */
-    public JPanel getButtons() {
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setPreferredSize(new Dimension(this.width, this.height));
-        return buttonPanel;
-    }
-
-    /**
      * Adds a button for the local player.
      *
      * @return The JButton object representing the local player button.
