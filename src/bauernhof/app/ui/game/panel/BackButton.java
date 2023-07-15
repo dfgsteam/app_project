@@ -1,10 +1,8 @@
 package bauernhof.app.ui.game.panel;
 
 import java.awt.Color;
-
-import bauernhof.app.ui.game.GameBoard;
-import bauernhof.app.ui.game.listener.BackButtonListener;
-import bauernhof.app.ui.game.listener.ScreenshotListener;
+import bauernhof.app.ui.game.UiGame;
+import bauernhof.app.ui.game.listener.ListenerBackButton;
 import sag.LayerPosition;
 import sag.SAGPanel;
 import sag.elements.GGroup;
@@ -14,9 +12,9 @@ import sag.elements.shapes.GRect;
 public class BackButton extends GGroup{
 
     
-    GameBoard gameBoard;
+    UiGame gameBoard;
 
-    public BackButton (SAGPanel panel, GameBoard gameBoard) throws Exception {
+    public BackButton (SAGPanel panel, UiGame gameBoard) throws Exception {
         // Klassenvariablen erstellen
         this.gameBoard = gameBoard;
 
@@ -36,7 +34,7 @@ public class BackButton extends GGroup{
         bot.addChild(headline, -90f, -73f);
 
 
-        area.setMouseEventListener(new BackButtonListener(this.gameBoard));
+        area.setMouseEventListener(new ListenerBackButton(this.gameBoard,new GText("Zurück")));
     }
 }
 

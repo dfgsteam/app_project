@@ -1,10 +1,13 @@
 package bauernhof.app.ui.game.panel;
 
 import java.awt.Color;
+import java.util.Stack;
 
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.listener.ListenerBackButton;
 import bauernhof.app.ui.game.listener.card.CardListener;
+import bauernhof.app.ui.game.listener.card.CardPopListener;
+import bauernhof.preset.card.Card;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
 import sag.LayerPosition;
@@ -50,6 +53,7 @@ public class PanelDrawPileCards extends SAGPanel{
 
         // Eventlistener
         buttonBackBG.setMouseEventListener(new ListenerBackButton(this.uiGame, buttonBackHeadline));
+        
     }
 
     public void update() {
@@ -63,55 +67,41 @@ public class PanelDrawPileCards extends SAGPanel{
 
         // G-Cards bekommst du mit ((Ca) this.uiGame.getGameBoardState().getDepositedCards().get(index)).getGCard()
         
-        /*
-        this.gameBoard = gameBoard;
-        CardListener cardListener = new CardListener();
+        Stack<Card> stack = this.uiGame.getGameBoardState().getDrawPileCards();
         
-        GGroup top = this.addLayer(LayerPosition.TOP_LEFT);
-        top.setScale(0.5f);
-        GGroup cen = this.addLayer(LayerPosition.CENTER_LEFT);
-        cen.setScale(0.5f);
-        GGroup bot = this.addLayer(LayerPosition.BOTTOM_LEFT);
-        bot.setScale(0.5f);
+        GGroup cen_cen = this.panel.addLayer(LayerPosition.CENTER_CENTER);
+        cen_cen.setScale(0.75f);
+        GGroup cen = this.panel.addLayer(LayerPosition.CENTER_LEFT);
+        cen.setScale(0.68f);
+        GGroup bot = this.panel.addLayer(LayerPosition.BOTTOM_LEFT);
+        bot.setScale(0.68f);
+
         this.setLayout(null);
-        int x=100,y=120,i=0;
-
         this.setVisible(true);
-
         GCard card;
-
-        for(; i< stack.size(); i++ ){
-            if(x+200 >= this.gameBoard.WIDTH*2){break;}
-            card = new GCard(stack.get(i));
-            card.setMouseEventListener(cardListener);
-            top.addChild(card,x,y);
-            x+=200;
-            
-        }
-        x=100;y=-150;
-        for(; i< stack.size(); i++ ){
-            if(x+200 >= this.gameBoard.WIDTH*2){break;}
-            card = new GCard(stack.get(i));
-            card.setMouseEventListener(cardListener);
-            cen.addChild(card,x,y);
-            x+=200;
+        card = new GCard(stack.get(0));
+        card.setMouseEventListener(new CardListener());
+        int x = 100, y=110,i=1;
         
-        }
-        x=100;y=-350;
-        for(; i< stack.size(); i++ ){
+        cen_cen.addChild(card, 0, -200);
+            
+        for (; i < stack.size();i++) { // Füge alle Karten aus der Hand hinzu
+            if(x+400 >= this.panel.VIEWPORT_WIDTH*1.8){break;}
             card = new GCard(stack.get(i));
-            card.setMouseEventListener(cardListener);
+            card.setMouseEventListener(new CardListener());
+            cen.addChild(card, x, y);
+            x+=210;
+        }
+        
+        x=100;y=-300;
+        for(; i< stack.size(); i++ ){
+            if(x+400 >= this.panel.VIEWPORT_WIDTH*1.8){break;}
+            card = new GCard(stack.get(i));
+            card.setMouseEventListener(new CardListener());
             bot.addChild(card,x,y);
-            x+=200;
+            x+=210;
 
-        }
-
-        try {
-            new BackButton(this, gameBoard);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-         */
+        }  
     }
 
     public void clear() throws ChildNotFoundException {
