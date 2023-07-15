@@ -115,15 +115,6 @@ public class ListenerSaveGame implements MouseEventListener {
      * @param arg1 The GElement object associated with the event.
      */
     @Override
-    public void mouseMoved(MouseMotionEvent arg0, GElement arg1) {}
-
-    @Override
-    public void mousePressed(MouseButtonEvent arg0, GElement arg1) {}
-
-    @Override
-    public void mouseReleased(MouseButtonEvent arg0, GElement arg1) {}
-
-    @Override
     public void mouseWheelMoved(MouseWheelEvent arg0, GElement arg1) {}
 
 }
