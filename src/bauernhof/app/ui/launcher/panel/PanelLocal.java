@@ -3,6 +3,8 @@ package bauernhof.app.ui.launcher.panel;
 import javax.swing.*;
 
 import bauernhof.app.ui.launcher.UiLauncher;
+import bauernhof.app.ui.launcher.listener.ListenerLocalAddUser;
+import bauernhof.app.ui.launcher.listener.ListenerLocalDeleteUser;
 import bauernhof.app.ui.launcher.listener.ListenerToHome;
 import bauernhof.preset.PlayerType;
 
@@ -13,20 +15,14 @@ import java.io.IOException;
 public class PanelLocal {
     private UiLauncher uiLauncher;
     private JPanel panel;
-    private int heigth, width, playerCounter;
+    private int heigth, width, playerCounter = 0;
 
     final private String[] examPlayerNames = {"Florian", "Cemil", "Viktor", "Julius"};
     final private String[] playerTypeName = {"MacBook Pro", "Windows PC", "Viktors Laptop", "Mensch"};
     final private PlayerType[] playerTypeType = {PlayerType.ADVANCED_AI, PlayerType.SIMPLE_AI, PlayerType.RANDOM_AI, PlayerType.HUMAN};
 
-    private JLabel playerTypeLabel[] = new JLabel[4];
     private JComboBox<String> playerTypeCombo[] = new JComboBox[4];
-    private JLabel playerNameLabel[] = new JLabel[4];
     private JTextField playerNameField[] = new JTextField[4];
-
-    private JButton playerDel[] = new JButton[4];
-
-    private JButton playerAddButton = null;
 
 
     public PanelLocal(UiLauncher uiLauncher, int width, int heigth) throws IOException {
@@ -53,70 +49,69 @@ public class PanelLocal {
         this.addButtonReturn();
         this.addButtonStartGame();
 
-        this.addPlayer();
-        this.addPlayer();
-        this.addPlayer();
-        this.addPlayer();
-        this.addButtonAddPlayer();
-    }
-
-
-
-
-    public void addPlayer() {
-        this.playerCounter ++;
-        int xPos = 247+112*(this.playerCounter-1);
-        
-        
-        JLabel addPlayerTypeLabel = new JLabel("Spielertyp:");
-        addPlayerTypeLabel.setForeground(Color.white);
-        addPlayerTypeLabel.setBounds(50, xPos, 85, 45); 
-        this.panel.add(addPlayerTypeLabel);
-        this.playerTypeLabel[this.playerCounter-1] = addPlayerTypeLabel;
-
-        JComboBox<String> addPlayerTypeCombo = new JComboBox<>(this.playerTypeName);
-        addPlayerTypeCombo.setBounds((int)(addPlayerTypeLabel.getX()+addPlayerTypeLabel.getSize().getWidth()+10), xPos, 200, 45);
-        this.panel.add(addPlayerTypeCombo);
-        this.playerTypeCombo[this.playerCounter-1] = addPlayerTypeCombo;
-
-        JLabel addPlayerNameLabel = new JLabel("Name:");
-        addPlayerNameLabel.setForeground(Color.white);
-        addPlayerNameLabel.setBounds((int)(addPlayerTypeCombo.getX()+addPlayerTypeCombo.getSize().getWidth()+20), xPos, 50, 45);
-        this.panel.add(addPlayerNameLabel);
-        this.playerNameLabel[this.playerCounter-1] = addPlayerNameLabel;
-
-        JTextField addPlayerNameField = new JTextField(this.examPlayerNames[this.playerCounter-1]);
-        addPlayerNameField.setBounds((int)(addPlayerNameLabel.getX()+addPlayerNameLabel.getSize().getWidth()+10), xPos, 200, 45);
-        this.panel.add(addPlayerNameField);
-        this.playerNameField[this.playerCounter-1] = addPlayerNameField;
-
-        if (this.playerCounter > 2) {
-            JButton addPlayerDel = new JButton("Löschen");
-            addPlayerDel.setBounds((int)(addPlayerNameField.getX()+addPlayerNameField.getSize().getWidth()+20), xPos, 100, 45);
-            this.panel.add(addPlayerDel);
-            this.playerDel[this.playerCounter-1] = addPlayerDel;
-        }
-
+        this.createPlayerView();
         //this.addButtonAddPlayer();
     }
 
-    public void removePlayer() {
-        if (playerCounter == 1) 
-            return;
-        return;
+    public void createPlayerView() {
+        int xPos = 247;
+        
+        for (int index=0; index < 4; index ++) {
+            // JLabel (Spielertyp)
+            JLabel addPlayerTypeLabel = new JLabel("Spielertyp:");
+            addPlayerTypeLabel.setForeground(Color.white);
+            addPlayerTypeLabel.setBounds(50, xPos, 85, 45); 
+            this.panel.add(addPlayerTypeLabel);
+
+            // JComboBox -> Dropdown (Spielertyp)
+            JComboBox<String> addPlayerTypeCombo = new JComboBox<>(this.playerTypeName);
+            addPlayerTypeCombo.setBounds((int)(addPlayerTypeLabel.getX()+addPlayerTypeLabel.getSize().getWidth()+10), xPos, 200, 45);
+            if (index > 1) {
+                addPlayerTypeCombo.addItem("Keiner");
+                addPlayerTypeCombo.addItemListener(new ListenerLocalAddUser(this, index));
+            }
+            this.panel.add(addPlayerTypeCombo);
+            this.playerTypeCombo[index] = addPlayerTypeCombo;
+
+            JLabel addPlayerNameLabel = new JLabel("Name:");
+            addPlayerNameLabel.setForeground(Color.white);
+            addPlayerNameLabel.setBounds((int)(addPlayerTypeCombo.getX()+addPlayerTypeCombo.getSize().getWidth()+20), xPos, 50, 45);
+            this.panel.add(addPlayerNameLabel);
+
+            JTextField addPlayerNameField = new JTextField(this.examPlayerNames[index]);
+            addPlayerNameField.setBounds((int)(addPlayerNameLabel.getX()+addPlayerNameLabel.getSize().getWidth()+10), xPos, 200, 45);
+            this.panel.add(addPlayerNameField);
+            this.playerNameField[index] = addPlayerNameField;
+
+            if (index > 1) {
+                JButton addPlayerDelButton = new JButton("Löschen");
+                addPlayerDelButton.setBounds((int)(addPlayerNameField.getX()+addPlayerNameField.getSize().getWidth()+20), xPos, 100, 45);
+                addPlayerDelButton.addActionListener(new ListenerLocalDeleteUser(this, index));
+                this.panel.add(addPlayerDelButton);
+            }
+            xPos += 112;
+        }  
     }
 
-    public void addButtonAddPlayer() {
-        return;
-        // if (this.playerAddButton != null)
-        //     this.playerAddButton.setVisible(false);
-        // if (this.playerCounter + 1 != 5) {
-        //     int xPos = 247+112*(this.playerCounter);
-        //     this.playerAddButton = new JButton("Spieler hinzufügen");
-        //     this.playerAddButton.setBounds(50, xPos, 575, 45);
-        //     this.panel.add(this.playerAddButton);
-        // }
-        // this.launcher.setPanelLocalPlayer();
+    public void addPlayer(int playerId) {
+        if (playerId < 2) 
+            return;
+
+        // Textfeld Prev + aktivieren
+        this.playerNameField[playerId].setText(this.examPlayerNames[playerId]);
+        this.playerNameField[playerId].setEditable(true);
+    }
+
+    public void removePlayer(int playerId) {
+        if (playerId < 2) 
+            return;
+
+        // Auswahlbox auf Keine
+        this.playerTypeCombo[playerId].setSelectedItem("Keiner");
+
+        // Textfeld leer + deaktivieren
+        this.playerNameField[playerId].setText("");
+        this.playerNameField[playerId].setEditable(false);
     }
 
     public void removeButtonAddPlayer() {
@@ -129,6 +124,7 @@ public class PanelLocal {
         // Erstelle den JButton
         JButton button = new JButton();
 
+        // Füge Listener hinzu
         button.addActionListener(new ListenerToHome(this.uiLauncher));
         
         button.setContentAreaFilled(false);

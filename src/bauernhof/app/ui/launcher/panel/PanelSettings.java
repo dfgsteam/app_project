@@ -26,7 +26,7 @@ public class PanelSettings {
                 super.paintComponent(g);
 
                 // Zeichne den Hintergrund
-                ImageIcon backgroundImage = new ImageIcon("graphics/settings.jpg");
+                ImageIcon backgroundImage = new ImageIcon("graphics/launcher/settings.jpg");
                 Image image = backgroundImage.getImage();
                 g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
             }
