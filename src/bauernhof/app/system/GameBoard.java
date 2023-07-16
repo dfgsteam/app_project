@@ -28,29 +28,27 @@ public class GameBoard extends GameSystem {
         super(settings.playerNames.size(), configuration, graphics);
         this.settings = settings;
         players = new Player[settings.playerTypes.size()];
-
     }
     public void initPlayers(final ArrayList<S2CConnection> connection) throws Exception {
         players = new Player[settings.playerTypes.size()];
-        int remotecounter = 0;
+        int remotecounter = -1;
         for (int playerid = 0; playerid < players.length; playerid++) {
             switch (settings.playerTypes.get(playerid)) {
                 case ADVANCED_AI:
                     players[playerid] = new Advanced_AI(settings, getPlayerCards(playerid), this.clone());
                     break;
                 case SIMPLE_AI:
-                    players[playerid] = new Advanced_AI(settings, getPlayerCards(playerid), this.clone());
+                    players[playerid] = new Simple_AI(settings, getPlayerCards(playerid), this.clone());
                     break;
                 case HUMAN:
                     players[playerid] = new HumanPlayer(settings, getPlayerCards(playerid), this.clone());
                     break;
                 case RANDOM_AI:
-                    players[playerid] = new Advanced_AI(settings, getPlayerCards(playerid), this.clone());
+                    players[playerid] = new Random_AI(settings, getPlayerCards(playerid), this.clone());
                     break;
                 case REMOTE:
                     players[playerid] = new Advanced_AI(settings, getPlayerCards(playerid), this.clone());
-                    players[playerid] = connection.get(remotecounter).getRemotePlayer();
-                    remotecounter++;
+                    players[playerid] = connection.get(remotecounter++).getRemotePlayer();
                     break;
             }
         }

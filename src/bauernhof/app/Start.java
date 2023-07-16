@@ -28,6 +28,7 @@ public class Start {
         if (args.length == 0) {
             final GameBoard gameBoard = new GameBoard(new String[]{"Florian", "Julius", "Cemil", "Horst"}, new PlayerType[]{PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
             UiGame GB = new UiGame(GaCo, gameBoard);
+
             gameBoard.initGame(GB);
             System.out.println(GaCo.getConfigDescription());
         }

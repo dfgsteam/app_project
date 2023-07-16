@@ -1,33 +1,26 @@
 package bauernhof.app.player.types;
+
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-
-import javax.sound.midi.Sequence;
-
-import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
-import bauernhof.app.player.types.MoveTree.MoveNode;
+import bauernhof.app.player.PlayerCards;
 import bauernhof.app.player.types.MoveTree.Threads.AbstractThread;
 import bauernhof.app.player.types.MoveTree.Threads.SequenceThread;
 import bauernhof.app.player.types.MoveTree.Threads.WorkingThread;
-import bauernhof.app.settings.Se;
+import bauernhof.app.system.GameSystem;
 import bauernhof.preset.Move;
-import bauernhof.preset.PlayerType;
+import bauernhof.preset.Settings;
 import bauernhof.preset.card.Card;
 
 public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
 
-    private static Object monitor = new Object();
-
     private ArrayList<Long> currentimes = new ArrayList<>();
     private long before;
-    private GameBoardState gameboardstate;
     private WorkingThread treeCalculator;
     private SequenceThread sequencePicker;
 
-    public Advanced_AI(String name) {
-        super(name, PlayerType.ADVANCED_AI);
+    public Advanced_AI(final Settings settings, final PlayerCards playercards, final GameSystem gamesystem) {
+        super(settings, playercards, gamesystem);
         try {
             treeCalculator = new WorkingThread();
             sequencePicker = new SequenceThread(treeCalculator);
@@ -35,19 +28,15 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
         } catch (Exception e) {
             System.err.println("ERROR");
         }
-        // sequencePicker = new SequenceThread();
     }
-    public void setGameBoardState(final GameBoardState gameboardstate) {
-        this.gameboardstate = gameboardstate;
+    public void setGameBoardState(final GameSystem gamesystem) {
+        this.gamesystem = gamesystem;
     }
-
 
     @Override
     public Move request() throws Exception {
-        
-        treeCalculator.setUp(gameboardstate.clone());
+        treeCalculator.setUp(gamesystem.clone());
         treeCalculator.go();
-
         while (!(treeCalculator.getState() == Thread.State.WAITING && sequencePicker.getState() == Thread.State.WAITING));
         
         System.out.println(sequencePicker.differences);
