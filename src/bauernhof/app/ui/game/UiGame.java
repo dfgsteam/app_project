@@ -130,7 +130,7 @@ public class UiGame implements PlayerGUIAccess {
      * @param gCard The GCard object representing the selected card.
      */
     public void moveAddCard(GCard gCard) {
-        this.gameBoard.getPlayerCards(gameBoard.getActualPlayer()).add(gCard.getCard());
+        this.gameBoard.getActualPlayerCards().getCards().add(gCard.getCard());
         this.createExchangePanel();
     }
 
@@ -143,7 +143,7 @@ public class UiGame implements PlayerGUIAccess {
     public void movePopCard(GCard gCard) throws Exception {
         this.setMainPanel(3); // Does not update correctly. Panel is only displayed properly during HUMAN move
 
-        ((HumanPlayer) this.gameBoard.getActualPlayer()).doMove(gCard.getCard());
+        ((HumanPlayer) this.gameBoard.getActualPlayer()).executeMove(gCard.getCard());
     }
 
     /**
@@ -246,7 +246,11 @@ public class UiGame implements PlayerGUIAccess {
      * @return True if it is a human player's turn, false otherwise.
      */
     public boolean check_move() {
+        /*
+        TODO: PLAYERGUIACCESS INTEGRATION
+         */
         return this.gameBoard.getPlayers()[this.playerId].getPlayerType() == PlayerType.HUMAN;
+
     }
 
     /**
