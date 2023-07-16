@@ -6,7 +6,6 @@ import bauernhof.preset.Player;
 import bauernhof.preset.card.Card;
 
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.Stack;
 
 /**

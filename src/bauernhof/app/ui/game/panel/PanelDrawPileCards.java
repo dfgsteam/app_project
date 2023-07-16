@@ -52,8 +52,7 @@ public class PanelDrawPileCards extends SAGPanel{
         buttonBackPanel.addChild(buttonBackHeadline, 0f, -80f);
 
         // Eventlistener
-        buttonBackBG.setMouseEventListener(new ListenerBackButton(this.uiGame, buttonBackHeadline));
-        
+        buttonBackBG.setMouseEventListener(new ListenerBackButton(this.uiGame, buttonBackHeadline, 1));
     }
 
     public void update() {
@@ -101,7 +100,7 @@ public class PanelDrawPileCards extends SAGPanel{
             bot.addChild(card,x,y);
             x+=210;
 
-        }  
+        }
     }
 
     public void clear() throws ChildNotFoundException {

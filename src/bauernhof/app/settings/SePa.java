@@ -10,6 +10,8 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 
+import bauernhof.preset.GameConfiguration;
+
 /**
  * SettingsParser create from xml files a Setting object.
  *
@@ -78,10 +80,12 @@ public class SePa {
                 // Cardset-Element erhalten
                 try {
                     Element cardSetElement = (Element) root.getElementsByTagName("CardSet").item(0);
-                    if (Settings.GameConfigurations.containsKey(cardSetElement.getTextContent()))
+                    if (Settings.GameConfigurations.containsKey(cardSetElement.getTextContent())) {
                         Settings.setGameConf(Settings.GameConfigurations.get(cardSetElement.getTextContent()));
-                    else
+                    } else {
                         System.out.println("Card doesnt excist / not working");
+                        Settings.setGameConf((GameConfiguration)null);
+                    }
                 } catch(Exception e) {
                     throw new SeEx("cardSetElement not loading", e);
                 }

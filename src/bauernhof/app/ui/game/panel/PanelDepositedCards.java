@@ -53,7 +53,7 @@ public class PanelDepositedCards extends SAGPanel {
         buttonBackPanel.addChild(buttonBackHeadline, 0f, -80f);
         
         // Eventlistener
-        buttonBackBG.setMouseEventListener(new ListenerBackButton(this.uiGame, buttonBackHeadline));
+        buttonBackBG.setMouseEventListener(new ListenerBackButton(this.uiGame, buttonBackHeadline, 2));
     }
 
     public void update() {

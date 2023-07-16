@@ -12,11 +12,38 @@ import sag.elements.GGroup;
 import sag.elements.GText;
 import sag.elements.shapes.GRect;
 
-public class GroupPopupScore extends GGroup{
+/**
+ * This class represents a popup window for displaying game scores at the end of the game.
+ * It extends the GGroup class from the sag.elements package.
+ * The popup window contains the scores of each player in the game and a button to return to the main menu.
+ * The class is designed to be used within the UiGame class.
+ *
+ * The GroupPopupScore class provides the following functionality:
+ * - Creates a popup window for displaying game scores.
+ * - The popup window is added to the main panel of the UiGame instance.
+ * - The popup window contains a rectangular area with a title, player scores, and a return to the main menu button.
+ * - The player scores are calculated based on the game board state and player scores.
+ * - The player scores are displayed in descending order.
+ * - Each player's score is shown with their position and name.
+ * - The return to the main menu button allows the player to navigate back to the main menu.
+ *
+ * @author Julius Hunold
+ * @version 1.0
+ * @since 2023-07-14
+ */
 
-    public GroupPopupScore (UiGame UiGame) throws Exception {
+public class GroupPopupScore extends GGroup {
+
+    /**
+     * Constructs a new GroupPopupScore object.
+     * The object represents a popup window for displaying game scores at the end of the game.
+     *
+     * @param uiGame The UiGame object that represents the game UI.
+     * @throws Exception If an error occurs during initialization.
+     */
+    public GroupPopupScore(UiGame uiGame) throws Exception {
         // Panel
-        GGroup panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER);
+        GGroup panel = uiGame.getMainPanel().addLayer(LayerPosition.CENTER);
 
         // Feld
         GRect area = new GRect(0f, 0f, 700f, 500f, true, 0f, 0f);
@@ -35,16 +62,17 @@ public class GroupPopupScore extends GGroup{
         HashMap<String, Integer> playerScores = new HashMap<>();
         ArrayList<String> scores = new ArrayList<>();
 
-        for (AbstractGamePlayer player : UiGame.getGameBoardState().getPlayers()) {
+        for (AbstractGamePlayer player : uiGame.getGameBoardState().getPlayers()) {
             playerScores.put(player.getName(), player.getScore());
             scores.add(player.getName());
             String temp;
-            for (int index=0; index<playerScores.size()-1; index++)
-                if (playerScores.get(scores.get(index)) < playerScores.get(scores.get(index+1))) {
+            for (int index = 0; index < playerScores.size() - 1; index++) {
+                if (playerScores.get(scores.get(index)) < playerScores.get(scores.get(index + 1))) {
                     temp = scores.get(index);
-                    scores.set(index, scores.get(index+1));
-                    scores.set(index+1, temp);
+                    scores.set(index, scores.get(index + 1));
+                    scores.set(index + 1, temp);
                 }
+            }
         }
 
         // Spielerabstufung
@@ -52,10 +80,10 @@ public class GroupPopupScore extends GGroup{
         GText scorePlayerPosition;
 
         for (var item : scores) {
-            scorePlayerPosition = new GText(Integer.toString(position) + ". " + item + " [" + playerScores.get(scores.get(position-1)) + "]");
+            scorePlayerPosition = new GText(Integer.toString(position) + ". " + item + " [" + playerScores.get(scores.get(position - 1)) + "]");
             scorePlayerPosition.setAlignment(GText.TextAnchor.MIDDLE);
-            scorePlayerPosition.setFontSize((position == 1)? 35f : 25f);
-            panel.addChild(scorePlayerPosition, 0f, (-115f + 50f*position));
+            scorePlayerPosition.setFontSize((position == 1) ? 35f : 25f);
+            panel.addChild(scorePlayerPosition, 0f, (-115f + 50f * position));
             position++;
         }
 
@@ -72,7 +100,6 @@ public class GroupPopupScore extends GGroup{
         homeHeadline.setFontSize(25f);
         panel.addChild(homeHeadline, 0f, 183f);
 
-        homeButton.setMouseEventListener(new ListenerHomeButton(UiGame.getGameBoardState(), homeHeadline));
+        homeButton.setMouseEventListener(new ListenerHomeButton(uiGame, homeHeadline));
     }
-
 }
