@@ -75,6 +75,7 @@ public class GameBoardState implements Table {
     public GameBoardState() {}
     public void initGame(final UiGame graphics) throws Exception {
         this.graphics = graphics;
+
         System.out.println("GAME WIRD GESTARTET");
         if (!this.getActualPlayer().getPlayerType().equals(PlayerType.HUMAN))
         this.doMove(actual_player.request());

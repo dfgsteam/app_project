@@ -23,8 +23,10 @@ public class PanelLocal {
     final private String[] playerColorName = {"Rot", "Magenta", "Blau", "Orange", "Cyan", "Pink"};
     final private Color[] playerColorType = {Color.RED, Color.MAGENTA, Color.BLUE, Color.ORANGE, Color.CYAN, Color.PINK};
 
+    @SuppressWarnings("unchecked")
     private JComboBox<String> playerTypeCombo[] = new JComboBox[4];
     private JTextField playerNameField[] = new JTextField[4];
+    @SuppressWarnings("unchecked")
     private JComboBox<String> playerColorCombo[] = new JComboBox[4];
 
 

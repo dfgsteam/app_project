@@ -53,10 +53,7 @@ usage: java -jar Bauernhof-Preset-indev_juhu.jar [-c <FILE>] [-con <HOST>] [-d <
 | -pt,--playerTypes| TYPE      | The type(s) of the player(s). [HUMAN, RANDOM_AI, REMOTE, SIMPLE_AI, ADVANCED_AI]|
 | -t,--tournament  | ROUNDS    | Play a tournament. (TOURNAMENTS)                                 |
 | -tw,--tournamentwait|        | Wait for a user interaction before starting the next game in a tournament. (TOURNAMENTS)|
-| -v,--volume      | VOLUME    | Volume of the soundeffects. (0-100) (SOUNDEFFECTS)               |      
-           
-
- 
+| -v,--volume      | VOLUME    | Volume of the soundeffects. (0-100) (SOUNDEFFECTS)               |    
 
 Preset: v1.2.1 (Thu Jul 06 03:48:56 CEST 2023)
 SAG: v2.1.0 (Mon Jul 03 07:30:41 CEST 2023)
