@@ -1,17 +1,15 @@
 package bauernhof.app.player.types;
 
 import bauernhof.app.player.*;
-import bauernhof.app.system.GameSystem;
+import bauernhof.app.system.GameBoard;
 import bauernhof.preset.Move;
-import bauernhof.preset.PlayerType;
 import bauernhof.preset.Settings;
 import bauernhof.preset.card.Card;
 
-import java.awt.*;
 import java.util.Random;
 
 public class Random_AI extends AbstractGamePlayer implements AIHeader{
-    public Random_AI(final Settings settings, final PlayerCards playercards, final GameSystem gamesystem) {
+    public Random_AI(final Settings settings, final PlayerCards playercards, final GameBoard gamesystem) {
         super(settings, playercards, gamesystem);
     }
 

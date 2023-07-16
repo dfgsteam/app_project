@@ -1,111 +1,117 @@
 package bauernhof.app.system;
 
-import bauernhof.app.player.AbstractGamePlayer;
-import bauernhof.app.player.types.*;
+import bauernhof.app.player.PlayerCards;
 import bauernhof.app.ui.game.UiGame;
-import bauernhof.preset.*;
-import bauernhof.preset.networking.RemotePlayer;
-import bauernhof.preset.networking.S2CConnection;
+import bauernhof.preset.GameConfiguration;
+import bauernhof.preset.ImmutableList;
+import bauernhof.preset.Move;
+import bauernhof.preset.card.Card;
 
-import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Stack;
 
 /**
- * Diese Klasse ist der Generelle Main Handler für das gesamte Spielbrett.
- * Sie gibt über jeden Status des aktuellen Spiels bescheid.
- * Auch die Instanzen der aktuellen {@link Player} sind enthalten.
- * Zudem dient die Klasse auch zum Laden von gespeicherten Spielständen
- *
  * @author Ramon Cemil Kimyon
- * @date 09.06.2023 00:55
+ * @date 15.07.2023 09:57
  */
-
-public class GameBoard extends GameSystem {
-    private boolean run;
-    private Player[] players;
-    private Settings settings;
-    public GameBoard(final Settings settings, final GameConfiguration configuration, final UiGame graphics) {
-        super(settings.playerNames.size(), configuration, graphics);
-        this.settings = settings;
-        players = new Player[settings.playerTypes.size()];
+public class GameBoard {
+    private int activeplayerid;
+    private static UiGame graphics;
+    protected int round;
+    private ArrayList<Card> deposited_cards;
+    private Stack<Card> drawpile_cards = new Stack<>();
+    private PlayerCards[] playercards;
+    protected GameConfiguration configuration;
+    public GameBoard(final PlayerCards[] playercards, final int round, final int activeplayerid, final ArrayList<Card> deposited_cards, ImmutableList<Card> drawpile_cards, final GameConfiguration configuration) {
+        this.playercards = playercards;
+        this.round = round;
+        this.activeplayerid = activeplayerid;
+        this.configuration = configuration;
+        this.deposited_cards = deposited_cards;
+        for (final Card card : drawpile_cards)
+            drawpile_cards.add(card);
     }
-    public void initPlayers(final ArrayList<S2CConnection> connection) throws Exception {
-        players = new Player[settings.playerTypes.size()];
-        int remotecounter = -1;
-        for (int playerid = 0; playerid < players.length; playerid++) {
-            switch (settings.playerTypes.get(playerid)) {
-                case ADVANCED_AI:
-                    players[playerid] = new Advanced_AI(settings, getPlayerCards(playerid), this.clone());
-                    break;
-                case SIMPLE_AI:
-                    players[playerid] = new Simple_AI(settings, getPlayerCards(playerid), this.clone());
-                    break;
-                case HUMAN:
-                    players[playerid] = new HumanPlayer(settings, getPlayerCards(playerid), this.clone());
-                    break;
-                case RANDOM_AI:
-                    players[playerid] = new Random_AI(settings, getPlayerCards(playerid), this.clone());
-                    break;
-                case REMOTE:
-                    players[playerid] = new Advanced_AI(settings, getPlayerCards(playerid), this.clone());
-                    players[playerid] = connection.get(remotecounter++).getRemotePlayer();
-                    break;
-            }
-        }
-        initPlayers(players);
+    public GameBoard(final int numplayers, final GameConfiguration configuration, final UiGame graphics, final int round, final int activeplayerid) {
+        playercards = new PlayerCards[numplayers];
+        for (int i = 0; i < numplayers; i++)
+            playercards[i] = new PlayerCards();
+        this.configuration = configuration;
+        GameBoard.graphics = graphics;
+        this.round = round;
+        this.activeplayerid = activeplayerid;
+        final ImmutableList<Card> drawpile_cards = mixCards(new ImmutableList<>(configuration.getCards()));
+        for (final Card card : drawpile_cards)
+            this.drawpile_cards.add(card);
+        deposited_cards = new ArrayList<>();
     }
-    public void initPlayers(final Player[] players) throws Exception {
-        for(int playerid = 1; playerid <= players.length; playerid++)
-            players[playerid].init(configuration, getDrawPileCards(), players.length, playerid);
-        for (int playerid = 0; playerid < players.length; playerid++) {
-            Thread.sleep(settings.delay);
-            this.initBeginnerCards(playerid);
-        }
-        this.round++;
-        executeMove(players[getActivePlayerID()].request());
+    public GameBoard(final int numplayers, final GameConfiguration configuration, final UiGame graphics) {
+        this(numplayers, configuration, graphics, 1, 0);
     }
-    public Player getWinner() throws Exception {
-        ArrayList<Integer> scores = new ArrayList<>(getAllScores());
-        Collections.sort(scores);
-        if (scores.get(scores.size() - 1) == scores.get(scores.size() - 2)) return null;
-        for (final Player player : this.getPlayers())
-            if (player.getScore() == scores.get(scores.size() - 1))
-                return player;
-        return null;
+    public GameBoard(final PlayerCards[] playercards, final int round, final int activeplayerid, final ArrayList<Card> deposited_cards, ImmutableList<Card> drawpile_cards, final GameConfiguration configuration, final UiGame graphics) {
+        this(playercards, round, activeplayerid, deposited_cards, drawpile_cards, configuration);
+        GameBoard.graphics = graphics;
+    }
+    public GameBoard clone() {
+        final PlayerCards[] playercards = new PlayerCards[this.playercards.length];
+        for (int i = 0; i < this.playercards.length; i++)
+            playercards[i] = this.playercards[i].clone();
+        return new GameBoard(playercards, round, activeplayerid, getDepositedCards(), getDrawPileCards(), configuration);
+    }
+    public int getActivePlayerID() {
+        return activeplayerid;
+    }
+    public ImmutableList<Integer> getAllScores() throws Exception {
+        final ArrayList<Integer> scores = new ArrayList<>();
+        for (final PlayerCards playercards : this.playercards)
+            scores.add(playercards.getScore());
+        return new ImmutableList<>(scores);
+    }
+    public ArrayList<Card> getDepositedCards() {
+        return new ArrayList<>(deposited_cards);
+    }
+    public ImmutableList<Card> getDrawPileCards() {
+        return new ImmutableList<>(this.drawpile_cards);
+    }
+    public PlayerCards getPlayerCards(final int playerid) {
+        return playercards[playerid];
+    }
+    public PlayerCards getActualPlayerCards() {
+        return getPlayerCards(activeplayerid);
+    }
+    public int getRound() {
+        return this.round;
+    }
+    private ImmutableList<Card> mixCards(final ImmutableList<Card> cards) {
+        ArrayList<Card> cardscopy = new ArrayList<>(cards);
+        Collections.shuffle(cardscopy);
+        ImmutableList<Card> cardsimmutablelist = new ImmutableList<>(cardscopy);
+        return cardsimmutablelist;
+    }
+    public void initBeginnerCards(final int playerid) {
+        for (int i = 0; i < configuration.getNumCardsPerPlayerHand(); i++)
+            playercards[playerid].add(drawpile_cards.pop());
     }
 
     public boolean executeMove(final Move move) throws Exception {
-        super.executeMove(move);
-        // Update Moves on Players
-        if (getActualPlayer() instanceof AbstractGamePlayer) ((AbstractGamePlayer) getActualPlayer()).executeMove(move);
-        for (final Player player : players)
-            if (!player.equals(getActualPlayer()))
-                player.update(move);
-        // Check End Conditions
-        if (this.getRound() > 30 || this.getDrawPileCards().isEmpty() || getDepositedCards().size() >= configuration.getNumDepositionAreaSlots()) run = false;
-        if (getGraphics() != null) getGraphics().move(!run);
-        // Do Normal Move
-        if (run) {
-            if (!(getActualPlayer() instanceof HumanPlayer || getActualPlayer() instanceof RemotePlayer)) Thread.sleep(settings.delay);
-            this.executeMove(getActualPlayer().request());
-        } else for (final Player player : players)
-                player.verifyGame(getAllScores());
+        if (deposited_cards.contains(move.getTaken()))
+            deposited_cards.remove(move.getTaken());
+        else if (!(drawpile_cards.isEmpty()) && drawpile_cards.lastElement().equals(move.getTaken()))
+            drawpile_cards.pop();
+        else return false;
+        deposited_cards.add(move.getDeposited());
+        // Update PlayerCards
+        getActualPlayerCards().add(move.getTaken());
+        getActualPlayerCards().remove(move.getDeposited());
+        // Active Player ID UPDATE
+        activeplayerid++;
+        if (activeplayerid == playercards.length) {
+            activeplayerid = 0;
+            this.round++;
+        }
         return true;
     }
-
-    public Player[] getPlayers() {
-        return this.players;
-    }
-
-    public Player getActualPlayer() {
-        return players[getActivePlayerID()];
-    }
-
-    public Color getPlayerColor(final int playerid) {
-        return settings.playerColors.get(playerid);
-    }
-
-    public GameConfiguration getConfiguration() {
-        return configuration;
+    public static UiGame getGraphics() {
+        return graphics;
     }
 }

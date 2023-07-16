@@ -36,7 +36,7 @@ public class PanelExchangeCards extends SAGPanel {
         headline.addChild(new GText("Welche Karte soll von dir abgelegt werden?").setAlignment(GText.TextAnchor.MIDDLE), 0f, 100f);
 
         // Ablagestapel
-        ArrayList<Card> cards = UiGame.getGameBoardState().getPlayers()[UiGame.getPlayerId()].getCards();
+        ArrayList<Card> cards = UiGame.getGameSystem().getPlayerCards(UiGame.getPlayerId()).getCards();
         GGroup cardGroup = this.panel.addLayer(LayerPosition.CENTER_CENTER);
         cardGroup.setScale(1.1f - (0.05f * cards.size()));
         GCard card;

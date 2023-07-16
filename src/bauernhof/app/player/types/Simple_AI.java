@@ -2,7 +2,7 @@ package bauernhof.app.player.types;
 
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.PlayerCards;
-import bauernhof.app.system.GameSystem;
+import bauernhof.app.system.GameBoard;
 import bauernhof.preset.Move;
 import bauernhof.preset.Settings;
 import bauernhof.preset.card.Card;
@@ -10,7 +10,7 @@ import bauernhof.preset.card.Card;
 
 public class Simple_AI extends AbstractGamePlayer implements AIHeader {
 
-    public Simple_AI(final Settings settings, final PlayerCards playercards, final GameSystem gamesystem) {
+    public Simple_AI(final Settings settings, final PlayerCards playercards, final GameBoard gamesystem) {
         super(settings, playercards, gamesystem);
     }
 

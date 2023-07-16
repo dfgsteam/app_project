@@ -2,7 +2,7 @@ package bauernhof.app.ui.game.group.display;
 
 import java.awt.Color;
 
-import bauernhof.app.system.GameBoard;
+import bauernhof.app.system.GameSystem;
 import bauernhof.app.ui.game.UiGame;
 import sag.LayerPosition;
 import sag.elements.GGroup;
@@ -34,7 +34,7 @@ public class GroupDisplayPlayerName extends GGroup {
     private GRect groupPlayerBg[] = new GRect[4];
     private GText groupPlayerName[] = new GText[4];
 
-    private GameBoard gameBoard;
+    private GameSystem gameBoard;
 
     private Color colorActive = new Color(144, 238, 144);
     private Color colorInactive = new Color(255, 255, 255);

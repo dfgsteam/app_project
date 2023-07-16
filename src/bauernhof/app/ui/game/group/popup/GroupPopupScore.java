@@ -7,6 +7,7 @@ import java.util.HashMap;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.listener.ListenerHomeButton;
+import bauernhof.preset.Player;
 import sag.LayerPosition;
 import sag.elements.GGroup;
 import sag.elements.GText;
@@ -62,7 +63,7 @@ public class GroupPopupScore extends GGroup {
         HashMap<String, Integer> playerScores = new HashMap<>();
         ArrayList<String> scores = new ArrayList<>();
 
-        for (AbstractGamePlayer player : uiGame.getGameBoardState().getPlayers()) {
+        for (Player player : uiGame.getGameSystem().getPlayers()) {
             playerScores.put(player.getName(), player.getScore());
             scores.add(player.getName());
             String temp;

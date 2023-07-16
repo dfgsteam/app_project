@@ -1,11 +1,8 @@
 package bauernhof.app;
 
 import java.awt.Color;
-import java.util.concurrent.TimeUnit;
 
 import bauernhof.app.launcher.GameBoardState;
-import bauernhof.app.settings.SePa;
-import bauernhof.app.system.GameSystem;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.ImmutableList;

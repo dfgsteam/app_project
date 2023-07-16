@@ -1,6 +1,10 @@
 package bauernhof.app.ui.game;
 
+import bauernhof.app.player.types.HumanPlayer;
+import bauernhof.app.system.GameBoard;
+import bauernhof.app.system.GameSystem;
 import bauernhof.preset.GameConfiguration;
+import bauernhof.preset.Player;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.*;
 import bauernhof.app.Init;
@@ -52,7 +56,7 @@ public class UiGame {
     private GroupDisplayDrawPileDeck groupDisplayDrawPileDeck;
     private GroupDisplayDepositedDeck groupDisplayDepositedDeck;
 
-    private GameBoardState gameBoardState;
+    private GameSystem gameSystem;
 
     private int playerId = 0;
 
@@ -60,11 +64,11 @@ public class UiGame {
      * Constructs a new UiGame object.
      *
      * @param gameconf      The GameConfiguration object representing the game configuration.
-     * @param gameBoardState The GameBoardState object representing the game board state.
+     * @param gameSystem The GameBoardState object representing the game board state.
      * @throws Exception If an error occurs during initialization.
      */
-    public UiGame(GameConfiguration gameconf, GameBoardState gameBoardState) throws Exception {
-        this.gameBoardState = gameBoardState;
+    public UiGame(GameConfiguration gameconf, GameSystem gameSystem) throws Exception {
+        this.gameSystem = gameSystem;
 
         // Initialize Frame
         this.FRAME.setSAGPanel(this.mainPanel);
@@ -85,7 +89,7 @@ public class UiGame {
         new PanelButtonSaveGame(this);
 
         // Initialize playerCards
-        for (int index = 0; index < this.gameBoardState.getPlayers().length; index++)
+        for (int index = 0; index < ; index++)
             this.groupDisplayPlayerCards.updatePlayer(index);
     }
 
@@ -114,7 +118,7 @@ public class UiGame {
         // If not the last turn
         if (!last) {
             // Set next player as active
-            this.playerId = (this.playerId + 1) % this.gameBoardState.getPlayers().length;
+            this.playerId = (this.playerId + 1) % this.gameSystem.getPlayers().length;
             this.groupDisplayPlayerName.updatePlayerBgActive(this.playerId);
             this.groupDisplayRound.update();
         } else {
@@ -184,11 +188,11 @@ public class UiGame {
     /**
      * Creates the cheater panel for displaying the cheater information.
      *
-     * @param player The AbstractGamePlayer object representing the cheater player.
+     * @param name of the Cheater
      * @throws Exception If an error occurs during the creation of the panel.
      */
-    public void createCheaterPanel(AbstractGamePlayer player) throws Exception {
-        new GroupPopupCheater(this, player);
+    public void createCheaterPanel(final String name) throws Exception {
+        new GroupPopupCheater(this, name);
     }
 
     /**
@@ -245,7 +249,7 @@ public class UiGame {
      * @return True if it is a human player's turn, false otherwise.
      */
     public boolean check_move() {
-        return this.gameBoardState.getPlayers()[this.playerId].getPlayerType() == PlayerType.HUMAN;
+        return this.gameSystem.getPlayers()[this.playerId] instanceof HumanPlayer;
     }
 
     /**
@@ -271,8 +275,8 @@ public class UiGame {
      *
      * @return The GameBoardState object representing the game board state.
      */
-    public GameBoardState getGameBoardState() {
-        return this.gameBoardState;
+    public GameSystem getGameSystem() {
+        return this.gameSystem;
     }
 
 

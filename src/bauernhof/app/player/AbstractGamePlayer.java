@@ -9,7 +9,7 @@ package bauernhof.app.player;
  * @date 09.06.2023 00:55
  */
 
-import bauernhof.app.system.GameSystem;
+import bauernhof.app.system.GameBoard;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 
@@ -17,10 +17,10 @@ public abstract class AbstractGamePlayer implements Player {
     private int playerid;
     protected GameConfiguration configuration;
     private PlayerCards playercards;
-    protected GameSystem gamesystem;
+    protected GameBoard gamesystem;
     private Settings settings;
 
-    public AbstractGamePlayer(final Settings settings, final PlayerCards playercards, final GameSystem gamesystem) {
+    public AbstractGamePlayer(final Settings settings, final PlayerCards playercards, final GameBoard gamesystem) {
         this.settings = settings;
         this.playercards = playercards;
         this.gamesystem = gamesystem;
@@ -42,7 +42,7 @@ public abstract class AbstractGamePlayer implements Player {
 
     @Override
     public void update(Move opponentMove) throws Exception {
-        if(!gamesystem.executeMove(opponentMove)) GameSystem.getGraphics().createCheaterPanel(settings.playerNames.get(gamesystem.getActivePlayerID()));
+        if(!gamesystem.executeMove(opponentMove)) GameBoard.getGraphics().createCheaterPanel(settings.playerNames.get(gamesystem.getActivePlayerID()));
     }
 
     public boolean executeMove(Move move) throws Exception {
@@ -53,7 +53,7 @@ public abstract class AbstractGamePlayer implements Player {
     public void verifyGame(ImmutableList<Integer> scores) throws Exception {
         for (int playerid = 0; playerid < scores.size(); playerid++)
             if (scores.get(playerid) != gamesystem.getAllScores().get(playerid))
-                GameSystem.getGraphics().createCheaterPanel(settings.playerNames.get(playerid));
+                GameBoard.getGraphics().createCheaterPanel(settings.playerNames.get(playerid));
     }
 
     public int getPlayerID() {

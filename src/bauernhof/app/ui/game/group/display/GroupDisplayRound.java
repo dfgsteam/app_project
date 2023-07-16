@@ -2,7 +2,7 @@ package bauernhof.app.ui.game.group.display;
 
 import java.awt.Color;
 
-import bauernhof.app.system.GameBoard;
+import bauernhof.app.system.GameSystem;
 import bauernhof.app.ui.game.UiGame;
 import sag.LayerPosition;
 import sag.elements.GGroup;
@@ -31,7 +31,7 @@ import sag.elements.shapes.GRect;
 public class GroupDisplayRound extends GGroup {
 
     private GText roundCounter = new GText("1");
-    private GameBoard gameBoard;
+    private GameSystem gameBoard;
 
     /**
      * Constructs a new GroupDisplayRound object.

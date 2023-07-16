@@ -1,8 +1,7 @@
 package bauernhof.app.networking;
 
-import bauernhof.app.system.GameBoard;
-import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.system.GameSystem;
+import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
@@ -32,12 +31,12 @@ public class ClientConnector extends C2SConnection {
         for (int i = 0; i < names.length; i++)
             names[i] = playerNames.get(i);
         System.out.println(initialDrawPile);
-        this.gameboardstate = new GameBoard(names, types, game_configuration, initialDrawPile);
+        this.gameboardstate = new GameSystem(names, types, game_configuration, initialDrawPile);
         UiGame gameBoard = new UiGame(game_configuration, gameboardstate);
         gameboardstate.initGame(gameBoard);
         this.player = gameboardstate.getPlayers()[playerid];
     }
-    public GameBoard getGameBoardState() {
+    public GameSystem getGameBoardState() {
         return this.gameboardstate;
     }
 

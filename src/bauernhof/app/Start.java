@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import bauernhof.app.system.GameBoard;
+import bauernhof.app.system.GameSystem;
 import bauernhof.app.networking.ClientConnector;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.preset.*;
@@ -26,7 +26,7 @@ public class Start {
             GameConfigurationParser GameConfPars = new GaCoPa();
             GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
         if (args.length == 0) {
-            final GameBoard gameBoard = new GameBoard(new String[]{"Florian", "Julius", "Cemil", "Horst"}, new PlayerType[]{PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
+            final GameSystem gameBoard = new GameSystem(new String[]{"Florian", "Julius", "Cemil", "Horst"}, new PlayerType[]{PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
             UiGame GB = new UiGame(GaCo, gameBoard);
 
             gameBoard.initGame(GB);
@@ -75,7 +75,7 @@ public class Start {
 
             types[i] = PlayerType.REMOTE;
         }
-        final GameBoard gameBoard = new GameBoard(playernames, types, configuration, new ImmutableList<>(configuration.getCards()));
+        final GameSystem gameBoard = new GameSystem(playernames, types, configuration, new ImmutableList<>(configuration.getCards()));
         UiGame GB = new UiGame(configuration, gameBoard);
         for (int i = 0; i < playernames.length; i++)
             if(gameBoard.getPlayers()[i].getPlayerType() == PlayerType.REMOTE)
