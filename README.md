@@ -26,25 +26,33 @@ Leertaste, um nach UI Schritt, nächsten zu machen.
 
 ## Ausgabe ihres Programms wenn es mit der --help Flagge
 
+
 usage: java -jar Bauernhof-Preset-indev_juhu.jar [-c <FILE>] [-con <HOST>]
        [-d <DELAY>] [-g] [-h] [-l] [-ll <LEVEL>] [-load <FILE>] [-p
        <PORT>] [-pc <COLOR ...>] [-pn <NAME ...>] [-pt <TYPE ...>] [-t
        <ROUNDS>] [-tw] [-v <VOLUME>]
 
 =========================================================================
-                            Hofbauern <1.2.1>
-  Authors: Kirill Pokhilenko, Ramon Cemil Kimyon, Viktor Tevosyan, Florian
-Will, Julius Hunold
+### Hofbauern <1.2.1>
+  
+#### Authors: Kirill Pokhilenko, Ramon Cemil Kimyon, Viktor Tevosyan, Florian Will, Julius Hunold
 =========================================================================
 
+
+| Command          | Input     | Explanation                                                      |
+| ---------------- | --------- | ---------------------------------------------------------------- |
+| -c,--config      | <FILE>    | The file from which the game configuration should be read.       |
+| -con,--connect   | <HOST>    | Connect as a client to the host.                                 |
+| -d,--delay       | <DELAY>   | Delay in milliseconds after a computerplayer has made his move.  |
+| -g,--gui         |           | Show the GUI, even if no HUMAN player exists.                    |
+| -c,--config   | <FILE>   | The file from which the game configuration should be read.       |
+
+           
+           
+           
+           
 Options:
- -c,--config <FILE>               The file from which the game
-                                  configuration should be read.
- -con,--connect <HOST>            Connect as a client to the host.
- -d,--delay <DELAY>               Delay in milliseconds after a
-                                  computerplayer has made his move.
- -g,--gui                         Show the GUI, even if no HUMAN player
-                                  exists.
+
  -h,--help                        Print this help message and some extra
                                   information about this program.
  -l,--launcher                    Launch the launcher. (LAUNCHER)
