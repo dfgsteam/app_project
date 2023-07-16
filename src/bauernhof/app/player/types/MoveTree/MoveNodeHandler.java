@@ -1,12 +1,9 @@
 package bauernhof.app.player.types.MoveTree;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
-import bauernhof.app.launcher.GameBoardState;
-import bauernhof.app.player.PlayerGameBoard;
+import bauernhof.app.system.GameBoard;
 import bauernhof.preset.Move;
-import bauernhof.preset.Player;
 
 /**
  * This interface was created by
@@ -69,14 +66,14 @@ public interface MoveNodeHandler<T> {
 
     /**
      * Get the board_state where a move has to be done on
-     * @return GameBoardState
+     * @return GameBoard
      */
-    public GameBoardState getActualBoardState();
+    public GameBoard getActualBoardState();
 
     /**
      * Set the actual_boardState
      * @param state
      */
-    public void setActualBoardState(GameBoardState state);
+    public void setActualBoardState(GameBoard state);
 
 }

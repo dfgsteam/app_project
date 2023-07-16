@@ -1,4 +1,4 @@
-package bauernhof.app.launcher;
+package bauernhof.app.system;
 
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.ImmutableList;
@@ -6,7 +6,6 @@ import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,7 +15,7 @@ import java.util.List;
 public class Tournament {
     private ArrayList<Integer> wins;
     public Tournament(final String[] players, final PlayerType[] types, final GameConfiguration configuration, ImmutableList<Card> cards, int numbergames) throws Exception {
-        final ArrayList<GameBoardState> states = new ArrayList<>();
+        final ArrayList<GameBoard> states = new ArrayList<>();
         int x = 0;
         for (int i = 0; i < numbergames; i++) {
             if (List.of(types).contains(PlayerType.ADVANCED_AI)) {
@@ -30,15 +29,15 @@ public class Tournament {
             }
             if (List.of(types).contains(PlayerType.HUMAN))
                 if (i == 0) {
-                    states.add(new GameBoardState(players, types, configuration, cards));
+                    states.add(new GameBoard(players, types, configuration, cards));
                     states.get(i).initGame(null);
                 } else {
                     while (states.get(i - 1).getRun()) ;
-                    states.add(new GameBoardState(players, types, configuration, cards));
+                    states.add(new GameBoard(players, types, configuration, cards));
                     states.get(i).initGame(null);
                 }
             else {
-                states.add(new GameBoardState(players, types, configuration, cards));
+                states.add(new GameBoard(players, types, configuration, cards));
                 states.get(i).initGame(null);
             }
         }
@@ -47,7 +46,7 @@ public class Tournament {
         wins = new ArrayList<>();
         wins.clear();
         for (int i = 0; i < types.length + 1; i++) wins.add(0);
-        for (final GameBoardState state : states) {
+        for (final GameBoard state : states) {
             if (state.getWinner() == null)
                 wins.set(types.length, wins.get(types.length) + 1);
             else

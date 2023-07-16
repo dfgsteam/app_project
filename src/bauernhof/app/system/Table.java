@@ -1,4 +1,4 @@
-package bauernhof.app.launcher;
+package bauernhof.app.system;
 
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.preset.Move;
@@ -6,7 +6,6 @@ import bauernhof.preset.Player;
 import bauernhof.preset.card.Card;
 
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.Stack;
 
 /**

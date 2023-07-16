@@ -16,13 +16,13 @@ import java.util.Set;
  * @auth#cor Ramon Cemil  Kimyon
  * @date 12.06.2023 00:40
  */
-public abstract class PlayerCards implements CardSetHandler {
+public class PlayerCards implements CardSetHandler {
     protected Set<Card> cards = new HashSet<>(), blocked_cards = new HashSet<>(), active_cards = new HashSet<>();
     protected int score = 0;
     @Override
     public void add(final Card added_card) {
         if(!cards.contains(added_card)) {
-            cards.add((Ca)added_card);
+            cards.add(added_card);
             updateBlockedCards();
             updateScore();
         }
@@ -112,7 +112,7 @@ public abstract class PlayerCards implements CardSetHandler {
                             if (either.get() instanceof Card) {
                                 if (cards.contains(either.get()))
                                     blocked_cards.add((Ca) hand_card);
-                            } else if (getCardColorCardsInHand(either.getRight()).size() != 0) blocked_cards.add((Ca) hand_card);
+                            } else if (getCardColorCardsInHand(either.getRight()).size() != 0) blocked_cards.add(hand_card);
                         break;
                     case BLOCKED_IF_WITHOUT:
                         boolean is_contained = false;
@@ -121,7 +121,7 @@ public abstract class PlayerCards implements CardSetHandler {
                                 is_contained |= (cards.contains(either.getLeft())) ? true : false;
                             else is_contained |= getCardColorCardsInHand(either.getRight()).size() != 0 ? true : false;
                         if (!is_contained)
-                            blocked_cards.add((Ca) hand_card);
+                            blocked_cards.add(hand_card);
                         break;
                     case BLOCKS_EVERY:
                         for (final Either<Card, CardColor> either : effect.getSelector())
@@ -160,5 +160,25 @@ public abstract class PlayerCards implements CardSetHandler {
     @Override
     public ArrayList<Card> getActiveCards() {
         return new ArrayList<>(this.active_cards);
+    }
+    public void setCards(final Set<Card> cards) {
+        this.cards = cards;
+    }
+    public void setBlockedCards(final Set<Card> blocked_cards) {
+        this.blocked_cards = blocked_cards;
+    }
+    public void setActiveCards(final Set<Card> active_cards) {
+        this.active_cards = active_cards;
+    }
+    public PlayerCards clone() {
+        PlayerCards playercards = new PlayerCards();
+        playercards.setActiveCards(new HashSet<>(active_cards));
+        playercards.setBlockedCards(new HashSet<>(blocked_cards));
+        playercards.setCards(new HashSet<>(cards));
+        playercards.setScore(score);
+        return playercards;
+    }
+    public int getScore() {
+        return this.score;
     }
 }

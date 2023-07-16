@@ -1,9 +1,13 @@
 package bauernhof.app.player.types;
 
-import bauernhof.app.launcher.GameBoardState;
+import bauernhof.app.player.PlayerCards;
+import bauernhof.app.system.GameBoard;
 import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.system.GameSystem;
 import bauernhof.preset.Move;
+import bauernhof.preset.PlayerGUIAccess;
 import bauernhof.preset.PlayerType;
+import bauernhof.preset.Settings;
 import bauernhof.preset.card.Card;
 
 import java.awt.*;
@@ -15,27 +19,15 @@ import java.awt.*;
  * @date 10.06.2023 15:15
  */
 public class HumanPlayer extends AbstractGamePlayer {
-    private Move move;
-    private Card add;
-    private Move humanmove;
-    private GameBoardState state;
-    public HumanPlayer(String name, GameBoardState gameboardstate, Color color) {
-        super(name, PlayerType.HUMAN, color);
-        this.state = gameboardstate;
+    private PlayerGUIAccess access;
+    public HumanPlayer(final Settings settings, final PlayerCards playercards, final GameSystem gamesystem) {
+        super(settings, playercards, gamesystem);
+        this.access = GameSystem.getGraphics();
     }
 
     @Override
     public Move request() throws Exception {
-        return this.humanmove;
-    }
-    public final void doMove(final Card remove) throws Exception {
-        this.humanmove = new Move(add, remove);
-        state.doMove(this.humanmove);
-        System.out.println("THIS");
+        return access.requestMoveFromCurrentHumanPlayer();
     }
 
-    public final void setAdd(final Card card) {
-        this.add = card;
-        this.add(card);
-    }
 }

@@ -1,16 +1,11 @@
 package bauernhof.app.player.types.MoveTree.Threads;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.types.MoveTree.MoveNode;
-import bauernhof.app.player.types.MoveTree.MoveTree;
-import bauernhof.preset.PlayerType;
-import bauernhof.preset.card.Card;
 
 public class SequenceThread extends AbstractThread {
 

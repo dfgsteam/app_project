@@ -1,7 +1,7 @@
 package bauernhof.app.ui.game.listener;
 
 import bauernhof.app.initLauncher;
-import bauernhof.app.launcher.GameBoardState;
+import bauernhof.app.system.GameBoard;
 import bauernhof.app.settings.SeEx;
 import sag.elements.GElement;
 import sag.elements.GText;
@@ -32,18 +32,18 @@ import java.io.IOException;
  * @since 2023-07-14
  */
 public class ListenerHomeButton implements MouseEventListener {
-    private GameBoardState gameBoardState;
+    private GameBoard gameBoard;
     private GText homeHeadline;
 
     /**
      * Constructs a new ListenerHomeButton object.
      * The object represents a mouse event listener for the home button in the game UI.
      *
-     * @param gameBoardState The GameBoardState object representing the game board state.
+     * @param gameBoard The GameBoard object representing the game board state.
      * @param homeHeadline   The GText object representing the home button headline.
      */
-    public ListenerHomeButton(GameBoardState gameBoardState, GText homeHeadline) {
-        this.gameBoardState = gameBoardState;
+    public ListenerHomeButton(GameBoard gameBoard, GText homeHeadline) {
+        this.gameBoard = gameBoard;
         this.homeHeadline = homeHeadline;
     }
 

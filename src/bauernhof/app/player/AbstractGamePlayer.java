@@ -9,138 +9,59 @@ package bauernhof.app.player;
  * @date 09.06.2023 00:55
  */
 
+import bauernhof.app.system.GameSystem;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 
-import java.awt.*;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Stack;
-
-public abstract class AbstractGamePlayer extends PlayerCards implements GamePlayer {
-    private String name;
-    protected Move move;
+public abstract class AbstractGamePlayer implements Player {
     private int playerid;
     protected GameConfiguration configuration;
-    protected PlayerGameBoard state;
-    private PlayerType type;
-    private Color color;
+    private PlayerCards playercards;
+    protected GameSystem gamesystem;
+    private Settings settings;
 
-    /**
-     * Setzt den aktuellen namen des Spielers.
-     * Und definiert den Spieler Typen {@link PlayerType}
-     *
-     * @param name
-     * @param type
-     */
-
-    public AbstractGamePlayer(final String name, final PlayerType type, final Color color) {
-        this.name = name;
-        this.type = type;
-        this.color = color;
+    public AbstractGamePlayer(final Settings settings, final PlayerCards playercards, final GameSystem gamesystem) {
+        this.settings = settings;
+        this.playercards = playercards;
+        this.gamesystem = gamesystem;
     }
 
-    public AbstractGamePlayer(final String name, final PlayerType type, final Set<Card> cards, final Color color) {
-        this.name = name;
-        this.type = type;
-        this.cards = cards;
-        this.color = color;
-    }
-    public AbstractGamePlayer() {}
-
-    @Override
-    public AbstractGamePlayer clone() {
-        final Set<Card> cards = new HashSet<>();
-        for (final Card card : getCards())
-            cards.add(card);
-        final AbstractGamePlayer player = new AbstractGamePlayer(this.name, this.type, cards, color) {
-            @Override
-            public Move request() {
-                return null;
-            }
-        };
-        player.setPlayerID(this.playerid);
-        player.setGameConfiguration(configuration);
-        player.setPlayerGameBoard(state.clone());
-        player.setScore(this.score);
-        return player;
-    }
-    @Override
-    public void setName(final String name) {
-        this.name = name;
-    }
-    public void setPlayerID(final int playerid) {
-        this.playerid = playerid;
-    }
 
     @Override
     public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public PlayerType getPlayerType() {
-        return this.type;
+        return this.settings.playerNames.get(playerid);
     }
 
     @Override
     public void init(final GameConfiguration configuration, final ImmutableList<Card> cards, final int numplayers, final int playerid) throws Exception {
-        this.playerid = playerid;
+        this.playerid = playerid - 1;
         this.configuration = configuration;
-        Stack<Card> initialDrawPile = new Stack<>();
-        for (final Card card : cards)
-            initialDrawPile.add(card);
-        this.state = new PlayerGameBoard(numplayers, configuration, (Stack<Card>) initialDrawPile.clone());
-        for (int i = 0; i < numplayers; i++) {
-            for (int x = 0; x < configuration.getNumCardsPerPlayerHand(); x++) {
-                if (i == playerid)
-                    this.add(initialDrawPile.pop());
-                else
-                    initialDrawPile.pop();
-            }
-        }
-    }
-
-
-
-    public void setGameConfiguration(final GameConfiguration configuration) {
-        this.configuration = configuration;
+        for (int i = 0; i < numplayers; i++)
+            gamesystem.initBeginnerCards(playerid);
     }
 
     @Override
     public void update(Move opponentMove) throws Exception {
-        if (!state.doMove(opponentMove)) {
-            /*
-            SCHUMMELN
-             */
-        }
+        if(!gamesystem.executeMove(opponentMove)) GameSystem.getGraphics().createCheaterPanel(settings.playerNames.get(gamesystem.getActivePlayerID()));
     }
 
-    public Color getColor() {
-        return this.color;
-    }
-
-    public boolean doMove(Move move) {
-        this.move = move;
-        this.add(move.getTaken());
-        this.remove(move.getDeposited());
-        return state.doMove(move);
+    public boolean executeMove(Move move) throws Exception {
+        return gamesystem.executeMove(move);
     }
 
     @Override
     public void verifyGame(ImmutableList<Integer> scores) throws Exception {
-        scores.add(getScore());
+        for (int playerid = 0; playerid < scores.size(); playerid++)
+            if (scores.get(playerid) != gamesystem.getAllScores().get(playerid))
+                GameSystem.getGraphics().createCheaterPanel(settings.playerNames.get(playerid));
     }
 
     public int getPlayerID() {
         return playerid + 1;
     }
-    public void setPlayerGameBoard(final PlayerGameBoard state) {
-        this.state = state;
-    }
 
     @Override
     public int getScore() throws Exception {
-        return this.score;
+        return playercards.getScore();
     }
 }

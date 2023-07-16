@@ -5,6 +5,7 @@ import java.awt.Color;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.listener.ListenerHomeButton;
+import bauernhof.preset.Player;
 import sag.LayerPosition;
 import sag.elements.GGroup;
 import sag.elements.GText;
@@ -43,10 +44,10 @@ public class GroupPopupCheater extends GGroup {
      * The object represents a cheater popup group in the game UI.
      * 
      * @param UiGame The UiGame object that represents the game UI.
-     * @param player The AbstractGamePlayer object representing the detected cheater.
+     * @param name Name of the detected Player
      * @throws Exception If an error occurs during initialization.
      */
-    public GroupPopupCheater(UiGame UiGame, AbstractGamePlayer player) throws Exception {
+    public GroupPopupCheater(UiGame UiGame, String name) throws Exception {
         // Panel
         GGroup panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER);
 
@@ -64,7 +65,7 @@ public class GroupPopupCheater extends GGroup {
         panel.addChild(headline, 0f, -150f);
 
         // Cheaternamen
-        GText playerName = new GText("\u2620\uFE0F " + player.getName() + " \u2620\uFE0F");
+        GText playerName = new GText("\u2620\uFE0F " +  name + " \u2620\uFE0F");
         playerName.setAlignment(GText.TextAnchor.MIDDLE);
         playerName.setFontSize(40f);
         panel.addChild(playerName, 0f, 0f);

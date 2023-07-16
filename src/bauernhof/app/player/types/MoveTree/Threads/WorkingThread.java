@@ -3,7 +3,7 @@ package bauernhof.app.player.types.MoveTree.Threads;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import bauernhof.app.launcher.GameBoardState;
+import bauernhof.app.system.GameBoard;
 import bauernhof.app.player.types.MoveTree.MoveNode;
 import bauernhof.preset.Move;
 import bauernhof.preset.card.Card;
@@ -19,7 +19,7 @@ public class WorkingThread extends AbstractThread {
      * @param actual_state
      * @throws Exception
      */
-    public WorkingThread(GameBoardState actual_state) throws Exception {
+    public WorkingThread(GameBoard actual_state) throws Exception {
         super(actual_state);
         this.setThreadNode(getTree().getRootNode());
         workingThreadAction();
@@ -67,7 +67,7 @@ public class WorkingThread extends AbstractThread {
         }
 
         Move new_move = new Move(to_take, to_put);
-        GameBoardState new_state = (GameBoardState) this.getThreadNode().getActualBoardState().clone();
+        GameBoard new_state = (GameBoard) this.getThreadNode().getActualBoardState().clone();
 
         if (!new_state.doMove(new_move)) { return false; }
         

@@ -7,16 +7,13 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import bauernhof.app.launcher.GameBoardState;
+import bauernhof.app.system.GameBoard;
 import bauernhof.app.networking.ClientConnector;
-import bauernhof.app.player.types.LocalRemotePlayer;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.networking.RemoteException;
 import bauernhof.preset.networking.S2CConnection;
-
-import javax.swing.*;
 
 public class Start {
     private static int client_connections = 1;
@@ -29,9 +26,9 @@ public class Start {
             GameConfigurationParser GameConfPars = new GaCoPa();
             GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
         if (args.length == 0) {
-            final GameBoardState gameBoardState = new GameBoardState(new String[]{"Florian", "Julius", "Cemil", "Horst"}, new PlayerType[]{PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
-            UiGame GB = new UiGame(GaCo, gameBoardState);
-            gameBoardState.initGame(GB);
+            final GameBoard gameBoard = new GameBoard(new String[]{"Florian", "Julius", "Cemil", "Horst"}, new PlayerType[]{PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
+            UiGame GB = new UiGame(GaCo, gameBoard);
+            gameBoard.initGame(GB);
             System.out.println(GaCo.getConfigDescription());
         }
         if (network == 1) {
@@ -77,12 +74,12 @@ public class Start {
 
             types[i] = PlayerType.REMOTE;
         }
-        final GameBoardState gameBoardState = new GameBoardState(playernames, types, configuration, new ImmutableList<>(configuration.getCards()));
-        UiGame GB = new UiGame(configuration, gameBoardState);
+        final GameBoard gameBoard = new GameBoard(playernames, types, configuration, new ImmutableList<>(configuration.getCards()));
+        UiGame GB = new UiGame(configuration, gameBoard);
         for (int i = 0; i < playernames.length; i++)
-            if(gameBoardState.getPlayers()[i].getPlayerType() == PlayerType.REMOTE)
-                ((LocalRemotePlayer) gameBoardState.getPlayers()[i]).setS2CConnection(s2cconnections.get(i - (playernames.length - client_connections)));
-        gameBoardState.initGame(GB);
+            if(gameBoard.getPlayers()[i].getPlayerType() == PlayerType.REMOTE)
+                ((LocalRemotePlayer) gameBoard.getPlayers()[i]).setS2CConnection(s2cconnections.get(i - (playernames.length - client_connections)));
+        gameBoard.initGame(GB);
         System.out.println(configuration.getConfigDescription());
     }
     private static final void initClient(final GameConfigurationParser parser, final String projectname) throws IOException, RemoteException {

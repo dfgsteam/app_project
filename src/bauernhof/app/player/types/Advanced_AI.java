@@ -1,28 +1,24 @@
 package bauernhof.app.player.types;
 import java.awt.*;
-import java.util.Collection;
 import java.util.Collections;
 
-import javax.sound.midi.Sequence;
-
-import bauernhof.app.launcher.GameBoardState;
+import bauernhof.app.player.PlayerCards;
+import bauernhof.app.system.GameBoard;
 import bauernhof.app.player.AbstractGamePlayer;
-import bauernhof.app.player.types.MoveTree.MoveNode;
 import bauernhof.app.player.types.MoveTree.Threads.AbstractThread;
 import bauernhof.app.player.types.MoveTree.Threads.SequenceThread;
 import bauernhof.app.player.types.MoveTree.Threads.WorkingThread;
-import bauernhof.app.settings.Se;
+import bauernhof.app.system.GameSystem;
 import bauernhof.preset.Move;
 import bauernhof.preset.PlayerType;
+import bauernhof.preset.Settings;
 import bauernhof.preset.card.Card;
 
 public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
-    private GameBoardState gameboardstate;
-    public Advanced_AI(String name, final Color color) {
-        super(name, PlayerType.ADVANCED_AI, color);
-    }
-    public void setGameBoardState(final GameBoardState gameboardstate) {
-        this.gameboardstate = gameboardstate;
+    private GameSystem gameboardstate;
+    public Advanced_AI(final Settings settings, final PlayerCards playercards, final GameSystem gamesystem) {
+        super(settings, playercards, gamesystem);
+        this.gameboardstate = gamesystem;
     }
 
 
