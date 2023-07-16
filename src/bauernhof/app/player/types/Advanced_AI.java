@@ -1,46 +1,42 @@
 package bauernhof.app.player.types;
-
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+
+import javax.sound.midi.Sequence;
+
+import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
-import bauernhof.app.player.PlayerCards;
+import bauernhof.app.player.types.MoveTree.MoveNode;
 import bauernhof.app.player.types.MoveTree.Threads.AbstractThread;
 import bauernhof.app.player.types.MoveTree.Threads.SequenceThread;
 import bauernhof.app.player.types.MoveTree.Threads.WorkingThread;
-import bauernhof.app.system.GameSystem;
+import bauernhof.app.settings.Se;
 import bauernhof.preset.Move;
-import bauernhof.preset.Settings;
+import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 
 public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
-
     private ArrayList<Long> currentimes = new ArrayList<>();
     private long before;
-    private WorkingThread treeCalculator;
-    private SequenceThread sequencePicker;
+    private GameBoardState gameboardstate;
+    public Advanced_AI(String name) {
+        super(name, PlayerType.ADVANCED_AI);
+    }
+    public void setGameBoardState(final GameBoardState gameboardstate) {
+        this.gameboardstate = gameboardstate;
+    }
 
-    public Advanced_AI(final Settings settings, final PlayerCards playercards, final GameSystem gamesystem) {
-        super(settings, playercards, gamesystem);
-        try {
-            treeCalculator = new WorkingThread();
-            sequencePicker = new SequenceThread(treeCalculator);
-            treeCalculator.setSequenceThread(sequencePicker);
-        } catch (Exception e) {
-            System.err.println("ERROR");
-        }
-    }
-    public void setGameBoardState(final GameSystem gamesystem) {
-        this.gamesystem = gamesystem;
-    }
 
     @Override
     public Move request() throws Exception {
-        treeCalculator.setUp(gamesystem.clone());
-        treeCalculator.go();
-        while (!(treeCalculator.getState() == Thread.State.WAITING && sequencePicker.getState() == Thread.State.WAITING));
+        before = System.currentTimeMillis();
+        WorkingThread workingThread1 = new WorkingThread(gameboardstate.clone());
+
+        SequenceThread sequenceThread1 = new SequenceThread(true);
         
-        System.out.println(sequencePicker.differences);
-        Move move = AbstractThread.getTree().getRootNode().getNextNodes().get(sequencePicker.differences.indexOf(Collections.max(sequencePicker.differences))).getMove();
+        System.out.println(SequenceThread.differences);
+        Move move = AbstractThread.getTree().getRootNode().getNextNodes().get(SequenceThread.differences.indexOf(Collections.max(SequenceThread.differences))).getMove();
 
         System.out.println("ROUND: " + gameboardstate.getRound());
         System.out.println("CURRENT: " + (System.currentTimeMillis() - before));

@@ -4,19 +4,15 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import bauernhof.app.launcher.GameBoardState;
-import bauernhof.app.player.types.Advanced_AI;
 import bauernhof.app.player.types.MoveTree.MoveNode;
-import bauernhof.app.player.types.MoveTree.MoveTree;
 import bauernhof.app.ui.game.GameBoard;
 import bauernhof.preset.Move;
 import bauernhof.preset.card.Card;
 
 public class WorkingThread extends AbstractThread {
 
-    private Queue<MoveNode> next_calculations = new LinkedList<MoveNode>();
-    private int max;
-    private int calculated_depth = 0;
-    private SequenceThread sequenceThread;
+    private static Queue<MoveNode> next_calculations = new LinkedList<MoveNode>();
+    int max;
 
     
 
@@ -25,15 +21,31 @@ public class WorkingThread extends AbstractThread {
      * @param actual_state
      * @throws Exception
      */
-    public WorkingThread() throws Exception {
-        super();
+    public WorkingThread(GameBoardState actual_state) throws Exception {
+        super(actual_state);
         max = -100;
-        start();
+        this.setThreadNode(getTree().getRootNode());
+        workingThreadAction();
+         while (!WorkingThread.next_calculations.isEmpty()) { 
+            workingThreadAction();
+        }
+
     }
 
-    public void setSequenceThread(SequenceThread sequenceThread) {
-        this.sequenceThread = sequenceThread;
+    /**
+     * Constructor, that signalises, that there are some next_calculations and that the tree is not empty
+     * @param tree
+     */
+    public WorkingThread() {
+        this.setThreadNode(null);
+         while (!WorkingThread.next_calculations.isEmpty()) { try {
+            workingThreadAction();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } }
     }
+
 
     @Override
     public boolean calcNextNode(int cardNumTake, int cardNumPut) throws Exception {
@@ -52,33 +64,23 @@ public class WorkingThread extends AbstractThread {
 
     @Override
     public boolean workingThreadAction() throws Exception {
+        // synchronized (next_calculations) {
             if (this.getThreadNode() == null) {
                 if (next_calculations.isEmpty()) { return false; }
-                this.setThreadNode(this.next_calculations.remove());
+                this.setThreadNode(WorkingThread.next_calculations.remove());
             }
 
             for (int i = -1; i < this.getThreadNode().getActualBoardState().getDepositedCards().size(); i++) {
                 for (int j = -1; j < this.getThreadNode().getActualBoardState().getActualPlayer().getCards().size(); j++) {
-                        if (!calcNextNode(i, j)) { continue; }
-                        this.next_calculations.add(this.getThreadNode());
-                        this.setThreadNode(this.getThreadNode().getPrevNode());
-                    }
+                    if (!calcNextNode(i, j)) { continue; }
+                    next_calculations.add(this.getThreadNode());
+                    this.setThreadNode(this.getThreadNode().getPrevNode());
                 }
-        
-        synchronized (sequenceThread) {
-            if (calculated_depth == 1 && sequenceThread.getState() == Thread.State.WAITING) {
-                sequenceThread.setUp();
-                sequenceThread.go();
             }
-        }   
-        
-        if (this.getThreadNode().getDepth() > calculated_depth) {
-            calculated_depth++;
-        }
-
         this.max = -100;
         this.setThreadNode(null);
         return true;
+        // }
     }
 
     public Move checkMove(int cardNumPut, int cardNumTake) {
@@ -114,11 +116,6 @@ public class WorkingThread extends AbstractThread {
         return new_move;
     }
 
-    public void setUp(GameBoardState gameboard) {
-        AbstractThread.setTree(new MoveTree(new MoveNode(gameboard.clone())));
-        this.setThreadNode(AbstractThread.getTree().getRootNode());
-    }
-
     public int calculateWinPoints(Move move, GameBoardState gameboard) {
         int points = 0;
         int actual_id = gameboard.getActualPlayer().getPlayerID();
@@ -137,31 +134,18 @@ public class WorkingThread extends AbstractThread {
         return points;
     }
 
-    public int getCalculatedDepth() {
-        return calculated_depth;
-    }
 
-
-
-    // ------------
-    @Override
-    public void run() {
-        while (true) {
-            if (!this.next_calculations.isEmpty() || this.getThreadNode() != null) {
-                try {
-                    workingThreadAction();
-                } catch (Exception e) { }
-            }
-            else {
-                try {
-                    calculated_depth = 0;
-                    this.pause(0);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+    //------------
+    // @Override
+    // public void run() {
+    //     try {
+    //         while (!WorkingThread.next_calculations.isEmpty()) { workingThreadAction(); }
+    //     } catch (Exception e) {
+    //         // TODO Auto-generated catch block
+    //         e.printStackTrace();
+    //     }
+    //     Thread.interrupted();
+    // }
 
 
     //This methods are not used by this Thread
