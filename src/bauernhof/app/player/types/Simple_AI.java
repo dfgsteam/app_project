@@ -14,6 +14,19 @@ public class Simple_AI extends AbstractGamePlayer implements AIHeader {
     @Override
     public Move request() {
         Card to_take, to_remove;
+
+        
+        // if (state.getDepositedCards().isEmpty()) { // Wenn kein Karte im Nachziehstapl
+        //     to_take = cardFromStack();
+        // } else {
+        //     Card cardFromDeposit = cardFromDeposit();
+        //     int pointsFromStack = state.getDrawPileCards().isEmpty() ? 0 : this.getAddScore(cardFromStack()); // Wenn keine Karte im Ziehstapel = 0 Punkte
+
+        //     to_take = this.getAddScore(cardFromDeposit) > pointsFromStack ? cardFromDeposit : cardFromStack(); // Die Karte mit den meisten Punkten wird genommen
+        // } 
+        // to_remove = removeFromOwn(to_take);
+        // return new Move(to_take, to_remove);
+
         if (!state.getDepositedCards().isEmpty() && !state.getDrawPileCards().isEmpty()) {
             if (this.getAddScore(cardFromDeposit()) > this.getAddScore(cardFromStack()))
                 to_take = cardFromDeposit();
