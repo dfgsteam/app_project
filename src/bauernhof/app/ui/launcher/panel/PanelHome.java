@@ -3,10 +3,11 @@ package bauernhof.app.ui.launcher.panel;
 import javax.swing.*;
 
 import bauernhof.app.ui.launcher.UiLauncher;
-import bauernhof.app.ui.launcher.listener.ListenerToHome;
+import bauernhof.app.ui.launcher.listener.ListenerToLocal;
+import bauernhof.app.ui.launcher.listener.ListenerToNetwork;
+import bauernhof.app.ui.launcher.listener.ListenerToSettings;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.io.IOException;
 
 /**
@@ -19,20 +20,14 @@ import java.io.IOException;
 public class PanelHome {
     private UiLauncher uiLauncher;
     private JPanel panel;
-    private int height, width;
 
     /**
      * Constructs a new PanelHome object.
      *
      * @param uiLauncher The UiLauncher object that represents the launcher UI.
-     * @param width      The width of the panel.
-     * @param height     The height of the panel.
      * @throws IOException If an I/O error occurs.
      */
-    public PanelHome(UiLauncher uiLauncher, int width, int height) throws IOException {
-        this.panel = new JPanel();
-        this.height = height;
-        this.width = width;
+    public PanelHome(UiLauncher uiLauncher) throws IOException {
         this.uiLauncher = uiLauncher;
 
         this.panel = new JPanel() {
@@ -47,7 +42,7 @@ public class PanelHome {
             }
         };
 
-        this.panel.setPreferredSize(new Dimension(this.width, this.height));
+        this.panel.setPreferredSize(new Dimension(UiLauncher.WIDTH, UiLauncher.HEIGTH));
         this.panel.setLayout(null);
 
         JButton buttonLocalPlayer = this.addButtonLocalPlayer();
@@ -61,24 +56,15 @@ public class PanelHome {
     }
 
     /**
-     * Creates a panel for buttons.
-     *
-     * @return The JPanel object representing the button panel.
-     */
-    public JPanel getButtons() {
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setPreferredSize(new Dimension(this.width, this.height));
-        return buttonPanel;
-    }
-
-    /**
      * Adds a button for the local player.
      *
      * @return The JButton object representing the local player button.
      */
     public JButton addButtonLocalPlayer() {
         JButton button = new JButton();
-        button.addActionListener(new ListenerToHome(this.uiLauncher));
+
+        button.addActionListener(new ListenerToLocal(this.uiLauncher));
+        
         button.setContentAreaFilled(false);
         button.setBorderPainted(UiLauncher.debug);
         button.setBounds(199, 520, 280, 125);
@@ -94,12 +80,8 @@ public class PanelHome {
     public JButton addButtonNetworkPlayer() {
         JButton button = new JButton();
 
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                uiLauncher.setPanelNetworkPlayer();
-            }
-        });
-
+        button.addActionListener(new ListenerToNetwork(this.uiLauncher));
+        
         button.setContentAreaFilled(false);
         button.setBorderPainted(UiLauncher.debug);
         button.setBounds(500, 520, 280, 125);
@@ -113,15 +95,11 @@ public class PanelHome {
      * @return The JButton object representing the settings button.
      */
     public JButton addButtonSettings() {
-        UiLauncher launcher = this.uiLauncher;
+        // Erstelle den JButton
         JButton button = new JButton();
 
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                launcher.setPanelSettings();
-            }
-        });
-
+        button.addActionListener(new ListenerToSettings(this.uiLauncher));
+        
         button.setContentAreaFilled(false);
         button.setBorderPainted(UiLauncher.debug);
         button.setBounds(803, 520, 280, 125);

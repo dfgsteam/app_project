@@ -1,6 +1,5 @@
 package bauernhof.app.launcher;
 
-import bauernhof.app.card.Ca;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.ImmutableList;
@@ -8,7 +7,6 @@ import bauernhof.preset.Player;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 
-import java.lang.module.Configuration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,9 +29,9 @@ public class Tournament {
                     states.add(new GameBoardState(players, types, configuration, cards));
                     states.get(i).initGame(null);
                 } else {
-                    while (states.get(i - 1).getRun()) ;
-                    states.add(new GameBoardState(players, types, configuration, cards));
-                    states.get(i).initGame(null);
+                    //while (states.get(i - 1).getRun()) ;
+                    //states.add(new GameBoardState(players, types, configuration, cards));
+                    //states.get(i).initGame(null);
                 }
             else {
                 states.add(new GameBoardState(players, types, configuration, cards));

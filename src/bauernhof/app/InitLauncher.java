@@ -6,8 +6,8 @@ import java.io.IOException;
 import bauernhof.app.settings.*;
 import bauernhof.app.ui.launcher.UiLauncher;
 
-public class initLauncher {
-    public static void main(String args[]) throws IOException, InterruptedException, SeEx {
+public class InitLauncher {
+    public InitLauncher() throws IOException, InterruptedException, SeEx {
         new UiLauncher(new SePa().parse(new File("gameconfigs/game/general.xml")));
     }
 }

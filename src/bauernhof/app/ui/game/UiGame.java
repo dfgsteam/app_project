@@ -1,9 +1,9 @@
 package bauernhof.app.ui.game;
 
-import bauernhof.app.player.types.HumanPlayer;
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.*;
+import bauernhof.app.Init;
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.group.button.PanelButtonSaveGame;
@@ -24,6 +24,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 /**
  * This class represents the game UI for the Hofbauern game.
  * @author Julius Hunold
@@ -86,7 +87,6 @@ public class UiGame {
         // Initialize playerCards
         for (int index = 0; index < this.gameBoardState.getPlayers().length; index++)
             this.groupDisplayPlayerCards.updatePlayer(index);
-
     }
 
     /**
@@ -130,7 +130,7 @@ public class UiGame {
      * @param gCard The GCard object representing the selected card.
      */
     public void moveAddCard(GCard gCard) {
-        ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
+       // ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
         this.createExchangePanel();
     }
 
@@ -142,7 +142,7 @@ public class UiGame {
      */
     public void movePopCard(GCard gCard) throws Exception {
         this.setMainPanel(3); // Does not update correctly. Panel is only displayed properly during HUMAN move
-        ((HumanPlayer) this.gameBoardState.getActualPlayer()).doMove(gCard.getCard());
+     //   ((HumanPlayer) this.gameBoardState.getActualPlayer()).doMove(gCard.getCard());
     }
 
     /**
@@ -273,5 +273,15 @@ public class UiGame {
      */
     public GameBoardState getGameBoardState() {
         return this.gameBoardState;
+    }
+
+
+    public void closeUiGame() {
+        JFrame.getFrames()[0].dispose();
+        try {
+            Init.main(null);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

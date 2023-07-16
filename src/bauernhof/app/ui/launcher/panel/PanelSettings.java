@@ -12,12 +12,8 @@ import java.io.IOException;
 public class PanelSettings {
     private UiLauncher launcher;
     private JPanel panel;
-    private int heigth, width;
 
-    public PanelSettings(UiLauncher launcher, int width, int heigth) throws IOException {
-        this.panel = new JPanel();
-        this.heigth = heigth;
-        this.width = width;
+    public PanelSettings(UiLauncher launcher) throws IOException {
         this.launcher = launcher;
 
         this.panel = new JPanel() {
@@ -26,13 +22,13 @@ public class PanelSettings {
                 super.paintComponent(g);
 
                 // Zeichne den Hintergrund
-                ImageIcon backgroundImage = new ImageIcon("graphics/settings.jpg");
+                ImageIcon backgroundImage = new ImageIcon("graphics/launcher/settings.jpg");
                 Image image = backgroundImage.getImage();
                 g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
             }
         };
 
-        this.panel.setPreferredSize(new Dimension(this.width, this.heigth));
+        this.panel.setPreferredSize(new Dimension(UiLauncher.WIDTH, UiLauncher.HEIGTH));
         this.panel.setLayout(null);
 
         JButton buttonReturn = this.addButtonReturn();

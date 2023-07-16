@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><General version="1">
-	<Sound>5</Sound>
-	<CardSet>player.xml</CardSet>
-	<AI>4</AI>
+	<Sound>6</Sound>
+	<CardSet>bauernhof.xml</CardSet>
+	<AI>1</AI>
 	<Name>dfgsteam</Name>
 </General>

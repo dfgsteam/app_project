@@ -74,6 +74,15 @@ public class Se {
     }
 
     /**
+     * Sets the game configuration by name.
+     *
+     * @param String the game configuration by name to set.
+     */
+    public void setGameConf(String name) {
+        this.GameConf = this.GameConfigurations.get(name);
+    }
+
+    /**
      * Retrieves the current game configuration.
      *
      * @return the current game configuration.
