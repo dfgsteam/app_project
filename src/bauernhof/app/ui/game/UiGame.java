@@ -1,10 +1,9 @@
 package bauernhof.app.ui.game;
 
-import bauernhof.app.player.types.HumanPlayer;
 import bauernhof.preset.GameConfiguration;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.*;
-import bauernhof.app.initLauncher;
+import bauernhof.app.Init;
 import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.group.button.PanelButtonSaveGame;
@@ -88,7 +87,6 @@ public class UiGame {
         // Initialize playerCards
         for (int index = 0; index < this.gameBoardState.getPlayers().length; index++)
             this.groupDisplayPlayerCards.updatePlayer(index);
-
     }
 
     /**
@@ -281,7 +279,7 @@ public class UiGame {
     public void closeUiGame() {
         JFrame.getFrames()[0].dispose();
         try {
-            initLauncher.main(new String[]{});
+            Init.main(null);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

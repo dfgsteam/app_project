@@ -3,13 +3,11 @@ package bauernhof.app.ui.launcher.panel;
 import javax.swing.*;
 
 import bauernhof.app.ui.launcher.UiLauncher;
-import bauernhof.app.ui.launcher.listener.ListenerToHome;
 import bauernhof.app.ui.launcher.listener.ListenerToLocal;
 import bauernhof.app.ui.launcher.listener.ListenerToNetwork;
 import bauernhof.app.ui.launcher.listener.ListenerToSettings;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.io.IOException;
 
 /**

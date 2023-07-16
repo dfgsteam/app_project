@@ -70,14 +70,14 @@
 		<jar jarfile="${dist}/Bauernhof-Preset-${preset.version}.jar" basedir="${build}">
 			<zipgroupfileset dir="lib" includes="**/*.jar" />
 			<manifest>
-                <attribute name="Main-Class" value="bauernhof/app/init"/>
+                <attribute name="Main-Class" value="bauernhof/app/Init"/>
             </manifest>
 		</jar>
 		<jar jarfile="${dist}/Bauernhof-Preset-${preset.version}-source.jar" basedir="${src}" />
 		<jar jarfile="${dist}/Bauernhof-Preset-${preset.version}-javadoc.jar" basedir="${doc}" />     
 		<copy todir="${dist}">
 			<fileset dir="${lib}"/>
-			<fileset dir="${lib}" includes="**/*.txt"/>
+			<!-- <fileset dir="${lib}" includes="**/*.txt"/> -->
 		</copy>
 		<!-- Copy jar files to "latest" release version -->
 		<copy file="${dist}/Bauernhof-Preset-${preset.version}.jar"         tofile="${dist}/Bauernhof-Preset-latest.jar"        />

@@ -2,6 +2,7 @@ package bauernhof.app.ui.launcher;
 
 import javax.swing.*;
 
+import bauernhof.app.InitLocalGame;
 import bauernhof.app.settings.Se;
 import bauernhof.app.ui.launcher.panel.*;
 import bauernhof.preset.PlayerType;
@@ -94,8 +95,11 @@ public class UiLauncher {
     }
 
     public void startGame(String type, PlayerType[] playerTypes, String[] playerNames, Color[] playerColors) {
-        for (int index=0; index < playerTypes.length; index++) {
-            System.out.println(Integer.toString(index) + ": " + playerTypes[index].toString() + " " + playerNames[index] + " " + playerColors[index]);
+        try {
+            this.frame.dispose();
+            new InitLocalGame(Settings.getGameConf(), playerNames, playerTypes, playerColors, 1000, true, 0, Settings.getSound());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
