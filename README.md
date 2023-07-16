@@ -46,18 +46,18 @@ usage: java -jar Bauernhof-Preset-indev_juhu.jar [-c <FILE>] [-con <HOST>]
 | -con,--connect   | HOST      | Connect as a client to the host.                                 |
 | -d,--delay       | DELAY     | Delay in milliseconds after a computerplayer has made his move.  |
 | -g,--gui         |           | Show the GUI, even if no HUMAN player exists.                    |
-| -c,--config      | <FILE>    | The file from which the game configuration should be read.       |
+| -c,--config      | FILE      | The file from which the game configuration should be read.       |
 | -h,--help        |           | Print this help message and some extra information about this program.|
 |  -l,--launcher   |           | Launch the launcher. (LAUNCHER)                                  |
-| -ll,--loglevel   | <LEVEL>   | The maximum log level. [ERRORS, WARNINGS, INFO, DEBUG]           |
-| -load,--loadsave | <FILE>    | Load a save game. (SAVEGAMES)                                    |
-| -p,--port        | <PORT>    | The port to be used when either hosting the game as a server or conntecting to a server as a client.|
-| -pc,--playerColors| <COLOR ...>| The color(s) of the player(s). [RED, BLUE, ...]                |
-| -pn,--playerNames| <NAME ...>| The name(s) of the player(s).                                    |
-| -pt,--playerTypes| <TYPE ...>| The type(s) of the player(s). [HUMAN, RANDOM_AI, REMOTE, SIMPLE_AI, ADVANCED_AI]|
-| -t,--tournament  | <ROUNDS>  | Play a tournament. (TOURNAMENTS)                                 |
+| -ll,--loglevel   | LEVEL     | The maximum log level. [ERRORS, WARNINGS, INFO, DEBUG]           |
+| -load,--loadsave | FILE      | Load a save game. (SAVEGAMES)                                    |
+| -p,--port        | PORT      | The port to be used when either hosting the game as a server or conntecting to a server as a client.|
+| -pc,--playerColors| COLOR    | The color(s) of the player(s). [RED, BLUE, ...]                  |
+| -pn,--playerNames| NAME      | The name(s) of the player(s).                                    |
+| -pt,--playerTypes| TYPE      | The type(s) of the player(s). [HUMAN, RANDOM_AI, REMOTE, SIMPLE_AI, ADVANCED_AI]|
+| -t,--tournament  | ROUNDS    | Play a tournament. (TOURNAMENTS)                                 |
 | -tw,--tournamentwait|        | Wait for a user interaction before starting the next game in a tournament. (TOURNAMENTS)|
-| -v,--volume      | <VOLUME>  | Volume of the soundeffects. (0-100) (SOUNDEFFECTS)               |      
+| -v,--volume      | VOLUME    | Volume of the soundeffects. (0-100) (SOUNDEFFECTS)               |      
            
 
  
