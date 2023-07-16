@@ -15,12 +15,11 @@ import bauernhof.preset.Settings;
 import bauernhof.preset.card.Card;
 
 public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
-    private GameSystem gameboardstate;
+    private GameSystem gamesystem;
     public Advanced_AI(final Settings settings, final PlayerCards playercards, final GameSystem gamesystem) {
         super(settings, playercards, gamesystem);
         this.gameboardstate = gamesystem;
     }
-
 
     @Override
     public Move request() throws Exception {
