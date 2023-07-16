@@ -41,9 +41,9 @@ usage: java -jar Bauernhof-Preset-indev_juhu.jar [-c <FILE>] [-con <HOST>]
 
 | Command          | Input     | Explanation                                                      |
 | ---------------- | --------- | ---------------------------------------------------------------- |
-| -c,--config      | <FILE>    | The file from which the game configuration should be read.       |
-| -con,--connect   | <HOST>    | Connect as a client to the host.                                 |
-| -d,--delay       | <DELAY>   | Delay in milliseconds after a computerplayer has made his move.  |
+| -c,--config      | FILE      | The file from which the game configuration should be read.       |
+| -con,--connect   | HOST      | Connect as a client to the host.                                 |
+| -d,--delay       | DELAY     | Delay in milliseconds after a computerplayer has made his move.  |
 | -g,--gui         |           | Show the GUI, even if no HUMAN player exists.                    |
 | -c,--config   | <FILE>   | The file from which the game configuration should be read.       |
 
