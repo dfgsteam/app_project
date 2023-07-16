@@ -1,17 +1,12 @@
 package bauernhof.app.ui.game.listener;
 
-import bauernhof.app.initLauncher;
-import bauernhof.app.system.GameBoard;
-import bauernhof.app.settings.SeEx;
+import bauernhof.app.ui.game.UiGame;
 import sag.elements.GElement;
 import sag.elements.GText;
 import sag.events.MouseButtonEvent;
 import sag.events.MouseEventListener;
 import sag.events.MouseMotionEvent;
 import sag.events.MouseWheelEvent;
-
-import javax.swing.*;
-import java.io.IOException;
 
 /**
  * This class represents a mouse event listener for the home button in the game UI.
@@ -32,18 +27,18 @@ import java.io.IOException;
  * @since 2023-07-14
  */
 public class ListenerHomeButton implements MouseEventListener {
-    private GameBoard gameBoard;
     private GText homeHeadline;
+    private UiGame uiGame;
 
     /**
      * Constructs a new ListenerHomeButton object.
      * The object represents a mouse event listener for the home button in the game UI.
      *
-     * @param gameBoard The GameBoard object representing the game board state.
+     * @param uiGame The UiGame object representing the ingame UI.
      * @param homeHeadline   The GText object representing the home button headline.
      */
-    public ListenerHomeButton(GameBoard gameBoard, GText homeHeadline) {
-        this.gameBoard = gameBoard;
+    public ListenerHomeButton(UiGame uiGame, GText homeHeadline) {
+        this.uiGame = uiGame;
         this.homeHeadline = homeHeadline;
     }
 
@@ -56,17 +51,7 @@ public class ListenerHomeButton implements MouseEventListener {
      */
     @Override
     public void mouseClicked(MouseButtonEvent var1, GElement var2) {
-        System.out.println("->home menu");
-        JFrame.getFrames()[0].dispose();
-        try {
-            initLauncher.main(new String[]{});
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (SeEx e) {
-            throw new RuntimeException(e);
-        }
+        this.uiGame.closeUiGame();
     }
 
     /**

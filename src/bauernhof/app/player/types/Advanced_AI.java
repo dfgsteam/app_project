@@ -38,7 +38,8 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
         // catch (InterruptedException e) {
         //     System.err.println("ERROR");
         // }
-
+        
+        
         SequenceThread sequenceThread1 = new SequenceThread(true);
         // SequenceThread sequenceThread2 = new SequenceThread(false);
         // SequenceThread sequenceThread3 = new SequenceThread(false);
@@ -53,8 +54,7 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
         // catch (InterruptedException e) {
         //     System.out.println("ERROR");
         // }
-        System.out.println(SequenceThread.differences);
-       
+        System.out.println(SequenceThread.differences);   
         return AbstractThread.getTree().getRootNode().getNextNodes().get(SequenceThread.differences.indexOf(Collections.max(SequenceThread.differences))).getMove();
     }
 

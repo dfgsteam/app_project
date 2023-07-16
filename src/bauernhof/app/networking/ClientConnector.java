@@ -48,7 +48,7 @@ public class ClientConnector extends C2SConnection {
 
     @Override
     protected void onUpdate(Move move) throws Exception {
-        ((LocalRemotePlayer) gameboardstate.getActualPlayer()).setNextMove(move);
+        //((LocalRemotePlayer) gameboardstate.getActualPlayer()).setNextMove(move);
     }
 
     @Override

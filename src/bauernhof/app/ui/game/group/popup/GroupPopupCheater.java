@@ -5,7 +5,6 @@ import java.awt.Color;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.listener.ListenerHomeButton;
-import bauernhof.preset.Player;
 import sag.LayerPosition;
 import sag.elements.GGroup;
 import sag.elements.GText;
@@ -43,13 +42,13 @@ public class GroupPopupCheater extends GGroup {
      * Constructs a new GroupPopupCheater object.
      * The object represents a cheater popup group in the game UI.
      * 
-     * @param UiGame The UiGame object that represents the game UI.
-     * @param name Name of the detected Player
+     * @param uiGame The UiGame object that represents the game UI.
+     * @param player The AbstractGamePlayer object representing the detected cheater.
      * @throws Exception If an error occurs during initialization.
      */
-    public GroupPopupCheater(UiGame UiGame, String name) throws Exception {
+    public GroupPopupCheater(UiGame uiGame, AbstractGamePlayer player) throws Exception {
         // Panel
-        GGroup panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER);
+        GGroup panel = uiGame.getMainPanel().addLayer(LayerPosition.CENTER);
 
         // Feld
         GRect area = new GRect(0f, 0f, 700f, 500f, true, 0f, 0f);
@@ -65,7 +64,7 @@ public class GroupPopupCheater extends GGroup {
         panel.addChild(headline, 0f, -150f);
 
         // Cheaternamen
-        GText playerName = new GText("\u2620\uFE0F " +  name + " \u2620\uFE0F");
+        GText playerName = new GText("\u2620\uFE0F " + player.getName() + " \u2620\uFE0F");
         playerName.setAlignment(GText.TextAnchor.MIDDLE);
         playerName.setFontSize(40f);
         panel.addChild(playerName, 0f, 0f);
@@ -83,6 +82,6 @@ public class GroupPopupCheater extends GGroup {
         homeHeadline.setFontSize(25f);
         panel.addChild(homeHeadline, 0f, 183f);
 
-        homeButton.setMouseEventListener(new ListenerHomeButton(UiGame.getGameBoardState(), homeHeadline));
+        homeButton.setMouseEventListener(new ListenerHomeButton(uiGame, homeHeadline));
     }
 }

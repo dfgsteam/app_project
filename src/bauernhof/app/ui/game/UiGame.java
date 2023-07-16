@@ -1,9 +1,10 @@
 package bauernhof.app.ui.game;
 
-import bauernhof.app.player.types.HumanPlayer;
-import bauernhof.preset.*;
+import bauernhof.preset.GameConfiguration;
+import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.*;
-import bauernhof.app.system.GameBoard;
+import bauernhof.app.Init;
+import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.group.button.PanelButtonSaveGame;
 import bauernhof.app.ui.game.group.button.PanelButtonScreenshot;
@@ -23,13 +24,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 /**
  * This class represents the game UI for the Hofbauern game.
  * @author Julius Hunold
  * @version 1.0
  * @since 2023-07-14
  */
-public class UiGame implements PlayerGUIAccess {
+public class UiGame {
 
     public static int WIDTH = 1920;
     public static int HEIGTH = 1080;
@@ -50,7 +52,7 @@ public class UiGame implements PlayerGUIAccess {
     private GroupDisplayDrawPileDeck groupDisplayDrawPileDeck;
     private GroupDisplayDepositedDeck groupDisplayDepositedDeck;
 
-    private GameBoard gameBoard;
+    private GameBoardState gameBoardState;
 
     private int playerId = 0;
 
@@ -58,11 +60,11 @@ public class UiGame implements PlayerGUIAccess {
      * Constructs a new UiGame object.
      *
      * @param gameconf      The GameConfiguration object representing the game configuration.
-     * @param gameBoard The GameBoard object representing the game board state.
+     * @param gameBoardState The GameBoardState object representing the game board state.
      * @throws Exception If an error occurs during initialization.
      */
-    public UiGame(GameConfiguration gameconf, GameBoard gameBoard) throws Exception {
-        this.gameBoard = gameBoard;
+    public UiGame(GameConfiguration gameconf, GameBoardState gameBoardState) throws Exception {
+        this.gameBoardState = gameBoardState;
 
         // Initialize Frame
         this.FRAME.setSAGPanel(this.mainPanel);
@@ -83,9 +85,8 @@ public class UiGame implements PlayerGUIAccess {
         new PanelButtonSaveGame(this);
 
         // Initialize playerCards
-        for (int index = 0; index < this.gameBoard.getPlayers().length; index++)
+        for (int index = 0; index < this.gameBoardState.getPlayers().length; index++)
             this.groupDisplayPlayerCards.updatePlayer(index);
-
     }
 
     /**
@@ -108,13 +109,12 @@ public class UiGame implements PlayerGUIAccess {
 
         // Update Draw Pile and Deposited Deck
         this.groupDisplayDepositedDeck.update();
-
+        this.groupDisplayDrawPileDeck.update();
 
         // If not the last turn
         if (!last) {
-            this.groupDisplayDrawPileDeck.update();
             // Set next player as active
-            this.playerId = (this.playerId + 1) % this.gameBoard.getPlayers().length;
+            this.playerId = (this.playerId + 1) % this.gameBoardState.getPlayers().length;
             this.groupDisplayPlayerName.updatePlayerBgActive(this.playerId);
             this.groupDisplayRound.update();
         } else {
@@ -130,7 +130,7 @@ public class UiGame implements PlayerGUIAccess {
      * @param gCard The GCard object representing the selected card.
      */
     public void moveAddCard(GCard gCard) {
-        this.gameBoard.getActualPlayerCards().getCards().add(gCard.getCard());
+       // ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
         this.createExchangePanel();
     }
 
@@ -142,8 +142,7 @@ public class UiGame implements PlayerGUIAccess {
      */
     public void movePopCard(GCard gCard) throws Exception {
         this.setMainPanel(3); // Does not update correctly. Panel is only displayed properly during HUMAN move
-
-        ((HumanPlayer) this.gameBoard.getActualPlayer()).executeMove(gCard.getCard());
+     //   ((HumanPlayer) this.gameBoardState.getActualPlayer()).doMove(gCard.getCard());
     }
 
     /**
@@ -185,11 +184,11 @@ public class UiGame implements PlayerGUIAccess {
     /**
      * Creates the cheater panel for displaying the cheater information.
      *
-     * @param name of the Cheater
+     * @param player The AbstractGamePlayer object representing the cheater player.
      * @throws Exception If an error occurs during the creation of the panel.
      */
-    public void createCheaterPanel(String name) throws Exception {
-        new GroupPopupCheater(this, name);
+    public void createCheaterPanel(AbstractGamePlayer player) throws Exception {
+        new GroupPopupCheater(this, player);
     }
 
     /**
@@ -246,11 +245,7 @@ public class UiGame implements PlayerGUIAccess {
      * @return True if it is a human player's turn, false otherwise.
      */
     public boolean check_move() {
-        /*
-        TODO: PLAYERGUIACCESS INTEGRATION
-         */
-        return this.gameBoard.getPlayers()[this.playerId].getPlayerType() == PlayerType.HUMAN;
-
+        return this.gameBoardState.getPlayers()[this.playerId].getPlayerType() == PlayerType.HUMAN;
     }
 
     /**
@@ -274,14 +269,19 @@ public class UiGame implements PlayerGUIAccess {
     /**
      * Returns the game board state.
      *
-     * @return The GameBoard object representing the game board state.
+     * @return The GameBoardState object representing the game board state.
      */
-    public GameBoard getGameBoardState() {
-        return this.gameBoard;
+    public GameBoardState getGameBoardState() {
+        return this.gameBoardState;
     }
 
-    @Override
-    public Move requestMoveFromCurrentHumanPlayer() {
-        return null;
+
+    public void closeUiGame() {
+        JFrame.getFrames()[0].dispose();
+        try {
+            Init.main(null);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
