@@ -68,12 +68,15 @@
 		<!-- Create the distribution directory for new releases -->
 		<mkdir dir="${dist}"/>
 		<jar jarfile="${dist}/Bauernhof-Preset-${preset.version}.jar" basedir="${build}">
-			<!--<zipgroupfileset dir="lib" includes="**/*.jar" />-->
+			<zipgroupfileset dir="lib" includes="**/*.jar" />
+			<manifest>
+                <attribute name="Main-Class" value="bauernhof/app/init"/>
+            </manifest>
 		</jar>
 		<jar jarfile="${dist}/Bauernhof-Preset-${preset.version}-source.jar" basedir="${src}" />
 		<jar jarfile="${dist}/Bauernhof-Preset-${preset.version}-javadoc.jar" basedir="${doc}" />     
 		<copy todir="${dist}">
-			<!--<fileset dir="${lib}"/>-->
+			<fileset dir="${lib}"/>
 			<fileset dir="${lib}" includes="**/*.txt"/>
 		</copy>
 		<!-- Copy jar files to "latest" release version -->
@@ -81,14 +84,16 @@
 		<copy file="${dist}/Bauernhof-Preset-${preset.version}-source.jar"  tofile="${dist}/Bauernhof-Preset-latest-source.jar" />
 		<copy file="${dist}/Bauernhof-Preset-${preset.version}-javadoc.jar" tofile="${dist}/Bauernhof-Preset-latest-javadoc.jar"/>
 		<!-- Copy LICENSE -->
-			<!--<copy file="./LICENSE" tofile="${dist}/Bauernhof-Preset-LICENSE.txt"/>-->
+		<copy file="./LICENSE" tofile="${dist}/Bauernhof-Preset-LICENSE.txt"/>
+
+            
 	</target>
 	
 	<target name="clean" description="clean up">
-		<!-- Delete the ${build} and ${doc} directory trees -->
+		<!-- Delete the ${build}, ${doc} and ${dist} directory trees -->
 		<delete dir="${build}"/>
 		<delete dir="${doc}"/>
-		<!-- <delete dir="${dist}"/> -->
+		<delete dir="${dist}"/>
 	</target>
 
 	<!--<target name="test" depends="build" description="execute the Test Class">
