@@ -38,12 +38,12 @@ public class GroupPopupScore extends GGroup {
      * Constructs a new GroupPopupScore object.
      * The object represents a popup window for displaying game scores at the end of the game.
      *
-     * @param UiGame The UiGame object that represents the game UI.
+     * @param uiGame The UiGame object that represents the game UI.
      * @throws Exception If an error occurs during initialization.
      */
-    public GroupPopupScore(UiGame UiGame) throws Exception {
+    public GroupPopupScore(UiGame uiGame) throws Exception {
         // Panel
-        GGroup panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER);
+        GGroup panel = uiGame.getMainPanel().addLayer(LayerPosition.CENTER);
 
         // Feld
         GRect area = new GRect(0f, 0f, 700f, 500f, true, 0f, 0f);
@@ -62,7 +62,7 @@ public class GroupPopupScore extends GGroup {
         HashMap<String, Integer> playerScores = new HashMap<>();
         ArrayList<String> scores = new ArrayList<>();
 
-        for (AbstractGamePlayer player : UiGame.getGameBoardState().getPlayers()) {
+        for (AbstractGamePlayer player : uiGame.getGameBoardState().getPlayers()) {
             playerScores.put(player.getName(), player.getScore());
             scores.add(player.getName());
             String temp;
@@ -100,6 +100,6 @@ public class GroupPopupScore extends GGroup {
         homeHeadline.setFontSize(25f);
         panel.addChild(homeHeadline, 0f, 183f);
 
-        homeButton.setMouseEventListener(new ListenerHomeButton(UiGame.getGameBoardState(), homeHeadline));
+        homeButton.setMouseEventListener(new ListenerHomeButton(uiGame, homeHeadline));
     }
 }
