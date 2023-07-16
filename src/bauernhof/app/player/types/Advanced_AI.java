@@ -17,25 +17,11 @@ import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 
 public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
-
-    private static Object monitor = new Object();
-
     private ArrayList<Long> currentimes = new ArrayList<>();
     private long before;
     private GameBoardState gameboardstate;
-    private WorkingThread treeCalculator;
-    private SequenceThread sequencePicker;
-
     public Advanced_AI(String name) {
         super(name, PlayerType.ADVANCED_AI);
-        try {
-            treeCalculator = new WorkingThread();
-            sequencePicker = new SequenceThread(treeCalculator);
-            treeCalculator.setSequenceThread(sequencePicker);
-        } catch (Exception e) {
-            System.err.println("ERROR");
-        }
-        // sequencePicker = new SequenceThread();
     }
     public void setGameBoardState(final GameBoardState gameboardstate) {
         this.gameboardstate = gameboardstate;
@@ -44,14 +30,13 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
 
     @Override
     public Move request() throws Exception {
-        
-        treeCalculator.setUp(gameboardstate.clone());
-        treeCalculator.go();
+        before = System.currentTimeMillis();
+        WorkingThread workingThread1 = new WorkingThread(gameboardstate.clone());
 
-        while (!(treeCalculator.getState() == Thread.State.WAITING && sequencePicker.getState() == Thread.State.WAITING));
+        SequenceThread sequenceThread1 = new SequenceThread(true);
         
-        System.out.println(sequencePicker.differences);
-        Move move = AbstractThread.getTree().getRootNode().getNextNodes().get(sequencePicker.differences.indexOf(Collections.max(sequencePicker.differences))).getMove();
+        System.out.println(SequenceThread.differences);
+        Move move = AbstractThread.getTree().getRootNode().getNextNodes().get(SequenceThread.differences.indexOf(Collections.max(SequenceThread.differences))).getMove();
 
         System.out.println("ROUND: " + gameboardstate.getRound());
         System.out.println("CURRENT: " + (System.currentTimeMillis() - before));

@@ -15,10 +15,16 @@ import bauernhof.app.player.types.MoveTree.MoveTree;
  * This is a basic strcuture of any thread, The Threads themselves will extend from this class.
  * This abstract class implements (not fully) the ThreadHanlder Interface
  */
-public abstract class AbstractThread extends Thread implements ThreadHandler {
-    private static final int MAX_DEPTH = 3;
-    private static MoveTree move_tree = null;
+public abstract class AbstractThread implements ThreadHandler {
+    private static final int MAX_DEPTH = 8;
+    private static MoveTree move_tree;
     private MoveNode actual_node;
+
+    public AbstractThread(GameBoardState actual_state) {
+
+        move_tree = new MoveTree(new MoveNode(actual_state));
+        this.setThreadNode(AbstractThread.getTree().getRootNode());
+    }
 
     public AbstractThread() {
         this.setThreadNode(null);
@@ -26,19 +32,6 @@ public abstract class AbstractThread extends Thread implements ThreadHandler {
 
     public static MoveTree getTree() {
         return move_tree;
-    }
-
-    public synchronized void pause(int sec) throws InterruptedException {
-        if (sec == 0) { wait(); }
-        else wait(sec);
-    }
-
-    public synchronized void go() {
-        notify();
-    }
-
-    public static void setTree(MoveTree tree) {
-        move_tree = tree;
     }
 
     @Override
