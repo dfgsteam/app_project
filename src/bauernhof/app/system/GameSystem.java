@@ -3,7 +3,6 @@ package bauernhof.app.system;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.types.*;
 import bauernhof.app.ui.game.UiGame;
-import bauernhof.app.ui.game.listener.SpaceListener;
 import bauernhof.preset.*;
 import bauernhof.preset.networking.RemotePlayer;
 import bauernhof.preset.networking.S2CConnection;
@@ -55,8 +54,8 @@ public class GameSystem extends GameBoard {
             }
         }
     }
-    public void initPlayers(final UiGame graphics) throws Exception {
-        GameBoard.graphics = graphics;
+    public void initPlayers() throws Exception {
+        if (settings.showGUI) GameBoard.graphics = new UiGame(configuration, this);
         for(int playerid = 1; playerid <= numplayers; playerid++)
             players[playerid - 1].init(configuration, getDrawPileCards(), numplayers, playerid);
 
@@ -68,14 +67,14 @@ public class GameSystem extends GameBoard {
         this.round++;
         executeMove(players[getActivePlayerID()].request());
     }
-    public Player getWinner() throws Exception {
+    public int getWinnerID() throws Exception {
         ArrayList<Integer> scores = new ArrayList<>(getAllScores());
         Collections.sort(scores);
-        if (scores.get(scores.size() - 1) == scores.get(scores.size() - 2)) return null;
-        for (final Player player : this.getPlayers())
-            if (player.getScore() == scores.get(scores.size() - 1))
-                return player;
-        return null;
+        if (scores.get(scores.size() - 1).equals(scores.get(scores.size() - 2))) return players.length;
+        for (int i = 0; i < players.length; i++)
+            if (players[i].getScore() == scores.get(scores.size() - 1))
+                return i;
+        return players.length;
     }
 
     public boolean executeMove(final Move move) throws Exception {
@@ -87,7 +86,7 @@ public class GameSystem extends GameBoard {
                 player.update(move);
         // Check End Conditions
         if (this.getRound() > 30 || getDepositedCards().size() >= configuration.getNumDepositionAreaSlots()) run = false;
-        if (getGraphics() != null) getGraphics().move(!run);
+        if (getGraphics() != null && settings.showGUI) getGraphics().move(!run);
         // Do Normal Move
         if (run) {
             if (!(getActualPlayer() instanceof HumanPlayer || getActualPlayer() instanceof RemotePlayer))
@@ -100,7 +99,12 @@ public class GameSystem extends GameBoard {
                 player.verifyGame(getAllScores());
         return true;
     }
+    @Override
+    public void initBeginnerCards(final int playerid) throws Exception {
+        super.initBeginnerCards(playerid);
+        if (graphics != null && settings.showGUI) graphics.move(false);
 
+    }
     public Player[] getPlayers() {
         return this.players;
     }

@@ -1,7 +1,9 @@
 package bauernhof.app.ui.game.listener;
 
+import bauernhof.app.player.types.HumanPlayer;
 import bauernhof.app.system.GameBoard;
 import bauernhof.app.system.GameSystem;
+import bauernhof.preset.networking.RemotePlayer;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -10,10 +12,10 @@ import java.awt.event.KeyListener;
  * @author Ramon Cemil Kimyon
  * @date 17.07.2023 02:14
  */
-public class SpaceListener implements KeyListener {
+public class KeyboardListener implements KeyListener {
     private GameSystem system;
     private int playerid = 0;
-    public SpaceListener(final GameSystem system) {
+    public KeyboardListener(final GameSystem system) {
         this.system = system;
     }
     @Override
@@ -25,11 +27,12 @@ public class SpaceListener implements KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             try {
                 if (system.getRound() == 1) {
-                    system.initBeginnerCards(playerid);
-                    GameBoard.getGraphics().move(false);
-                    playerid++;
                     if (playerid == system.getNumPlayers()) system.setRound(system.getRound() + 1);
-                } else
+                    else {
+                        system.initBeginnerCards(playerid);
+                        playerid++;
+                    }
+                } else if (!(system.getActualPlayer() instanceof HumanPlayer || system.getActualPlayer() instanceof RemotePlayer))
                     system.executeMove(system.getActualPlayer().request());
             } catch (Exception ex) {
                 throw new RuntimeException(ex);

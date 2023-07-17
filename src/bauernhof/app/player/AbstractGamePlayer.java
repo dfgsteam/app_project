@@ -54,14 +54,10 @@ public abstract class AbstractGamePlayer implements Player {
     }
 
     @Override
-    public void verifyGame(ImmutableList<Integer> scores) throws Exception {
+    public void verifyGame(final ImmutableList<Integer> scores) throws Exception {
         for (int playerid = 0; playerid < scores.size(); playerid++)
             if (!scores.get(playerid).equals(gameBoard.getAllScores().get(playerid)))
                 GameBoard.getGraphics().createCheaterPanel(settings.playerNames.get(playerid));
-    }
-
-    public int getPlayerID() {
-        return playerid + 1;
     }
 
     @Override

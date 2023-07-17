@@ -98,7 +98,6 @@ public class GameBoard {
     public void initBeginnerCards(final int playerid) throws Exception {
         for (int i = 0; i < configuration.getNumCardsPerPlayerHand(); i++)
             playercards[playerid].add(drawpile_cards.pop());
-        if (graphics != null) graphics.move(false);
     }
 
     public boolean executeMove(final Move move) throws Exception {

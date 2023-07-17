@@ -2,7 +2,7 @@ package bauernhof.app.ui.game;
 
 import bauernhof.app.player.types.HumanPlayer;
 import bauernhof.app.system.GameSystem;
-import bauernhof.app.ui.game.listener.SpaceListener;
+import bauernhof.app.ui.game.listener.KeyboardListener;
 import bauernhof.preset.*;
 import bauernhof.preset.card.*;
 import bauernhof.app.Init;
@@ -58,7 +58,7 @@ public class UiGame implements PlayerGUIAccess {
     private Object lock = new Object();
 
     private int playerId = 0;
-    private SpaceListener space;
+    private KeyboardListener keyboardlistener;
 
     /**
      * Constructs a new UiGame object.
@@ -78,8 +78,8 @@ public class UiGame implements PlayerGUIAccess {
         this.panelDepositedCards = new PanelDepositedCards(this);
         this.panelDrawPileCards = new PanelDrawPileCards(this);
         //this.panelExchangeCards = new PanelExchangeCards(this);
-        this.space = new SpaceListener(gameSystem);
-        this.FRAME.addKeyListener(space);
+        this.keyboardlistener = new KeyboardListener(gameSystem);
+        this.FRAME.addKeyListener(keyboardlistener);
         // Initialize GGroups
         this.groupDisplayRound = new GroupDisplayRound(this);
         this.groupDisplayPlayerCards = new GroupDisplayPlayerCards(this);
@@ -125,7 +125,7 @@ public class UiGame implements PlayerGUIAccess {
         } else {
             // Show end of game panel
             this.playerId = 5;
-            this.FRAME.removeKeyListener(space);
+            this.FRAME.removeKeyListener(keyboardlistener);
             new GroupPopupScore(this);
         }
     }
@@ -152,10 +152,8 @@ public class UiGame implements PlayerGUIAccess {
      */
     public void movePopCard(GCard gCard) throws Exception {
         gameSystem.getActualPlayerCards().remove(this.add);
-        synchronized (lock) {
-            this.move = new Move(add, gCard.getCard());
-            lock.notify();
-        }
+        this.move = new Move(add, gCard.getCard());
+        this.move.notify();
         this.setMainPanel(3); // Does not update correctly. Panel is only displayed properly during HUMAN move
      //   ((HumanPlayer) this.gameBoardState.getActualPlayer()).doMove(gCard.getCard());
     }
@@ -302,15 +300,15 @@ public class UiGame implements PlayerGUIAccess {
 
     @Override
     public Move requestMoveFromCurrentHumanPlayer() {
-        while (move == null);
-        synchronized (lock) {
-            while (move == null)
-                try {
-                    lock.wait();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            return move;
+        while (move == null) {
+            try {
+                move.wait();
+                System.out.println("WAIT");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
+        final Move movecopy = move;
+        return movecopy;
     }
 }

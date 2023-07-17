@@ -131,8 +131,8 @@ public class GroupDisplayPlayerCards extends GGroup {
             gCard.setMouseEventListener(new CardListener());
 
             // Wenn Karte blockiert = rote umrandung
-            if (playerCards.getBlockedCards().contains(cards[item]))
-                System.out.println(gCard.getCard().getName());
+            /*if (playerCards.getBlockedCards().contains(cards[item]))
+                System.out.println(gCard.getCard().getName()); */
 
             // Karte der Gruppe hinzufügen
             this.groupPlayer[playerId].addChild(gCard, this.pos[playerId][item][0], this.pos[playerId][item][1]);

@@ -1,9 +1,6 @@
 package bauernhof.app.system;
 
-import bauernhof.preset.GameConfiguration;
-import bauernhof.preset.ImmutableList;
-import bauernhof.preset.PlayerType;
-import bauernhof.preset.card.Card;
+import bauernhof.preset.*;
 
 import java.util.ArrayList;
 /**
@@ -12,52 +9,38 @@ import java.util.ArrayList;
  */
 public class Tournament {
     private ArrayList<Integer> wins;
-
-    public Tournament(final String[] players, final PlayerType[] types, final GameConfiguration configuration, ImmutableList<Card> cards, int numbergames) throws Exception {
+    private Settings settings;
+    private GameConfiguration configuration;
+    public Tournament(final Settings settings, final GameConfiguration configuration) throws Exception {
+        this.settings = settings;
+        this.configuration = configuration;
+    }
+    public final void initTournament() throws Exception {
         final ArrayList<GameSystem> states = new ArrayList<>();
-        /*int x = 0;
-        for (int i = 0; i < numbergames; i++) {
-            if (List.of(types).contains(PlayerType.ADVANCED_AI)) {
-                System.out.println("\n\n\n\n");
-                System.out.println("RUNDE: " + i);
-                System.out.println("\n\n\n\n");
-            } else {
-                if (x != (int) (((double) i / numbergames) * 100))
-                    System.out.println("Status: "+ (int) (((double) i / numbergames) * 100) + "%");
-                x = (int) (((double) i / numbergames) * 100);
-            }
-            if (List.of(types).contains(PlayerType.HUMAN))
-                if (i == 0) {
-                    states.add(new GameSystem(players, types, configuration, cards));
-                    states.get(i).initGame(null);
-                } else {
-                    while (states.get(i - 1).getRun()) ;
-                    states.add(new GameSystem(players, types, configuration, cards));
-                    states.get(i).initGame(null);
+        int x = 0;
+        if(settings.numTournamentRounds == 0)
+            new GameSystem(settings, configuration);
+        else {
+            for (int i = 0; i < settings.numTournamentRounds; i++) {
+                if (settings.playerTypes.contains(PlayerType.ADVANCED_AI)) {
+                    System.out.println("\n\n\n\n");
+                    System.out.println("RUNDE: " + i);
+                    System.out.println("\n\n\n\n");
                 }
-            else {
-                states.add(new GameSystem(players, types, configuration, cards));
-                states.get(i).initGame(null);
+                if (x != (int) (((double) i / settings.numTournamentRounds) * 100))
+                    System.out.println("Status: " + (int) (((double) i / settings.numTournamentRounds) * 100) + "%");
+                x = (int) (((double) i / settings.numTournamentRounds) * 100);
+                states.add(new GameSystem(settings, configuration));
+                states.get(states.size() - 1).createPlayers(new ArrayList<>());
+                states.get(states.size() - 1).initPlayers();
             }
+            wins = new ArrayList<>(5);
+                for (final GameSystem system : states)
+                    wins.set(system.getWinnerID(), wins.get(system.getWinnerID()) + 1);
+            System.out.println(wins);
         }
-        System.out.println(states.size());
-        int[] scores;
-        wins = new ArrayList<>();
-        wins.clear();
-        for (int i = 0; i < types.length + 1; i++) wins.add(0);
-        for (final GameSystem state : states) {
-            if (state.getWinner() == null)
-                wins.set(types.length, wins.get(types.length) + 1);
-            else
-                wins.set(state.getWinner().getPlayerID(), wins.get(state.getWinner().getPlayerID()) + 1);
-        }
-        System.out.println(wins);
     }
     public ArrayList<Integer> getWins() {
         return wins;
-    }
-
-}
-         */
     }
 }

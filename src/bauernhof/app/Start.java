@@ -12,6 +12,7 @@ import bauernhof.app.settings.Se;
 import bauernhof.app.settings.SePa;
 import bauernhof.app.system.GameSystem;
 import bauernhof.app.networking.ClientConnector;
+import bauernhof.app.system.Tournament;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
@@ -29,13 +30,12 @@ public class Start {
             GameConfigurationParser GameConfPars = new GaCoPa();
             GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
         if (args.length == 0) {
-            SePa sePa = new SePa();
             Settings settings = new Settings();
             settings.logLevel = LogLevel.INFO;
             settings.implementedOptionalFeatures = Arrays.asList();
             settings.playerNames = Arrays.asList("Player 1", "Player 2");
             settings.playerColors = Arrays.asList(Color.blue, Color.orange);
-            settings.playerTypes = Arrays.asList(PlayerType.HUMAN, PlayerType.SIMPLE_AI);
+            settings.playerTypes = Arrays.asList(PlayerType.RANDOM_AI, PlayerType.RANDOM_AI);
             settings.gameConfigurationFile = null;
             settings.delay = 0L;
             settings.showGUI = true;
@@ -46,10 +46,8 @@ public class Start {
             settings.numTournamentRounds = 0;
             settings.waitAfterTournamentRound = true;
             settings.volume = 0;
-            final GameSystem gameSystem = new GameSystem(settings, GaCo);
-            gameSystem.createPlayers(new ArrayList<>());
-            final UiGame graphics = new UiGame(GaCo, gameSystem);
-            gameSystem.initPlayers(graphics);
+            final Tournament tournament = new Tournament(settings, GaCo);
+            tournament.initTournament();
         }
         if (network == 1) {
             initServer(GaCo);
