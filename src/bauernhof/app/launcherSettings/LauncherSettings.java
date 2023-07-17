@@ -1,4 +1,4 @@
-package bauernhof.app.settings;
+package bauernhof.app.launcherSettings;
 
 import bauernhof.app.*;
 import bauernhof.preset.GameConfiguration;
@@ -13,21 +13,21 @@ import java.util.*;
  * @author Julius Hunold
  * Georg-August-Universität in Göttingen
  */
-public class Se {
+public class LauncherSettings {
     private GameConfiguration GameConf;
     private int ai;
     private String name;
     private int sound;
     private String rawConfiguration;
     protected HashMap<String, GameConfiguration> GameConfigurations;
-    private SePa SettingsParser;
+    private LauncherSettingsParser SettingsParser;
 
     /**
      * Constructs a new Se object with the specified settings parser.
      *
      * @param SettingsParser the settings parser to use.
      */
-    public Se(SePa SettingsParser) {
+    public LauncherSettings(LauncherSettingsParser SettingsParser) {
         this.SettingsParser = SettingsParser;
         this.getGameConfs();
     }
@@ -105,9 +105,9 @@ public class Se {
      *
      * @param ai     the AI value to set.
      * @param change true if the settings should be updated in xml, false otherwise.
-     * @throws SeEx if there is an error during the update process.
+     * @throws LauncherSettingsException if there is an error during the update process.
      */
-    public void setAi(int ai, boolean change) throws SeEx {
+    public void setAi(int ai, boolean change) throws LauncherSettingsException {
         this.ai = ai;
         this.SettingsParser.setAi(ai);
     }
@@ -154,9 +154,9 @@ public class Se {
      *
      * @param sound  the sound value to set.
      * @param change true if the settings should be updated in xml, false otherwise.
-     * @throws SeEx if there is an error during the update process.
+     * @throws LauncherSettingsException if there is an error during the update process.
      */
-    public void setSound(int sound, boolean change) throws SeEx {
+    public void setSound(int sound, boolean change) throws LauncherSettingsException {
         this.sound = sound;
         this.SettingsParser.setSound(sound);
     }

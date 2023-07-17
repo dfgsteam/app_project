@@ -1,4 +1,4 @@
-package bauernhof.app.settings;
+package bauernhof.app.launcherSettings;
 
 import java.io.*;
 
@@ -20,7 +20,7 @@ import bauernhof.preset.GameConfiguration;
  * @since 2023-06-27
  */
 
-public class SePa {
+public class LauncherSettingsParser {
     File file;
 
     /**
@@ -28,10 +28,10 @@ public class SePa {
      *
      * @param file the File object representing the file to be parsed
      * @return the parsed Settings object
-     * @throws SeEx if there is an error in the configuration
+     * @throws LauncherSettingsException if there is an error in the configuration
      * @throws IOException if an I/O error occurs while reading the file
      */
-    public Se parse(File file) throws SeEx, IOException {
+    public LauncherSettings parse(File file) throws LauncherSettingsException, IOException {
         this.file = file;
         try (FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
@@ -48,7 +48,7 @@ public class SePa {
             String fileContents = stringBuilder.toString();
             
             try {
-                Se Settings = new Se(this);
+                LauncherSettings Settings = new LauncherSettings(this);
                 Document document = null;
                 Element root = null;
                 
@@ -59,14 +59,14 @@ public class SePa {
                     document = builder.parse(new InputSource(new StringReader(fileContents)));
                     Settings.setRawConfiguration(fileContents);
                 } catch(Exception e) {
-                    throw new SeEx("xml build not loading", e);
+                    throw new LauncherSettingsException("xml build not loading", e);
                 }
 
                 // Root-Element erhalten
                 try {
                     root = document.getDocumentElement();
                 } catch(Exception e) {
-                    throw new SeEx("rootElement not loading", e);
+                    throw new LauncherSettingsException("rootElement not loading", e);
                 }
 
                 // Sound-Element erhalten
@@ -74,7 +74,7 @@ public class SePa {
                     Element soundElement = (Element) root.getElementsByTagName("Sound").item(0);
                     Settings.setSound(Integer.parseInt(soundElement.getTextContent()));
                 } catch(Exception e) {
-                    throw new SeEx("soundElement not loading", e);
+                    throw new LauncherSettingsException("soundElement not loading", e);
                 }
 
                 // Cardset-Element erhalten
@@ -87,7 +87,7 @@ public class SePa {
                         Settings.setGameConf((GameConfiguration)null);
                     }
                 } catch(Exception e) {
-                    throw new SeEx("cardSetElement not loading", e);
+                    throw new LauncherSettingsException("cardSetElement not loading", e);
                 }
 
                 // AI-Element erhalten
@@ -95,7 +95,7 @@ public class SePa {
                     Element aiElement = (Element) root.getElementsByTagName("AI").item(0);
                     Settings.setAi(Integer.parseInt(aiElement.getTextContent()));
                 } catch(Exception e) {
-                    throw new SeEx("aiElement not loading", e);
+                    throw new LauncherSettingsException("aiElement not loading", e);
                 }
 
                 // Name-Element erhalten
@@ -103,13 +103,13 @@ public class SePa {
                     Element nameElement = (Element) root.getElementsByTagName("Name").item(0);
                     Settings.setName(nameElement.getTextContent());
                 } catch(Exception e) {
-                    throw new SeEx("nameElement not loading", e);
+                    throw new LauncherSettingsException("nameElement not loading", e);
                 }
 
                 return Settings;
 
             } catch (Exception e) {
-                throw new SeEx(e);
+                throw new LauncherSettingsException(e);
             }
 
         } catch (IOException e) {
@@ -121,15 +121,15 @@ public class SePa {
      * Sets the sound value in the XML file and saves the changes.
      * 
      * @param sound the sound value to set.
-     * @throws SeEx if there is an error during the XML modification or saving.
+     * @throws LauncherSettingsException if there is an error during the XML modification or saving.
      */
-    public void setSound(int sound) throws SeEx {
+    public void setSound(int sound) throws LauncherSettingsException {
         Document document = null;
         try {
             DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             document = documentBuilder.parse(this.file);
         } catch(Exception e) {
-            throw new SeEx("xml build not loading", e);
+            throw new LauncherSettingsException("xml build not loading", e);
         }
 
         try {
@@ -137,7 +137,7 @@ public class SePa {
             Element soundElement = (Element) nodeList.item(0);
             soundElement.setTextContent(Integer.toString(sound));
         } catch(Exception e) {
-            throw new SeEx("change failed", e);
+            throw new LauncherSettingsException("change failed", e);
         }
 
         this.save(document);
@@ -154,15 +154,15 @@ public class SePa {
      * Sets the AI value in the XML file and saves the changes.
      * 
      * @param ai the AI value to set.
-     * @throws SeEx if there is an error during the XML modification or saving.
+     * @throws LauncherSettingsException if there is an error during the XML modification or saving.
      */
-    public void setAi(int ai) throws SeEx {
+    public void setAi(int ai) throws LauncherSettingsException {
        Document document = null;
         try {
             DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             document = documentBuilder.parse(this.file);
         } catch(Exception e) {
-            throw new SeEx("xml build not loading", e);
+            throw new LauncherSettingsException("xml build not loading", e);
         }
 
         try {
@@ -170,7 +170,7 @@ public class SePa {
             Element soundElement = (Element) nodeList.item(0);
             soundElement.setTextContent(Integer.toString(ai));
         } catch(Exception e) {
-            throw new SeEx("change failed", e);
+            throw new LauncherSettingsException("change failed", e);
         }
 
         this.save(document); 
@@ -187,9 +187,9 @@ public class SePa {
      * Saves the XML document to the file.
      * 
      * @param document the XML document to save.
-     * @throws SeEx if there is an error during saving.
+     * @throws LauncherSettingsException if there is an error during saving.
      */
-    private void save(Document document) throws SeEx {
+    private void save(Document document) throws LauncherSettingsException {
         try {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
@@ -197,7 +197,7 @@ public class SePa {
             StreamResult result = new StreamResult(this.file);
             transformer.transform(source, result);
         } catch (Exception e) {
-            throw new SeEx("file not save", e);
+            throw new LauncherSettingsException("file not save", e);
         }
     }
 
