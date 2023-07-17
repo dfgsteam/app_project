@@ -3,6 +3,7 @@ package bauernhof.app.system;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.types.*;
 import bauernhof.app.ui.game.UiGame;
+import bauernhof.app.ui.game.listener.SpaceListener;
 import bauernhof.preset.*;
 import bauernhof.preset.networking.RemotePlayer;
 import bauernhof.preset.networking.S2CConnection;
@@ -24,15 +25,16 @@ public class GameSystem extends GameBoard {
     private boolean run;
     private Player[] players;
     private Settings settings;
-    public GameSystem(final Settings settings, final GameConfiguration configuration, final UiGame graphics) {
-        super(settings.playerNames.size(), configuration, graphics);
+    public GameSystem(final Settings settings, final GameConfiguration configuration) {
+        super(settings.playerNames.size(), configuration);
         this.settings = settings;
-        players = new Player[settings.playerTypes.size()];
+        players = new Player[numplayers];
+        this.run = true;
     }
-    public void initPlayers(final ArrayList<S2CConnection> connection) throws Exception {
+    public void createPlayers(final ArrayList<S2CConnection> connection) throws Exception {
         players = new Player[settings.playerTypes.size()];
         int remotecounter = -1;
-        for (int playerid = 0; playerid < players.length; playerid++) {
+        for (int playerid = 0; playerid < numplayers; playerid++) {
             switch (settings.playerTypes.get(playerid)) {
                 case ADVANCED_AI:
                     players[playerid] = new Advanced_AI(settings, getPlayerCards(playerid), this.clone());
@@ -52,12 +54,14 @@ public class GameSystem extends GameBoard {
                     break;
             }
         }
-        initPlayers(players);
     }
-    public void initPlayers(final Player[] players) throws Exception {
-        for(int playerid = 1; playerid <= players.length; playerid++)
-            players[playerid].init(configuration, getDrawPileCards(), players.length, playerid);
-        for (int playerid = 0; playerid < players.length; playerid++) {
+    public void initPlayers(final UiGame graphics) throws Exception {
+        GameBoard.graphics = graphics;
+        for(int playerid = 1; playerid <= numplayers; playerid++)
+            players[playerid - 1].init(configuration, getDrawPileCards(), numplayers, playerid);
+
+        for (int playerid = 0; playerid < numplayers; playerid++) {
+            if (settings.delay <= 0) return;
             Thread.sleep(settings.delay);
             this.initBeginnerCards(playerid);
         }
@@ -82,11 +86,15 @@ public class GameSystem extends GameBoard {
             if (!player.equals(getActualPlayer()))
                 player.update(move);
         // Check End Conditions
-        if (this.getRound() > 30 || this.getDrawPileCards().isEmpty() || getDepositedCards().size() >= configuration.getNumDepositionAreaSlots()) run = false;
+        if (this.getRound() > 30 || getDepositedCards().size() >= configuration.getNumDepositionAreaSlots()) run = false;
         if (getGraphics() != null) getGraphics().move(!run);
         // Do Normal Move
         if (run) {
-            if (!(getActualPlayer() instanceof HumanPlayer || getActualPlayer() instanceof RemotePlayer)) Thread.sleep(settings.delay);
+            if (!(getActualPlayer() instanceof HumanPlayer || getActualPlayer() instanceof RemotePlayer))
+                if (settings.delay <= 0)
+                    return true;
+                else
+                    Thread.sleep(settings.delay);
             this.executeMove(getActualPlayer().request());
         } else for (final Player player : players)
                 player.verifyGame(getAllScores());
@@ -103,9 +111,5 @@ public class GameSystem extends GameBoard {
 
     public Color getPlayerColor(final int playerid) {
         return settings.playerColors.get(playerid);
-    }
-
-    public GameConfiguration getConfiguration() {
-        return configuration;
     }
 }

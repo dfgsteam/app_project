@@ -16,14 +16,14 @@ import bauernhof.preset.card.Card;
 public abstract class AbstractGamePlayer implements Player {
     private int playerid;
     protected GameConfiguration configuration;
-    private PlayerCards playercards;
-    protected GameBoard gamesystem;
+    protected PlayerCards playercards;
+    protected GameBoard gameBoard;
     private Settings settings;
 
-    public AbstractGamePlayer(final Settings settings, final PlayerCards playercards, final GameBoard gamesystem) {
+    public AbstractGamePlayer(final Settings settings, final PlayerCards playercards, final GameBoard gameBoard) {
         this.settings = settings;
         this.playercards = playercards;
-        this.gamesystem = gamesystem;
+        this.gameBoard = gameBoard;
     }
 
 
@@ -37,22 +37,26 @@ public abstract class AbstractGamePlayer implements Player {
         this.playerid = playerid - 1;
         this.configuration = configuration;
         for (int i = 0; i < numplayers; i++)
-            gamesystem.initBeginnerCards(playerid);
+            gameBoard.initBeginnerCards(i);
     }
 
     @Override
     public void update(Move opponentMove) throws Exception {
-        if(!gamesystem.executeMove(opponentMove)) GameBoard.getGraphics().createCheaterPanel(settings.playerNames.get(gamesystem.getActivePlayerID()));
+        if(!gameBoard.executeMove(opponentMove)) {
+            System.out.println(getName());
+            GameBoard.getGraphics().createCheaterPanel(settings.playerNames.get(gameBoard.getActivePlayerID()));
+
+        }
     }
 
     public boolean executeMove(Move move) throws Exception {
-        return gamesystem.executeMove(move);
+        return gameBoard.executeMove(move);
     }
 
     @Override
     public void verifyGame(ImmutableList<Integer> scores) throws Exception {
         for (int playerid = 0; playerid < scores.size(); playerid++)
-            if (scores.get(playerid) != gamesystem.getAllScores().get(playerid))
+            if (!scores.get(playerid).equals(gameBoard.getAllScores().get(playerid)))
                 GameBoard.getGraphics().createCheaterPanel(settings.playerNames.get(playerid));
     }
 

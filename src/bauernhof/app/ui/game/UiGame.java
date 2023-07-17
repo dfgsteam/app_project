@@ -1,15 +1,11 @@
 package bauernhof.app.ui.game;
 
 import bauernhof.app.player.types.HumanPlayer;
-import bauernhof.app.system.GameBoard;
 import bauernhof.app.system.GameSystem;
-import bauernhof.preset.GameConfiguration;
-import bauernhof.preset.Player;
-import bauernhof.preset.PlayerType;
+import bauernhof.app.ui.game.listener.SpaceListener;
+import bauernhof.preset.*;
 import bauernhof.preset.card.*;
 import bauernhof.app.Init;
-import bauernhof.app.launcher.GameBoardState;
-import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.group.button.PanelButtonSaveGame;
 import bauernhof.app.ui.game.group.button.PanelButtonScreenshot;
 import bauernhof.app.ui.game.group.display.GroupDisplayDepositedDeck;
@@ -35,7 +31,7 @@ import javax.swing.JFrame;
  * @version 1.0
  * @since 2023-07-14
  */
-public class UiGame {
+public class UiGame implements PlayerGUIAccess {
 
     public static int WIDTH = 1920;
     public static int HEIGTH = 1080;
@@ -57,8 +53,12 @@ public class UiGame {
     private GroupDisplayDepositedDeck groupDisplayDepositedDeck;
 
     private GameSystem gameSystem;
+    private Move move;
+    private Card add;
+    private Object lock = new Object();
 
     private int playerId = 0;
+    private SpaceListener space;
 
     /**
      * Constructs a new UiGame object.
@@ -78,7 +78,8 @@ public class UiGame {
         this.panelDepositedCards = new PanelDepositedCards(this);
         this.panelDrawPileCards = new PanelDrawPileCards(this);
         //this.panelExchangeCards = new PanelExchangeCards(this);
-
+        this.space = new SpaceListener(gameSystem);
+        this.FRAME.addKeyListener(space);
         // Initialize GGroups
         this.groupDisplayRound = new GroupDisplayRound(this);
         this.groupDisplayPlayerCards = new GroupDisplayPlayerCards(this);
@@ -89,7 +90,7 @@ public class UiGame {
         new PanelButtonSaveGame(this);
 
         // Initialize playerCards
-        for (int index = 0; index < ; index++)
+        for (int index = 0; index < this.getGameSystem().getPlayers().length ; index++)
             this.groupDisplayPlayerCards.updatePlayer(index);
     }
 
@@ -124,6 +125,7 @@ public class UiGame {
         } else {
             // Show end of game panel
             this.playerId = 5;
+            this.FRAME.removeKeyListener(space);
             new GroupPopupScore(this);
         }
     }
@@ -134,9 +136,13 @@ public class UiGame {
      * @param gCard The GCard object representing the selected card.
      */
     public void moveAddCard(GCard gCard) {
+        this.add = gCard.getCard();
+        gameSystem.getActualPlayerCards().add(this.add);
        // ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
         this.createExchangePanel();
     }
+
+
 
     /**
      * Moves the selected card from the player's hand to the discarded pile.
@@ -145,6 +151,11 @@ public class UiGame {
      * @throws Exception If an error occurs during the move.
      */
     public void movePopCard(GCard gCard) throws Exception {
+        gameSystem.getActualPlayerCards().remove(this.add);
+        synchronized (lock) {
+            this.move = new Move(add, gCard.getCard());
+            lock.notify();
+        }
         this.setMainPanel(3); // Does not update correctly. Panel is only displayed properly during HUMAN move
      //   ((HumanPlayer) this.gameBoardState.getActualPlayer()).doMove(gCard.getCard());
     }
@@ -286,6 +297,20 @@ public class UiGame {
             Init.main(null);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Move requestMoveFromCurrentHumanPlayer() {
+        while (move == null);
+        synchronized (lock) {
+            while (move == null)
+                try {
+                    lock.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            return move;
         }
     }
 }

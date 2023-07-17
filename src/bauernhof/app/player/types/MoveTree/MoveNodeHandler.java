@@ -2,6 +2,7 @@ package bauernhof.app.player.types.MoveTree;
 
 import java.util.ArrayList;
 
+import bauernhof.app.system.GameBoard;
 import bauernhof.app.system.GameSystem;
 import bauernhof.preset.Move;
 
@@ -66,14 +67,14 @@ public interface MoveNodeHandler<T> {
 
     /**
      * Get the board_state where a move has to be done on
-     * @return GameSystem
+     * @return GameBoard
      */
-    public GameSystem getActualBoardState();
+    public GameBoard getActualBoardState();
 
     /**
      * Set the actual_boardState
      * @param state
      */
-    public void setActualBoardState(GameSystem state);
+    public void setActualBoardState(GameBoard state);
 
 }

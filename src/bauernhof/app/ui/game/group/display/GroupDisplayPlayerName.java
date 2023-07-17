@@ -48,7 +48,7 @@ public class GroupDisplayPlayerName extends GGroup {
      * @throws Exception If an error occurs during initialization.
      */
     public GroupDisplayPlayerName(UiGame UiGame) throws Exception {
-        this.gameBoard = UiGame.getGameBoardState();
+        this.gameBoard = UiGame.getGameSystem();
         GGroup panel;
         GRect area = new GRect(0f, 0f, 0f, 0f, false);
         GText text = new GText(null);

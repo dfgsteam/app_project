@@ -6,17 +6,16 @@ import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
 
 import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author Ramon Cemil Kimyon
  * @date 13.07.2023 14:05
  */
 public class Tournament {
     private ArrayList<Integer> wins;
+
     public Tournament(final String[] players, final PlayerType[] types, final GameConfiguration configuration, ImmutableList<Card> cards, int numbergames) throws Exception {
         final ArrayList<GameSystem> states = new ArrayList<>();
-        int x = 0;
+        /*int x = 0;
         for (int i = 0; i < numbergames; i++) {
             if (List.of(types).contains(PlayerType.ADVANCED_AI)) {
                 System.out.println("\n\n\n\n");
@@ -58,4 +57,7 @@ public class Tournament {
         return wins;
     }
 
+}
+         */
+    }
 }

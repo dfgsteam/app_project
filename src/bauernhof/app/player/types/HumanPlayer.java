@@ -17,7 +17,7 @@ public class HumanPlayer extends AbstractGamePlayer {
     private PlayerGUIAccess access;
     public HumanPlayer(final Settings settings, final PlayerCards playercards, final GameBoard gamesystem) {
         super(settings, playercards, gamesystem);
-        this.access = GameBoard.getGraphics();
+        this.access = (PlayerGUIAccess) GameBoard.getGraphics();
     }
 
     @Override

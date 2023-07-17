@@ -21,7 +21,7 @@ public class ClientConnector extends C2SConnection {
 
     @Override
     protected void onInit(GameConfiguration game_configuration, ImmutableList<Card> initialDrawPile, ImmutableList<String> playerNames, int playerid) throws Exception {
-        final PlayerType[] types = new PlayerType[playerNames.size()];
+       /* final PlayerType[] types = new PlayerType[playerNames.size()];
         for (int i = 0; i < playerNames.size(); i++) {
             if (i == playerid)
                 types[i] = this.type;
@@ -34,10 +34,11 @@ public class ClientConnector extends C2SConnection {
         this.gameboardstate = new GameSystem(names, types, game_configuration, initialDrawPile);
         UiGame gameBoard = new UiGame(game_configuration, gameboardstate);
         gameboardstate.initGame(gameBoard);
-        this.player = gameboardstate.getPlayers()[playerid];
+        this.player = gameboardstate.getPlayers()[playerid]; */
     }
     public GameSystem getGameBoardState() {
-        return this.gameboardstate;
+       // return this.gameboardstate;
+        return null;
     }
 
     @Override

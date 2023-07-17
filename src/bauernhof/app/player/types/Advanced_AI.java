@@ -1,44 +1,35 @@
 package bauernhof.app.player.types;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
-import javax.sound.midi.Sequence;
-
-import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
-import bauernhof.app.player.types.MoveTree.MoveNode;
+import bauernhof.app.player.PlayerCards;
 import bauernhof.app.player.types.MoveTree.Threads.AbstractThread;
 import bauernhof.app.player.types.MoveTree.Threads.SequenceThread;
 import bauernhof.app.player.types.MoveTree.Threads.WorkingThread;
-import bauernhof.app.settings.Se;
+import bauernhof.app.system.GameBoard;
 import bauernhof.preset.Move;
-import bauernhof.preset.PlayerType;
+import bauernhof.preset.Settings;
 import bauernhof.preset.card.Card;
 
 public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
     private ArrayList<Long> currentimes = new ArrayList<>();
     private long before;
-    private GameBoardState gameboardstate;
-    public Advanced_AI(String name) {
-        super(name, PlayerType.ADVANCED_AI);
+    public Advanced_AI(final Settings settings, final PlayerCards playercards, final GameBoard gameboard) {
+        super(settings, playercards, gameboard);
     }
-    public void setGameBoardState(final GameBoardState gameboardstate) {
-        this.gameboardstate = gameboardstate;
-    }
-
 
     @Override
     public Move request() throws Exception {
         before = System.currentTimeMillis();
-        WorkingThread workingThread1 = new WorkingThread(gameboardstate.clone());
+        WorkingThread workingThread1 = new WorkingThread(gameBoard.clone());
 
         SequenceThread sequenceThread1 = new SequenceThread(true);
         
         System.out.println(SequenceThread.differences);
         Move move = AbstractThread.getTree().getRootNode().getNextNodes().get(SequenceThread.differences.indexOf(Collections.max(SequenceThread.differences))).getMove();
 
-        System.out.println("ROUND: " + gameboardstate.getRound());
+        System.out.println("ROUND: " + gameBoard.getRound());
         System.out.println("CURRENT: " + (System.currentTimeMillis() - before));
         currentimes.add(System.currentTimeMillis() - before);
         int x = 0;

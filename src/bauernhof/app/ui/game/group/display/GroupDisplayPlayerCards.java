@@ -2,8 +2,10 @@ package bauernhof.app.ui.game.group.display;
 
 import bauernhof.app.card.Ca;
 import bauernhof.app.player.AbstractGamePlayer;
+import bauernhof.app.player.PlayerCards;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.listener.card.CardListener;
+import bauernhof.preset.Player;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
 import sag.LayerPosition;
@@ -32,24 +34,25 @@ public class GroupDisplayPlayerCards extends GGroup {
     
     private GGroup groupPlayer[] = new GGroup[4];
     private float pos[][][];
-    private UiGame UiGame;
+    private UiGame uiGame;
 
     /**
      * Constructs a new GroupDisplayPlayerCards object.
      * The object represents a group for displaying player cards in the game UI.
      * 
-     * @param UiGame The UiGame object that represents the game UI.
+     * @param uiGame The UiGame object that represents the game UI.
      */
-    public GroupDisplayPlayerCards (UiGame UiGame) {
-        this.UiGame = UiGame;
-        int maxCards = this.UiGame.getGameBoardState().getConfiguration().getNumCardsPerPlayerHand();
-        this.pos = new float[this.UiGame.getGameBoardState().getPlayers().length][maxCards][2];
-        for (int counter=0; counter<this.UiGame.getGameBoardState().getPlayers().length; counter++) {
+    public GroupDisplayPlayerCards (UiGame uiGame) {
+        this.uiGame = uiGame;
+        int maxCards = this.uiGame.getGameSystem().getConfiguration().getNumCardsPerPlayerHand();
+        int numplayers = uiGame.getGameSystem().getPlayers().length;
+        this.pos = new float[numplayers][maxCards][2];
+        for (int counter=0; counter < numplayers; counter++) {
             switch (counter) {
-                case 0: this.groupPlayer[0] = this.UiGame.getMainPanel().addLayer(LayerPosition.BOTTOM_CENTER); break;
-                case 1: this.groupPlayer[1] = this.UiGame.getMainPanel().addLayer(LayerPosition.CENTER_LEFT); break;
-                case 2: this.groupPlayer[2] = this.UiGame.getMainPanel().addLayer(LayerPosition.TOP_CENTER); break;
-                case 3: this.groupPlayer[3] = this.UiGame.getMainPanel().addLayer(LayerPosition.CENTER_RIGHT); break;
+                case 0: this.groupPlayer[0] = this.uiGame.getMainPanel().addLayer(LayerPosition.BOTTOM_CENTER); break;
+                case 1: this.groupPlayer[1] = this.uiGame.getMainPanel().addLayer(LayerPosition.CENTER_LEFT); break;
+                case 2: this.groupPlayer[2] = this.uiGame.getMainPanel().addLayer(LayerPosition.TOP_CENTER); break;
+                case 3: this.groupPlayer[3] = this.uiGame.getMainPanel().addLayer(LayerPosition.CENTER_RIGHT); break;
             }
             this.groupPlayer[counter].setScale(0.65f-(0.01f*maxCards));
 
@@ -118,9 +121,9 @@ public class GroupDisplayPlayerCards extends GGroup {
      * @throws InterruptedException If the thread is interrupted during card updates.
      */
     public void updatePlayer(int playerId) throws ChildNotFoundException, InterruptedException {
-        AbstractGamePlayer player = this.UiGame.getGameBoardState().getPlayers()[playerId];
+        PlayerCards playerCards = uiGame.getGameSystem().getPlayerCards(playerId);
         this.clearPlayerPanel(playerId);
-        Object[] cards = player.getCards().toArray();
+        Object[] cards = playerCards.getCards().toArray();
 
         for (int item=0; item<cards.length; item++) {
             GCard gCard = ((Ca) cards[item]).getGCard();
@@ -128,7 +131,7 @@ public class GroupDisplayPlayerCards extends GGroup {
             gCard.setMouseEventListener(new CardListener());
 
             // Wenn Karte blockiert = rote umrandung
-            if (player.getBlockedCards().contains(cards[item]))
+            if (playerCards.getBlockedCards().contains(cards[item]))
                 System.out.println(gCard.getCard().getName());
 
             // Karte der Gruppe hinzufügen

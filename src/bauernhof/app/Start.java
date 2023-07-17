@@ -1,5 +1,6 @@
 package bauernhof.app;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -7,6 +8,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import bauernhof.app.settings.Se;
+import bauernhof.app.settings.SePa;
 import bauernhof.app.system.GameSystem;
 import bauernhof.app.networking.ClientConnector;
 import bauernhof.app.ui.game.UiGame;
@@ -26,11 +29,27 @@ public class Start {
             GameConfigurationParser GameConfPars = new GaCoPa();
             GameConfiguration GaCo = GameConfPars.parse(gameConfFile);
         if (args.length == 0) {
-            final GameSystem gameBoard = new GameSystem(new String[]{"Florian", "Julius", "Cemil", "Horst"}, new PlayerType[]{PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI}, GaCo, new ImmutableList<>(GaCo.getCards()));
-            UiGame GB = new UiGame(GaCo, gameBoard);
-
-            gameBoard.initGame(GB);
-            System.out.println(GaCo.getConfigDescription());
+            SePa sePa = new SePa();
+            Settings settings = new Settings();
+            settings.logLevel = LogLevel.INFO;
+            settings.implementedOptionalFeatures = Arrays.asList();
+            settings.playerNames = Arrays.asList("Player 1", "Player 2");
+            settings.playerColors = Arrays.asList(Color.blue, Color.orange);
+            settings.playerTypes = Arrays.asList(PlayerType.HUMAN, PlayerType.SIMPLE_AI);
+            settings.gameConfigurationFile = null;
+            settings.delay = 0L;
+            settings.showGUI = true;
+            settings.connectToHostname = null;
+            settings.port = 6600;
+            settings.loadSaveGameFile = null;
+            settings.shouldLauncherLaunch = false;
+            settings.numTournamentRounds = 0;
+            settings.waitAfterTournamentRound = true;
+            settings.volume = 0;
+            final GameSystem gameSystem = new GameSystem(settings, GaCo);
+            gameSystem.createPlayers(new ArrayList<>());
+            final UiGame graphics = new UiGame(GaCo, gameSystem);
+            gameSystem.initPlayers(graphics);
         }
         if (network == 1) {
             initServer(GaCo);
@@ -75,12 +94,12 @@ public class Start {
 
             types[i] = PlayerType.REMOTE;
         }
-        final GameSystem gameBoard = new GameSystem(playernames, types, configuration, new ImmutableList<>(configuration.getCards()));
-        UiGame GB = new UiGame(configuration, gameBoard);
-        for (int i = 0; i < playernames.length; i++)
+       // final GameSystem gameBoard = new GameSystem(playernames, types, configuration, new ImmutableList<>(configuration.getCards()));
+       // UiGame GB = new UiGame(configuration, gameBoard);
+       /* for (int i = 0; i < playernames.length; i++)
             if(gameBoard.getPlayers()[i].getPlayerType() == PlayerType.REMOTE)
                 ((LocalRemotePlayer) gameBoard.getPlayers()[i]).setS2CConnection(s2cconnections.get(i - (playernames.length - client_connections)));
-        gameBoard.initGame(GB);
+        gameBoard.initGame(GB); */
         System.out.println(configuration.getConfigDescription());
     }
     private static final void initClient(final GameConfigurationParser parser, final String projectname) throws IOException, RemoteException {

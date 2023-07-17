@@ -3,9 +3,8 @@ package bauernhof.app.player.types.MoveTree.Threads;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.types.MoveTree.MoveNode;
-import bauernhof.app.ui.game.GameBoard;
+import bauernhof.app.system.GameBoard;
 import bauernhof.preset.Move;
 import bauernhof.preset.card.Card;
 
@@ -21,7 +20,7 @@ public class WorkingThread extends AbstractThread {
      * @param actual_state
      * @throws Exception
      */
-    public WorkingThread(GameBoardState actual_state) throws Exception {
+    public WorkingThread(GameBoard actual_state) throws Exception {
         super(actual_state);
         max = -100;
         this.setThreadNode(getTree().getRootNode());
@@ -34,7 +33,6 @@ public class WorkingThread extends AbstractThread {
 
     /**
      * Constructor, that signalises, that there are some next_calculations and that the tree is not empty
-     * @param tree
      */
     public WorkingThread() {
         this.setThreadNode(null);
@@ -52,9 +50,9 @@ public class WorkingThread extends AbstractThread {
         if (checkMove(cardNumPut, cardNumTake) == null) { return false; }
 
         Move new_move = checkMove(cardNumPut, cardNumTake);
-        GameBoardState new_state = this.getThreadNode().getActualBoardState().clone();
+        GameBoard new_state = this.getThreadNode().getActualBoardState().clone();
 
-        new_state.doMove(new_move);
+        new_state.executeMove(new_move);
 
         MoveNode next_MoveNode = new MoveNode(new_move, this.getThreadNode(), new_state);
         next_MoveNode.setDepth(this.getThreadNode().getDepth()+1);
@@ -71,7 +69,7 @@ public class WorkingThread extends AbstractThread {
             }
 
             for (int i = -1; i < this.getThreadNode().getActualBoardState().getDepositedCards().size(); i++) {
-                for (int j = -1; j < this.getThreadNode().getActualBoardState().getActualPlayer().getCards().size(); j++) {
+                for (int j = -1; j < this.getThreadNode().getActualBoardState().getActualPlayerCards().getCards().size(); j++) {
                     if (!calcNextNode(i, j)) { continue; }
                     next_calculations.add(this.getThreadNode());
                     this.setThreadNode(this.getThreadNode().getPrevNode());
@@ -88,7 +86,7 @@ public class WorkingThread extends AbstractThread {
         Card to_take, to_put;
         if (cardNumTake < 0) {
             if (this.getThreadNode().getActualBoardState().getDrawPileCards().isEmpty()) { return null; }
-            to_take = this.getThreadNode().getActualBoardState().getDrawPileCards().lastElement();
+            to_take = this.getThreadNode().getActualBoardState().getDrawPileCards().get(this.getThreadNode().getActualBoardState().getDrawPileCards().size() - 1);
         }
 
         else {
@@ -101,13 +99,13 @@ public class WorkingThread extends AbstractThread {
         }
 
         else {
-            to_put = this.getThreadNode().getActualBoardState().getActualPlayer().getCards().get(cardNumPut);
+            to_put = this.getThreadNode().getActualBoardState().getActualPlayerCards().getCards().get(cardNumPut);
         }
 
         
         Move new_move = new Move(to_take, to_put);
         try {
-            if (!this.getThreadNode().getActualBoardState().clone().doMove(new_move)) { return null;}
+            if (!this.getThreadNode().getActualBoardState().clone().executeMove(new_move)) { return null;}
         } catch (Exception e) {
             System.err.println("Can't do a Move");
         }
@@ -116,18 +114,18 @@ public class WorkingThread extends AbstractThread {
         return new_move;
     }
 
-    public int calculateWinPoints(Move move, GameBoardState gameboard) {
+    public int calculateWinPoints(Move move, GameBoard gameboard) {
         int points = 0;
-        int actual_id = gameboard.getActualPlayer().getPlayerID();
+        int actual_id = gameboard.getActivePlayerID();
         
-        GameBoardState move_done = gameboard.clone();
+        GameBoard move_done = gameboard.clone();
         try {
-            move_done.doMove(move);
+            move_done.executeMove(move);
         } catch (Exception e) {
             System.err.println("Can't do a move");
         }
         try {
-           points = move_done.getPlayers()[actual_id].getScore();
+           points = move_done.getPlayerCards(actual_id).getScore();
         } catch (Exception e) {
             System.err.println("Can't get Points of the palyer");
         }

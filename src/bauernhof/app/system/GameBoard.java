@@ -17,11 +17,12 @@ import java.util.Stack;
  */
 public class GameBoard {
     private int activeplayerid;
-    private static UiGame graphics;
+    protected static UiGame graphics;
     protected int round;
     private ArrayList<Card> deposited_cards;
     private Stack<Card> drawpile_cards = new Stack<>();
     private PlayerCards[] playercards;
+    protected int numplayers;
     protected GameConfiguration configuration;
     public GameBoard(final PlayerCards[] playercards, final int round, final int activeplayerid, final ArrayList<Card> deposited_cards, ImmutableList<Card> drawpile_cards, final GameConfiguration configuration) {
         this.playercards = playercards;
@@ -30,14 +31,14 @@ public class GameBoard {
         this.configuration = configuration;
         this.deposited_cards = deposited_cards;
         for (final Card card : drawpile_cards)
-            drawpile_cards.add(card);
+            this.drawpile_cards.add(card);
     }
-    public GameBoard(final int numplayers, final GameConfiguration configuration, final UiGame graphics, final int round, final int activeplayerid) {
+    public GameBoard(final int numplayers, final GameConfiguration configuration, final int round, final int activeplayerid) {
+        this.numplayers = numplayers;
         playercards = new PlayerCards[numplayers];
         for (int i = 0; i < numplayers; i++)
             playercards[i] = new PlayerCards();
         this.configuration = configuration;
-        GameBoard.graphics = graphics;
         this.round = round;
         this.activeplayerid = activeplayerid;
         final ImmutableList<Card> drawpile_cards = mixCards(new ImmutableList<>(configuration.getCards()));
@@ -45,8 +46,8 @@ public class GameBoard {
             this.drawpile_cards.add(card);
         deposited_cards = new ArrayList<>();
     }
-    public GameBoard(final int numplayers, final GameConfiguration configuration, final UiGame graphics) {
-        this(numplayers, configuration, graphics, 1, 0);
+    public GameBoard(final int numplayers, final GameConfiguration configuration) {
+        this(numplayers, configuration, 1, 0);
     }
     public GameBoard(final PlayerCards[] playercards, final int round, final int activeplayerid, final ArrayList<Card> deposited_cards, ImmutableList<Card> drawpile_cards, final GameConfiguration configuration, final UiGame graphics) {
         this(playercards, round, activeplayerid, deposited_cards, drawpile_cards, configuration);
@@ -82,15 +83,22 @@ public class GameBoard {
     public int getRound() {
         return this.round;
     }
+    public void setRound(final int round) {
+        this.round = round;
+    }
+    public GameConfiguration getConfiguration() {
+        return configuration;
+    }
     private ImmutableList<Card> mixCards(final ImmutableList<Card> cards) {
         ArrayList<Card> cardscopy = new ArrayList<>(cards);
         Collections.shuffle(cardscopy);
         ImmutableList<Card> cardsimmutablelist = new ImmutableList<>(cardscopy);
         return cardsimmutablelist;
     }
-    public void initBeginnerCards(final int playerid) {
+    public void initBeginnerCards(final int playerid) throws Exception {
         for (int i = 0; i < configuration.getNumCardsPerPlayerHand(); i++)
             playercards[playerid].add(drawpile_cards.pop());
+        if (graphics != null) graphics.move(false);
     }
 
     public boolean executeMove(final Move move) throws Exception {
@@ -110,6 +118,9 @@ public class GameBoard {
             this.round++;
         }
         return true;
+    }
+    public int getNumPlayers() {
+        return numplayers;
     }
     public static UiGame getGraphics() {
         return graphics;

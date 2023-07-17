@@ -18,7 +18,7 @@ public class Random_AI extends AbstractGamePlayer implements AIHeader{
         Card to_take = null;
         Card to_deposit = null;
 
-        if (state.getDepositedCards().isEmpty() || Math.random() < 0.5) {
+        if (gameBoard.getDepositedCards().isEmpty() || Math.random() < 0.5) {
             if(cardFromStack() != null)
             to_take = cardFromStack();
             else to_take = cardFromDeposit();
@@ -56,28 +56,28 @@ public class Random_AI extends AbstractGamePlayer implements AIHeader{
      */
     private final int depositRandomNumber() {
         Random random = new Random();
-        return (int)(random.nextInt(state.getDepositedCards().size()));
+        return (int)(random.nextInt(gameBoard.getDepositedCards().size()));
     }
 
     @Override
     public Card cardFromDeposit() {
        int deposit_random_index = depositRandomNumber();
       // System.out.println("deposit_random_index : " + deposit_random_index);
-       return state.getDepositedCards().get(deposit_random_index);
+       return gameBoard.getDepositedCards().get(deposit_random_index);
     }
 
     @Override
     public Card cardFromStack() {
-        if (state.getDrawPileCards().isEmpty())
+        if (gameBoard.getDrawPileCards().isEmpty())
             return null;
-        return state.getDrawPileCards().lastElement();
+        return gameBoard.getDrawPileCards().get(gameBoard.getDrawPileCards().size() - 1);
     }
 
     @Override
     public Card removeFromOwn(Card to_take) {
         int own_random_index = ownCardNumber();
         //System.out.println("own_random_index : " + own_random_index);
-        return (Card)this.getCards().toArray()[own_random_index];
+        return (Card)playercards.getCards().toArray()[own_random_index];
     }
     
 }

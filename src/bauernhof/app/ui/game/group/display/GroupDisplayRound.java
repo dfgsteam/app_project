@@ -42,7 +42,7 @@ public class GroupDisplayRound extends GGroup {
      */
     public GroupDisplayRound(UiGame UiGame) throws Exception {
         // Initialize class variables
-        this.gameBoard = UiGame.getGameBoardState();
+        this.gameBoard = UiGame.getGameSystem();
 
         // Panel
         GGroup panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER);

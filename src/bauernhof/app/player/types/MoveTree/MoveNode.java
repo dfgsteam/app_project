@@ -2,14 +2,14 @@ package bauernhof.app.player.types.MoveTree;
 
 import java.util.ArrayList;
 
-import bauernhof.app.system.GameSystem;
+import bauernhof.app.system.GameBoard;
 import bauernhof.preset.Move;
 
 public class MoveNode implements MoveNodeHandler<MoveNode> {
 
     private MoveNode prev_node;
     private Move move;
-    private GameSystem actual_state;
+    private GameBoard actual_state;
     private ArrayList<MoveNode> next_nodes;
     private int depth;
 
@@ -33,18 +33,18 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
         prev_node.addNextMoveNode(this);
     }
 
-    public MoveNode(GameSystem state) {
+    public MoveNode(GameBoard state) {
         this();
         this.setActualBoardState(state);
     }
 
 
-    public MoveNode(Move move, GameSystem state) {
+    public MoveNode(Move move, GameBoard state) {
         this(state);
         this.setMove(move);
     }
 
-    public MoveNode(Move move, MoveNode prev_Node, GameSystem state) {
+    public MoveNode(Move move, MoveNode prev_Node, GameBoard state) {
         this(move, state);
         prev_Node.addNextMoveNode(this);
     }
@@ -96,12 +96,12 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     }
 
     @Override
-    public GameSystem getActualBoardState() {
+    public GameBoard getActualBoardState() {
         return this.actual_state;
     }
 
     @Override
-    public void setActualBoardState(GameSystem state) {
+    public void setActualBoardState(GameBoard state) {
         this.actual_state = state;
     }
 

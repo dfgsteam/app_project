@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.types.MoveTree.MoveNode;
 import bauernhof.app.player.types.MoveTree.MoveTree;
@@ -37,12 +36,12 @@ public class SequenceThread extends AbstractThread {
 
     @Override
     public MoveNode getBestOfActual() throws Exception {
-        int max_points = this.getThreadNode().getNextNodes().get(0).getActualBoardState().getPlayers()[this.getThreadNode().getActualBoardState().getActualPlayer().getPlayerID()].getScore();
+        int max_points = this.getThreadNode().getNextNodes().get(0).getActualBoardState().getPlayerCards(this.getThreadNode().getActualBoardState().getActivePlayerID()).getScore();
         int index = 0;
         int i = 0;
         for (MoveNode node : this.getThreadNode().getNextNodes()) {
-            if (max_points < node.getActualBoardState().getPlayers()[this.getThreadNode().getActualBoardState().getActualPlayer().getPlayerID()].getScore()) {
-                max_points = node.getActualBoardState().getPlayers()[this.getThreadNode().getActualBoardState().getActualPlayer().getPlayerID()].getScore();
+            if (max_points < node.getActualBoardState().getPlayerCards(this.getThreadNode().getActualBoardState().getActivePlayerID()).getScore()) {
+                max_points = node.getActualBoardState().getPlayerCards(this.getThreadNode().getActualBoardState().getActivePlayerID()).getScore();
                 index = i;
             }
             i++;
@@ -54,20 +53,24 @@ public class SequenceThread extends AbstractThread {
     private final int maxEnemyPoints() {
         int points = 0;
         try {
-            points = this.getThreadNode().getActualBoardState().getPlayers()[0].getPlayerID() == getTree().getRootNode().getActualBoardState().getActualPlayer().getPlayerID() ? this.getThreadNode().getActualBoardState().getPlayers()[1].getScore() : this.getThreadNode().getActualBoardState().getPlayers()[0].getScore();
+            /*
+            TODO: Das ergibt keinen Sinn bei mehr als 2 Spielern
+             */
+            points = 0 == getTree().getRootNode().getActualBoardState().getActivePlayerID() ? this.getThreadNode().getActualBoardState().getPlayerCards(1).getScore() : this.getThreadNode().getActualBoardState().getPlayerCards(0).getScore();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        for (AbstractGamePlayer player : this.getThreadNode().getActualBoardState().getPlayers()) {
-            if (player.getPlayerID() == getTree().getRootNode().getActualBoardState().getActualPlayer().getPlayerID()) {
+
+        for (int i = 0; i < this.getThreadNode().getActualBoardState().getNumPlayers(); i++) {
+            if (i == getTree().getRootNode().getActualBoardState().getActivePlayerID()) {
                 continue;
             }
         
             try {
-                if (player.getScore() > points) {
-                    points = player.getScore();
+                if (this.getThreadNode().getActualBoardState().getPlayerCards(i).getScore() > points) {
+                    points = this.getThreadNode().getActualBoardState().getPlayerCards(i).getScore();
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -88,7 +91,7 @@ public class SequenceThread extends AbstractThread {
                 while (goDeeper());
                 try {
 
-                    differences.add(this.getThreadNode().getActualBoardState().getPlayers()[getTree().getRootNode().getActualBoardState().getActualPlayer().getPlayerID()].getScore() - maxEnemyPoints());
+                    differences.add(this.getThreadNode().getActualBoardState().getPlayerCards(getTree().getRootNode().getActualBoardState().getActivePlayerID()).getScore() - maxEnemyPoints());
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
