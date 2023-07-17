@@ -8,12 +8,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import bauernhof.app.settings.Se;
-import bauernhof.app.settings.SePa;
-import bauernhof.app.system.GameSystem;
-import bauernhof.app.networking.ClientConnector;
+import bauernhof.app.networking.Client;
 import bauernhof.app.system.Tournament;
-import bauernhof.app.ui.game.UiGame;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.networking.RemoteException;
@@ -43,7 +39,7 @@ public class Start {
             settings.port = 6600;
             settings.loadSaveGameFile = null;
             settings.shouldLauncherLaunch = false;
-            settings.numTournamentRounds = 10;
+            settings.numTournamentRounds = 1;
             settings.waitAfterTournamentRound = true;
             settings.volume = 0;
             final Tournament tournament = new Tournament(settings, GaCo);
@@ -102,7 +98,7 @@ public class Start {
     }
     private static final void initClient(final GameConfigurationParser parser, final String projectname) throws IOException, RemoteException {
         Socket socket = new Socket("localhost", port);
-        ClientConnector connector = new ClientConnector(PlayerType.SIMPLE_AI, socket, parser, projectname);
+        Client connector = new Client(PlayerType.SIMPLE_AI, socket, parser, projectname);
         System.out.println(connector.isOpen());
         connector.handlePackets();
     }

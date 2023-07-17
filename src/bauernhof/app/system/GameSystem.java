@@ -48,7 +48,6 @@ public class GameSystem extends GameBoard {
                     players[playerid] = new Random_AI(settings, getPlayerCards(playerid), this.clone());
                     break;
                 case REMOTE:
-                    players[playerid] = new Advanced_AI(settings, getPlayerCards(playerid), this.clone());
                     players[playerid] = connection.get(remotecounter++).getRemotePlayer();
                     break;
             }
@@ -89,10 +88,9 @@ public class GameSystem extends GameBoard {
         // Do Normal Move
         if (run) {
             if (!(getActualPlayer() instanceof HumanPlayer || getActualPlayer() instanceof RemotePlayer))
-                if (settings.delay <= 0)
+                if (settings.delay <= 0 && settings.showGUI)
                     return true;
-                else
-                    Thread.sleep(settings.delay);
+                else Thread.sleep(settings.delay);
             this.executeMove(getActualPlayer().request());
         } else for (final Player player : players)
                 player.verifyGame(getAllScores());
