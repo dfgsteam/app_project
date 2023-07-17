@@ -3,7 +3,7 @@ package bauernhof.app.ui.launcher;
 import javax.swing.*;
 
 import bauernhof.app.InitLocalGame;
-import bauernhof.app.settings.Se;
+import bauernhof.app.launcherSettings.LauncherSettings;
 import bauernhof.app.ui.launcher.panel.*;
 import bauernhof.preset.PlayerType;
 
@@ -21,7 +21,7 @@ public class UiLauncher {
 
     private JFrame frame;
 
-    protected Se Settings;
+    protected LauncherSettings Settings;
 
     private PanelHome homePanel;
     private PanelSettings settingsPanel;
@@ -29,7 +29,7 @@ public class UiLauncher {
     private PanelNetwork networkPanel;
 
 
-    public UiLauncher(Se Settings) throws IOException, InterruptedException {
+    public UiLauncher(LauncherSettings Settings) throws IOException, InterruptedException {
         // Erzeuge Frame
         this.frame = new JFrame("Hofbauern");
         
@@ -90,7 +90,7 @@ public class UiLauncher {
         this.Settings.setGameConf(this.Settings.getGameConfs().iterator().next()); // setze eine neue GameConfiguration
     }
 
-    public Se getSettings() {
+    public LauncherSettings getSettings() {
         return this.Settings;
     }
 

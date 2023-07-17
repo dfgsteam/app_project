@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import bauernhof.app.settings.SeEx;
+import bauernhof.app.launcherSettings.LauncherSettingsException;
 import bauernhof.preset.ArgumentParser;
 import bauernhof.preset.OptionalFeature;
 import bauernhof.preset.Settings;
 
 public class Init {
-    public static void main(String[] args) throws IOException, InterruptedException, SeEx {
+    public static void main(String[] args) throws IOException, InterruptedException, LauncherSettingsException {
         List<String> names = new ArrayList<>(List.of("Kirill Pokhilenko", "Ramon Cemil Kimyon", "Viktor Tevosyan","Florian Will", "Julius Hunold"));
         List<OptionalFeature> optionalFeatures = new ArrayList<>(List.of(OptionalFeature.ADVANCED_AI, OptionalFeature.LAUNCHER, OptionalFeature.SAVEGAMES, OptionalFeature.SCREENSHOTS, OptionalFeature.SIMPLE_AI, OptionalFeature.SOUNDEFFECTS, OptionalFeature.TOURNAMENTS));
         

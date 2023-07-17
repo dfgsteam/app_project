@@ -5,12 +5,12 @@ import java.util.Collections;
 import javax.sound.midi.Sequence;
 
 import bauernhof.app.launcher.GameBoardState;
+import bauernhof.app.launcherSettings.LauncherSettings;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.types.MoveTree.MoveNode;
 import bauernhof.app.player.types.MoveTree.Threads.AbstractThread;
 import bauernhof.app.player.types.MoveTree.Threads.SequenceThread;
 import bauernhof.app.player.types.MoveTree.Threads.WorkingThread;
-import bauernhof.app.settings.Se;
 import bauernhof.preset.Move;
 import bauernhof.preset.PlayerType;
 import bauernhof.preset.card.Card;
