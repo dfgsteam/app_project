@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import bauernhof.app.launcherSettings.LauncherSettingsException;
+import bauernhof.app.launcher.LauncherSettingsException;
 import bauernhof.preset.ArgumentParser;
 import bauernhof.preset.OptionalFeature;
 import bauernhof.preset.Settings;
