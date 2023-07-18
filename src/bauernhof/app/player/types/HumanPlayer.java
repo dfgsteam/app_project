@@ -4,7 +4,6 @@ import bauernhof.app.launcher.GameBoardState;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.preset.Move;
 import bauernhof.preset.PlayerType;
-import bauernhof.preset.card.Card;
 
 /**
  * Human Player - PlayerType Human Instanz
@@ -13,27 +12,12 @@ import bauernhof.preset.card.Card;
  * @date 10.06.2023 15:15
  */
 public class HumanPlayer extends AbstractGamePlayer {
-    private Move move;
-    private Card add;
-    private Move humanmove;
-    private GameBoardState state;
-    public HumanPlayer(String name, GameBoardState gameboardstate) {
+    public HumanPlayer(String name) {
         super(name, PlayerType.HUMAN);
-        this.state = gameboardstate;
     }
 
     @Override
     public Move request() throws Exception {
-        return this.humanmove;
-    }
-    public final void doMove(final Card remove) throws Exception {
-        this.humanmove = new Move(add, remove);
-        state.doMove(this.humanmove);
-        System.out.println("THIS");
-    }
-
-    public final void setAdd(final Card card) {
-        this.add = card;
-        this.add(card);
+        return null;
     }
 }

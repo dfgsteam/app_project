@@ -6,10 +6,30 @@ import sag.events.MouseEventListener;
 import sag.events.MouseMotionEvent;
 import sag.events.MouseWheelEvent;
 
+/**
+ * This class represents a mouse event listener for card elements in the game UI.
+ * It implements the MouseEventListener interface from the sag.events package.
+ * The listener provides functionality for handling various mouse events on card elements.
+ * 
+ * The CardListener class provides the following functionality:
+ * - Handling of mouse click events on card elements.
+ * - Handling of mouse press events on card elements, which scales the card element to a larger size.
+ * - Handling of mouse release events on card elements, which resets the card element's scale to the original size.
+ * - Handling of mouse enter events on card elements, which scales the card element to a slightly smaller size.
+ * - Handling of mouse exit events on card elements, which resets the card element's scale to the original size.
+ * - Empty implementations for mouse move and mouse wheel events.
+  * 
+ * @author [Your Name]
+ * @version 1.0
+ * @since 2023-07-14
+ */
+
 public class CardListener implements MouseEventListener {
 
     @Override
-    public void mouseClicked(MouseButtonEvent var1, GElement var2) {}
+    public void mouseClicked(MouseButtonEvent var1, GElement var2) {
+        // Empty implementation
+    }
     
     @Override
     public void mousePressed(MouseButtonEvent var1, GElement var2) {
@@ -32,8 +52,12 @@ public class CardListener implements MouseEventListener {
     }
 
     @Override
-    public void mouseMoved(MouseMotionEvent var1, GElement var2) {}
+    public void mouseMoved(MouseMotionEvent var1, GElement var2) {
+        // Empty implementation
+    }
 
     @Override
-    public void mouseWheelMoved(MouseWheelEvent var1, GElement var2) {}
+    public void mouseWheelMoved(MouseWheelEvent var1, GElement var2) {
+        // Empty implementation
+    }
 }
