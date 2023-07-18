@@ -2,7 +2,7 @@ package bauernhof.app.ui.game.panel;
 
 import java.awt.Color;
 import java.util.Stack;
-
+import bauernhof.app.card.Ca;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.listener.ListenerBackButton;
 import bauernhof.app.ui.game.listener.card.CardListener;
@@ -66,39 +66,32 @@ public class PanelDrawPileCards extends SAGPanel{
         // Platziere bitte die erste Karte in einer Zeile in der mitte alleine (keine anderen Karten). Gib dieser den CardPopListener, alle anderen den CardListener
 
         // G-Cards bekommst du mit ((Ca) this.uiGame.getGameBoardState().getDepositedCards().get(index)).getGCard()
-        
-        Stack<Card> stack = this.uiGame.getGameBoardState().getDrawPileCards();
-        
-        GGroup cen_cen = this.panel.addLayer(LayerPosition.CENTER_CENTER);
-        cen_cen.setScale(0.75f);
-        GGroup cen = this.panel.addLayer(LayerPosition.CENTER_LEFT);
-        cen.setScale(0.68f);
-        GGroup bot = this.panel.addLayer(LayerPosition.BOTTOM_LEFT);
-        bot.setScale(0.68f);
-
+        groupCards = this.panel.addLayer(LayerPosition.CENTER_CENTER);
+        groupCards.setScale(0.68f);
+        int size = this.uiGame.getGameBoardState().getDrawPileCards().size();
         this.setLayout(null);
         this.setVisible(true);
         GCard card;
-        card = new GCard(stack.get(0));
+        card = ((Ca) this.uiGame.getGameBoardState().getDrawPileCards().get(0)).getGCard();
         card.setMouseEventListener(new CardListener());
-        int x = 100, y=110,i=1;
+        int x = (int)(-210*((float)this.uiGame.getGameBoardState().getDrawPileCards().size()/8)), y=110,i=1;
         
-        cen_cen.addChild(card, 0, -200);
+        groupCards.addChild(card, 0f, -200f);
             
-        for (; i < stack.size();i++) { // Füge alle Karten aus der Hand hinzu
-            if(x+400 >= this.panel.VIEWPORT_WIDTH*1.8){break;}
-            card = new GCard(stack.get(i));
+        for (; i < size;i++) { // Füge alle Karten aus der Hand hinzu
+            if(x+400 >= this.panel.VIEWPORT_WIDTH){break;}
+            card = ((Ca) this.uiGame.getGameBoardState().getDrawPileCards().get(i)).getGCard();
             card.setMouseEventListener(new CardListener());
-            cen.addChild(card, x, y);
+            groupCards.addChild(card, x, y);
             x+=210;
         }
         
-        x=100;y=-300;
-        for(; i< stack.size(); i++ ){
-            if(x+400 >= this.panel.VIEWPORT_WIDTH*1.8){break;}
-            card = new GCard(stack.get(i));
+        x = (int)(-210*((float)this.uiGame.getGameBoardState().getDrawPileCards().size()/8));y=345;
+        for(; i< size; i++ ){
+            if(x+400 >= this.panel.VIEWPORT_WIDTH){break;}
+            card = ((Ca) this.uiGame.getGameBoardState().getDrawPileCards().get(i)).getGCard();
             card.setMouseEventListener(new CardListener());
-            bot.addChild(card,x,y);
+            groupCards.addChild(card, x, y);
             x+=210;
 
         }  

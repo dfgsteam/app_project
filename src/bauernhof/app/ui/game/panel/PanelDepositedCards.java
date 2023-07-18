@@ -65,40 +65,33 @@ public class PanelDepositedCards extends SAGPanel {
         // G-Cards bekommst du mit ((Ca) this.uiGame.getGameBoardState().getDepositedCards().get(index)).getGCard()
         
 
-        
-        ArrayList<Card> list = this.uiGame.getGameBoardState().getDepositedCards();
-
-        GGroup cen_cen = this.panel.addLayer(LayerPosition.CENTER_CENTER);
-        cen_cen.setScale(0.75f);
-        GGroup cen = this.panel.addLayer(LayerPosition.CENTER_LEFT);
-        cen.setScale(0.68f);
-        GGroup bot = this.panel.addLayer(LayerPosition.BOTTOM_LEFT);
-        bot.setScale(0.68f);
-
+        int size = this.uiGame.getGameBoardState().getDepositedCards().size();
+        groupCards = this.panel.addLayer(LayerPosition.CENTER_CENTER);
+        groupCards.setScale(0.68f);
         this.setLayout(null);
         this.setVisible(true);
         GCard card;
-        card = new GCard(list.get(0));
+        card = ((Ca) this.uiGame.getGameBoardState().getDepositedCards().get(0)).getGCard();
         card.setMouseEventListener(new CardListener());
-        int x=100,y=150,i=1;
+        int x = (int)(-210*((float)this.uiGame.getGameBoardState().getDepositedCards().size()/8)),y=110,i=1;
         
-        cen_cen.addChild(card, 0, -200);
+        groupCards.addChild(card, 0, -200);
             
-        for(; i< list.size(); i++ ){
-            if(x+400 >= this.panel.VIEWPORT_WIDTH*1.8){break;}
-            card = new GCard(list.get(i));
+        for(; i< size; i++ ){
+            if(x+400 >= this.panel.VIEWPORT_WIDTH){break;}
+            card =((Ca) this.uiGame.getGameBoardState().getDepositedCards().get(i)).getGCard();
             card.setMouseEventListener(new CardListener());
-            cen.addChild(card,x,y);
-            x+=200;
+            groupCards.addChild(card,x,y);
+            x+=210;
         
         }
-        x=100;y=-300;
-        for(; i< list.size(); i++ ){
-            if(x+400 >= this.panel.VIEWPORT_WIDTH*1.8){break;}
-            card = new GCard(list.get(i));
+        x = (int)(-210*((float)this.uiGame.getGameBoardState().getDepositedCards().size()/8));y=-3450;
+        for(; i< size; i++ ){
+            if(x+400 >= this.panel.VIEWPORT_WIDTH){break;}
+            card =((Ca) this.uiGame.getGameBoardState().getDepositedCards().get(i)).getGCard();
             card.setMouseEventListener(new CardListener());
-            bot.addChild(card,x,y);
-            x+=200;
+            groupCards.addChild(card,x,y);
+            x+=210;
 
         }  
     }
