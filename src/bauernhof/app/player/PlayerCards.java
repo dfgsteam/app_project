@@ -19,6 +19,15 @@ import java.util.Set;
 public class PlayerCards implements CardSetHandler {
     protected Set<Card> cards = new HashSet<>(), blocked_cards = new HashSet<>(), active_cards = new HashSet<>();
     protected int score = 0;
+    public PlayerCards() {
+
+    }
+    public PlayerCards(final int score, final Set<Card> cards, final Set<Card> blocked_cards, final Set<Card> active_cards) {
+        this.score = score;
+        this.cards = cards;
+        this.blocked_cards = blocked_cards;
+        this.active_cards = active_cards;
+    }
     @Override
     public void add(final Card added_card) {
         if(!cards.contains(added_card)) {
@@ -104,6 +113,9 @@ public class PlayerCards implements CardSetHandler {
      private void updateBlockedCards() {
         blocked_cards.clear();
         active_cards.clear();
+
+
+
         for (final Card hand_card : cards)
             for (final Effect effect : hand_card.getEffects())
                 switch (effect.getType()) {                             // switch - case für jedes Event
@@ -138,6 +150,13 @@ public class PlayerCards implements CardSetHandler {
             if (!blocked_cards.contains(card))
                 active_cards.add((Ca) card);
     }
+    private void updateBLOCKCARDS() {
+        blocked_cards.clear();
+        active_cards.clear();
+        for (final Card hand_card : cards) {
+
+        }
+    }
 
     @Override
     public int getRemoveScore(final Card card) {
@@ -161,22 +180,9 @@ public class PlayerCards implements CardSetHandler {
     public ArrayList<Card> getActiveCards() {
         return new ArrayList<>(this.active_cards);
     }
-    public void setCards(final Set<Card> cards) {
-        this.cards = cards;
-    }
-    public void setBlockedCards(final Set<Card> blocked_cards) {
-        this.blocked_cards = blocked_cards;
-    }
-    public void setActiveCards(final Set<Card> active_cards) {
-        this.active_cards = active_cards;
-    }
+
     public PlayerCards clone() {
-        PlayerCards playercards = new PlayerCards();
-        playercards.setActiveCards(new HashSet<>(active_cards));
-        playercards.setBlockedCards(new HashSet<>(blocked_cards));
-        playercards.setCards(new HashSet<>(cards));
-        playercards.setScore(score);
-        return playercards;
+        return new PlayerCards(score, new HashSet<>(cards), new HashSet<>(blocked_cards), new HashSet<>(active_cards));
     }
     public int getScore() {
         return this.score;

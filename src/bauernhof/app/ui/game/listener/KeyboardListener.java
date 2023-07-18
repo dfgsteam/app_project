@@ -1,7 +1,6 @@
 package bauernhof.app.ui.game.listener;
 
 import bauernhof.app.player.types.HumanPlayer;
-import bauernhof.app.system.GameBoard;
 import bauernhof.app.system.GameSystem;
 import bauernhof.preset.networking.RemotePlayer;
 
@@ -27,7 +26,8 @@ public class KeyboardListener implements KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             try {
                 if (system.getRound() == 1) {
-                    if (playerid == system.getNumPlayers()) system.setRound(system.getRound() + 1);
+                    if (playerid == system.getNumPlayers())
+                        system.setRound(system.getRound() + 1);
                     else {
                         system.initBeginnerCards(playerid);
                         playerid++;

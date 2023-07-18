@@ -54,7 +54,7 @@ public class UiGame implements PlayerGUIAccess {
 
     private GameSystem gameSystem;
     private Move move;
-    private Card add;
+    private Card add, remove;
     private Object lock = new Object();
 
     private int playerId = 0;
@@ -136,9 +136,10 @@ public class UiGame implements PlayerGUIAccess {
      * @param gCard The GCard object representing the selected card.
      */
     public void moveAddCard(GCard gCard) {
+        System.out.println(gCard.getCard().getName());
         this.add = gCard.getCard();
         gameSystem.getActualPlayerCards().add(this.add);
-       // ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
+        this.notify();
         this.createExchangePanel();
     }
 
@@ -151,11 +152,10 @@ public class UiGame implements PlayerGUIAccess {
      * @throws Exception If an error occurs during the move.
      */
     public void movePopCard(GCard gCard) throws Exception {
+        System.out.println(gCard.getCard().getName());
         gameSystem.getActualPlayerCards().remove(this.add);
-        this.move = new Move(add, gCard.getCard());
-        this.move.notify();
-        this.setMainPanel(3); // Does not update correctly. Panel is only displayed properly during HUMAN move
-     //   ((HumanPlayer) this.gameBoardState.getActualPlayer()).doMove(gCard.getCard());
+        this.remove = gCard.getCard();
+        notify();
     }
 
     /**
@@ -300,15 +300,17 @@ public class UiGame implements PlayerGUIAccess {
 
     @Override
     public Move requestMoveFromCurrentHumanPlayer() {
-        while (move == null) {
-            try {
-                move.wait();
-                System.out.println("WAIT");
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            System.out.println("Hallo");
+        try {
+            wait();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
-        final Move movecopy = move;
-        return movecopy;
+        try {
+            wait();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return new Move(add, remove);
     }
 }
