@@ -31,7 +31,7 @@ public class PanelLocal {
 
 
     public PanelLocal(UiLauncher uiLauncher) throws IOException {
-        // init Klassenvariablen
+        // Init Klassenvariablen
         this.uiLauncher = uiLauncher;
 
         // JPanel erstellen

@@ -1,11 +1,11 @@
 package bauernhof.app.ui.game;
 
-import bauernhof.preset.GameConfiguration;
-import bauernhof.preset.PlayerType;
+import bauernhof.app.player.types.HumanPlayer;
+import bauernhof.app.system.GameSystem;
+import bauernhof.app.ui.game.listener.KeyboardListener;
+import bauernhof.preset.*;
 import bauernhof.preset.card.*;
 import bauernhof.app.Init;
-import bauernhof.app.launcher.GameBoardState;
-import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.group.button.PanelButtonSaveGame;
 import bauernhof.app.ui.game.group.button.PanelButtonScreenshot;
 import bauernhof.app.ui.game.group.display.GroupDisplayDepositedDeck;
@@ -31,7 +31,7 @@ import javax.swing.JFrame;
  * @version 1.0
  * @since 2023-07-14
  */
-public class UiGame {
+public class UiGame implements PlayerGUIAccess {
 
     public static int WIDTH = 1920;
     public static int HEIGTH = 1080;
@@ -52,19 +52,23 @@ public class UiGame {
     private GroupDisplayDrawPileDeck groupDisplayDrawPileDeck;
     private GroupDisplayDepositedDeck groupDisplayDepositedDeck;
 
-    private GameBoardState gameBoardState;
+    private GameSystem gameSystem;
+    private Move move;
+    private Card add, remove;
+    private Object lock = new Object();
 
     private int playerId = 0;
+    private KeyboardListener keyboardlistener;
 
     /**
      * Constructs a new UiGame object.
      *
      * @param gameconf      The GameConfiguration object representing the game configuration.
-     * @param gameBoardState The GameBoardState object representing the game board state.
+     * @param gameSystem The GameBoardState object representing the game board state.
      * @throws Exception If an error occurs during initialization.
      */
-    public UiGame(GameConfiguration gameconf, GameBoardState gameBoardState) throws Exception {
-        this.gameBoardState = gameBoardState;
+    public UiGame(GameConfiguration gameconf, GameSystem gameSystem) throws Exception {
+        this.gameSystem = gameSystem;
 
         // Initialize Frame
         this.FRAME.setSAGPanel(this.mainPanel);
@@ -74,7 +78,8 @@ public class UiGame {
         this.panelDepositedCards = new PanelDepositedCards(this);
         this.panelDrawPileCards = new PanelDrawPileCards(this);
         //this.panelExchangeCards = new PanelExchangeCards(this);
-
+        this.keyboardlistener = new KeyboardListener(gameSystem);
+        this.FRAME.addKeyListener(keyboardlistener);
         // Initialize GGroups
         this.groupDisplayRound = new GroupDisplayRound(this);
         this.groupDisplayPlayerCards = new GroupDisplayPlayerCards(this);
@@ -85,7 +90,7 @@ public class UiGame {
         new PanelButtonSaveGame(this);
 
         // Initialize playerCards
-        for (int index = 0; index < this.gameBoardState.getPlayers().length; index++)
+        for (int index = 0; index < this.getGameSystem().getPlayers().length ; index++)
             this.groupDisplayPlayerCards.updatePlayer(index);
     }
 
@@ -114,12 +119,13 @@ public class UiGame {
         // If not the last turn
         if (!last) {
             // Set next player as active
-            this.playerId = (this.playerId + 1) % this.gameBoardState.getPlayers().length;
+            this.playerId = (this.playerId + 1) % this.gameSystem.getPlayers().length;
             this.groupDisplayPlayerName.updatePlayerBgActive(this.playerId);
             this.groupDisplayRound.update();
         } else {
             // Show end of game panel
             this.playerId = 5;
+            this.FRAME.removeKeyListener(keyboardlistener);
             new GroupPopupScore(this);
         }
     }
@@ -130,9 +136,14 @@ public class UiGame {
      * @param gCard The GCard object representing the selected card.
      */
     public void moveAddCard(GCard gCard) {
-       // ((HumanPlayer) this.gameBoardState.getActualPlayer()).setAdd(gCard.getCard());
+        System.out.println(gCard.getCard().getName());
+        this.add = gCard.getCard();
+        gameSystem.getActualPlayerCards().add(this.add);
+        this.notify();
         this.createExchangePanel();
     }
+
+
 
     /**
      * Moves the selected card from the player's hand to the discarded pile.
@@ -141,8 +152,10 @@ public class UiGame {
      * @throws Exception If an error occurs during the move.
      */
     public void movePopCard(GCard gCard) throws Exception {
-        this.setMainPanel(3); // Does not update correctly. Panel is only displayed properly during HUMAN move
-     //   ((HumanPlayer) this.gameBoardState.getActualPlayer()).doMove(gCard.getCard());
+        System.out.println(gCard.getCard().getName());
+        gameSystem.getActualPlayerCards().remove(this.add);
+        this.remove = gCard.getCard();
+        notify();
     }
 
     /**
@@ -184,11 +197,11 @@ public class UiGame {
     /**
      * Creates the cheater panel for displaying the cheater information.
      *
-     * @param player The AbstractGamePlayer object representing the cheater player.
+     * @param name of the Cheater
      * @throws Exception If an error occurs during the creation of the panel.
      */
-    public void createCheaterPanel(AbstractGamePlayer player) throws Exception {
-        new GroupPopupCheater(this, player);
+    public void createCheaterPanel(final String name) throws Exception {
+        new GroupPopupCheater(this, name);
     }
 
     /**
@@ -245,7 +258,7 @@ public class UiGame {
      * @return True if it is a human player's turn, false otherwise.
      */
     public boolean check_move() {
-        return this.gameBoardState.getPlayers()[this.playerId].getPlayerType() == PlayerType.HUMAN;
+        return this.gameSystem.getPlayers()[this.playerId] instanceof HumanPlayer;
     }
 
     /**
@@ -271,8 +284,8 @@ public class UiGame {
      *
      * @return The GameBoardState object representing the game board state.
      */
-    public GameBoardState getGameBoardState() {
-        return this.gameBoardState;
+    public GameSystem getGameSystem() {
+        return this.gameSystem;
     }
 
 
@@ -283,5 +296,21 @@ public class UiGame {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Move requestMoveFromCurrentHumanPlayer() {
+            System.out.println("Hallo");
+        try {
+            wait();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            wait();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return new Move(add, remove);
     }
 }

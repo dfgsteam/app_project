@@ -1,12 +1,8 @@
 package bauernhof.app;
 
 import java.awt.Color;
-import java.util.concurrent.TimeUnit;
 
-import bauernhof.app.launcher.GameBoardState;
-import bauernhof.app.ui.game.UiGame;
 import bauernhof.preset.GameConfiguration;
-import bauernhof.preset.ImmutableList;
 import bauernhof.preset.PlayerType;
 
 public class InitLocalGame {
@@ -15,9 +11,10 @@ public class InitLocalGame {
 
         // Load gui
         if (gui) {
-            GameBoardState gameBoard = new GameBoardState(playerNames, playerTypes, gameConfiguration, new ImmutableList<>(gameConfiguration.getCards()));
-            UiGame uiGame = new UiGame(gameConfiguration, gameBoard);
-            gameBoard.initGame(uiGame);
+
+            //GameBoardState gameBoard = new GameBoardState(playerNames, playerTypes, gameConfiguration, new ImmutableList<>(gameConfiguration.getCards()));
+            //UiGame uiGame = new UiGame(gameConfiguration, gameBoard);
+            //gameBoard.initGame(uiGame);
         }
         
     }
