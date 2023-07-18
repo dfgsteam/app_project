@@ -4,7 +4,7 @@ import bauernhof.app.card.Ca;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.PlayerCards;
 import bauernhof.app.ui.game.UiGame;
-import bauernhof.app.ui.game.listener.card.CardListener;
+import bauernhof.app.ui.game.listener.card.ListenerCard;
 import bauernhof.preset.Player;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
@@ -128,7 +128,7 @@ public class GroupDisplayPlayerCards extends GGroup {
         for (int item=0; item<cards.length; item++) {
             GCard gCard = ((Ca) cards[item]).getGCard();
             
-            gCard.setMouseEventListener(new CardListener());
+            gCard.setMouseEventListener(new ListenerCard());
 
             // Wenn Karte blockiert = rote umrandung
             /*if (playerCards.getBlockedCards().contains(cards[item]))

@@ -1,19 +1,14 @@
 package bauernhof.app.ui.game.panel;
 
-import java.util.ArrayList;
-
 import bauernhof.app.card.Ca;
 import bauernhof.app.ui.game.UiGame;
-import bauernhof.app.ui.game.listener.ListenerBackButton;
-import bauernhof.app.ui.game.listener.card.CardPopListener;
-import bauernhof.preset.card.Card;
+import bauernhof.app.ui.game.listener.card.ListenerCardPop;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
 import sag.LayerPosition;
 import sag.SAGPanel;
 import sag.elements.GGroup;
 import sag.elements.GText;
-import sag.elements.shapes.GRect;
 
 /**
  * This class represents a panel for exchanging cards in the game UI.
@@ -72,7 +67,7 @@ public class PanelExchangeCards extends SAGPanel {
     public void update() {
         for (int index = 0; index < this.uiGame.getGameSystem().getActualPlayerCards().getCards().size(); index++) {
             GCard gCard = ((Ca) this.uiGame.getGameSystem().getActualPlayerCards().getCards().get(index)).getGCard();
-            gCard.setMouseEventListener(null);
+            gCard.setMouseEventListener(new ListenerCardPop(this.uiGame));
             this.cardGroup.addChild(gCard, this.positions[index][0], this.positions[index][1]);
         }
             

@@ -67,8 +67,9 @@ public class GroupDisplayDrawPileDeck {
      * @throws ChildNotFoundException If the child element is not found in the panel.
      */
     public void clear() throws ChildNotFoundException {
+        System.out.println(this.panel.getNumChildren());
         // Remove the old cards and reset their positions
-        for (int cardIndex = 0; cardIndex < this.panel.getNumChildren(); cardIndex++) {
+        for (int cardIndex = this.panel.getNumChildren()-1; cardIndex >= 0 ; cardIndex--) {
             this.panel.removeChild(this.panel.getChildByRenderingIndex(cardIndex));
         }
     }

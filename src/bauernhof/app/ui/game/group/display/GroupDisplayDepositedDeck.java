@@ -66,7 +66,7 @@ public class GroupDisplayDepositedDeck {
      */
     public void clear() throws ChildNotFoundException {
         // Remove old cards and reset their positions (move)
-        for (int cardIndex = 0; cardIndex < this.panel.getNumChildren(); cardIndex++) {
+        for (int cardIndex = this.panel.getNumChildren()-1; cardIndex >= 0 ; cardIndex--) {
             this.panel.removeChild(this.panel.getChildByRenderingIndex(cardIndex));
         }
     }

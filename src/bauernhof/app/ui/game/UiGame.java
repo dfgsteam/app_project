@@ -101,6 +101,7 @@ public class UiGame implements PlayerGUIAccess {
      * @throws Exception If an error occurs during the move.
      */
     public void move(boolean last) throws Exception {
+        System.out.println(this.gameSystem.getActualPlayerCards().getCards());
         // Set current player as inactive
         this.groupDisplayPlayerName.updatePlayerBgInactive(this.playerId);
 
@@ -153,7 +154,7 @@ public class UiGame implements PlayerGUIAccess {
      */
     public void movePopCard(GCard gCard) throws Exception {
         System.out.println(gCard.getCard().getName());
-        gameSystem.getActualPlayerCards().remove(this.add);
+        //gameSystem.getActualPlayerCards().remove(this.add);
         this.remove = gCard.getCard();
         this.setMainPanel(3);
         notify();

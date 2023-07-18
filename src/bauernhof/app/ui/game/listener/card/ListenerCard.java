@@ -24,7 +24,7 @@ import sag.events.MouseWheelEvent;
  * @since 2023-07-14
  */
 
-public class CardListener implements MouseEventListener {
+public class ListenerCard implements MouseEventListener {
 
     @Override
     public void mouseClicked(MouseButtonEvent var1, GElement var2) {

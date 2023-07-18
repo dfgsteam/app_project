@@ -1,4 +1,4 @@
-package bauernhof.app.launcherSettings;
+package bauernhof.app.launcher;
 
 import java.io.*;
 
