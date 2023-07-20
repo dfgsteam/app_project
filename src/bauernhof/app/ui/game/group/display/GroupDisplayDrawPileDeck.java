@@ -53,6 +53,7 @@ public class GroupDisplayDrawPileDeck {
      * @throws InterruptedException If an error occurs during the update process.
      */
     public void update() throws InterruptedException {
+        System.out.println(this.UiGame.getGameSystem().getDrawPileCards().get(0));
         // Add the first card from the draw pile and attach the appropriate listener
         if (!this.UiGame.getGameSystem().getDrawPileCards().isEmpty()) {
             GCard gCard = ((Ca) this.UiGame.getGameSystem().getDrawPileCards().get(this.UiGame.getGameSystem().getDrawPileCards().size() - 1)).getGCard();

@@ -101,6 +101,7 @@ public class UiGame implements PlayerGUIAccess {
      * @throws Exception If an error occurs during the move.
      */
     public void move(boolean last) throws Exception {
+        System.out.println("move");
         System.out.println(this.gameSystem.getActualPlayerCards().getCards());
         // Set current player as inactive
         this.groupDisplayPlayerName.updatePlayerBgInactive(this.playerId);
@@ -141,7 +142,6 @@ public class UiGame implements PlayerGUIAccess {
         this.add = gCard.getCard();
         gameSystem.getActualPlayerCards().add(this.add);
         this.showExchangePanel();
-        this.notify();
     }
 
 
@@ -154,13 +154,14 @@ public class UiGame implements PlayerGUIAccess {
      */
     public void movePopCard(GCard gCard) throws Exception {
         System.out.println(gCard.getCard().getName());
-        //gameSystem.getActualPlayerCards().remove(this.add);
+        gameSystem.getActualPlayerCards().remove(this.add);
         this.remove = gCard.getCard();
         this.setMainPanel(3);
         notify();
     }
 
-    /**
+    /**        System.out.println("move");
+
      * Shows the panel for the draw pile cards.
      *
      * @throws ChildNotFoundException If a child element is not found in the group.
@@ -303,11 +304,6 @@ public class UiGame implements PlayerGUIAccess {
     @Override
     public Move requestMoveFromCurrentHumanPlayer() {
             System.out.println("Hallo");
-        try {
-            wait();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         try {
             wait();
         } catch (InterruptedException e) {
