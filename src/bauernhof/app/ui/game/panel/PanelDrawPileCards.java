@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.listener.ListenerBackButton;
-import bauernhof.app.ui.game.listener.card.CardListener;
+import bauernhof.app.ui.game.listener.card.ListenerCard;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
 import sag.LayerPosition;

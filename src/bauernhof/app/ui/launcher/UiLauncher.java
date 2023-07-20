@@ -3,7 +3,7 @@ package bauernhof.app.ui.launcher;
 import javax.swing.*;
 
 import bauernhof.app.InitLocalGame;
-import bauernhof.app.launcherSettings.LauncherSettings;
+import bauernhof.app.launcher.LauncherSettings;
 import bauernhof.app.ui.launcher.panel.*;
 import bauernhof.preset.PlayerType;
 
@@ -80,7 +80,6 @@ public class UiLauncher {
     }
 
     public void setPanelNetworkPlayer() {
-        System.out.println("ok");
         this.frame.setContentPane(this.networkPanel.getPanel());
         this.updateFrame();
     }

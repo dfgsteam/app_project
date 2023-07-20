@@ -1,4 +1,4 @@
-package bauernhof.app.launcherSettings;
+package bauernhof.app.launcher;
 
 /**
  * An exception that may be thrown while {@link LauncherSettingsParser parsing a setting configuration} indicating that the setting configuration is invalid.

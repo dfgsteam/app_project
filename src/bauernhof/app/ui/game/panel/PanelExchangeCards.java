@@ -1,17 +1,14 @@
 package bauernhof.app.ui.game.panel;
 
-import java.util.ArrayList;
-
+import bauernhof.app.card.Ca;
 import bauernhof.app.ui.game.UiGame;
-import bauernhof.app.ui.game.listener.ListenerBackButton;
-import bauernhof.app.ui.game.listener.card.CardPopListener;
-import bauernhof.preset.card.Card;
+import bauernhof.app.ui.game.listener.card.ListenerCardPop;
 import bauernhof.preset.card.GCard;
+import sag.ChildNotFoundException;
 import sag.LayerPosition;
 import sag.SAGPanel;
 import sag.elements.GGroup;
 import sag.elements.GText;
-import sag.elements.shapes.GRect;
 
 /**
  * This class represents a panel for exchanging cards in the game UI.
@@ -24,19 +21,21 @@ import sag.elements.shapes.GRect;
 public class PanelExchangeCards extends SAGPanel {
 
     private SAGPanel panel;
+    private GGroup cardGroup;
     private UiGame uiGame;
+    private int[][] positions;
 
     /**
      * Constructs a new PanelExchangeCards object.
      *
      * @param UiGame The UiGame object that represents the game UI.
      */
-    public PanelExchangeCards(UiGame UiGame) {
+    public PanelExchangeCards(UiGame uiGame) {
         this.uiGame = uiGame;
 
         this.panel = new SAGPanel(bauernhof.app.ui.game.UiGame.WIDTH, bauernhof.app.ui.game.UiGame.HEIGTH);
         GGroup headlineGroup = this.panel.addLayer(LayerPosition.TOP_CENTER);
-        GGroup cardGroup = this.panel.addLayer(LayerPosition.CENTER_CENTER);
+        this.cardGroup = this.panel.addLayer(LayerPosition.CENTER_CENTER);
 
 
         // Überschrift
@@ -46,23 +45,37 @@ public class PanelExchangeCards extends SAGPanel {
         headlineHeadline.setBold(true);
         headlineGroup.addChild(headlineHeadline, 0f, 100f);
 
-        // Ablagestapel
-        ArrayList<Card> cards = UiGame.getGameSystem().getPlayerCards(UiGame.getPlayerId()).getCards();
-        GGroup cardGroup = this.panel.addLayer(LayerPosition.CENTER_CENTER);
-        //cardGroup.setScale(1.1f - (0.05f * this.uiGam)); //-> aus Settings hand pro player+1
+        // Positionen errechnen
+        int cardSize = this.uiGame.getGameSystem().getConfiguration().getNumCardsPerPlayerHand()+1;
+        cardGroup.setScale(1.1f - (0.01f * cardSize)); //-> aus Settings hand pro player+1
 
-        
+        System.out.println(cardSize/2);
+        this.positions = new int[cardSize][2];
+        for (int index = 0; index < cardSize-1; index+=(cardSize/2)) {
+            float maxCards = index<cardSize/2 ? cardSize/2 : cardSize-cardSize/2;
+            int xPos = (int) (-220*(maxCards/2+0.5));
+            int yPos = index > 0 ? -150 : 150;
+            for (int index2 = 0; index2 < maxCards; index2++) {
+                xPos += 220;
+                this.positions[(int) index+index2][0] = xPos;
+                this.positions[(int) index+index2][1] = yPos;
+            }
+        }
     }
 
 
     public void update() {
-        int x = (int) (-210 * ((float) cards.size() / 2)); // Bestimme Startposition
+        for (int index = 0; index < this.uiGame.getGameSystem().getActualPlayerCards().getCards().size(); index++) {
+            GCard gCard = ((Ca) this.uiGame.getGameSystem().getActualPlayerCards().getCards().get(index)).getGCard();
+            gCard.setMouseEventListener(new ListenerCardPop(this.uiGame));
+            this.cardGroup.addChild(gCard, this.positions[index][0], this.positions[index][1]);
+        }
+            
+    }
 
-        for (int index = 0; index < cards.size(); index++) { // Füge alle Karten aus der Hand hinzu
-            card = new GCard(cards.get(index));
-            card.setMouseEventListener(new CardPopListener(UiGame));
-            cardGroup.addChild(card, x, 0);
-            x += 210;
+    public void clear() throws ChildNotFoundException {
+        for (int index=this.uiGame.getGameSystem().getActualPlayerCards().getCards().size()-1; index >= 0 ; index--) {
+            this.cardGroup.removeChild(this.cardGroup.getChildByRenderingIndex(index));
         }
     }
 

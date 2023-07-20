@@ -77,7 +77,7 @@ public class UiGame implements PlayerGUIAccess {
         this.FRAME.setVisible(true);
         this.panelDepositedCards = new PanelDepositedCards(this);
         this.panelDrawPileCards = new PanelDrawPileCards(this);
-        //this.panelExchangeCards = new PanelExchangeCards(this);
+        this.panelExchangeCards = new PanelExchangeCards(this);
         this.keyboardlistener = new KeyboardListener(gameSystem);
         this.FRAME.addKeyListener(keyboardlistener);
         // Initialize GGroups
@@ -101,6 +101,7 @@ public class UiGame implements PlayerGUIAccess {
      * @throws Exception If an error occurs during the move.
      */
     public void move(boolean last) throws Exception {
+        System.out.println(this.gameSystem.getActualPlayerCards().getCards());
         // Set current player as inactive
         this.groupDisplayPlayerName.updatePlayerBgInactive(this.playerId);
 
@@ -139,8 +140,8 @@ public class UiGame implements PlayerGUIAccess {
         System.out.println(gCard.getCard().getName());
         this.add = gCard.getCard();
         gameSystem.getActualPlayerCards().add(this.add);
+        this.showExchangePanel();
         this.notify();
-        this.createExchangePanel();
     }
 
 
@@ -153,8 +154,9 @@ public class UiGame implements PlayerGUIAccess {
      */
     public void movePopCard(GCard gCard) throws Exception {
         System.out.println(gCard.getCard().getName());
-        gameSystem.getActualPlayerCards().remove(this.add);
+        //gameSystem.getActualPlayerCards().remove(this.add);
         this.remove = gCard.getCard();
+        this.setMainPanel(3);
         notify();
     }
 
@@ -181,8 +183,9 @@ public class UiGame implements PlayerGUIAccess {
     /**
      * Creates the exchange panel for exchanging cards between players.
      */
-    public void createExchangePanel() {
-        this.FRAME.setSAGPanel(new PanelExchangeCards(this).getPanel());
+    public void showExchangePanel() {
+        this.FRAME.setSAGPanel(this.panelExchangeCards.getPanel());
+        this.panelExchangeCards.update();
     }
 
     /**
@@ -219,8 +222,7 @@ public class UiGame implements PlayerGUIAccess {
                 this.panelDepositedCards.clear(); // Clear reference to card in the panel
                 this.groupDisplayDepositedDeck.update();
             } else if (v == 3) { // Exchange
-                System.out.println("test");
-                //this.panelExchangeCards.clear();
+                this.panelExchangeCards.clear();
             }
             this.FRAME.setSAGPanel(this.mainPanel); // Set the SAGPanel correctly
 

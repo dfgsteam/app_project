@@ -23,7 +23,7 @@ import sag.events.MouseWheelEvent;
  * @since 2023-07-14
  */
 
-public class CardAddListener implements MouseEventListener {
+public class ListenerCardAdd implements MouseEventListener {
     private UiGame UiGame;
 
     /**
@@ -32,7 +32,7 @@ public class CardAddListener implements MouseEventListener {
      * 
      * @param UiGame The UiGame object that represents the game UI.
      */
-    public CardAddListener(UiGame UiGame) {
+    public ListenerCardAdd(UiGame UiGame) {
         this.UiGame = UiGame;
     }
 

@@ -3,6 +3,8 @@ package bauernhof.app.ui.game.panel;
 import bauernhof.app.card.Ca;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.listener.ListenerBackButton;
+import bauernhof.app.ui.game.listener.card.ListenerCardAdd;
+import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
 import sag.LayerPosition;
 import sag.SAGPanel;
@@ -53,62 +55,21 @@ public class PanelDepositedCards extends SAGPanel {
     }
 
     public void update() {
+        int cardSize = this.uiGame.getGameSystem().getDrawPileCards().size();
+        this.groupCards.setScale(1.1f - (0.01f * cardSize));
 
-        // Bitte schreibe die Kartenerstellung in die update()-Methode. So müssen wir nicht mehr das Panel komplett neuladen.
-
-        // Es muss mittels for-loop alle Karten nach System (x/y) in die GroupCards mittels addChild(gcard, x, y) geladen werden. Die GGroup ist immer leer, wenn diese geladen wird.
-
-        // G-Cards bekommst du mit ((Ca) this.uiGame.getGameBoardState().getDepositedCards().get(index)).getGCard()
-        
-
-        /*
-        ArrayList<Card> list = this.UiGame.getGameBoardState().getDepositedCards();
-
-        GGroup top = this.panel.addLayer(LayerPosition.TOP_LEFT);
-        top.setScale(0.75f);
-        GGroup cen = this.panel.addLayer(LayerPosition.CENTER_LEFT);
-        cen.setScale(0.75f);
-        GGroup bot = this.panel.addLayer(LayerPosition.BOTTOM_LEFT);
-        bot.setScale(0.75f);
-        this.panel.setLayout(null);
-        int x = 100, y = 120, i = 0;
-
-        this.setVisible(true);
-
-        GCard card;
-
-        for (; i < list.size(); i++) {
-            if (x + 200 >= this.panel.VIEWPORT_WIDTH) {
-                break;
+        for (int index = 0; index < cardSize-1; index+=(cardSize/2)) { // Für obere und untere Reihe
+            float maxCards = index<cardSize/2 ? cardSize/2 : cardSize-cardSize/2; // Endpunkt für 2. Forschleife (Ende von Reihe a/b)
+            int xPos = (int) (-220*(maxCards/2+0.5)); // Damit Startpunkt variable nach Kartenanzahl
+            int yPos = index > 0 ? -150 : 150; // Verschiebung der Reihe auf y-Achse
+            for (int index2 = 0; index2 < maxCards; index2++) {
+                xPos += 220;
+                GCard gCard = ((Ca)this.uiGame.getGameSystem().getDrawPileCards().get(index)).getGCard(); // bekomme gCard
+                gCard.setMouseEventListener(new ListenerCardAdd(this.uiGame)); // MouseEventlistener
+                this.groupCards.addChild(gCard, xPos, yPos);
             }
-            card = new GCard(list.get(i));
-            card.setMouseEventListener(new CardAddListener(this.UiGame));
-            top.addChild(card, x, y);
-            x += 200;
-
         }
-        x = 100;
-        y = -150;
-        for (; i < list.size(); i++) {
-            if (x + 200 >= this.VIEWPORT_WIDTH) {
-                break;
-            }
-            card = new GCard(list.get(i));
-            card.setMouseEventListener(new CardAddListener(this.UiGame));
-            cen.addChild(card, x, y);
-            x += 200;
-
-        }
-        x = 100;
-        y = -350;
-        for (; i < list.size(); i++) {
-            card = new GCard(list.get(i));
-            card.setMouseEventListener(new CardAddListener(this.UiGame));
-            bot.addChild(card, x, y);
-            x += 200;
-
-        }
-         */
+       
     }
 
     public void clear() throws ChildNotFoundException {

@@ -24,16 +24,16 @@ import sag.events.MouseWheelEvent;
  * @since 2023-07-14
  */
 
-public class CardPopListener implements MouseEventListener {
+public class ListenerCardPop implements MouseEventListener {
     private UiGame UiGame;
     
     /**
-     * Constructs a new CardPopListener object.
+     * Constructs a new ListenerCardPop object.
      * The object represents a mouse event listener for card popping functionality in the game UI.
      * 
      * @param UiGame The UiGame object that represents the game UI.
      */
-    public CardPopListener(UiGame UiGame) {
+    public ListenerCardPop (UiGame UiGame) {
         this.UiGame = UiGame;
     }
     

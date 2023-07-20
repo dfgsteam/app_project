@@ -1,4 +1,4 @@
-package bauernhof.app.launcherSettings;
+package bauernhof.app.launcher;
 
 import bauernhof.app.*;
 import bauernhof.preset.GameConfiguration;
