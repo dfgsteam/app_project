@@ -44,8 +44,8 @@ public class GroupDisplayPlayerCards extends GGroup {
      */
     public GroupDisplayPlayerCards (UiGame uiGame) {
         this.uiGame = uiGame;
-        int maxCards = this.uiGame.getGameSystem().getConfiguration().getNumCardsPerPlayerHand();
-        int numplayers = uiGame.getGameSystem().getPlayers().length;
+        int maxCards = this.uiGame.getGame().getConfiguration().getNumCardsPerPlayerHand();
+        int numplayers = uiGame.getGame().getNumPlayers();
         this.pos = new float[numplayers][maxCards][2];
         for (int counter=0; counter < numplayers; counter++) {
             switch (counter) {
@@ -121,7 +121,7 @@ public class GroupDisplayPlayerCards extends GGroup {
      * @throws InterruptedException If the thread is interrupted during card updates.
      */
     public void updatePlayer(int playerId) throws ChildNotFoundException, InterruptedException {
-        PlayerCards playerCards = uiGame.getGameSystem().getPlayerCards(playerId);
+        PlayerCards playerCards = uiGame.getGame().getPlayerCards(playerId);
         this.clearPlayerPanel(playerId);
         Object[] cards = playerCards.getCards().toArray();
 

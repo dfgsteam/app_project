@@ -69,7 +69,7 @@ public class WorkingThread extends AbstractThread {
             }
 
             for (int i = -1; i < this.getThreadNode().getActualBoardState().getDepositedCards().size(); i++) {
-                for (int j = -1; j < this.getThreadNode().getActualBoardState().getActualPlayerCards().getCards().size(); j++) {
+                for (int j = -1; j < this.getThreadNode().getActualBoardState().getCurrentPlayerCards().getCards().size(); j++) {
                     if (!calcNextNode(i, j)) { continue; }
                     next_calculations.add(this.getThreadNode());
                     this.setThreadNode(this.getThreadNode().getPrevNode());
@@ -99,7 +99,7 @@ public class WorkingThread extends AbstractThread {
         }
 
         else {
-            to_put = this.getThreadNode().getActualBoardState().getActualPlayerCards().getCards().get(cardNumPut);
+            to_put = this.getThreadNode().getActualBoardState().getCurrentPlayerCards().getCards().get(cardNumPut);
         }
 
         
@@ -116,7 +116,7 @@ public class WorkingThread extends AbstractThread {
 
     public int calculateWinPoints(Move move, GameBoard gameboard) {
         int points = 0;
-        int actual_id = gameboard.getActivePlayerID();
+        int actual_id = gameboard.getCurrentPlayerID();
         
         GameBoard move_done = gameboard.clone();
         try {

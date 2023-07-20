@@ -55,7 +55,7 @@ public class PanelDepositedCards extends SAGPanel {
     }
 
     public void update() {
-        int cardSize = this.uiGame.getGameSystem().getDrawPileCards().size();
+        int cardSize = this.uiGame.getGame().getDrawPileCards().size();
         this.groupCards.setScale(1.1f - (0.01f * cardSize));
 
         for (int index = 0; index < cardSize-1; index+=(cardSize/2)) { // Für obere und untere Reihe
@@ -64,7 +64,7 @@ public class PanelDepositedCards extends SAGPanel {
             int yPos = index > 0 ? -150 : 150; // Verschiebung der Reihe auf y-Achse
             for (int index2 = 0; index2 < maxCards; index2++) {
                 xPos += 220;
-                GCard gCard = ((Ca)this.uiGame.getGameSystem().getDrawPileCards().get(index)).getGCard(); // bekomme gCard
+                GCard gCard = ((Ca)this.uiGame.getGame().getDrawPileCards().get(index)).getGCard(); // bekomme gCard
                 gCard.setMouseEventListener(new ListenerCardAdd(this.uiGame)); // MouseEventlistener
                 this.groupCards.addChild(gCard, xPos, yPos);
             }

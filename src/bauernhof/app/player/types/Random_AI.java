@@ -27,7 +27,6 @@ public class Random_AI extends AbstractGamePlayer implements AIHeader{
         else {
             to_take = cardFromDeposit();
         }
-
         if (Math.random() < 1.0/ (configuration.getNumCardsPerPlayerHand()+1)) {
             to_deposit = to_take;
         }

@@ -3,7 +3,8 @@ package bauernhof.app;
 import java.io.File;
 import java.io.IOException;
 
-import bauernhof.app.launcherSettings.*;
+import bauernhof.app.launcher.LauncherSettingsException;
+import bauernhof.app.launcher.LauncherSettingsParser;
 import bauernhof.app.ui.launcher.UiLauncher;
 
 public class InitLauncher {

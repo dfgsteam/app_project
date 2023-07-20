@@ -23,16 +23,14 @@ import java.util.*;
 public class GameSystem extends GameBoard {
     private boolean run;
     private Player[] players;
-    private Settings settings;
     private ArrayList<S2CConnection> connections;
     public GameSystem(final Settings settings, final GameConfiguration configuration) {
-        super(settings.playerNames.size(), configuration);
-        this.settings = settings;
+        super(settings.playerNames.size(), settings, configuration);
         players = new Player[numplayers];
         this.run = true;
     }
     public void createPlayers(final ArrayList<S2CConnection> connections) throws Exception {
-        this.connections = null;
+        this.connections = connections;
         players = new Player[settings.playerTypes.size()];
         int remotecounter = -1;
         for (int playerid = 0; playerid < numplayers; playerid++) {
@@ -58,15 +56,14 @@ public class GameSystem extends GameBoard {
     public void initPlayers() throws Exception {
         if (settings.showGUI) GameBoard.graphics = new UiGame(configuration, this);
         for (int playerid = 1; playerid <= numplayers; playerid++)
-            if (connections.size() == 0 && this.players[playerid - 1] instanceof RemotePlayer)
-                this.players[playerid - 1].init(configuration, getDrawPileCards(), numplayers, playerid);
+            this.players[playerid - 1].init(configuration, getDrawPileCards(), numplayers, playerid);
             for (int playerid = 0; playerid < numplayers; playerid++) {
                 if (settings.delay <= 0) return;
                 Thread.sleep(settings.delay);
                 this.initBeginnerCards(playerid);
             }
             this.round++;
-            executeMove(this.players[getActivePlayerID()].request());
+            executeMove(this.players[getCurrentPlayerID()].request());
     }
     public int getWinnerID() throws Exception {
         ArrayList<Integer> scores = new ArrayList<>(getAllScores());
@@ -81,39 +78,56 @@ public class GameSystem extends GameBoard {
     public boolean executeMove(final Move move) throws Exception {
         super.executeMove(move);
         // Update Moves on Players
-        if (getActualPlayer() instanceof AbstractGamePlayer) ((AbstractGamePlayer) getActualPlayer()).executeMove(move);
+        if (getCurrentPlayer() instanceof AbstractGamePlayer)
+            ((AbstractGamePlayer) getCurrentPlayer()).executeMove(move);
         for (final Player player : players)
-            if (!player.equals(getActualPlayer()) && connections.size() != 0)
+            if (!player.equals(getCurrentPlayer()) && connections.size() != 0)
                 player.update(move);
         // Check End Conditions
         if (this.getRound() > 30 || getDepositedCards().size() >= configuration.getNumDepositionAreaSlots()) run = false;
         if (getGraphics() != null && settings.showGUI) getGraphics().move(!run);
         // Do Normal Move
         if (run) {
-            if (!(getActualPlayer() instanceof HumanPlayer || getActualPlayer() instanceof RemotePlayer))
+            if (!(getCurrentPlayer() instanceof HumanPlayer || getCurrentPlayer() instanceof RemotePlayer))
                 if (settings.delay <= 0 && settings.showGUI )
                     return true;
                 else Thread.sleep(settings.delay);
-            this.executeMove(getActualPlayer().request());
+            this.executeMove(getCurrentPlayer().request());
         } else for (final Player player : players)
                 player.verifyGame(getAllScores());
         return true;
     }
     @Override
-    public void initBeginnerCards(final int playerid) throws Exception {
+    public void initBeginnerCards(final int playerid) {
         super.initBeginnerCards(playerid);
-        if (graphics != null && settings.showGUI) graphics.move(false);
+        if (graphics != null && settings.showGUI) {
+            try {
+                System.out.println("HELLO");
+                graphics.move(false);
+                System.out.println("GRAPHICS UPDATE");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
 
     }
     public Player[] getPlayers() {
         return this.players;
     }
 
-    public Player getActualPlayer() {
-        return players[getActivePlayerID()];
+    public Player getCurrentPlayer() {
+        return players[getCurrentPlayerID()];
     }
 
     public Color getPlayerColor(final int playerid) {
         return settings.playerColors.get(playerid);
+    }
+    @Override
+    public String getName(final int playerid) throws Exception {
+        return players[playerid].getName();
+    }
+    @Override
+    public int getScore(final int playerid) throws Exception {
+        return players[playerid].getScore();
     }
 }

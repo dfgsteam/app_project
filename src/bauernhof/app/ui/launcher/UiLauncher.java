@@ -2,13 +2,19 @@ package bauernhof.app.ui.launcher;
 
 import javax.swing.*;
 
+import bauernhof.app.Init;
 import bauernhof.app.InitLocalGame;
 import bauernhof.app.launcher.LauncherSettings;
 import bauernhof.app.ui.launcher.panel.*;
+import bauernhof.preset.LogLevel;
 import bauernhof.preset.PlayerType;
+import bauernhof.preset.Settings;
 
 import java.awt.Color;
+import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class UiLauncher {
@@ -96,7 +102,25 @@ public class UiLauncher {
     public void startGame(String type, PlayerType[] playerTypes, String[] playerNames, Color[] playerColors) {
         try {
             this.frame.dispose();
-            new InitLocalGame(Settings.getGameConf(), playerNames, playerTypes, playerColors, 1000, true, 0, Settings.getSound());
+            bauernhof.preset.Settings settings = new Settings();
+            settings.delay = 1000;
+            settings.showGUI = true;
+            settings.volume = Settings.getSound();
+            settings.logLevel = LogLevel.INFO;
+            settings.playerNames = List.of(playerNames);
+            settings.playerColors = List.of(playerColors);
+            settings.playerTypes = List.of(playerTypes);
+            settings.gameConfigurationFile = new File("gameconfigs/bauernhof.xml");
+            settings.delay = 20L;
+            settings.showGUI = true;
+            settings.connectToHostname = null;
+            settings.port = 6600;
+            settings.loadSaveGameFile = null;
+            settings.shouldLauncherLaunch = false;
+            settings.numTournamentRounds = 0;
+            settings.waitAfterTournamentRound = false;
+            settings.volume = 0;
+            Init.initGame(settings);
         } catch (Exception e) {
             e.printStackTrace();
         }

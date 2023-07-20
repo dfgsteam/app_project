@@ -63,9 +63,9 @@ public class GroupPopupScore extends GGroup {
         HashMap<String, Integer> playerScores = new HashMap<>();
         ArrayList<String> scores = new ArrayList<>();
 
-        for (Player player : uiGame.getGameSystem().getPlayers()) {
-            playerScores.put(player.getName(), player.getScore());
-            scores.add(player.getName());
+        for (int i = 0; i < uiGame.getGame().getNumPlayers(); i++) {
+            playerScores.put(uiGame.getGame().getName(i), uiGame.getGame().getScore(i));
+            scores.add(uiGame.getGame().getName(i));
             String temp;
             for (int index = 0; index < playerScores.size() - 1; index++) {
                 if (playerScores.get(scores.get(index)) < playerScores.get(scores.get(index + 1))) {

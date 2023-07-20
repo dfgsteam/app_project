@@ -28,7 +28,7 @@ public class PanelExchangeCards extends SAGPanel {
     /**
      * Constructs a new PanelExchangeCards object.
      *
-     * @param UiGame The UiGame object that represents the game UI.
+     * @param uiGame The UiGame object that represents the game UI.
      */
     public PanelExchangeCards(UiGame uiGame) {
         this.uiGame = uiGame;
@@ -46,7 +46,7 @@ public class PanelExchangeCards extends SAGPanel {
         headlineGroup.addChild(headlineHeadline, 0f, 100f);
 
         // Positionen errechnen
-        int cardSize = this.uiGame.getGameSystem().getConfiguration().getNumCardsPerPlayerHand()+1;
+        int cardSize = this.uiGame.getGame().getConfiguration().getNumCardsPerPlayerHand()+1;
         cardGroup.setScale(1.1f - (0.01f * cardSize)); //-> aus Settings hand pro player+1
 
         System.out.println(cardSize/2);
@@ -65,8 +65,8 @@ public class PanelExchangeCards extends SAGPanel {
 
 
     public void update() {
-        for (int index = 0; index < this.uiGame.getGameSystem().getActualPlayerCards().getCards().size(); index++) {
-            GCard gCard = ((Ca) this.uiGame.getGameSystem().getActualPlayerCards().getCards().get(index)).getGCard();
+        for (int index = 0; index < this.uiGame.getGame().getCurrentPlayerCards().getCards().size(); index++) {
+            GCard gCard = ((Ca) this.uiGame.getGame().getCurrentPlayerCards().getCards().get(index)).getGCard();
             gCard.setMouseEventListener(new ListenerCardPop(this.uiGame));
             this.cardGroup.addChild(gCard, this.positions[index][0], this.positions[index][1]);
         }
@@ -74,7 +74,7 @@ public class PanelExchangeCards extends SAGPanel {
     }
 
     public void clear() throws ChildNotFoundException {
-        for (int index=this.uiGame.getGameSystem().getActualPlayerCards().getCards().size()-1; index >= 0 ; index--) {
+        for (int index=this.uiGame.getGame().getCurrentPlayerCards().getCards().size()-1; index >= 0 ; index--) {
             this.cardGroup.removeChild(this.cardGroup.getChildByRenderingIndex(index));
         }
     }

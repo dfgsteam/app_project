@@ -2,7 +2,7 @@ package bauernhof.app.ui.game.group.display;
 
 import java.awt.Color;
 
-import bauernhof.app.system.GameSystem;
+import bauernhof.app.system.Game;
 import bauernhof.app.ui.game.UiGame;
 import sag.LayerPosition;
 import sag.elements.GGroup;
@@ -34,7 +34,7 @@ public class GroupDisplayPlayerName extends GGroup {
     private GRect groupPlayerBg[] = new GRect[4];
     private GText groupPlayerName[] = new GText[4];
 
-    private GameSystem gameBoard;
+    private Game game;
 
     private Color colorActive = new Color(144, 238, 144);
     private Color colorInactive = new Color(255, 255, 255);
@@ -48,12 +48,12 @@ public class GroupDisplayPlayerName extends GGroup {
      * @throws Exception If an error occurs during initialization.
      */
     public GroupDisplayPlayerName(UiGame UiGame) throws Exception {
-        this.gameBoard = UiGame.getGameSystem();
+        this.game = UiGame.getGame();
         GGroup panel;
         GRect area = new GRect(0f, 0f, 0f, 0f, false);
         GText text = new GText(null);
         // Erstelle für den jeweiligen Spieler das Panel an der richtigen Position 
-        for (int counter = 0; counter<this.gameBoard.getPlayers().length; counter++) {
+        for (int counter = 0; counter<this.game.getNumPlayers(); counter++) {
             switch (counter) {
                 case 0: {
                     // panel erzeugen (mit Startpunkt)
@@ -66,10 +66,9 @@ public class GroupDisplayPlayerName extends GGroup {
                     panel.addChild(area, 0f, -210f);
 
                     // playerName
-                    text = new GText(this.gameBoard.getPlayers()[counter].getName() + " - " + Integer.toString(this.gameBoard.getPlayers()[counter].getScore()));
+                    text = new GText(this.game.getName(counter) + " - " + this.game.getScore(counter));
                     text.setAlignment(GText.TextAnchor.MIDDLE);
                     panel.addChild(text, 0f, -200f);
-
                     break;
                 }
                 case 1: {
@@ -82,7 +81,7 @@ public class GroupDisplayPlayerName extends GGroup {
                     panel.addChild(area, 280f, 0f);
 
                     // playerName
-                    text = new GText(this.gameBoard.getPlayers()[counter].getName() + " - " + Integer.toString(this.gameBoard.getPlayers()[counter].getScore()));
+                    text = new GText(this.game.getName(counter) + " - " + this.game.getScore(counter));
                     text.setAlignment(GText.TextAnchor.MIDDLE);
                     text.rotate(-90f);
                     panel.addChild(text, 290f, 0f);
@@ -100,7 +99,7 @@ public class GroupDisplayPlayerName extends GGroup {
                     panel.addChild(area, 0f, 210f);
 
                     // playerName
-                    text = new GText(this.gameBoard.getPlayers()[counter].getName() + " - " + Integer.toString(this.gameBoard.getPlayers()[counter].getScore()));
+                    text = new GText(this.game.getName(counter) + " - " + this.game.getScore(counter));
                     text.setAlignment(GText.TextAnchor.MIDDLE);
                     panel.addChild(text, 0f, 220f);
 
@@ -117,7 +116,7 @@ public class GroupDisplayPlayerName extends GGroup {
                     panel.addChild(area, -280f, 0f);
 
                     // playerName
-                    text = new GText(this.gameBoard.getPlayers()[counter].getName() + " - " + Integer.toString(this.gameBoard.getPlayers()[counter].getScore()));
+                    text = new GText(this.game.getName(counter) + " - " + this.game.getScore(counter));
                     text.setAlignment(GText.TextAnchor.MIDDLE);
                     text.rotate(90f);
                     panel.addChild(text, -290f, 0f);
@@ -137,8 +136,8 @@ public class GroupDisplayPlayerName extends GGroup {
      * @throws Exception If an error occurs during the update process.
      */
     public void updatePlayerName(int playerId) throws Exception {
-        this.groupPlayerName[playerId].setText(this.gameBoard.getPlayers()[playerId].getName() + " - " +
-                Integer.toString(this.gameBoard.getPlayers()[playerId].getScore()));
+        this.groupPlayerName[playerId].setText(this.game.getName(playerId) + " - " +
+                Integer.toString(this.game.getScore(playerId)));
     }
 
     /**
