@@ -24,13 +24,15 @@ public class GameSystem extends GameBoard {
     private boolean run;
     private Player[] players;
     private Settings settings;
+    private ArrayList<S2CConnection> connections;
     public GameSystem(final Settings settings, final GameConfiguration configuration) {
         super(settings.playerNames.size(), configuration);
         this.settings = settings;
         players = new Player[numplayers];
         this.run = true;
     }
-    public void createPlayers(final ArrayList<S2CConnection> connection) throws Exception {
+    public void createPlayers(final ArrayList<S2CConnection> connections) throws Exception {
+        this.connections = null;
         players = new Player[settings.playerTypes.size()];
         int remotecounter = -1;
         for (int playerid = 0; playerid < numplayers; playerid++) {
@@ -48,22 +50,23 @@ public class GameSystem extends GameBoard {
                     players[playerid] = new Random_AI(settings, getPlayerCards(playerid), this.clone());
                     break;
                 case REMOTE:
-                    players[playerid] = connection.get(remotecounter++).getRemotePlayer();
+                    players[playerid] = connections.get(remotecounter++).getRemotePlayer();
                     break;
             }
         }
     }
     public void initPlayers() throws Exception {
         if (settings.showGUI) GameBoard.graphics = new UiGame(configuration, this);
-        for(int playerid = 1; playerid <= numplayers; playerid++)
-            players[playerid - 1].init(configuration, getDrawPileCards(), numplayers, playerid);
-        for (int playerid = 0; playerid < numplayers; playerid++) {
-            if (settings.delay <= 0) return;
-            Thread.sleep(settings.delay);
-            this.initBeginnerCards(playerid);
-        }
-        this.round++;
-        executeMove(players[getActivePlayerID()].request());
+        for (int playerid = 1; playerid <= numplayers; playerid++)
+            if (connections.size() == 0 && this.players[playerid - 1] instanceof RemotePlayer)
+                this.players[playerid - 1].init(configuration, getDrawPileCards(), numplayers, playerid);
+            for (int playerid = 0; playerid < numplayers; playerid++) {
+                if (settings.delay <= 0) return;
+                Thread.sleep(settings.delay);
+                this.initBeginnerCards(playerid);
+            }
+            this.round++;
+            executeMove(this.players[getActivePlayerID()].request());
     }
     public int getWinnerID() throws Exception {
         ArrayList<Integer> scores = new ArrayList<>(getAllScores());
@@ -80,7 +83,7 @@ public class GameSystem extends GameBoard {
         // Update Moves on Players
         if (getActualPlayer() instanceof AbstractGamePlayer) ((AbstractGamePlayer) getActualPlayer()).executeMove(move);
         for (final Player player : players)
-            if (!player.equals(getActualPlayer()))
+            if (!player.equals(getActualPlayer()) && connections.size() != 0)
                 player.update(move);
         // Check End Conditions
         if (this.getRound() > 30 || getDepositedCards().size() >= configuration.getNumDepositionAreaSlots()) run = false;
@@ -88,11 +91,10 @@ public class GameSystem extends GameBoard {
         // Do Normal Move
         if (run) {
             if (!(getActualPlayer() instanceof HumanPlayer || getActualPlayer() instanceof RemotePlayer))
-                if (settings.delay <= 0 && settings.showGUI)
+                if (settings.delay <= 0 && settings.showGUI )
                     return true;
                 else Thread.sleep(settings.delay);
-            this.executeMove(
-                    getActualPlayer().request());
+            this.executeMove(getActualPlayer().request());
         } else for (final Player player : players)
                 player.verifyGame(getAllScores());
         return true;

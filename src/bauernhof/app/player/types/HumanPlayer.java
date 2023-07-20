@@ -17,12 +17,11 @@ public class HumanPlayer extends AbstractGamePlayer {
     private PlayerGUIAccess access;
     public HumanPlayer(final Settings settings, final PlayerCards playercards, final GameBoard gamesystem) {
         super(settings, playercards, gamesystem);
-        this.access = (PlayerGUIAccess) GameBoard.getGraphics();
+        this.access = GameBoard.getGraphics();
     }
 
     @Override
     public Move request() throws Exception {
         return access.requestMoveFromCurrentHumanPlayer();
     }
-
 }

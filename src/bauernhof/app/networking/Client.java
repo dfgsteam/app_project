@@ -1,7 +1,6 @@
 package bauernhof.app.networking;
 
 import bauernhof.app.system.GameSystem;
-import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.networking.C2SConnection;
@@ -11,33 +10,18 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class Client extends C2SConnection {
-    private AbstractGamePlayer player;
-    public Client(final PlayerType type, final Socket socket, final GameConfigurationParser parser, final String porjectname) throws IOException, RemoteException {
+    private Settings settings;
+    private Player player;
+
+    public Client(final Settings settings, final Socket socket, final GameConfigurationParser parser, final String porjectname) throws IOException, RemoteException {
         super(socket, parser, porjectname);
+        this.settings = settings;
     }
 
     @Override
     protected void onInit(GameConfiguration game_configuration, ImmutableList<Card> initialDrawPile, ImmutableList<String> playerNames, int playerid) throws Exception {
-       /* final PlayerType[] types = new PlayerType[playerNames.size()];
-        for (int i = 0; i < playerNames.size(); i++) {
-            if (i == playerid)
-                types[i] = this.type;
-            else types[i] = PlayerType.REMOTE;
-        }
-        final String[] names = new String[types.length];
-        for (int i = 0; i < names.length; i++)
-            names[i] = playerNames.get(i);
-        System.out.println(initialDrawPile);
-        this.gameboardstate = new GameSystem(names, types, game_configuration, initialDrawPile);
-        UiGame gameBoard = new UiGame(game_configuration, gameboardstate);
-        gameboardstate.initGame(gameBoard);
-        this.player = gameboardstate.getPlayers()[playerid]; */
-    }
-    public GameSystem getGameBoardState() {
-       // return this.gameboardstate;
-        return null;
-    }
 
+    }
     @Override
     protected Move onRequest() throws Exception {
         return player.request();

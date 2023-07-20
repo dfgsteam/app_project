@@ -71,6 +71,11 @@ public class GameBoard {
     public ArrayList<Card> getDepositedCards() {
         return new ArrayList<>(deposited_cards);
     }
+    public void setDrawPileCards(final ImmutableList<Card> drawpile_cards) {
+        this.drawpile_cards = new Stack<>();
+        for (final Card card : drawpile_cards)
+            this.drawpile_cards.add(card);
+    }
     public ImmutableList<Card> getDrawPileCards() {
         return new ImmutableList<>(this.drawpile_cards);
     }
