@@ -100,6 +100,9 @@ public class UiGame implements PlayerGUIAccess {
      * @throws Exception If an error occurs during the move.
      */
     public void move(boolean last) throws Exception {
+        this.playerId = game.getCurrentPlayerID();
+
+        this.FRAME.update(this.FRAME.getGraphics());
         System.out.println("GRAFIK UPDATE");
 
         //System.out.println(this.game.getCurrentPlayerCards().getCards());
@@ -121,7 +124,8 @@ public class UiGame implements PlayerGUIAccess {
         // If not the last turn
         if (!last) {
             // Set next player as active
-            this.playerId = (this.playerId + 1) % this.game.getNumPlayers();
+
+            //this.playerId = (this.playerId + 1) % this.game.getNumPlayers();
             this.groupDisplayPlayerName.updatePlayerBgActive(this.playerId);
             this.groupDisplayRound.update();
         } else {

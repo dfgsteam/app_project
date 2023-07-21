@@ -48,9 +48,10 @@ public class Client extends C2SConnection {
                 break;
         }
         this.player.init(game_configuration, initialDrawPile, playerNames.size(), playerid);
-        UiGame uiGame = new UiGame(game_configuration, this.player.getGameBoard());
-        GameBoard.graphics = uiGame;
+        GameBoard.graphics = new UiGame(game_configuration, this.player.getGameBoard());
     }
+
+
     @Override
     protected Move onRequest() throws Exception {
         GameBoard.graphics.move(false);

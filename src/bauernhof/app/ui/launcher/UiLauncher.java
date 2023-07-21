@@ -111,7 +111,7 @@ public class UiLauncher {
             settings.playerColors = List.of(playerColors);
             settings.playerTypes = List.of(playerTypes);
             settings.gameConfigurationFile = new File("gameconfigs/bauernhof.xml");
-            settings.delay = 0L;
+            settings.delay = 1000L;
             settings.showGUI = true;
             settings.connectToHostname = null;
             settings.port = 6600;

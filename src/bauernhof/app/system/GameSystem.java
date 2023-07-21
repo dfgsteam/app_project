@@ -54,13 +54,14 @@ public class GameSystem extends GameBoard {
         }
     }
     public void initPlayers() throws Exception {
-        if (settings.showGUI) GameBoard.graphics = new UiGame(configuration, this);
+        if (settings.showGUI) graphics = new UiGame(configuration, this);
+        System.out.println("FRAME 2");
         for (int playerid = 1; playerid <= numplayers; playerid++)
             this.players[playerid - 1].init(configuration, getDrawPileCards(), numplayers, playerid);
             for (int playerid = 0; playerid < numplayers; playerid++) {
                 if (settings.delay <= 0) return;
                 Thread.sleep(settings.delay);
-                this.initBeginnerCards(playerid);
+                initBeginnerCards(playerid);
             }
             this.round++;
             executeMove(this.players[getCurrentPlayerID()].request());
@@ -86,7 +87,7 @@ public class GameSystem extends GameBoard {
                 player.update(move);
         // Check End Conditions
         if (this.getRound() > 30 || getDepositedCards().size() >= configuration.getNumDepositionAreaSlots()) run = false;
-        if (getGraphics() != null && settings.showGUI) getGraphics().move(!run);
+        if (getGraphics() != null && settings.showGUI) graphics.move(!run);
         // Do Normal Move
         if (run) {
             if (!(getCurrentPlayer() instanceof HumanPlayer || getCurrentPlayer() instanceof RemotePlayer))
@@ -102,7 +103,7 @@ public class GameSystem extends GameBoard {
     @Override
     public void initBeginnerCards(final int playerid) {
         super.initBeginnerCards(playerid);
-        if (graphics != null && settings.showGUI) {
+        if (graphics != null) {
             try {
                 System.out.println("HELLO");
                 graphics.move(false);

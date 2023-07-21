@@ -1,11 +1,9 @@
 package bauernhof.app.ui.game.group.display;
 
 import bauernhof.app.card.Ca;
-import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.PlayerCards;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.listener.card.ListenerCard;
-import bauernhof.preset.Player;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
 import sag.LayerPosition;
@@ -120,23 +118,23 @@ public class GroupDisplayPlayerCards extends GGroup {
      * @throws ChildNotFoundException If the child card element is not found in the group.
      * @throws InterruptedException If the thread is interrupted during card updates.
      */
-    public void updatePlayer(int playerId) throws ChildNotFoundException, InterruptedException {
-        PlayerCards playerCards = uiGame.getGame().getPlayerCards(playerId);
-        this.clearPlayerPanel(playerId);
-        Object[] cards = playerCards.getCards().toArray();
+    public void updatePlayer(int playerId) throws ChildNotFoundException {
+            PlayerCards playerCards = uiGame.getGame().getPlayerCards(playerId);
+            this.clearPlayerPanel(playerId);
+            Object[] cards = playerCards.getCards().toArray();
 
-        for (int item=0; item<cards.length; item++) {
-            GCard gCard = ((Ca) cards[item]).getGCard();
-            
-            gCard.setMouseEventListener(new ListenerCard());
+            for (int item = 0; item < cards.length; item++) {
+                GCard gCard = ((Ca) cards[item]).getGCard();
 
-            // Wenn Karte blockiert = rote umrandung
+                gCard.setMouseEventListener(new ListenerCard());
+
+                // Wenn Karte blockiert = rote umrandung
             /*if (playerCards.getBlockedCards().contains(cards[item]))
                 System.out.println(gCard.getCard().getName()); */
 
-            // Karte der Gruppe hinzufügen
-            this.groupPlayer[playerId].addChild(gCard, this.pos[playerId][item][0], this.pos[playerId][item][1]);
-        }
+                // Karte der Gruppe hinzufügen
+                this.groupPlayer[playerId].addChild(gCard, this.pos[playerId][item][0], this.pos[playerId][item][1]);
+            }
     }
 
     private void clearPlayerPanel(int playerId) throws ChildNotFoundException {
