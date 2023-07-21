@@ -16,13 +16,22 @@ import java.util.Set;
  * @auth#cor Ramon Cemil  Kimyon
  * @date 12.06.2023 00:40
  */
-public abstract class PlayerCards implements CardSetHandler {
+public class PlayerCards implements CardSetHandler {
     protected Set<Card> cards = new HashSet<>(), blocked_cards = new HashSet<>(), active_cards = new HashSet<>();
     protected int score = 0;
+    public PlayerCards() {
+
+    }
+    public PlayerCards(final int score, final Set<Card> cards, final Set<Card> blocked_cards, final Set<Card> active_cards) {
+        this.score = score;
+        this.cards = cards;
+        this.blocked_cards = blocked_cards;
+        this.active_cards = active_cards;
+    }
     @Override
     public void add(final Card added_card) {
         if(!cards.contains(added_card)) {
-            cards.add((Ca)added_card);
+            cards.add(added_card);
             updateBlockedCards();
             updateScore();
         }
@@ -30,7 +39,6 @@ public abstract class PlayerCards implements CardSetHandler {
 
     @Override
     public boolean remove(final Card removed_card) {
-        //if (!cards.contains(removed_card)) return false;
         cards.remove(removed_card);
         updateBlockedCards();
         updateScore();
@@ -105,6 +113,9 @@ public abstract class PlayerCards implements CardSetHandler {
      private void updateBlockedCards() {
         blocked_cards.clear();
         active_cards.clear();
+
+
+
         for (final Card hand_card : cards)
             for (final Effect effect : hand_card.getEffects())
                 switch (effect.getType()) {                             // switch - case für jedes Event
@@ -113,7 +124,7 @@ public abstract class PlayerCards implements CardSetHandler {
                             if (either.get() instanceof Card) {
                                 if (cards.contains(either.get()))
                                     blocked_cards.add((Ca) hand_card);
-                            } else if (getCardColorCardsInHand(either.getRight()).size() != 0) blocked_cards.add((Ca) hand_card);
+                            } else if (getCardColorCardsInHand(either.getRight()).size() != 0) blocked_cards.add(hand_card);
                         break;
                     case BLOCKED_IF_WITHOUT:
                         boolean is_contained = false;
@@ -122,7 +133,7 @@ public abstract class PlayerCards implements CardSetHandler {
                                 is_contained |= (cards.contains(either.getLeft())) ? true : false;
                             else is_contained |= getCardColorCardsInHand(either.getRight()).size() != 0 ? true : false;
                         if (!is_contained)
-                            blocked_cards.add((Ca) hand_card);
+                            blocked_cards.add(hand_card);
                         break;
                     case BLOCKS_EVERY:
                         for (final Either<Card, CardColor> either : effect.getSelector())
@@ -138,6 +149,13 @@ public abstract class PlayerCards implements CardSetHandler {
         for (final Card card : cards)
             if (!blocked_cards.contains(card))
                 active_cards.add((Ca) card);
+    }
+    private void updateBLOCKCARDS() {
+        blocked_cards.clear();
+        active_cards.clear();
+        for (final Card hand_card : cards) {
+
+        }
     }
 
     @Override
@@ -161,5 +179,12 @@ public abstract class PlayerCards implements CardSetHandler {
     @Override
     public ArrayList<Card> getActiveCards() {
         return new ArrayList<>(this.active_cards);
+    }
+
+    public PlayerCards clone() {
+        return new PlayerCards(score, new HashSet<>(cards), new HashSet<>(blocked_cards), new HashSet<>(active_cards));
+    }
+    public int getScore() {
+        return this.score;
     }
 }

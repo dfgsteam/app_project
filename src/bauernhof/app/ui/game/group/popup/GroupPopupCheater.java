@@ -27,10 +27,6 @@ import sag.elements.shapes.GRect;
  * - The button displays a bold text for indicating the action of returning to the main menu.
  * - The button triggers an event listener when clicked, redirecting to the main menu.
  *
- * @param UiGame The UiGame object that represents the game UI.
- * @param player The AbstractGamePlayer object representing the detected cheater.
- * @throws Exception If an error occurs during initialization.
- *
  * @author Juliud Hunold
  * @version 1.0
  * @since 2023-07-14
@@ -43,10 +39,10 @@ public class GroupPopupCheater extends GGroup {
      * The object represents a cheater popup group in the game UI.
      * 
      * @param uiGame The UiGame object that represents the game UI.
-     * @param player The AbstractGamePlayer object representing the detected cheater.
+     * @param name of the Cheater
      * @throws Exception If an error occurs during initialization.
      */
-    public GroupPopupCheater(UiGame uiGame, AbstractGamePlayer player) throws Exception {
+    public GroupPopupCheater(UiGame uiGame, String name) throws Exception {
         // Panel
         GGroup panel = uiGame.getMainPanel().addLayer(LayerPosition.CENTER);
 
@@ -64,7 +60,7 @@ public class GroupPopupCheater extends GGroup {
         panel.addChild(headline, 0f, -150f);
 
         // Cheaternamen
-        GText playerName = new GText("\u2620\uFE0F " + player.getName() + " \u2620\uFE0F");
+        GText playerName = new GText("\u2620\uFE0F " + name + " \u2620\uFE0F");
         playerName.setAlignment(GText.TextAnchor.MIDDLE);
         playerName.setFontSize(40f);
         panel.addChild(playerName, 0f, 0f);

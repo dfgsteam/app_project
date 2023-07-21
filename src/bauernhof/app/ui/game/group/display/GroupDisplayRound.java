@@ -2,7 +2,7 @@ package bauernhof.app.ui.game.group.display;
 
 import java.awt.Color;
 
-import bauernhof.app.launcher.GameBoardState;
+import bauernhof.app.system.Game;
 import bauernhof.app.ui.game.UiGame;
 import sag.LayerPosition;
 import sag.elements.GGroup;
@@ -31,7 +31,7 @@ import sag.elements.shapes.GRect;
 public class GroupDisplayRound extends GGroup {
 
     private GText roundCounter = new GText("1");
-    private GameBoardState gameBoardState;
+    private Game game;
 
     /**
      * Constructs a new GroupDisplayRound object.
@@ -42,7 +42,7 @@ public class GroupDisplayRound extends GGroup {
      */
     public GroupDisplayRound(UiGame UiGame) throws Exception {
         // Initialize class variables
-        this.gameBoardState = UiGame.getGameBoardState();
+        this.game = UiGame.getGame();
 
         // Panel
         GGroup panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER);
@@ -70,7 +70,7 @@ public class GroupDisplayRound extends GGroup {
      */
     public void update() {
         if (this.roundCounter != null) {
-            this.roundCounter.setText(Integer.toString(this.gameBoardState.getRound()));
+            this.roundCounter.setText(Integer.toString(this.game.getRound()));
         }
     }
 }
