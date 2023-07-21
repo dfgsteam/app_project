@@ -311,12 +311,7 @@ public class UiGame implements PlayerGUIAccess {
 
     @Override
     public Move requestMoveFromCurrentHumanPlayer() {
-            System.out.println("Hallo");
-        try {
-            wait();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        System.out.println("Hallo");
         try {
             wait();
         } catch (InterruptedException e) {

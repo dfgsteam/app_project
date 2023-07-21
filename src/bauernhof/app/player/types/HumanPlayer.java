@@ -14,14 +14,12 @@ import bauernhof.preset.Settings;
  * @date 10.06.2023 15:15
  */
 public class HumanPlayer extends AbstractGamePlayer {
-    private PlayerGUIAccess access;
     public HumanPlayer(final Settings settings, final PlayerCards playercards, final GameBoard gamesystem) {
         super(settings, playercards, gamesystem);
-        this.access = GameBoard.getGraphics();
     }
 
     @Override
     public Move request() throws Exception {
-        return access.requestMoveFromCurrentHumanPlayer();
+        return GameBoard.getGraphics().requestMoveFromCurrentHumanPlayer();
     }
 }
