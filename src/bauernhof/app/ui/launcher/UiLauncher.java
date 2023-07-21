@@ -101,6 +101,7 @@ public class UiLauncher {
 
     public void startGame(String type, PlayerType[] playerTypes, String[] playerNames, Color[] playerColors) {
         try {
+            this.frame.setVisible(false);
             this.frame.dispose();
             bauernhof.preset.Settings settings = new Settings();
             settings.delay = 1000;

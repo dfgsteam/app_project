@@ -1,5 +1,7 @@
 package bauernhof.app;
 
+import java.awt.*;
+import java.io.File;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -23,10 +25,25 @@ public class Init {
 
         GaCoPa gacopa = new GaCoPa();
         if (settings.shouldLauncherLaunch)
-            new InitLauncher();
-        else {
-            initGame(settings);
-        }
+            //new InitLauncher();
+            settings.delay = 1000;
+            settings.showGUI = true;
+            settings.volume = 0;
+            settings.logLevel = LogLevel.INFO;
+            settings.playerNames = List.of(new String[]{"Florian", "S", "B"});
+        settings.playerColors = List.of(new Color[]{Color.RED, Color.BLACK, Color.YELLOW});
+        settings.playerTypes = List.of(new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI});
+        settings.gameConfigurationFile = new File("gameconfigs/bauernhof.xml");
+        settings.delay = 1000L;
+        settings.showGUI = true;
+        settings.connectToHostname = null;
+        settings.port = 6600;
+        settings.loadSaveGameFile = null;
+        settings.shouldLauncherLaunch = false;
+        settings.numTournamentRounds = 0;
+        settings.waitAfterTournamentRound = false;
+        settings.volume = 0;
+        Init.initGame(settings);
 
 
     }

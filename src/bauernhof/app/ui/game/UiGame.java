@@ -77,8 +77,10 @@ public class UiGame implements PlayerGUIAccess {
         this.panelDepositedCards = new PanelDepositedCards(this);
         this.panelDrawPileCards = new PanelDrawPileCards(this);
         this.panelExchangeCards = new PanelExchangeCards(this);
-        this.keyboardlistener = new KeyboardListener(game);
-        this.FRAME.addKeyListener(keyboardlistener);
+        if (game.getSettings().delay < 1) {
+            this.keyboardlistener = new KeyboardListener(game);
+            this.FRAME.addKeyListener(keyboardlistener);
+        }
         // Initialize GGroups
         this.groupDisplayRound = new GroupDisplayRound(this);
         this.groupDisplayPlayerCards = new GroupDisplayPlayerCards(this);
@@ -100,9 +102,8 @@ public class UiGame implements PlayerGUIAccess {
      * @throws Exception If an error occurs during the move.
      */
     public void move(boolean last) throws Exception {
-        this.playerId = game.getCurrentPlayerID();
-
-        this.FRAME.update(this.FRAME.getGraphics());
+        //this.playerId = game.getCurrentPlayerID();
+        //this.FRAME.update(this.FRAME.getGraphics());
         System.out.println("GRAFIK UPDATE");
 
         //System.out.println(this.game.getCurrentPlayerCards().getCards());
@@ -125,13 +126,15 @@ public class UiGame implements PlayerGUIAccess {
         if (!last) {
             // Set next player as active
 
-            //this.playerId = (this.playerId + 1) % this.game.getNumPlayers();
+            this.playerId = (this.playerId + 1) % this.game.getNumPlayers();
             this.groupDisplayPlayerName.updatePlayerBgActive(this.playerId);
             this.groupDisplayRound.update();
         } else {
             // Show end of game panel
             this.playerId = 5;
-            this.FRAME.removeKeyListener(keyboardlistener);
+            if (game.getSettings().delay < 1) {
+                this.FRAME.removeKeyListener(keyboardlistener);
+            }
             new GroupPopupScore(this);
         }
         System.out.println("MOVE FINISHED");
