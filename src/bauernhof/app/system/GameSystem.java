@@ -77,6 +77,7 @@ public class GameSystem extends GameBoard {
 
     public boolean executeMove(final Move move) throws Exception {
         super.executeMove(move);
+        System.out.println("MOVE ANFANG");
         // Update Moves on Players
         if (getCurrentPlayer() instanceof AbstractGamePlayer)
             ((AbstractGamePlayer) getCurrentPlayer()).executeMove(move);
@@ -95,6 +96,7 @@ public class GameSystem extends GameBoard {
             this.executeMove(getCurrentPlayer().request());
         } else for (final Player player : players)
                 player.verifyGame(getAllScores());
+
         return true;
     }
     @Override
