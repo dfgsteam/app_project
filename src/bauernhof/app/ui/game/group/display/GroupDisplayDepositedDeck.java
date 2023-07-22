@@ -49,6 +49,7 @@ public class GroupDisplayDepositedDeck {
      * @throws InterruptedException If the thread is interrupted while updating the group.
      */
     public void update() throws InterruptedException {
+        System.out.println(this.UiGame.getGameSystem().getDepositedCards().isEmpty());
         // Add the first card from the deposited cards and assign the appropriate listener to it
         GCard gCard;
         if(!this.UiGame.getGame().getDepositedCards().isEmpty()) {
