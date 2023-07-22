@@ -8,6 +8,11 @@ import bauernhof.preset.card.Card;
 
 import java.util.Random;
 
+/**
+ * This class was created by
+ * @author Viktor Tevosyan
+ * @date 2
+ */
 public class Random_AI extends AbstractGamePlayer implements AIHeader{
     public Random_AI(final Settings settings, final PlayerCards playercards, final GameBoard gamesystem) {
         super(settings, playercards, gamesystem);

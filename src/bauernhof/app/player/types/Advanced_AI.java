@@ -2,9 +2,7 @@ package bauernhof.app.player.types;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import javax.sound.midi.Sequence;
 
-import bauernhof.app.launcher.LauncherSettings;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.PlayerCards;
 import bauernhof.app.player.types.MoveTree.Threads.AbstractThread;
