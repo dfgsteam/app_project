@@ -37,7 +37,6 @@ public abstract class AbstractGamePlayer implements Player {
         this.playerid = playerid - 1;
         this.configuration = configuration;
         this.gameBoard.setDrawPileCards(cards);
-        System.out.println("EXECUTED");
         this.gameBoard.setGameConfiguration(configuration);
         for (int i = 0; i < numplayers; i++)
             gameBoard.initBeginnerCards(i);
@@ -45,8 +44,8 @@ public abstract class AbstractGamePlayer implements Player {
 
     @Override
     public void update(Move opponentMove) throws Exception {
+        System.out.println(getName());
         if(!gameBoard.executeMove(opponentMove)) {
-            System.out.println(getName());
             GameBoard.getGraphics().createCheaterPanel(settings.playerNames.get(gameBoard.getCurrentPlayerID()));
 
         }

@@ -30,13 +30,13 @@ public class Init {
             settings.showGUI = true;
             settings.volume = 0;
             settings.logLevel = LogLevel.INFO;
-            settings.playerNames = List.of(new String[]{"Florian", "S", "B"});
-        settings.playerColors = List.of(new Color[]{Color.RED, Color.BLACK, Color.YELLOW});
-        settings.playerTypes = List.of(new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI});
+            settings.playerNames = List.of(new String[]{"REMOTE"});
+        settings.playerColors = List.of(new Color[]{Color.RED});
+        settings.playerTypes = List.of(new PlayerType[]{PlayerType.HUMAN});
         settings.gameConfigurationFile = new File("gameconfigs/bauernhof.xml");
         settings.delay = 1000L;
         settings.showGUI = true;
-        settings.connectToHostname = null;
+        settings.connectToHostname = "localhost";
         settings.port = 6600;
         settings.loadSaveGameFile = null;
         settings.shouldLauncherLaunch = false;
@@ -49,7 +49,6 @@ public class Init {
     }
     public static void initGame(final Settings settings) throws Exception {
         final GaCoPa gacopa = new GaCoPa();
-        System.out.println("GAME STARTET");
         ArrayList<S2CConnection> connections = new ArrayList<>();
         if(settings.numTournamentRounds == 0) {
             if (settings.connectToHostname != null) new Client(settings, new Socket(settings.connectToHostname, settings.port), gacopa, "Hofbauern");

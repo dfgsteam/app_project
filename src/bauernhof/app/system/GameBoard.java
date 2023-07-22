@@ -10,6 +10,7 @@ import bauernhof.preset.card.Card;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -17,12 +18,12 @@ import java.util.Stack;
  * @date 15.07.2023 09:57
  */
 public class GameBoard implements Game {
-    private int activeplayerid;
+    protected int activeplayerid;
     public static UiGame graphics;
     protected int round;
-    private ArrayList<Card> deposited_cards;
-    private Stack<Card> drawpile_cards = new Stack<>();
-    private PlayerCards[] playercards;
+    protected ArrayList<Card> deposited_cards;
+    protected Stack<Card> drawpile_cards = new Stack<>();
+    protected PlayerCards[] playercards;
     protected int numplayers;
     protected GameConfiguration configuration;
     protected Settings settings;
@@ -31,6 +32,7 @@ public class GameBoard implements Game {
     }
 
     public GameBoard(final int numplayers, final Settings settings, final GameConfiguration configuration, final int round, final int activeplayerid) {
+
         this.numplayers = numplayers;
         this.settings = settings;
         playercards = new PlayerCards[numplayers];
@@ -131,22 +133,30 @@ public class GameBoard implements Game {
     }
 
     public boolean executeMove(final Move move) throws Exception {
+        System.out.println("");
+        System.out.println("GAMEBOARD-DRAWPILE_CARDS: " + drawpile_cards.lastElement() + " " + drawpile_cards.lastElement().getName());
+        System.out.println("MOVE-TAKEN: " + move.getTaken() + " " + move.getTaken().getName());
         if (deposited_cards.contains(move.getTaken()))
             deposited_cards.remove(move.getTaken());
         else if (!(drawpile_cards.isEmpty()) && drawpile_cards.lastElement().equals(move.getTaken()))
-            drawpile_cards.pop();
-        else return false;
+            System.out.println("POP: " + drawpile_cards.pop().getName());
+        else System.out.println("FALSE");
         deposited_cards.add(move.getDeposited());
         // Update PlayerCards
         getCurrentPlayerCards().add(move.getTaken());
         getCurrentPlayerCards().remove(move.getDeposited());
-        // Active Player ID UPDATE
+
+        updatePlayerID();
+        return true;
+    }
+    public void updatePlayerID() {
+
         activeplayerid++;
         if (activeplayerid == playercards.length) {
             activeplayerid = 0;
             this.round++;
         }
-        return true;
+
     }
     public int getNumPlayers() {
         return numplayers;

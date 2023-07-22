@@ -4,6 +4,7 @@ import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.types.*;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.preset.*;
+import bauernhof.preset.card.Card;
 import bauernhof.preset.networking.RemotePlayer;
 import bauernhof.preset.networking.S2CConnection;
 
@@ -32,7 +33,7 @@ public class GameSystem extends GameBoard {
     public void createPlayers(final ArrayList<S2CConnection> connections) throws Exception {
         this.connections = connections;
         players = new Player[settings.playerTypes.size()];
-        int remotecounter = -1;
+        int remotecounter = 0;
         for (int playerid = 0; playerid < numplayers; playerid++) {
             switch (settings.playerTypes.get(playerid)) {
                 case ADVANCED_AI:
@@ -55,15 +56,15 @@ public class GameSystem extends GameBoard {
     }
     public void initPlayers() throws Exception {
         if (settings.showGUI) graphics = new UiGame(configuration, this);
-        System.out.println("FRAME 2");
         for (int playerid = 1; playerid <= numplayers; playerid++)
             this.players[playerid - 1].init(configuration, getDrawPileCards(), numplayers, playerid);
             for (int playerid = 0; playerid < numplayers; playerid++) {
                 if (settings.delay <= 0) return;
                 Thread.sleep(settings.delay);
                 initBeginnerCards(playerid);
+                updatePlayerID();
             }
-            this.round++;
+
             executeMove(this.players[getCurrentPlayerID()].request());
     }
     public int getWinnerID() throws Exception {
@@ -76,18 +77,29 @@ public class GameSystem extends GameBoard {
         return players.length;
     }
 
+    @Override
     public boolean executeMove(final Move move) throws Exception {
         super.executeMove(move);
-        System.out.println("MOVE ANFANG");
+        System.out.println("GameSystem: " + getRound() + " " + getCurrentPlayerID());
+        System.out.println("DRAWPILETOP: " + drawpile_cards.lastElement().getName());
+        System.out.println("DEPO EMPTY: " + deposited_cards.isEmpty());
+        System.out.print("DEPO: ");
+        for (final Card card : deposited_cards)
+            System.out.print(card.getName() + " ");
+        System.out.print("\n");
+        System.out.println("DEPOSITED: " + move.getDeposited().getName());
+        System.out.println("TAKEN: " + move.getTaken().getName() + "\n");
         // Update Moves on Players
-        if (getCurrentPlayer() instanceof AbstractGamePlayer)
-            ((AbstractGamePlayer) getCurrentPlayer()).executeMove(move);
+        if (getPlayers()[(getCurrentPlayerID() - 1 == -1 ? players.length - 1 : getCurrentPlayerID() - 1)] instanceof AbstractGamePlayer)
+            ((AbstractGamePlayer) getPlayers()[(getCurrentPlayerID() - 1 == -1 ? players.length - 1 : getCurrentPlayerID() - 1)]).executeMove(move);
         for (final Player player : players)
-            if (!player.equals(getCurrentPlayer()) && connections.size() != 0)
+            if (!player.equals(getPlayers()[(getCurrentPlayerID() - 1 == -1 ? players.length - 1 : getCurrentPlayerID() - 1)]))
                 player.update(move);
         // Check End Conditions
         if (this.getRound() > 30 || getDepositedCards().size() >= configuration.getNumDepositionAreaSlots()) run = false;
-        if (getGraphics() != null && settings.showGUI) graphics.move(!run);
+        if (getGraphics() != null && settings.showGUI) {
+            graphics.move(!run);
+        }
         // Do Normal Move
         if (run) {
             if (!(getCurrentPlayer() instanceof HumanPlayer || getCurrentPlayer() instanceof RemotePlayer))
@@ -97,7 +109,6 @@ public class GameSystem extends GameBoard {
             this.executeMove(getCurrentPlayer().request());
         } else for (final Player player : players)
                 player.verifyGame(getAllScores());
-
         return true;
     }
     @Override
@@ -105,11 +116,9 @@ public class GameSystem extends GameBoard {
         super.initBeginnerCards(playerid);
         if (graphics != null) {
             try {
-                System.out.println("HELLO");
                 graphics.move(false);
-                System.out.println("GRAPHICS UPDATE");
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                System.out.println(e.getMessage());
             }
         }
 

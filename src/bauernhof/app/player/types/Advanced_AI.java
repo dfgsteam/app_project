@@ -32,8 +32,6 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
         System.out.println(SequenceThread.differences);
         Move move = AbstractThread.getTree().getRootNode().getNextNodes().get(SequenceThread.differences.indexOf(Collections.max(SequenceThread.differences))).getMove();
 
-        System.out.println("ROUND: " + gameBoard.getRound());
-        System.out.println("CURRENT: " + (System.currentTimeMillis() - before));
         currentimes.add(System.currentTimeMillis() - before);
         int x = 0;
         for(Long b : currentimes)

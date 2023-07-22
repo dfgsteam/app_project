@@ -1,8 +1,5 @@
 package bauernhof.app.ui.game;
 
-import bauernhof.app.launcher.LauncherSettingsException;
-import bauernhof.app.player.types.HumanPlayer;
-import bauernhof.app.system.Game;
 import bauernhof.app.system.Game;
 import bauernhof.app.ui.game.listener.KeyboardListener;
 import bauernhof.preset.*;
@@ -24,6 +21,7 @@ import sag.SAGPanel;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.concurrent.CountDownLatch;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -37,7 +35,7 @@ public class UiGame implements PlayerGUIAccess {
 
     public static int WIDTH = 1920;
     public static int HEIGTH = 1080;
-
+    private CountDownLatch count = new CountDownLatch(1);
     // Frame
     private final SAGFrame FRAME = new SAGFrame("Hofbauern", 30, UiGame.WIDTH, UiGame.HEIGTH);
 
@@ -58,6 +56,7 @@ public class UiGame implements PlayerGUIAccess {
     private Card add, remove;
 
     private int playerId = 0;
+    private boolean check_move = false;
     private KeyboardListener keyboardlistener;
 
     /**
@@ -68,6 +67,7 @@ public class UiGame implements PlayerGUIAccess {
      * @throws Exception If an error occurs during initialization.
      */
     public UiGame(GameConfiguration gameconf, Game game) throws Exception {
+
         this.game = game;
 
         // Initialize Frame
@@ -104,7 +104,6 @@ public class UiGame implements PlayerGUIAccess {
     public void move(boolean last) throws Exception {
         //this.playerId = game.getCurrentPlayerID();
         //this.FRAME.update(this.FRAME.getGraphics());
-        System.out.println("GRAFIK UPDATE");
 
         //System.out.println(this.game.getCurrentPlayerCards().getCards());
         // Set current player as inactive
@@ -137,7 +136,6 @@ public class UiGame implements PlayerGUIAccess {
             }
             new GroupPopupScore(this);
         }
-        System.out.println("MOVE FINISHED");
     }
 
     /**
@@ -150,7 +148,6 @@ public class UiGame implements PlayerGUIAccess {
         this.add = gCard.getCard();
         game.getCurrentPlayerCards().add(this.add);
         this.showExchangePanel();
-        this.notify();
     }
 
 
@@ -163,10 +160,11 @@ public class UiGame implements PlayerGUIAccess {
      */
     public void movePopCard(GCard gCard) throws Exception {
         System.out.println(gCard.getCard().getName());
-        //game.getCurrentPlayerCards().remove(this.add);
+        game.getCurrentPlayerCards().remove(this.add);
         this.remove = gCard.getCard();
         this.setMainPanel(3);
-        notify();
+        System.out.println("NOTIFY");
+        count.countDown();
     }
 
     /**
@@ -269,7 +267,7 @@ public class UiGame implements PlayerGUIAccess {
      * @return True if it is a human player's turn, false otherwise.
      */
     public boolean check_move() {
-        return this.game.getSettings().playerTypes.get(playerId).equals(PlayerType.HUMAN);
+        return check_move;
     }
 
     /**
@@ -311,12 +309,16 @@ public class UiGame implements PlayerGUIAccess {
 
     @Override
     public Move requestMoveFromCurrentHumanPlayer() {
-        System.out.println("Hallo");
+        this.check_move = true;
+        System.out.println("WARTET");
         try {
-            wait();
+            count.await();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        count = new CountDownLatch(1);
+        System.out.println("WIRD AUSGEFÜHRT");
+        this.check_move = false;
         return new Move(add, remove);
     }
 }

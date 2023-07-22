@@ -7,6 +7,7 @@ import bauernhof.app.ui.launcher.panel.PanelLocal;
 
 public class ListenerLocalAddUser implements ItemListener {
 
+
     private PanelLocal panelLocal;
     private int playerId;
 

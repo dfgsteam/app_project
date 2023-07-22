@@ -49,6 +49,7 @@ public class ListenerCardPop implements MouseEventListener {
         if (this.UiGame.check_move()) {
             var2.setScale(1f);
             try {
+
                 this.UiGame.movePopCard((GCard) var2);
             } catch (Exception e) {
                 throw new RuntimeException(e);
