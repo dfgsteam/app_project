@@ -62,7 +62,6 @@ public class WorkingThread extends AbstractThread {
 
     @Override
     public boolean workingThreadAction() throws Exception {
-        // synchronized (next_calculations) {
             if (this.getThreadNode() == null) {
                 if (next_calculations.isEmpty()) { return false; }
                 this.setThreadNode(WorkingThread.next_calculations.remove());

@@ -26,13 +26,10 @@ public class Init {
         GaCoPa gacopa = new GaCoPa();
         if (settings.shouldLauncherLaunch)
             //new InitLauncher();
-            settings.delay = 1000;
-            settings.showGUI = true;
-            settings.volume = 0;
             settings.logLevel = LogLevel.INFO;
-            settings.playerNames = List.of(new String[]{"Florian", "Lotta", "Smilla"});
-        settings.playerColors = List.of(new Color[]{Color.RED, Color.BLACK, Color.WHITE});
-        settings.playerTypes = List.of(new PlayerType[]{PlayerType.SIMPLE_AI, PlayerType.SIMPLE_AI, PlayerType.SIMPLE_AI});
+            settings.playerNames = List.of(new String[]{"Florian", "Lotta"});
+        settings.playerColors = List.of(new Color[]{Color.RED, Color.BLACK});
+        settings.playerTypes = List.of(new PlayerType[]{PlayerType.RANDOM_AI, PlayerType.RANDOM_AI});
         settings.gameConfigurationFile = new File("gameconfigs/bauernhof.xml");
         settings.delay = 1000L;
         settings.showGUI = true;

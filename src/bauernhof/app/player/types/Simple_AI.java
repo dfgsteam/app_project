@@ -59,16 +59,15 @@ public class Simple_AI extends AbstractGamePlayer implements AIHeader {
 
     @Override
     public Card removeFromOwn(Card to_take) {
-        int max_score = playercards.getRemoveScore(playercards.getCards().get(0));
-        Card to_remove = playercards.getCards().get(0);
+        int max_score = playercards.getAddRemoveScore(to_take, to_take);
+        Card to_remove = to_take;
         for (Card card : playercards.getCards()) {
-            if (playercards.getRemoveScore(card) > max_score) {
+            if (playercards.getAddRemoveScore(to_take, card) > max_score) {
                 to_remove = card;
-                max_score = playercards.getRemoveScore(card);
+                max_score = playercards.getAddRemoveScore(to_take, card);
             }
         }
 
-        if (playercards.getAddScore(to_take) - playercards.getRemoveScore(to_remove) < 0) { to_remove = to_take; }
 
         return to_remove;
     }

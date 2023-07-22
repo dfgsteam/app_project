@@ -44,7 +44,6 @@ public abstract class AbstractGamePlayer implements Player {
 
     @Override
     public void update(Move opponentMove) throws Exception {
-        System.out.println(getName());
         if(!gameBoard.executeMove(opponentMove)) {
             GameBoard.getGraphics().createCheaterPanel(settings.playerNames.get(gameBoard.getCurrentPlayerID()));
 

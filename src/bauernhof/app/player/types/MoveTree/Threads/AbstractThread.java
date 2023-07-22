@@ -13,14 +13,14 @@ import bauernhof.app.system.GameBoard;
  * This abstract class implements (not fully) the ThreadHanlder Interface
  */
 public abstract class AbstractThread implements ThreadHandler {
-    private static final int MAX_DEPTH = 8;
+    private static final int MAX_DEPTH = 4;
     private static MoveTree move_tree;
     private MoveNode actual_node;
 
     public AbstractThread(GameBoard actual_state) {
 
         move_tree = new MoveTree(new MoveNode(actual_state));
-        this.setThreadNode(AbstractThread.getTree().getRootNode());
+        this.setThreadNode(getTree().getRootNode());
     }
 
     public AbstractThread() {
