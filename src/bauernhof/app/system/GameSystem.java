@@ -21,8 +21,8 @@ import java.util.*;
  */
 
 public class GameSystem extends GameBoard {
-    private boolean run;
     private Player[] players;
+    private boolean run;
     private ArrayList<S2CConnection> connections;
     public GameSystem(final Settings settings, final GameConfiguration configuration) {
         super(settings.playerNames.size(), settings, configuration);
@@ -78,27 +78,29 @@ public class GameSystem extends GameBoard {
 
     @Override
     public boolean executeMove(final Move move) throws Exception {
-        super.executeMove(move);
         // Update Moves on Players
-        if (getPlayers()[(getCurrentPlayerID() - 1 == -1 ? players.length - 1 : getCurrentPlayerID() - 1)] instanceof AbstractGamePlayer)
-            ((AbstractGamePlayer) getPlayers()[(getCurrentPlayerID() - 1 == -1 ? players.length - 1 : getCurrentPlayerID() - 1)]).executeMove(move);
+        if (getPlayers()[getCurrentPlayerID()] instanceof AbstractGamePlayer)
+            ((AbstractGamePlayer) getPlayers()[getCurrentPlayerID()]).executeMove(move);
         for (final Player player : players)
-            if (!player.equals(getPlayers()[(getCurrentPlayerID() - 1 == -1 ? players.length - 1 : getCurrentPlayerID() - 1)]))
+            if (!player.equals(getPlayers()[getCurrentPlayerID()]))
                 player.update(move);
         // Check End Conditions
         if (this.getRound() > 30 || getDepositedCards().size() >= configuration.getNumDepositionAreaSlots()) run = false;
-        if (getGraphics() != null && settings.showGUI) {
-            graphics.update(!run);
-        }
-        // Do Normal Move
-        if (run) {
-            if (!(getCurrentPlayer() instanceof HumanPlayer || getCurrentPlayer() instanceof RemotePlayer))
-                if (settings.delay <= 0 && settings.showGUI )
-                    return true;
-                else Thread.sleep(settings.delay);
-            this.executeMove(getCurrentPlayer().request());
-        } else for (final Player player : players)
+        if (super.executeMove(move)) {
+            if (getGraphics() != null && settings.showGUI) {
+                graphics.update(!run);
+            }
+            // Do Normal Move
+
+            if (run) {
+                if (!(getCurrentPlayer() instanceof HumanPlayer || getCurrentPlayer() instanceof RemotePlayer))
+                    if (settings.delay <= 0 && settings.showGUI)
+                        return true;
+                    else Thread.sleep(settings.delay);
+                this.executeMove(getCurrentPlayer().request());
+            } else for (final Player player : players)
                 player.verifyGame(getAllScores());
+        }
         return true;
     }
     @Override

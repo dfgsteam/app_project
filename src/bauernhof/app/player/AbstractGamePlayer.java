@@ -10,6 +10,7 @@ package bauernhof.app.player;
  */
 
 import bauernhof.app.system.GameBoard;
+import bauernhof.app.system.GameSystem;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 
@@ -45,10 +46,8 @@ public abstract class AbstractGamePlayer implements Player {
     @Override
     public void update(Move opponentMove) throws Exception {
         System.out.println(getName());
-        if(!gameBoard.executeMove(opponentMove)) {
+        if(!gameBoard.executeMove(opponentMove))
             GameBoard.getGraphics().createCheaterPanel(settings.playerNames.get(gameBoard.getCurrentPlayerID()));
-
-        }
     }
 
     public boolean executeMove(Move move) throws Exception {

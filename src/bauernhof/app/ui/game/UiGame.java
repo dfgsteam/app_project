@@ -102,11 +102,9 @@ public class UiGame implements PlayerGUIAccess {
      * @throws Exception If an error occurs during the move.
      */
     public void update(boolean last) throws Exception {
-        System.out.println("WIRD AUFGERUFEN");
         // Set current player as inactive
         this.groupDisplayPlayerName.updatePlayerBgInactive(this.playerId);
 
-        System.out.println("Wird nicht mehr aufgerufen");
         // Clear Draw Pile and Deposited Deck
         this.groupDisplayDepositedDeck.clear();
         this.groupDisplayDrawPileDeck.clear();

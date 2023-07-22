@@ -137,7 +137,7 @@ public class GameBoard implements Game {
             deposited_cards.remove(move.getTaken());
         else if (!(drawpile_cards.isEmpty()) && drawpile_cards.lastElement().equals(move.getTaken()))
             System.out.println("POP: " + drawpile_cards.pop().getName());
-        else System.out.println("FALSE");
+        else return false;
         deposited_cards.add(move.getDeposited());
         // Update PlayerCards
         getCurrentPlayerCards().add(move.getTaken());

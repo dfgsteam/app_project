@@ -16,7 +16,6 @@ public class NetworkGetSettings {
     public static Settings getSettings(int i) {
         final Settings settings = new Settings();
         if (i == 0) {
-            settings.delay = 1000;
             settings.showGUI = true;
             settings.volume = 0;
             settings.logLevel = LogLevel.INFO;
@@ -24,7 +23,7 @@ public class NetworkGetSettings {
             settings.playerColors = List.of(new Color[]{Color.RED, Color.GREEN, Color.YELLOW});
             settings.playerTypes = List.of(new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI, PlayerType.HUMAN});
             settings.gameConfigurationFile = new File("gameconfigs/bauernhof.xml");
-            settings.delay = 1000L;
+            settings.delay = 0L;
             settings.showGUI = true;
             settings.connectToHostname = null;
             settings.port = 6600;
