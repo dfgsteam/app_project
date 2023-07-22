@@ -10,7 +10,6 @@ import bauernhof.preset.card.Card;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Stack;
 
 /**
@@ -133,9 +132,6 @@ public class GameBoard implements Game {
     }
 
     public boolean executeMove(final Move move) throws Exception {
-        System.out.println("");
-        System.out.println("GAMEBOARD-DRAWPILE_CARDS: " + drawpile_cards.lastElement() + " " + drawpile_cards.lastElement().getName());
-        System.out.println("MOVE-TAKEN: " + move.getTaken() + " " + move.getTaken().getName());
         if (deposited_cards.contains(move.getTaken()))
             deposited_cards.remove(move.getTaken());
         else if (!(drawpile_cards.isEmpty()) && drawpile_cards.lastElement().equals(move.getTaken()))
@@ -145,7 +141,6 @@ public class GameBoard implements Game {
         // Update PlayerCards
         getCurrentPlayerCards().add(move.getTaken());
         getCurrentPlayerCards().remove(move.getDeposited());
-
         updatePlayerID();
         return true;
     }

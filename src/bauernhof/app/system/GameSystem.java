@@ -32,7 +32,6 @@ public class GameSystem extends GameBoard {
     }
     public void createPlayers(final ArrayList<S2CConnection> connections) throws Exception {
         this.connections = connections;
-        players = new Player[settings.playerTypes.size()];
         int remotecounter = 0;
         for (int playerid = 0; playerid < numplayers; playerid++) {
             switch (settings.playerTypes.get(playerid)) {
@@ -80,15 +79,6 @@ public class GameSystem extends GameBoard {
     @Override
     public boolean executeMove(final Move move) throws Exception {
         super.executeMove(move);
-        System.out.println("GameSystem: " + getRound() + " " + getCurrentPlayerID());
-        System.out.println("DRAWPILETOP: " + drawpile_cards.lastElement().getName());
-        System.out.println("DEPO EMPTY: " + deposited_cards.isEmpty());
-        System.out.print("DEPO: ");
-        for (final Card card : deposited_cards)
-            System.out.print(card.getName() + " ");
-        System.out.print("\n");
-        System.out.println("DEPOSITED: " + move.getDeposited().getName());
-        System.out.println("TAKEN: " + move.getTaken().getName() + "\n");
         // Update Moves on Players
         if (getPlayers()[(getCurrentPlayerID() - 1 == -1 ? players.length - 1 : getCurrentPlayerID() - 1)] instanceof AbstractGamePlayer)
             ((AbstractGamePlayer) getPlayers()[(getCurrentPlayerID() - 1 == -1 ? players.length - 1 : getCurrentPlayerID() - 1)]).executeMove(move);
