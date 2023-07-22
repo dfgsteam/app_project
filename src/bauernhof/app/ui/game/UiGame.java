@@ -184,6 +184,7 @@ public class UiGame implements PlayerGUIAccess {
      */
     public void showPanelDepositedCards() throws ChildNotFoundException {
         this.groupDisplayDepositedDeck.clear(); // Clear reference to card in the deck
+        this.panelDepositedCards.update();
         this.FRAME.setSAGPanel(this.panelDepositedCards.getPanel());
     }
 

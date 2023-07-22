@@ -55,9 +55,9 @@ public class PanelDepositedCards extends SAGPanel {
     }
 
     public void update() {
+        System.out.println("UPDATE");
         int cardSize = this.uiGame.getGame().getDrawPileCards().size();
         this.groupCards.setScale(1.1f - (0.01f * cardSize));
-
         for (int index = 0; index < cardSize-1; index+=(cardSize/2)) { // Für obere und untere Reihe
             float maxCards = index<cardSize/2 ? cardSize/2 : cardSize-cardSize/2; // Endpunkt für 2. Forschleife (Ende von Reihe a/b)
             int xPos = (int) (-220*(maxCards/2+0.5)); // Damit Startpunkt variable nach Kartenanzahl
