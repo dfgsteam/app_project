@@ -51,6 +51,14 @@ public class PlayerCards implements CardSetHandler {
         remove(card);
         return score_state;
     }
+    public int getAddRemoveScore(final Card add, final Card remove) {
+        add(add);
+        remove(remove);
+        int score_state = score;
+        add(remove);
+        remove(add);
+        return score_state;
+    }
     private Set<Card> getCardColorCardsInHand(final CardColor color) {
         Set<Card> colorcards = new HashSet<>();
         for (final Card card : cards)
