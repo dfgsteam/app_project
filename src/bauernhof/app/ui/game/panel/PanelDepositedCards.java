@@ -55,21 +55,43 @@ public class PanelDepositedCards extends SAGPanel {
     }
 
     public void update() {
-        System.out.println("UPDATE");
-        int cardSize = this.uiGame.getGame().getDrawPileCards().size();
-        this.groupCards.setScale(1.1f - (0.01f * cardSize));
-        for (int index = 0; index < cardSize-1; index+=(cardSize/2)) { // Für obere und untere Reihe
-            float maxCards = index<cardSize/2 ? cardSize/2 : cardSize-cardSize/2; // Endpunkt für 2. Forschleife (Ende von Reihe a/b)
-            int xPos = (int) (-220*(maxCards/2+0.5)); // Damit Startpunkt variable nach Kartenanzahl
-            int yPos = index > 0 ? -150 : 150; // Verschiebung der Reihe auf y-Achse
-            for (int index2 = 0; index2 < maxCards; index2++) {
-                xPos += 220;
-                GCard gCard = ((Ca)this.uiGame.getGame().getDrawPileCards().get(index)).getGCard(); // bekomme gCard
-                gCard.setMouseEventListener(new ListenerCardAdd(this.uiGame)); // MouseEventlistener
-                this.groupCards.addChild(gCard, xPos, yPos);
-            }
+
+        // Bitte schreibe die Kartenerstellung in die update()-Methode. So müssen wir nicht mehr das Panel komplett neuladen.
+
+        // Es muss mittels for-loop alle Karten nach System (x/y) in die GroupCards mittels addChild(gcard, x, y) geladen werden. Die GGroup ist immer leer, wenn diese geladen wird.
+
+        // G-Cards bekommst du mit ((Ca) this.uiGame.getGameBoardState().getDepositedCards().get(index)).getGCard()
+        
+
+        int size = this.uiGame.getGameBoardState().getDepositedCards().size();
+        groupCards = this.panel.addLayer(LayerPosition.CENTER_CENTER);
+        groupCards.setScale(0.68f);
+        this.setLayout(null);
+        this.setVisible(true);
+        GCard card;
+        card = ((Ca) this.uiGame.getGameBoardState().getDepositedCards().get(0)).getGCard();
+        card.setMouseEventListener(new CardListener());
+        int x = (int)(-210*((float)this.uiGame.getGameBoardState().getDepositedCards().size()/8)),y=110,i=1;
+
+        groupCards.addChild(card, 0, -200);
+
+        for(; i< size; i++ ){
+            if(x+400 >= this.panel.VIEWPORT_WIDTH){break;}
+            card =((Ca) this.uiGame.getGameBoardState().getDepositedCards().get(i)).getGCard();
+            card.setMouseEventListener(new CardListener());
+            groupCards.addChild(card,x,y);
+            x+=210;
+
         }
-       
+        x = (int)(-210*((float)this.uiGame.getGameBoardState().getDepositedCards().size()/8));y=-3450;
+        for(; i< size; i++ ){
+            if(x+400 >= this.panel.VIEWPORT_WIDTH){break;}
+            card =((Ca) this.uiGame.getGameBoardState().getDepositedCards().get(i)).getGCard();
+            card.setMouseEventListener(new CardListener());
+            groupCards.addChild(card,x,y);
+            x+=210;
+
+        }
     }
 
     public void clear() throws ChildNotFoundException {
