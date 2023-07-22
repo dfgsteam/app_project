@@ -53,17 +53,12 @@ public class PanelDrawPileCards extends SAGPanel{
         buttonBackBG.setMouseEventListener(new ListenerBackButton(this.uiGame, buttonBackHeadline, 1));
     }
 
-    public void update() {
-        System.out.println("Test");
-
+    public void update() throws ChildNotFoundException {
+        clear();
         // Bitte schreibe die Kartenerstellung in die update()-Methode. So müssen wir nicht mehr das Panel komplett neuladen.
-
         // Es muss mittels for-loop alle Karten nach System (x/y) in die GroupCards mittels addChild(gcard, x, y) geladen werden. Die GGroup ist immer leer, wenn diese geladen wird.
-
         // Platziere bitte die erste Karte in einer Zeile in der mitte alleine (keine anderen Karten). Gib dieser den CardPopListener, alle anderen den CardListener
-
         // G-Cards bekommst du mit ((Ca) this.uiGame.getGame().getDepositedCards().get(index)).getGCard()
-
         groupCards = this.panel.addLayer(LayerPosition.CENTER_CENTER);
         groupCards.setScale(0.68f);
         int size = this.uiGame.getGame().getDrawPileCards().size();
@@ -91,7 +86,6 @@ public class PanelDrawPileCards extends SAGPanel{
             card.setMouseEventListener(new ListenerCard(card.getGElement()));
             groupCards.addChild(card, x, y);
             x+=210;
-
         }
 
         /*

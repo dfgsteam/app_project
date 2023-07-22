@@ -48,6 +48,7 @@ public class GameBoard implements Game {
     public GameBoard(final PlayerCards[] playercards, final Settings settings, final int round, final int activeplayerid, final ArrayList<Card> deposited_cards, ImmutableList<Card> drawpile_cards, final GameConfiguration configuration) {
         this.playercards = playercards;
         this.settings = settings;
+        this.numplayers = playercards.length;
         this.round = round;
         this.activeplayerid = activeplayerid;
         this.configuration = configuration;

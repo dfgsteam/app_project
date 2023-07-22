@@ -12,6 +12,7 @@ import bauernhof.app.ui.game.UiGame;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.networking.C2SConnection;
+import bauernhof.preset.networking.RemoteException;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -21,9 +22,11 @@ public class Client extends C2SConnection {
     private Settings settings;
     private AbstractGamePlayer player;
 
-    public Client(final Settings settings, final Socket socket, final GameConfigurationParser parser, final String porjectname) throws IOException {
+    public Client(final Settings settings, final Socket socket, final GameConfigurationParser parser, final String porjectname) throws IOException, RemoteException {
         super(socket, parser, porjectname);
         this.settings = settings;
+        handlePackets();
+
     }
 
     @Override
@@ -32,36 +35,42 @@ public class Client extends C2SConnection {
         for (int i = 0; i < playerNames.size(); i++)
             playercards[i] = new PlayerCards();
         settings.playerNames = playerNames;
-        final Game game = new GameBoard(playercards, settings, 1, 0, new ArrayList<>(), initialDrawPile, game_configuration);
+        final GameBoard game = new GameBoard(playercards, settings, 1, 0, new ArrayList<>(), initialDrawPile, game_configuration);
         switch (settings.playerTypes.get(0)) {
             case HUMAN:
-                this.player = new HumanPlayer(settings, playercards[playerid], (GameBoard) game);
+                this.player = new HumanPlayer(settings, playercards[playerid -1], game);
                 break;
             case ADVANCED_AI:
-                this.player = new Advanced_AI(settings, playercards[playerid], (GameBoard) game);
+                this.player = new Advanced_AI(settings, playercards[playerid - 1], game);
                 break;
             case SIMPLE_AI:
-                this.player = new Simple_AI(settings, playercards[playerid], (GameBoard) game);
+                this.player = new Simple_AI(settings, playercards[playerid - 1], game);
                 break;
             case RANDOM_AI:
-                this.player = new Random_AI(settings, playercards[playerid], (GameBoard) game);
+                this.player = new Random_AI(settings, playercards[playerid - 1], game);
                 break;
         }
+        System.out.println(initialDrawPile.size());
         this.player.init(game_configuration, initialDrawPile, playerNames.size(), playerid);
-        GameBoard.graphics = new UiGame(game_configuration, this.player.getGameBoard());
+        GameBoard.graphics = new UiGame(game_configuration, game);
+
     }
 
 
     @Override
     protected Move onRequest() throws Exception {
-        GameBoard.graphics.move(false);
-        return player.request();
+        System.out.println("REQUEST");
+        final Move move = player.request();
+        player.getGameBoard().executeMove(move);
+        GameBoard.graphics.update(false);
+        return move;
     }
 
     @Override
     protected void onUpdate(Move move) throws Exception {
-        GameBoard.graphics.move(false);
+        System.out.println("UPDATE");
         this.player.update(move);
+        GameBoard.graphics.update(false);
     }
 
     @Override
@@ -76,7 +85,7 @@ public class Client extends C2SConnection {
 
     @Override
     protected void onVerifyGame(ImmutableList<Integer> immutableList) throws Exception {
-        GameBoard.graphics.move(true);
+        GameBoard.graphics.update(true);
         player.verifyGame(immutableList);
     }
 }

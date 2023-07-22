@@ -101,14 +101,12 @@ public class UiGame implements PlayerGUIAccess {
      * @param last Determines if it is the last turn.
      * @throws Exception If an error occurs during the move.
      */
-    public void move(boolean last) throws Exception {
-        //this.playerId = game.getCurrentPlayerID();
-        //this.FRAME.update(this.FRAME.getGraphics());
-
-        //System.out.println(this.game.getCurrentPlayerCards().getCards());
+    public void update(boolean last) throws Exception {
+        System.out.println("WIRD AUFGERUFEN");
         // Set current player as inactive
         this.groupDisplayPlayerName.updatePlayerBgInactive(this.playerId);
 
+        System.out.println("Wird nicht mehr aufgerufen");
         // Clear Draw Pile and Deposited Deck
         this.groupDisplayDepositedDeck.clear();
         this.groupDisplayDrawPileDeck.clear();
@@ -172,8 +170,9 @@ public class UiGame implements PlayerGUIAccess {
      *
      * @throws ChildNotFoundException If a child element is not found in the group.
      */
-    public void showPanelDrawPileCards() throws ChildNotFoundException {
-        this.groupDisplayDepositedDeck.clear(); // Clear reference to card in the deck
+    public void showPanelDrawPileCards() throws ChildNotFoundException, InterruptedException {
+        this.groupDisplayDrawPileDeck.clear(); // Clear reference to card in the deck
+        this.panelDrawPileCards.update();
         this.FRAME.setSAGPanel(this.panelDrawPileCards.getPanel());
     }
 

@@ -30,7 +30,7 @@ public class Init {
         settings.showGUI = true;
         settings.volume = 0;
         settings.logLevel = LogLevel.INFO;
-        settings.playerNames = List.of(new String[]{"Player 1", "Player 2", "Player 3"});
+        settings.playerNames = List.of(new String[]{"REMOTE", "Player 2", "Player 3"});
         settings.playerColors = List.of(new Color[]{Color.RED, Color.GREEN, Color.YELLOW});
         settings.playerTypes = List.of(new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI, PlayerType.HUMAN});
         settings.gameConfigurationFile = new File("gameconfigs/bauernhof.xml");
@@ -43,24 +43,24 @@ public class Init {
         settings.numTournamentRounds = 0;
         settings.waitAfterTournamentRound = false;
         settings.volume = 0;
-        Init.initGame(settings);
-
-
+        Init.initGame(NetworkGetSettings.getSettings(Integer.parseInt(args[0])));
     }
     public static void initGame(final Settings settings) throws Exception {
         final GaCoPa gacopa = new GaCoPa();
         ArrayList<S2CConnection> connections = new ArrayList<>();
         if(settings.numTournamentRounds == 0) {
             if (settings.connectToHostname != null) new Client(settings, new Socket(settings.connectToHostname, settings.port), gacopa, "Hofbauern");
-            if (settings.playerTypes.contains(PlayerType.REMOTE)){
-                final ServerSocket socket = new ServerSocket(settings.port);
-                for (final PlayerType type : settings.playerTypes)
-                    if (type.equals(PlayerType.REMOTE))
-                        connections.add(new S2CConnection(socket.accept()));
+            else {
+                if (settings.playerTypes.contains(PlayerType.REMOTE)) {
+                    final ServerSocket socket = new ServerSocket(settings.port);
+                    for (final PlayerType type : settings.playerTypes)
+                        if (type.equals(PlayerType.REMOTE))
+                            connections.add(new S2CConnection(socket.accept()));
+                }
+                final GameSystem system = new GameSystem(settings, gacopa.parse(settings.gameConfigurationFile));
+                system.createPlayers(connections);
+                system.initPlayers();
             }
-            final GameSystem system = new GameSystem(settings, gacopa.parse(settings.gameConfigurationFile));
-            system.createPlayers(connections);
-            system.initPlayers();
         } else {
             Tournament tournament = new Tournament(settings, gacopa.parse(settings.gameConfigurationFile));
             tournament.initTournament();

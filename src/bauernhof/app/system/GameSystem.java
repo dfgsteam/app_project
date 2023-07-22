@@ -4,7 +4,6 @@ import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.types.*;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.preset.*;
-import bauernhof.preset.card.Card;
 import bauernhof.preset.networking.RemotePlayer;
 import bauernhof.preset.networking.S2CConnection;
 
@@ -48,15 +47,16 @@ public class GameSystem extends GameBoard {
                     players[playerid] = new Random_AI(settings, getPlayerCards(playerid), this.clone());
                     break;
                 case REMOTE:
+                    connections.get(remotecounter).setPlayerNames(new ImmutableList<>(settings.playerNames));
                     players[playerid] = connections.get(remotecounter++).getRemotePlayer();
                     break;
             }
         }
     }
     public void initPlayers() throws Exception {
-        if (settings.showGUI) graphics = new UiGame(configuration, this);
         for (int playerid = 1; playerid <= numplayers; playerid++)
             this.players[playerid - 1].init(configuration, getDrawPileCards(), numplayers, playerid);
+        if (settings.showGUI) graphics = new UiGame(configuration, this);
             for (int playerid = 0; playerid < numplayers; playerid++) {
                 if (settings.delay <= 0) return;
                 Thread.sleep(settings.delay);
@@ -88,7 +88,7 @@ public class GameSystem extends GameBoard {
         // Check End Conditions
         if (this.getRound() > 30 || getDepositedCards().size() >= configuration.getNumDepositionAreaSlots()) run = false;
         if (getGraphics() != null && settings.showGUI) {
-            graphics.move(!run);
+            graphics.update(!run);
         }
         // Do Normal Move
         if (run) {
@@ -106,7 +106,7 @@ public class GameSystem extends GameBoard {
         super.initBeginnerCards(playerid);
         if (graphics != null) {
             try {
-                graphics.move(false);
+                graphics.update(false);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

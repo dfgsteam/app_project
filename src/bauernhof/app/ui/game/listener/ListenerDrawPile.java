@@ -109,6 +109,8 @@ public class ListenerDrawPile implements MouseEventListener {
             this.UiGame.showPanelDrawPileCards();
         } catch (ChildNotFoundException e) {
             System.out.println(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 }
