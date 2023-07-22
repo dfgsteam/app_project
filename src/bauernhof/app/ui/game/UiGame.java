@@ -143,7 +143,7 @@ public class UiGame implements PlayerGUIAccess {
      *
      * @param gCard The GCard object representing the selected card.
      */
-    public void moveAddCard(GCard gCard) {
+    public void moveAddCard(GCard gCard) throws ChildNotFoundException {
         System.out.println(gCard.getCard().getName());
         this.add = gCard.getCard();
         game.getCurrentPlayerCards().add(this.add);
@@ -191,7 +191,7 @@ public class UiGame implements PlayerGUIAccess {
     /**
      * Creates the exchange panel for exchanging cards between players.
      */
-    public void showExchangePanel() {
+    public void showExchangePanel() throws ChildNotFoundException {
         this.FRAME.setSAGPanel(this.panelExchangeCards.getPanel());
         this.panelExchangeCards.update();
     }

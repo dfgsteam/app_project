@@ -37,8 +37,13 @@ public class ListenerDrawPile implements MouseEventListener {
      */
     @Override
     public void mouseClicked(MouseButtonEvent var1, GElement var2) {
-        if (this.UiGame.check_move())
-            this.UiGame.moveAddCard((GCard) var2);
+        if (this.UiGame.check_move()) {
+            try {
+                this.UiGame.moveAddCard((GCard) var2);
+            } catch (ChildNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     /**

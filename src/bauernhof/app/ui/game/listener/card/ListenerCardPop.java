@@ -33,7 +33,8 @@ public class ListenerCardPop implements MouseEventListener {
      * 
      * @param UiGame The UiGame object that represents the game UI.
      */
-    public ListenerCardPop (UiGame UiGame) {
+    public ListenerCardPop (GElement element, UiGame UiGame) {
+        element.setScale(1.0F);
         this.UiGame = UiGame;
     }
     

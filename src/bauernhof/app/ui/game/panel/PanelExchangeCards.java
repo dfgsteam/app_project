@@ -64,17 +64,17 @@ public class PanelExchangeCards extends SAGPanel {
     }
 
 
-    public void update() {
+    public void update() throws ChildNotFoundException {
         for (int index = 0; index < this.uiGame.getGame().getCurrentPlayerCards().getCards().size(); index++) {
             GCard gCard = ((Ca) this.uiGame.getGame().getCurrentPlayerCards().getCards().get(index)).getGCard();
-            gCard.setMouseEventListener(new ListenerCardPop(this.uiGame));
+            gCard.setMouseEventListener(new ListenerCardPop(gCard.getGElement(), this.uiGame));
             this.cardGroup.addChild(gCard, this.positions[index][0], this.positions[index][1]);
         }
             
     }
 
     public void clear() throws ChildNotFoundException {
-        for (int index=this.uiGame.getGame().getCurrentPlayerCards().getCards().size()-1; index >= 0 ; index--) {
+        for (int index=this.cardGroup.getNumChildren()-1; index >= 0 ; index--) {
             this.cardGroup.removeChild(this.cardGroup.getChildByRenderingIndex(index));
         }
     }

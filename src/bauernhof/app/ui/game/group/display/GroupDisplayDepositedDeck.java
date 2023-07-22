@@ -53,7 +53,7 @@ public class GroupDisplayDepositedDeck {
         GCard gCard;
         if(!this.UiGame.getGame().getDepositedCards().isEmpty()) {
             gCard = ((Ca) this.UiGame.getGame().getDepositedCards().iterator().next()).getGCard();
-            gCard.setMouseEventListener(new ListenerDeposited(this.UiGame));
+            gCard.setMouseEventListener(new ListenerDeposited(gCard.getGElement(), this.UiGame));
             this.panel.addChild(gCard, 180f, 0f);
         }
     }
@@ -68,6 +68,7 @@ public class GroupDisplayDepositedDeck {
         // Remove old cards and reset their positions (move)
         for (int cardIndex = this.panel.getNumChildren()-1; cardIndex >= 0 ; cardIndex--) {
             this.panel.removeChild(this.panel.getChildByRenderingIndex(cardIndex));
+            System.out.println(this.panel.getNumChildren());
         }
     }
 }

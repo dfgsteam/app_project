@@ -63,27 +63,27 @@ public class PanelDepositedCards extends SAGPanel {
         // Es muss mittels for-loop alle Karten nach System (x/y) in die GroupCards mittels addChild(gcard, x, y) geladen werden. Die GGroup ist immer leer, wenn diese geladen wird.
 
         // G-Cards bekommst du mit ((Ca) this.uiGame.getGameBoardState().getDepositedCards().get(index)).getGCard()
-        
-
         int size = this.uiGame.getGame().getDepositedCards().size();
+        clear();
         groupCards = this.panel.addLayer(LayerPosition.CENTER_CENTER);
         this.setLayout(null);
         this.setVisible(true);
-        GCard card = null;
+        GCard card;
         if (size <= uiGame.getGame().getConfiguration().getNumDepositionAreaSlots() / 2) {
             groupCards.setScale(1.25F);
             for (int i = 0; i < size; i++) {
                 card = ((Ca) uiGame.getGame().getDepositedCards().get(i)).getGCard();
+                card.setMouseEventListener(new ListenerDeposited(card.getGElement(), uiGame));
                 groupCards.addChild(card, (size % 2 == 0 ? 105 : 0) + 210 * (-(size / 2) + i), 0);
             }
         } else {
             groupCards.setScale(1.0F);
             for (int i = 0; i < size; i++) {
                 card = ((Ca) uiGame.getGame().getDepositedCards().get(i)).getGCard();
+                card.setMouseEventListener(new ListenerDeposited(card.getGElement(), uiGame));
                 groupCards.addChild(card, (size % 2 == 0 ? i % 2 == 0 ? 110 : 0 : 0 ) + 110*(-(size/2) + i), i % 2 == 0 ? -150 : 150); // Vllt nicht soviel elvis
             }
         }
-        if(card != null) card.setMouseEventListener(new ListenerCard());
         /*card = ((Ca) this.uiGame.getGame().getDepositedCards().get(0)).getGCard();
         card.setMouseEventListener(new ListenerCard());
 

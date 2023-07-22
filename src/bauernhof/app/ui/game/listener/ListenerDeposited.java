@@ -26,7 +26,8 @@ public class ListenerDeposited implements MouseEventListener {
      *
      * @param UiGame The UiGame object that represents the game UI.
      */
-    public ListenerDeposited(UiGame UiGame) {
+    public ListenerDeposited(GElement element, UiGame UiGame) {
+        element.setScale(1.0F);
         this.UiGame = UiGame;
     }
 
@@ -40,8 +41,13 @@ public class ListenerDeposited implements MouseEventListener {
      */
     @Override
     public void mouseClicked(MouseButtonEvent var1, GElement var2) {
-        if (this.UiGame.check_move())
-            this.UiGame.moveAddCard((GCard) var2);
+        if (this.UiGame.check_move()) {
+            try {
+                this.UiGame.moveAddCard((GCard) var2);
+            } catch (ChildNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     /**
