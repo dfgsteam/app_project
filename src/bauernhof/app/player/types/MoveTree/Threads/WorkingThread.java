@@ -31,19 +31,6 @@ public class WorkingThread extends AbstractThread {
 
     }
 
-    /**
-     * Constructor, that signalises, that there are some next_calculations and that the tree is not empty
-     */
-    public WorkingThread() {
-        this.setThreadNode(null);
-         while (!WorkingThread.next_calculations.isEmpty()) { try {
-            workingThreadAction();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } }
-    }
-
 
     @Override
     public boolean calcNextNode(int cardNumTake, int cardNumPut) throws Exception {

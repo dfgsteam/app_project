@@ -1,14 +1,10 @@
 package bauernhof.app.player.types;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.PlayerCards;
-import bauernhof.app.player.types.MoveTree.MoveTree;
-import bauernhof.app.player.types.MoveTree.Threads.AbstractThread;
 import bauernhof.app.player.types.MoveTree.Threads.SequenceThread;
 import bauernhof.app.player.types.MoveTree.Threads.WorkingThread;
 import bauernhof.app.system.GameBoard;
@@ -16,12 +12,18 @@ import bauernhof.preset.Move;
 import bauernhof.preset.Settings;
 import bauernhof.preset.card.Card;
 
+/**
+ * This class was written by
+ * @author Viktor Tevosyan
+ * @date 28.06.2023
+ * This class represents the Advanced_AI. It extends from the AbstractGamePlayer, because it is a GamePlayer. 
+ * Attention: This class does not implement the AIHeader interface, because of the own structure
+ */
 public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
     private ArrayList<Long> currentimes = new ArrayList<>();
     private long before;
     private GameBoard board_before = null;
     private Move move_before = null;
-    private MoveTree tree_before;
 
     public Advanced_AI(final Settings settings, final PlayerCards playercards, final GameBoard gameboard) {
         super(settings, playercards, gameboard);
@@ -46,7 +48,7 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
         SequenceThread sequenceThread1 = new SequenceThread(true);
         
         System.out.println(SequenceThread.differences);
-        Move move = workingThread1.getTree().getRootNode().getNextNodes().get(SequenceThread.differences.indexOf(Collections.max(SequenceThread.differences))).getMove();
+        Move move = WorkingThread.getTree().getRootNode().getNextNodes().get(SequenceThread.differences.indexOf(Collections.max(SequenceThread.differences))).getMove();
 
         currentimes.add(System.currentTimeMillis() - before);
         int x = 0;
