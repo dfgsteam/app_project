@@ -96,25 +96,20 @@ public class UiGame implements PlayerGUIAccess {
     }
     public void reset(final Game game) throws Exception {
         this.FRAME.removeKeyListener(keyboardlistener);
-        this.game = game;
-        this.playerId = 0;
-        this.FRAME.setSAGPanel(this.mainPanel);
+        this.mainPanel = new SAGPanel();
+        this.FRAME.setSAGPanel(mainPanel);
+        this.FRAME.setSAGPanel(mainPanel);
         this.panelDepositedCards = new PanelDepositedCards(this);
         this.panelDrawPileCards = new PanelDrawPileCards(this);
         this.panelExchangeCards = new PanelExchangeCards(this);
-        if (game.getSettings().delay < 1) {
-            this.keyboardlistener = new KeyboardListener(game);
-            this.FRAME.addKeyListener(keyboardlistener);
-        }
-        // Initialize GGroups
         this.groupDisplayRound = new GroupDisplayRound(this);
         this.groupDisplayPlayerCards = new GroupDisplayPlayerCards(this);
         this.groupDisplayPlayerName = new GroupDisplayPlayerName(this);
         this.groupDisplayDrawPileDeck = new GroupDisplayDrawPileDeck(this);
         this.groupDisplayDepositedDeck = new GroupDisplayDepositedDeck(this);
-        // Initialize playerCards
         for (int index = 0; index < this.getGame().getNumPlayers(); index++)
             this.groupDisplayPlayerCards.updatePlayer(index);
+
     }
 
     /**
