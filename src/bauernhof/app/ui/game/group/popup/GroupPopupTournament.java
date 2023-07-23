@@ -30,7 +30,6 @@ public class GroupPopupTournament extends GGroup {
 
     }
     public void popupTournamentScore(final boolean last) throws ChildNotFoundException {
-
         area = new GRect(0f, 0f, 700f, 500f, true, 0f, 0f);
         area.setFill(new Color(255, 255, 255));
         area.setStroke(new Color(0, 0, 0), 5f);
@@ -49,7 +48,6 @@ public class GroupPopupTournament extends GGroup {
         }
         panel.addChild(area, 0f, 0f);
         panel.addChild(headline, 0f, -150f);
-
         // Spielerreihenfolge berechnen
         /*HashMap<String, Integer> playerWins = new HashMap<>();
         ArrayList<String> scores = new ArrayList<>();
@@ -68,7 +66,6 @@ public class GroupPopupTournament extends GGroup {
         winScores.set(uiGame.getGame().getWinnerID(), winScores.get(uiGame.getGame().getWinnerID()) + 1);
         ArrayList<Integer> winsSorted = new ArrayList<Integer>(winScores);
         Collections.sort(winsSorted, Collections.reverseOrder());
-        
         // ArrayList<Integer> scorescopy = (ArrayList<Integer>) scores.clone();
         // Collections.sort(scorescopy);
         // final ArrayList<Integer> positions = new ArrayList<>();
@@ -90,7 +87,6 @@ public class GroupPopupTournament extends GGroup {
         // Game Button
         panel.addChild(gameButton, 0f, 175f);
         // Game Überschrift
-
         gameHeadline = new GText(last ? "Zurück zum Hauptmenü" : "Next Game");
         gameHeadline.setBold(true);
         gameHeadline.setAlignment(GText.TextAnchor.MIDDLE);

@@ -38,20 +38,14 @@ public class Tournament {
         }
     }
     public final void nextTournamentRound() throws Exception {
-        try {
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
         final GameSystem system = new GameSystem(settings, configuration);
         states.add(system);
         system.createPlayers(new ArrayList<>());
         if (GameBoard.graphics != null) {
             GameBoard.graphics.initUI(system, true);
-            GameBoard.graphics.update(false);
         }
         System.out.println("GAME");
         system.initPlayers();
-
         if (counter == settings.numTournamentRounds)
             tournament.popupTournamentScore(true);
         else {
