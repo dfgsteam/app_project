@@ -19,7 +19,8 @@ import java.util.*;
  * @version 1.0
  * @since 2023-06-27
  */
-public class GaCoPa implements GameConfigurationParser{
+public class
+GaCoPa implements GameConfigurationParser{
 
     /**
      * Parses the game configuration from the provided file contents.

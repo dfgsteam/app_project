@@ -1,15 +1,15 @@
 package bauernhof.app.ui.game.group.display;
 
 import bauernhof.app.card.Ca;
-import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.PlayerCards;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.listener.card.ListenerCard;
-import bauernhof.preset.Player;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
 import sag.LayerPosition;
 import sag.elements.GGroup;
+
+import java.awt.*;
 
 /**
  * This class represents a group for displaying player cards in the game UI.
@@ -44,8 +44,8 @@ public class GroupDisplayPlayerCards extends GGroup {
      */
     public GroupDisplayPlayerCards (UiGame uiGame) {
         this.uiGame = uiGame;
-        int maxCards = this.uiGame.getGameSystem().getConfiguration().getNumCardsPerPlayerHand();
-        int numplayers = uiGame.getGameSystem().getPlayers().length;
+        int maxCards = this.uiGame.getGame().getConfiguration().getNumCardsPerPlayerHand();
+        int numplayers = uiGame.getGame().getNumPlayers();
         this.pos = new float[numplayers][maxCards][2];
         for (int counter=0; counter < numplayers; counter++) {
             switch (counter) {
@@ -120,23 +120,25 @@ public class GroupDisplayPlayerCards extends GGroup {
      * @throws ChildNotFoundException If the child card element is not found in the group.
      * @throws InterruptedException If the thread is interrupted during card updates.
      */
-    public void updatePlayer(int playerId) throws ChildNotFoundException, InterruptedException {
-        PlayerCards playerCards = uiGame.getGameSystem().getPlayerCards(playerId);
-        this.clearPlayerPanel(playerId);
-        Object[] cards = playerCards.getCards().toArray();
+    public void updatePlayer(int playerId) throws ChildNotFoundException {
+            PlayerCards playerCards = uiGame.getGame().getPlayerCards(playerId);
+            this.clearPlayerPanel(playerId);
+            Object[] cards = playerCards.getCards().toArray();
 
-        for (int item=0; item<cards.length; item++) {
-            GCard gCard = ((Ca) cards[item]).getGCard();
-            
-            gCard.setMouseEventListener(new ListenerCard());
+            for (int item = 0; item < cards.length; item++) {
+                GCard gCard = ((Ca) cards[item]).getGCard();
 
-            // Wenn Karte blockiert = rote umrandung
-            /*if (playerCards.getBlockedCards().contains(cards[item]))
-                System.out.println(gCard.getCard().getName()); */
+                gCard.setMouseEventListener(new ListenerCard(gCard.getGElement()));
 
-            // Karte der Gruppe hinzufügen
-            this.groupPlayer[playerId].addChild(gCard, this.pos[playerId][item][0], this.pos[playerId][item][1]);
-        }
+                // Wenn Karte blockiert = rote umrandung
+            if (playerCards.getBlockedCards().contains(cards[item])) {
+                gCard.setStroke(Color.RED, 20.0F);
+            } else
+                gCard.unsetStroke();
+
+                // Karte der Gruppe hinzufügen
+                this.groupPlayer[playerId].addChild(gCard, this.pos[playerId][item][0], this.pos[playerId][item][1]);
+            }
     }
 
     private void clearPlayerPanel(int playerId) throws ChildNotFoundException {

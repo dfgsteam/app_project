@@ -4,10 +4,7 @@ import bauernhof.app.ui.game.UiGame;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
 import sag.elements.GElement;
-import sag.events.MouseButtonEvent;
-import sag.events.MouseEventListener;
-import sag.events.MouseMotionEvent;
-import sag.events.MouseWheelEvent;
+import sag.events.*;
 
 /**
  * This class represents a mouse event listener for the draw pile in the game UI.
@@ -37,8 +34,21 @@ public class ListenerDrawPile implements MouseEventListener {
      */
     @Override
     public void mouseClicked(MouseButtonEvent var1, GElement var2) {
-        if (this.UiGame.check_move())
-            this.UiGame.moveAddCard((GCard) var2);
+        if (var1.getMouseButton().equals(MouseButton.LEFT)) {
+        if (this.UiGame.check_move()) {
+            try {
+                this.UiGame.moveAddCard((GCard) var2);
+            } catch (ChildNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }}
+        else try {
+            this.UiGame.showPanelDrawPileCards();
+        } catch (ChildNotFoundException e) {
+            System.out.println(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -67,8 +77,10 @@ public class ListenerDrawPile implements MouseEventListener {
      */
     @Override
     public void mouseEntered(MouseMotionEvent var1, GElement var2) {
-        if (this.UiGame.check_move())
+        if (this.UiGame.check_move()) {
             var2.setScale(1.1f);
+            var1.setHandled();
+        }
     }
 
     /**
@@ -104,6 +116,8 @@ public class ListenerDrawPile implements MouseEventListener {
             this.UiGame.showPanelDrawPileCards();
         } catch (ChildNotFoundException e) {
             System.out.println(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 }

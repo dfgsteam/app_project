@@ -53,10 +53,9 @@ public class GroupDisplayDrawPileDeck {
      * @throws InterruptedException If an error occurs during the update process.
      */
     public void update() throws InterruptedException {
-        System.out.println(this.UiGame.getGameSystem().getDrawPileCards().get(0));
         // Add the first card from the draw pile and attach the appropriate listener
-        if (!this.UiGame.getGameSystem().getDrawPileCards().isEmpty()) {
-            GCard gCard = ((Ca) this.UiGame.getGameSystem().getDrawPileCards().get(this.UiGame.getGameSystem().getDrawPileCards().size() - 1)).getGCard();
+        if (!this.UiGame.getGame().getDrawPileCards().isEmpty()) {
+            GCard gCard = ((Ca) this.UiGame.getGame().getDrawPileCards().get(this.UiGame.getGame().getDrawPileCards().size() - 1)).getGCard();
             gCard.setMouseEventListener(new ListenerDrawPile(this.UiGame));
             this.panel.addChild(gCard, -180, 0);
         }
@@ -68,7 +67,7 @@ public class GroupDisplayDrawPileDeck {
      * @throws ChildNotFoundException If the child element is not found in the panel.
      */
     public void clear() throws ChildNotFoundException {
-        System.out.println(this.panel.getNumChildren());
+        //System.out.println(this.panel.getNumChildren());
         // Remove the old cards and reset their positions
         for (int cardIndex = this.panel.getNumChildren()-1; cardIndex >= 0 ; cardIndex--) {
             this.panel.removeChild(this.panel.getChildByRenderingIndex(cardIndex));

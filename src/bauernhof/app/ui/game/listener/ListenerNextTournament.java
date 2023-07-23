@@ -1,5 +1,7 @@
 package bauernhof.app.ui.game.listener;
 
+import bauernhof.app.system.GameBoard;
+import bauernhof.app.system.Tournament;
 import bauernhof.app.ui.game.UiGame;
 import sag.elements.GElement;
 import sag.elements.GText;
@@ -8,18 +10,28 @@ import sag.events.MouseEventListener;
 import sag.events.MouseMotionEvent;
 import sag.events.MouseWheelEvent;
 
+import javax.swing.*;
+import java.awt.*;
+
 public class ListenerNextTournament implements MouseEventListener {
     private GText homeHeadline;
     private UiGame uiGame;
+    private Tournament tournament;
 
-    public ListenerNextTournament(UiGame uiGame, GText homeHeadline) {
+    public ListenerNextTournament(Tournament tournament, UiGame uiGame, GText homeHeadline) {
         this.uiGame = uiGame;
+        this.tournament = tournament;
         this.homeHeadline = homeHeadline;
     }
 
     @Override
     public void mouseClicked(MouseButtonEvent var1, GElement var2) {
-        this.uiGame.closeUiGame(); //-> Nächstes Tournament aufrufen
+        try {
+            tournament.nextTournamentRound();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     /**

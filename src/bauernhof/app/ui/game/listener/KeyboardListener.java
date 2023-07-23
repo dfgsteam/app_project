@@ -1,6 +1,7 @@
 package bauernhof.app.ui.game.listener;
 
 import bauernhof.app.player.types.HumanPlayer;
+import bauernhof.app.system.Game;
 import bauernhof.app.system.GameSystem;
 import bauernhof.preset.networking.RemotePlayer;
 
@@ -12,10 +13,10 @@ import java.awt.event.KeyListener;
  * @date 17.07.2023 02:14
  */
 public class KeyboardListener implements KeyListener {
-    private GameSystem system;
+    private GameSystem game;
     private int playerid = 0;
-    public KeyboardListener(final GameSystem system) {
-        this.system = system;
+    public KeyboardListener(final Game game) {
+        this.game = (GameSystem) game;
     }
     @Override
     public void keyTyped(KeyEvent e) {
@@ -25,15 +26,17 @@ public class KeyboardListener implements KeyListener {
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             try {
-                if (system.getRound() == 1) {
-                    if (playerid == system.getNumPlayers())
-                        system.setRound(system.getRound() + 1);
+                if (game.getRound() == 1) {
+                    if (playerid == game.getNumPlayers())
+                        game.setRound(game.getRound() + 1);
                     else {
-                        system.initBeginnerCards(playerid);
+                        game.initBeginnerCards(playerid);
                         playerid++;
                     }
-                } else if (!(system.getActualPlayer() instanceof HumanPlayer || system.getActualPlayer() instanceof RemotePlayer))
-                    system.executeMove(system.getActualPlayer().request());
+                    if (game instanceof GameSystem) {
+                    } else if (!(game.getCurrentPlayer() instanceof HumanPlayer || game.getCurrentPlayer() instanceof RemotePlayer))
+                        game.executeMove(game.getCurrentPlayer().request());
+                }
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }

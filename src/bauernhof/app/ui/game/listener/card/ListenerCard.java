@@ -25,7 +25,9 @@ import sag.events.MouseWheelEvent;
  */
 
 public class ListenerCard implements MouseEventListener {
-
+    public ListenerCard(GElement element) {
+        element.setScale(1.0F);
+    }
     @Override
     public void mouseClicked(MouseButtonEvent var1, GElement var2) {
         // Empty implementation

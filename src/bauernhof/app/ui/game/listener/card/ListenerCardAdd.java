@@ -32,7 +32,8 @@ public class ListenerCardAdd implements MouseEventListener {
      * 
      * @param UiGame The UiGame object that represents the game UI.
      */
-    public ListenerCardAdd(UiGame UiGame) {
+    public ListenerCardAdd(GElement element, UiGame UiGame) {
+        element.setScale(1.0F);
         this.UiGame = UiGame;
     }
 

@@ -27,10 +27,6 @@ import sag.elements.shapes.GRect;
  * - The button displays a bold text for indicating the action of returning to the main menu.
  * - The button triggers an event listener when clicked, redirecting to the main menu.
  *
- * @param UiGame The UiGame object that represents the game UI.
- * @param player The AbstractGamePlayer object representing the detected cheater.
- * @throws Exception If an error occurs during initialization.
- *
  * @author Juliud Hunold
  * @version 1.0
  * @since 2023-07-14

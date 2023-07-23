@@ -8,76 +8,99 @@ import bauernhof.preset.card.Card;
 
 import java.util.Random;
 
+/**
+ * This class was created by
+ * @author Viktor Tevosyan
+ * @date 26.06.2023
+ * This class represents a Random_AI, which extends from AbstractGamePlayer, because it is a GamePlayer.
+ * It implements the AIHeader interface, in order to follow the structure of an Artifical Intelligence, which is written in the interface.
+ * The Random_AI has the role of a very bad player, who has no idea of the game it plays and makes random moves:
+ * - Does not understand, how the board looks like
+ * - Does not understand the moves
+ * - Does not consider the players
+ * - Can't determine, which move is good or bad
+ * - Plays fortune game
+ */
 public class Random_AI extends AbstractGamePlayer implements AIHeader{
+
+    /**
+     * Parametrized constructor, which creates a Random_AI with given settings playercards at the begining of the game and the given GameBoard
+     * @param Settings
+     * @param Playercards
+     * @param Gamesystem
+     */
     public Random_AI(final Settings settings, final PlayerCards playercards, final GameBoard gamesystem) {
         super(settings, playercards, gamesystem);
     }
 
     @Override
     public Move request() {
-        Card to_take = null;
+        Card to_take = null;            //References for the cards, firstly initialised
         Card to_deposit = null;
 
-        if (gameBoard.getDepositedCards().isEmpty() || Math.random() < 0.5) {
-            if(cardFromStack() != null)
-            to_take = cardFromStack();
-            else to_take = cardFromDeposit();
+        if (gameBoard.getDepositedCards().isEmpty() || Math.random() < 0.5) {   //if the deposit area is empty or 50% probability -> take from drawpile_stack
+            if(cardFromStack() != null) to_take = cardFromStack();     //if the drawpile_stack not empty, take fromn draw_pile stack
+            else to_take = cardFromDeposit();       
         }
 
-        else {
-            to_take = cardFromDeposit();
-        }
-
-        if (Math.random() < 1.0/ (configuration.getNumCardsPerPlayerHand()+1)) {
-            to_deposit = to_take;
-        }
+        else { to_take = cardFromDeposit(); }        //else we know, that the deposited area is not empty --> take from there
+            
         
-        else {
-            to_deposit = removeFromOwn(to_take);
-        }
 
-        return new Move(to_take, to_deposit);
+        //----------------------------------
+        if (Math.random() < 1.0/ (configuration.getNumCardsPerPlayerHand()+1)) { to_deposit = to_take;  }             //by the probability of 1/owncards+1 -> deposited card is the taken card
+            
+        
+        else { to_deposit = removeFromOwn(to_take); }     //else a card from own
+
+        return new Move(to_take, to_deposit);       //return calculated move
     }
 
 
     /**
-     * Random Integer for the own card-index to put into deposit
-     * @return int
+     * Random Integer Generator for the own card-index to put into deposit
+     * @return Random Integer as number of Card in the own hand
      */
     private final int ownCardNumber() {
         Random random = new Random();
         return random.nextInt(configuration.getNumCardsPerPlayerHand());
-       // return (int)Math.round((Math.random() * configuration.getNumCardsPerPlayerHand()));
     }
 
     /**
-     * Random Integer for index of random card from deposit to take
-     * @return
+     * Random Integer Generator for index of random card from deposit to take
+     * @return Random Integer as a number of Card from deposit
      */
     private final int depositRandomNumber() {
         Random random = new Random();
-        return (int)(random.nextInt(gameBoard.getDepositedCards().size()));
+        return (random.nextInt(gameBoard.getDepositedCards().size()));
     }
 
     @Override
+    /**
+     * @return Random card from Deposit
+     */
     public Card cardFromDeposit() {
-       int deposit_random_index = depositRandomNumber();
-      // System.out.println("deposit_random_index : " + deposit_random_index);
-       return gameBoard.getDepositedCards().get(deposit_random_index);
+       int deposit_random_index = depositRandomNumber();        //generate the number of the card in the deposit area
+       return gameBoard.getDepositedCards().get(deposit_random_index);      //return the card by its number of the deposited area
     }
 
     @Override
+    /**
+     * @return Card from the DrawPileStack
+     */
     public Card cardFromStack() {
-        if (gameBoard.getDrawPileCards().isEmpty())
+        if (gameBoard.getDrawPileCards().isEmpty())     //just return no reference, if the drawpile is empty
             return null;
-        return gameBoard.getDrawPileCards().get(gameBoard.getDrawPileCards().size() - 1);
+        return gameBoard.getDrawPileCards().get(gameBoard.getDrawPileCards().size() - 1);   //else if we want the "last pushed" element from tzhe arraylist
     }
 
     @Override
+    /**
+     * @return Random Card from own Hand
+     */
     public Card removeFromOwn(Card to_take) {
-        int own_random_index = ownCardNumber();
-        //System.out.println("own_random_index : " + own_random_index);
-        return (Card)playercards.getCards().toArray()[own_random_index];
+        int own_random_index = ownCardNumber();     //generate the number of own card
+        return playercards.getCards().get(own_random_index);        //return the card by its number
     }
     
 }
