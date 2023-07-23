@@ -20,7 +20,7 @@ public interface MoveNodeHandler<T> {
 
     /**
      * Setter for the acual move of the actual node
-     * @param Move
+     * @param move
      */
     public void setMove(Move move);
 

@@ -6,7 +6,6 @@ import bauernhof.app.player.types.Advanced_AI;
 import bauernhof.app.player.types.HumanPlayer;
 import bauernhof.app.player.types.Random_AI;
 import bauernhof.app.player.types.Simple_AI;
-import bauernhof.app.system.Game;
 import bauernhof.app.system.GameBoard;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.preset.*;

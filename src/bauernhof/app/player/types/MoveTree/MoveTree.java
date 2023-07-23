@@ -16,7 +16,7 @@ public class MoveTree implements MoveTreeHandler {
 
     /**
      * Parametrized Constructor, which Sets the RootNode
-     * @param RootNode
+     * @param start_node
      */
     public MoveTree(MoveNode start_node) {
         this.setRootNode(start_node);

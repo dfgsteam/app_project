@@ -11,7 +11,7 @@ public interface MoveTreeHandler {
     
     /**
      * Setter for the Root node of the tree
-     * @param RootNode
+     * @param root_node
      */
     public void setRootNode(MoveNode root_node);
 

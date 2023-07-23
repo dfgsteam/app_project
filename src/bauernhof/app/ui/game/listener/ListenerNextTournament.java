@@ -26,7 +26,6 @@ public class ListenerNextTournament implements MouseEventListener {
 
     @Override
     public void mouseClicked(MouseButtonEvent var1, GElement var2) {
-
         try {
             tournament.nextTournamentRound();
         } catch (Exception e) {
