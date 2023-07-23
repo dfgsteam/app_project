@@ -18,6 +18,7 @@ import sag.elements.shapes.GRect;
 
 
 public class GroupPopupTournament extends GGroup {
+    GGroup panel;
     private ArrayList<Integer> winScores = new ArrayList<>();
     private GRect area, gameButton;
     private GText headline, gameHeadline, scorePlayerPosition;
@@ -42,13 +43,13 @@ public class GroupPopupTournament extends GGroup {
         gameButton.setFill(new Color(144, 238, 155, 50));
         gameButton.setStroke(new Color(0, 0, 0), 5f);
         UiGame uiGame = GameBoard.getGraphics();
-        GGroup panel = uiGame.getMainPanel().addLayer(LayerPosition.CENTER);
-        for (int i = 0; i < panel.getNumChildren(); i++) {
+        this.panel = uiGame.getMainPanel().addLayer(LayerPosition.CENTER);
+        for (int i = 0; i < this.panel.getNumChildren(); i++) {
             System.out.println("CHILDS");
             panel.removeChild(panel.getChildByRenderingIndex(i));
         }
-        panel.addChild(area, 0f, 0f);
-        panel.addChild(headline, 0f, -150f);
+        this.panel.addChild(area, 0f, 0f);
+        this.panel.addChild(headline, 0f, -150f);
 
         // Spielerreihenfolge berechnen
         /*HashMap<String, Integer> playerWins = new HashMap<>();
@@ -88,7 +89,7 @@ public class GroupPopupTournament extends GGroup {
         //     }
         // }
         // Game Button
-        panel.addChild(gameButton, 0f, 175f);
+        this.panel.addChild(gameButton, 0f, 175f);
         // Game Überschrift
 
         gameHeadline = new GText(last ? "Zurück zum Hauptmenü" : "Next Game");
@@ -97,5 +98,9 @@ public class GroupPopupTournament extends GGroup {
         gameHeadline.setFontSize(25f);
         panel.addChild(gameHeadline, 0f, 183f);
         gameButton.setMouseEventListener(last ? new ListenerHomeButton(uiGame, gameHeadline) : new ListenerNextTournament(tournament, uiGame, gameHeadline));
+    }
+
+    public GGroup getPanel() {
+        return this.panel;
     }
 }
