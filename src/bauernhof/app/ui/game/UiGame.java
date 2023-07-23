@@ -37,7 +37,7 @@ public class UiGame implements PlayerGUIAccess {
     public static int HEIGTH = 1080;
     private CountDownLatch count = new CountDownLatch(1);
     // Frame
-    public final SAGFrame FRAME = new SAGFrame("Hofbauern", 30, UiGame.WIDTH, UiGame.HEIGTH);
+    public SAGFrame FRAME = new SAGFrame("Hofbauern", 30, UiGame.WIDTH, UiGame.HEIGTH);
 
     // Panels
     private SAGPanel mainPanel = new SAGPanel();
@@ -97,7 +97,7 @@ public class UiGame implements PlayerGUIAccess {
     public void reset(final Game game) throws Exception {
         this.FRAME.removeKeyListener(keyboardlistener);
         this.mainPanel = new SAGPanel();
-        this.FRAME.setSAGPanel(mainPanel);
+        this.FRAME = new SAGFrame("Hofbauern", 30, UiGame.WIDTH, UiGame.HEIGTH);
         this.FRAME.setSAGPanel(mainPanel);
         this.panelDepositedCards = new PanelDepositedCards(this);
         this.panelDrawPileCards = new PanelDrawPileCards(this);

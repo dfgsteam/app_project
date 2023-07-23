@@ -2,6 +2,7 @@ package bauernhof.app.system;
 
 import bauernhof.app.GaCoPa;
 import bauernhof.app.networking.Client;
+import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.group.popup.GroupPopupTournament;
 import bauernhof.preset.*;
 
@@ -42,15 +43,24 @@ public class Tournament {
             throw new RuntimeException(e);
         }
         final GameSystem system = new GameSystem(settings, configuration);
-        if (GameBoard.graphics != null) GameBoard.graphics.reset(states.get(states.size() - 1));
+
+        if (GameBoard.graphics != null) {
+            GameBoard.graphics.FRAME.dispose();
+
+        }
         states.add(system);
         system.createPlayers(new ArrayList<>());
+        if (GameBoard.graphics != null) {
+            GameBoard.graphics = new UiGame(configuration, system);
+        }
         system.initPlayers();
 
         if (counter == settings.numTournamentRounds)
             tournament.popupTournamentScore(true);
-        else
+        else {
             tournament.popupTournamentScore(false);
+            counter++;
+        }
     }
     public ArrayList<Integer> getWins() {
         return wins;
