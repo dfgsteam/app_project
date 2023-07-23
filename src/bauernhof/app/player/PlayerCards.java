@@ -16,7 +16,7 @@ import java.util.Set;
  * @auth#cor Ramon Cemil  Kimyon
  * @date 12.06.2023 00:40
  */
-public class PlayerCards implements CardSetHandler {
+public class PlayerCards {
     protected Set<Card> cards = new HashSet<>(), blocked_cards = new HashSet<>(), active_cards = new HashSet<>();
     protected int score = 0;
 
@@ -31,7 +31,6 @@ public class PlayerCards implements CardSetHandler {
         this.active_cards = active_cards;
     }
 
-    @Override
     public void add(final Card added_card) {
         if (!cards.contains(added_card)) {
             cards.add(added_card);
@@ -40,7 +39,6 @@ public class PlayerCards implements CardSetHandler {
         }
     }
 
-    @Override
     public boolean remove(final Card removed_card) {
         cards.remove(removed_card);
         updateBlockedCards();
@@ -48,7 +46,6 @@ public class PlayerCards implements CardSetHandler {
         return true;
     }
 
-    @Override
     public int getAddScore(final Card card) {
         add(card);
         int score_state = score;
@@ -127,44 +124,6 @@ public class PlayerCards implements CardSetHandler {
         this.score = score;
     }
 
-    private void updateBlockesdCards() {
-        blocked_cards.clear();
-        active_cards.clear();
-
-
-        for (final Card hand_card : cards)
-            for (final Effect effect : hand_card.getEffects())
-                switch (effect.getType()) {                             // switch - case für jedes Event
-                    case BLOCKED_IF_WITH:
-                        for (final Either<Card, CardColor> either : effect.getSelector())
-                            if (either.get() instanceof Card) {
-                                if (cards.contains(either.get()))
-                                    blocked_cards.add((Ca) hand_card);
-                            } else if (getCardColorCardsInHand(either.getRight()).size() != 0) blocked_cards.add(hand_card);
-                        break;
-                    case BLOCKED_IF_WITHOUT:
-                        boolean is_contained = false;
-                        for (final Either<Card, CardColor> either : effect.getSelector())
-                            if (either.get() instanceof Card)
-                                is_contained |= (cards.contains(either.getLeft())) ? true : false;
-                            else is_contained |= getCardColorCardsInHand(either.getRight()).size() != 0 ? true : false;
-                        if (!is_contained)
-                            blocked_cards.add(hand_card);
-                        break;
-                    case BLOCKS_EVERY:
-                        for (final Either<Card, CardColor> either : effect.getSelector())
-                            if (either.get() instanceof Card) {
-                                if (cards.contains(either.get()))
-                                    blocked_cards.add((Ca) either.getLeft());
-                            } else
-                                for (final Card card : getCardColorCardsInHand(either.getRight()))
-                                    blocked_cards.add((Ca) card);
-                        break;
-                    default:
-                }
-
-    }
-
     private void updateBlockedCards() {
         blocked_cards.clear();
         active_cards.clear();
@@ -196,20 +155,12 @@ public class PlayerCards implements CardSetHandler {
                         break;
                     default:
                 }
-                for (final Card card : cards)
-                    if (!blocked_cards.contains(card))
-                        active_cards.add((Ca) card);
             }
-    }
-    private void updateBLOCKCARDS() {
-        blocked_cards.clear();
-        active_cards.clear();
-        for (final Card hand_card : cards) {
-
-        }
+        for (final Card card : cards)
+            if (!blocked_cards.contains(card))
+                active_cards.add(card);
     }
 
-    @Override
     public int getRemoveScore(final Card card) {
         remove(card);
         int score_state = score;
@@ -217,17 +168,14 @@ public class PlayerCards implements CardSetHandler {
         return score_state;
     }
 
-    @Override
     public ArrayList<Card> getCards() {
         return new ArrayList<>(this.cards);
     }
 
-    @Override
     public ArrayList<Card> getBlockedCards() {
         return new ArrayList<>(this.blocked_cards);
     }
 
-    @Override
     public ArrayList<Card> getActiveCards() {
         return new ArrayList<>(this.active_cards);
     }
