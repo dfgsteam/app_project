@@ -36,12 +36,12 @@ public class SequenceThread extends AbstractThread {
 
     @Override
     public MoveNode getBestOfActual() throws Exception {
-        int max_points = this.getThreadNode().getNextNodes().get(0).getActualBoardState().getPlayerCards(this.getThreadNode().getActualBoardState().getCurrentPlayerID()).getScore();
+        int max_points = this.getThreadNode().getNextNodes().get(0).getActualBoard().getPlayerCards(this.getThreadNode().getActualBoard().getCurrentPlayerID()).getScore();
         int index = 0;
         int i = 0;
         for (MoveNode node : this.getThreadNode().getNextNodes()) {
-            if (max_points < node.getActualBoardState().getPlayerCards(this.getThreadNode().getActualBoardState().getCurrentPlayerID()).getScore()) {
-                max_points = node.getActualBoardState().getPlayerCards(this.getThreadNode().getActualBoardState().getCurrentPlayerID()).getScore();
+            if (max_points < node.getActualBoard().getPlayerCards(this.getThreadNode().getActualBoard().getCurrentPlayerID()).getScore()) {
+                max_points = node.getActualBoard().getPlayerCards(this.getThreadNode().getActualBoard().getCurrentPlayerID()).getScore();
                 index = i;
             }
             i++;
@@ -56,21 +56,21 @@ public class SequenceThread extends AbstractThread {
             /*
             TODO: Das ergibt keinen Sinn bei mehr als 2 Spielern
              */
-            points = 0 == getTree().getRootNode().getActualBoardState().getCurrentPlayerID() ? this.getThreadNode().getActualBoardState().getPlayerCards(1).getScore() : this.getThreadNode().getActualBoardState().getPlayerCards(0).getScore();
+            points = 0 == getTree().getRootNode().getActualBoard().getCurrentPlayerID() ? this.getThreadNode().getActualBoard().getPlayerCards(1).getScore() : this.getThreadNode().getActualBoard().getPlayerCards(0).getScore();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
 
-        for (int i = 0; i < this.getThreadNode().getActualBoardState().getNumPlayers(); i++) {
-            if (i == getTree().getRootNode().getActualBoardState().getCurrentPlayerID()) {
+        for (int i = 0; i < this.getThreadNode().getActualBoard().getNumPlayers(); i++) {
+            if (i == getTree().getRootNode().getActualBoard().getCurrentPlayerID()) {
                 continue;
             }
         
             try {
-                if (this.getThreadNode().getActualBoardState().getPlayerCards(i).getScore() > points) {
-                    points = this.getThreadNode().getActualBoardState().getPlayerCards(i).getScore();
+                if (this.getThreadNode().getActualBoard().getPlayerCards(i).getScore() > points) {
+                    points = this.getThreadNode().getActualBoard().getPlayerCards(i).getScore();
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -91,7 +91,7 @@ public class SequenceThread extends AbstractThread {
                 while (goDeeper());
                 try {
 
-                    differences.add(this.getThreadNode().getActualBoardState().getPlayerCards(getTree().getRootNode().getActualBoardState().getCurrentPlayerID()).getScore() - maxEnemyPoints());
+                    differences.add(this.getThreadNode().getActualBoard().getPlayerCards(getTree().getRootNode().getActualBoard().getCurrentPlayerID()).getScore() - maxEnemyPoints());
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

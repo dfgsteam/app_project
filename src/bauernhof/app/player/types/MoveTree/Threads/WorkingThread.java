@@ -37,7 +37,7 @@ public class WorkingThread extends AbstractThread {
         if (checkMove(cardNumPut, cardNumTake) == null) { return false; }
 
         Move new_move = checkMove(cardNumPut, cardNumTake);
-        GameBoard new_state = this.getThreadNode().getActualBoardState().clone();
+        GameBoard new_state = this.getThreadNode().getActualBoard().clone();
 
         new_state.executeMove(new_move);
 
@@ -54,8 +54,8 @@ public class WorkingThread extends AbstractThread {
                 this.setThreadNode(WorkingThread.next_calculations.remove());
             }
 
-            for (int i = -1; i < this.getThreadNode().getActualBoardState().getDepositedCards().size(); i++) {
-                for (int j = -1; j < this.getThreadNode().getActualBoardState().getCurrentPlayerCards().getCards().size(); j++) {
+            for (int i = -1; i < this.getThreadNode().getActualBoard().getDepositedCards().size(); i++) {
+                for (int j = -1; j < this.getThreadNode().getActualBoard().getCurrentPlayerCards().getCards().size(); j++) {
                     if (!calcNextNode(i, j)) { continue; }
                     next_calculations.add(this.getThreadNode());
                     this.setThreadNode(this.getThreadNode().getPrevNode());
@@ -68,16 +68,16 @@ public class WorkingThread extends AbstractThread {
     }
 
     public Move checkMove(int cardNumPut, int cardNumTake) {
-        if (this.getThreadNode().getDepth()+1 > this.getMaxDepth() || this.getThreadNode().getActualBoardState().getRound() > 30) { return null; }
+        if (this.getThreadNode().getDepth()+1 > this.getMaxDepth() || this.getThreadNode().getActualBoard().getRound() > 30) { return null; }
         Card to_take, to_put;
         if (cardNumTake < 0) {
-            if (this.getThreadNode().getActualBoardState().getDrawPileCards().isEmpty()) { return null; }
-            to_take = this.getThreadNode().getActualBoardState().getDrawPileCards().get(this.getThreadNode().getActualBoardState().getDrawPileCards().size() - 1);
+            if (this.getThreadNode().getActualBoard().getDrawPileCards().isEmpty()) { return null; }
+            to_take = this.getThreadNode().getActualBoard().getDrawPileCards().get(this.getThreadNode().getActualBoard().getDrawPileCards().size() - 1);
         }
 
         else {
-            if (this.getThreadNode().getActualBoardState().getDepositedCards().size() > this.getThreadNode().getActualBoardState().getConfiguration().getNumDepositionAreaSlots()) { return null; }
-            to_take = this.getThreadNode().getActualBoardState().getDepositedCards().get(cardNumTake);
+            if (this.getThreadNode().getActualBoard().getDepositedCards().size() > this.getThreadNode().getActualBoard().getConfiguration().getNumDepositionAreaSlots()) { return null; }
+            to_take = this.getThreadNode().getActualBoard().getDepositedCards().get(cardNumTake);
         }
 
         if (cardNumPut < 0) {
@@ -85,18 +85,18 @@ public class WorkingThread extends AbstractThread {
         }
 
         else {
-            to_put = this.getThreadNode().getActualBoardState().getCurrentPlayerCards().getCards().get(cardNumPut);
+            to_put = this.getThreadNode().getActualBoard().getCurrentPlayerCards().getCards().get(cardNumPut);
         }
 
         
         Move new_move = new Move(to_take, to_put);
         try {
-            if (!this.getThreadNode().getActualBoardState().clone().executeMove(new_move)) { return null;}
+            if (!this.getThreadNode().getActualBoard().clone().executeMove(new_move)) { return null;}
         } catch (Exception e) {
             System.err.println("Can't do a Move");
         }
-        if (calculateWinPoints(new_move, this.getThreadNode().getActualBoardState()) < this.max) { return null; }
-        this.max = calculateWinPoints(new_move, this.getThreadNode().getActualBoardState());
+        if (calculateWinPoints(new_move, this.getThreadNode().getActualBoard()) < this.max) { return null; }
+        this.max = calculateWinPoints(new_move, this.getThreadNode().getActualBoard());
         return new_move;
     }
 

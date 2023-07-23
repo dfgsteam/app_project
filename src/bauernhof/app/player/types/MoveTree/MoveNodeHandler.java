@@ -67,14 +67,14 @@ public interface MoveNodeHandler<T> {
     public void addNextMoveNode(T nextMoveNode);
 
     /**
-     * Get the board_state where a move has to be done on
-     * @return GameBoard
+     * Get the GameBoard, how it looks like, when the Move of the MoveNode has been done
+     * @return GameBoard after MoveExecution
      */
-    public GameBoard getActualBoardState();
+    public GameBoard getActualBoard();
 
     /**
-     * Set the actual_boardState
-     * @param state
+     * Set the GameBoard for the Actual MoveNode
+     * @param GameBoard
      */
     public void setActualBoardState(GameBoard state);
 }
