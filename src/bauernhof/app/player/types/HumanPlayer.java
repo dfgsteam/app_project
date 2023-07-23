@@ -4,7 +4,6 @@ import bauernhof.app.player.PlayerCards;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.system.GameBoard;
 import bauernhof.preset.Move;
-import bauernhof.preset.PlayerGUIAccess;
 import bauernhof.preset.Settings;
 
 /**
