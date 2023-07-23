@@ -126,7 +126,7 @@ public class PlayerCards {
 
     private void updateBlockedCards() {
         blocked_cards.clear();
-        active_cards = cards;
+        active_cards = new HashSet<>(cards);
         HashSet<Card> eithercards;
         for (final Card hand_card : cards)
             for (final Effect effect : hand_card.getEffects()) {
