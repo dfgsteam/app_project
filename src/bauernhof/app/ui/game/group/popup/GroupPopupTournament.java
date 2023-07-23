@@ -64,7 +64,7 @@ public class GroupPopupTournament extends GGroup {
         winScores.set(uiGame.getGame().getWinnerID(), winScores.get(uiGame.getGame().getWinnerID()) + 1);
         ArrayList<Integer> winsSorted = new ArrayList<Integer>(winScores);
         Collections.sort(winsSorted, Collections.reverseOrder());
-        H
+        
         // ArrayList<Integer> scorescopy = (ArrayList<Integer>) scores.clone();
         // Collections.sort(scorescopy);
         // final ArrayList<Integer> positions = new ArrayList<>();
