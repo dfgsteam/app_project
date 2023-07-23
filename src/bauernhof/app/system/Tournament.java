@@ -43,16 +43,13 @@ public class Tournament {
             throw new RuntimeException(e);
         }
         final GameSystem system = new GameSystem(settings, configuration);
-
-        if (GameBoard.graphics != null) {
-            GameBoard.graphics.FRAME.dispose();
-
-        }
         states.add(system);
         system.createPlayers(new ArrayList<>());
         if (GameBoard.graphics != null) {
-            GameBoard.graphics = new UiGame(system);
+            GameBoard.graphics.initUI(system, true);
+            GameBoard.graphics.update(false);
         }
+        System.out.println("GAME");
         system.initPlayers();
 
         if (counter == settings.numTournamentRounds)
