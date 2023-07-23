@@ -83,11 +83,11 @@ public class GroupPopupScore extends GGroup {
 
         for (Integer item : sortedScores) {
             for (String name : playerScores.get(item)) {
-            scorePlayerPosition = new GText(Integer.toString(position) + ". " + name + " [" + item + "]");
-            scorePlayerPosition.setAlignment(GText.TextAnchor.MIDDLE);
-            scorePlayerPosition.setFontSize((position == 1) ? 35f : 25f);
-            panel.addChild(scorePlayerPosition, 0f, (-115f + 50f * position));
-            position++;
+                scorePlayerPosition = new GText(Integer.toString(position) + ". " + name + " [" + item + "]");
+                scorePlayerPosition.setAlignment(GText.TextAnchor.MIDDLE);
+                scorePlayerPosition.setFontSize((position == 1) ? 35f : 25f);
+                panel.addChild(scorePlayerPosition, 0f, (-115f + 50f * position));
+                position++;
             }
         }
 

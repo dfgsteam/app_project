@@ -29,7 +29,7 @@ public class NetworkGetSettings {
             settings.port = 6600;
             settings.loadSaveGameFile = null;
             settings.shouldLauncherLaunch = false;
-            settings.numTournamentRounds = 10;
+            settings.numTournamentRounds = 0;
             settings.waitAfterTournamentRound = true;
             settings.volume = 0;
         } else if(i == 1){
