@@ -141,7 +141,7 @@ public class GroupDisplayPlayerCards extends GGroup {
             }
     }
 
-    private void clearPlayerPanel(int playerId) throws ChildNotFoundException {
+    public void clearPlayerPanel(int playerId) throws ChildNotFoundException {
         for (int cardIndex=this.groupPlayer[playerId].getNumChildren()-1; cardIndex >= 0 ; cardIndex--) {
             this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex).unsetStrokeWidth();
             this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex).setMouseEventListener(null);
