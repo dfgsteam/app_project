@@ -50,7 +50,6 @@ public class Client extends C2SConnection {
                 this.player = new Random_AI(settings, playercards[playerid - 1], game);
                 break;
         }
-        System.out.println(initialDrawPile.size());
         this.player.init(game_configuration, initialDrawPile, playerNames.size(), playerid);
         GameBoard.graphics = new UiGame(game_configuration, game);
 
@@ -59,7 +58,6 @@ public class Client extends C2SConnection {
 
     @Override
     protected Move onRequest() throws Exception {
-        System.out.println("REQUEST");
         final Move move = player.request();
         player.getGameBoard().executeMove(move);
         GameBoard.graphics.update(false);
@@ -68,7 +66,6 @@ public class Client extends C2SConnection {
 
     @Override
     protected void onUpdate(Move move) throws Exception {
-        System.out.println("UPDATE");
         this.player.update(move);
         GameBoard.graphics.update(false);
     }

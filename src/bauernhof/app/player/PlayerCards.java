@@ -78,9 +78,9 @@ public class PlayerCards {
                 switch (effect.getType()) {
                     case POINTS_FOREACH:
                         for (final Either<Card, CardColor> either : effect.getSelector())
-                            if (either.get() instanceof Card)
+                            if (either.get() instanceof Card) {
                                 score += active_cards.contains(either.getLeft()) ? effect.getEffectValue() : 0;
-                            else
+                            } else
                                 score += getCardColorCardsInHand(either.getRight()).size() * effect.getEffectValue();
                         break;
                     case POINTS_SUM_BASEVALUES:
@@ -105,13 +105,13 @@ public class PlayerCards {
                         for (final Either<Card, CardColor> either : effect.getSelector())
                             if (either.get() instanceof Card) {
                                 if (active_cards.contains(either.getLeft())) {
-                                    score += either.getLeft().getBaseValue();
+                                    score += effect.getEffectValue();
                                     break;
                                 }
                             } else
                                 for (final Card color_card : getCardColorCardsInHand(either.getRight()))
                                     if (active_cards.contains(color_card)) {
-                                        score += color_card.getBaseValue();
+                                        score += effect.getEffectValue();
                                         break;
                                     }
                         break;

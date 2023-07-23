@@ -49,7 +49,6 @@ public class GroupDisplayDepositedDeck {
      * @throws InterruptedException If the thread is interrupted while updating the group.
      */
     public void update() throws InterruptedException {
-        System.out.println(this.UiGame.getGame().getDepositedCards().isEmpty());
         // Add the first card from the deposited cards and assign the appropriate listener to it
         GCard gCard;
         if(!this.UiGame.getGame().getDepositedCards().isEmpty()) {
@@ -70,7 +69,6 @@ public class GroupDisplayDepositedDeck {
         // Remove old cards and reset their positions (move)
         for (int cardIndex = this.panel.getNumChildren()-1; cardIndex >= 0 ; cardIndex--) {
             this.panel.removeChild(this.panel.getChildByRenderingIndex(cardIndex));
-            System.out.println(this.panel.getNumChildren());
         }
     }
 }

@@ -55,14 +55,12 @@ public class GameSystem extends GameBoard {
         for (final S2CConnection connection : connections) connection.setPlayerNames(new ImmutableList<>(settings.playerNames));
     }
     public void initPlayers() throws Exception {
-        System.out.println("INITPLAYERS");
         for (int playerid = 1; playerid <= numplayers; playerid++)
             this.players[playerid - 1].init(configuration, getDrawPileCards(), numplayers, playerid);
         if (settings.showGUI && graphics == null) graphics = new UiGame(configuration, this);
             for (int playerid = 0; playerid < numplayers; playerid++) {
                 if (settings.delay <= 0) return;
                 Thread.sleep(settings.delay);
-                System.out.println("ELLO");
                 initBeginnerCards(playerid);
                 updatePlayerID();
             }
@@ -72,7 +70,6 @@ public class GameSystem extends GameBoard {
 
     @Override
     public boolean executeMove(final Move move) throws Exception {
-        System.out.println("execute");
         // Update Moves on Players
         if (getPlayers()[getCurrentPlayerID()] instanceof AbstractGamePlayer)
             ((AbstractGamePlayer) getPlayers()[getCurrentPlayerID()]).executeMove(move);

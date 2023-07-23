@@ -163,7 +163,6 @@ public class UiGame implements PlayerGUIAccess {
      * @param gCard The GCard object representing the selected card.
      */
     public void moveAddCard(GCard gCard) throws ChildNotFoundException {
-        System.out.println(gCard.getCard().getName());
         this.add = gCard.getCard();
         game.getCurrentPlayerCards().add(this.add);
         this.showExchangePanel();
@@ -178,11 +177,9 @@ public class UiGame implements PlayerGUIAccess {
      * @throws Exception If an error occurs during the move.
      */
     public void movePopCard(GCard gCard) throws Exception {
-        System.out.println(gCard.getCard().getName());
         game.getCurrentPlayerCards().remove(this.add);
         this.remove = gCard.getCard();
         this.setMainPanel(3);
-        System.out.println("NOTIFY");
         count.countDown();
     }
 
@@ -331,14 +328,12 @@ public class UiGame implements PlayerGUIAccess {
     @Override
     public Move requestMoveFromCurrentHumanPlayer() {
         this.check_move = true;
-        System.out.println("WARTET");
         try {
             count.await();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
         count = new CountDownLatch(1);
-        System.out.println("WIRD AUSGEFÜHRT");
         this.check_move = false;
         return new Move(add, remove);
     }

@@ -37,7 +37,6 @@ public class Tournament {
         }
     }
     public final void nextTournamentRound() throws Exception {
-        System.out.println("JOOO");
         try {
         } catch (Exception e) {
             throw new RuntimeException(e);

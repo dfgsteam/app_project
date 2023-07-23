@@ -49,7 +49,6 @@ public class PanelExchangeCards extends SAGPanel {
         int cardSize = this.uiGame.getGame().getConfiguration().getNumCardsPerPlayerHand()+1;
         cardGroup.setScale(1.1f - (0.01f * cardSize)); //-> aus Settings hand pro player+1
 
-        System.out.println(cardSize/2);
         this.positions = new int[cardSize][2];
         for (int index = 0; index < cardSize-1; index+=(cardSize/2)) {
             float maxCards = index<cardSize/2 ? cardSize/2 : cardSize-cardSize/2;
