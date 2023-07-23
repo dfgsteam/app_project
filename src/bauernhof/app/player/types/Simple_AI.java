@@ -1,5 +1,6 @@
 package bauernhof.app.player.types;
 
+import bauernhof.app.player.AIHeader;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.PlayerCards;
 import bauernhof.app.system.GameBoard;
