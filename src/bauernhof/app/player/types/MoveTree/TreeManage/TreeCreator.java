@@ -136,7 +136,7 @@ public class TreeCreator extends AbstractCalculations {
     }
 
     @Override
-    public void treeSearcherAction() {
+    public boolean treeSearcherAction() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'sequenceThreadAction'");
     }

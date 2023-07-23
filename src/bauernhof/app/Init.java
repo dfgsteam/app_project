@@ -37,7 +37,7 @@ public class Init {
         settings.port = 6600;
         settings.loadSaveGameFile = null;
         settings.shouldLauncherLaunch = false;
-        settings.numTournamentRounds = 100;
+        settings.numTournamentRounds = 20;
         settings.waitAfterTournamentRound = false;
         settings.volume = 0;
         Init.initGame(settings);

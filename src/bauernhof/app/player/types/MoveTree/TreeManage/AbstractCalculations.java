@@ -14,6 +14,10 @@ import bauernhof.app.system.GameBoard;
 public abstract class AbstractCalculations implements CalculationsHandler {
     /**
      * The Depth of the Tree
+     * Plays good:
+     * - Minimum for 4 Players: 6
+     * - Minimum for 3 Players: 5
+     * - Minimum for 2 Players: 4
      */
     private static final int MAX_DEPTH = 3;
 
