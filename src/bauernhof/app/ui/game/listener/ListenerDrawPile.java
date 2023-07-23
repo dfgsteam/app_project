@@ -77,8 +77,10 @@ public class ListenerDrawPile implements MouseEventListener {
      */
     @Override
     public void mouseEntered(MouseMotionEvent var1, GElement var2) {
-        if (this.UiGame.check_move())
+        if (this.UiGame.check_move()) {
             var2.setScale(1.1f);
+            var1.setHandled();
+        }
     }
 
     /**

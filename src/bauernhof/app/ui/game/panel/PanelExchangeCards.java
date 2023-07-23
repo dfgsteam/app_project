@@ -10,6 +10,8 @@ import sag.SAGPanel;
 import sag.elements.GGroup;
 import sag.elements.GText;
 
+import java.awt.*;
+
 /**
  * This class represents a panel for exchanging cards in the game UI.
  * It extends the SAGPanel class from the sag package.
@@ -59,6 +61,7 @@ public class PanelExchangeCards extends SAGPanel {
                 this.positions[(int) index+index2][0] = xPos;
                 this.positions[(int) index+index2][1] = yPos;
             }
+
         }
     }
 
@@ -68,6 +71,10 @@ public class PanelExchangeCards extends SAGPanel {
             GCard gCard = ((Ca) this.uiGame.getGame().getCurrentPlayerCards().getCards().get(index)).getGCard();
             gCard.setMouseEventListener(new ListenerCardPop(gCard.getGElement(), this.uiGame));
             this.cardGroup.addChild(gCard, this.positions[index][0], this.positions[index][1]);
+            if (this.uiGame.getGame().getCurrentPlayerCards().getBlockedCards().contains(gCard.getCard())) {
+                gCard.setStroke(Color.RED, 20.0F);
+            } else
+                gCard.unsetStroke();
         }
             
     }
