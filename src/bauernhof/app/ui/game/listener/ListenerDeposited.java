@@ -4,10 +4,7 @@ import bauernhof.app.ui.game.UiGame;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
 import sag.elements.GElement;
-import sag.events.MouseButtonEvent;
-import sag.events.MouseEventListener;
-import sag.events.MouseMotionEvent;
-import sag.events.MouseWheelEvent;
+import sag.events.*;
 
 /**
  * This class represents a mouse event listener for deposited cards in the game UI.
@@ -41,13 +38,21 @@ public class ListenerDeposited implements MouseEventListener {
      */
     @Override
     public void mouseClicked(MouseButtonEvent var1, GElement var2) {
-        if (this.UiGame.check_move()) {
-            try {
-                this.UiGame.moveAddCard((GCard) var2);
-            } catch (ChildNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+        if (var1.getMouseButton().equals(MouseButton.LEFT)) {
+            if (this.UiGame.check_move()) {
+                try {
+                    this.UiGame.moveAddCard((GCard) var2);
+                } catch (ChildNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
         }
+        } else
+                try {
+                    this.UiGame.showPanelDepositedCards();
+                } catch (ChildNotFoundException e) {
+                    System.out.println(e);
+                }
+
     }
 
     /**

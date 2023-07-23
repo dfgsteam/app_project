@@ -53,7 +53,8 @@ public class GroupDisplayDepositedDeck {
         // Add the first card from the deposited cards and assign the appropriate listener to it
         GCard gCard;
         if(!this.UiGame.getGame().getDepositedCards().isEmpty()) {
-            gCard = ((Ca) this.UiGame.getGame().getDepositedCards().iterator().next()).getGCard();
+            gCard = ((Ca) this.UiGame.getGame().getDepositedCards().get(this.UiGame.getGame().getDepositedCards().size() - 1)).getGCard();
+            gCard.unsetStroke();
             gCard.setMouseEventListener(new ListenerDeposited(gCard.getGElement(), this.UiGame));
             this.panel.addChild(gCard, 180f, 0f);
         }

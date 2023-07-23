@@ -19,18 +19,21 @@ import java.util.Set;
 public class PlayerCards implements CardSetHandler {
     protected Set<Card> cards = new HashSet<>(), blocked_cards = new HashSet<>(), active_cards = new HashSet<>();
     protected int score = 0;
+
     public PlayerCards() {
 
     }
+
     public PlayerCards(final int score, final Set<Card> cards, final Set<Card> blocked_cards, final Set<Card> active_cards) {
         this.score = score;
         this.cards = cards;
         this.blocked_cards = blocked_cards;
         this.active_cards = active_cards;
     }
+
     @Override
     public void add(final Card added_card) {
-        if(!cards.contains(added_card)) {
+        if (!cards.contains(added_card)) {
             cards.add(added_card);
             updateBlockedCards();
             updateScore();
@@ -44,6 +47,7 @@ public class PlayerCards implements CardSetHandler {
         updateScore();
         return true;
     }
+
     @Override
     public int getAddScore(final Card card) {
         add(card);
@@ -51,6 +55,7 @@ public class PlayerCards implements CardSetHandler {
         remove(card);
         return score_state;
     }
+
     public int getAddRemoveScore(final Card add, final Card remove) {
         add(add);
         remove(remove);
@@ -59,6 +64,7 @@ public class PlayerCards implements CardSetHandler {
         remove(add);
         return score_state;
     }
+
     private Set<Card> getCardColorCardsInHand(final CardColor color) {
         Set<Card> colorcards = new HashSet<>();
         for (final Card card : cards)
@@ -66,6 +72,7 @@ public class PlayerCards implements CardSetHandler {
                 colorcards.add(card);
         return colorcards;
     }
+
     private void updateScore() {
         score = 0;
         for (final Card card : active_cards) {
@@ -115,13 +122,14 @@ public class PlayerCards implements CardSetHandler {
                 }
         }
     }
+
     public final void setScore(final int score) {
         this.score = score;
     }
-     private void updateBlockedCards() {
+
+    private void updateBlockesdCards() {
         blocked_cards.clear();
         active_cards.clear();
-
 
 
         for (final Card hand_card : cards)
@@ -154,9 +162,44 @@ public class PlayerCards implements CardSetHandler {
                         break;
                     default:
                 }
-        for (final Card card : cards)
-            if (!blocked_cards.contains(card))
-                active_cards.add((Ca) card);
+
+    }
+
+    private void updateBlockedCards() {
+        blocked_cards.clear();
+        active_cards.clear();
+        HashSet<Card> eithercards;
+        for (final Card hand_card : cards)
+            for (final Effect effect : hand_card.getEffects()) {
+                eithercards = new HashSet<>();
+                for (final Either<Card, CardColor> either : effect.getSelector())
+                    if (either.get() instanceof Card)
+                        eithercards.add(either.getLeft());
+                    else
+                        eithercards.addAll(getCardColorCardsInHand(either.getRight()));
+                switch (effect.getType()) {
+                    case BLOCKED_IF_WITH:
+                        for (final Card card : eithercards)
+                            if(cards.contains(card)) {
+                                blocked_cards.add(hand_card);
+                                break;
+                            }
+                        break;
+                    case BLOCKED_IF_WITHOUT:
+                        if (!cards.containsAll(eithercards))
+                            blocked_cards.add(hand_card);
+                        break;
+                    case BLOCKS_EVERY:
+                        for (final Card card : eithercards)
+                            if (eithercards.contains(card))
+                                blocked_cards.add(card);
+                        break;
+                    default:
+                }
+                for (final Card card : cards)
+                    if (!blocked_cards.contains(card))
+                        active_cards.add((Ca) card);
+            }
     }
     private void updateBLOCKCARDS() {
         blocked_cards.clear();

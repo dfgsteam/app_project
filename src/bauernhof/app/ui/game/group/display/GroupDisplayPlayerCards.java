@@ -9,6 +9,8 @@ import sag.ChildNotFoundException;
 import sag.LayerPosition;
 import sag.elements.GGroup;
 
+import java.awt.*;
+
 /**
  * This class represents a group for displaying player cards in the game UI.
  * It extends the GGroup class from the sag.elements package.
@@ -129,8 +131,10 @@ public class GroupDisplayPlayerCards extends GGroup {
                 gCard.setMouseEventListener(new ListenerCard(gCard.getGElement()));
 
                 // Wenn Karte blockiert = rote umrandung
-            /*if (playerCards.getBlockedCards().contains(cards[item]))
-                System.out.println(gCard.getCard().getName()); */
+            if (playerCards.getBlockedCards().contains(cards[item])) {
+                gCard.setStroke(Color.RED, 20.0F);
+            } else
+                gCard.unsetStroke();
 
                 // Karte der Gruppe hinzufügen
                 this.groupPlayer[playerId].addChild(gCard, this.pos[playerId][item][0], this.pos[playerId][item][1]);

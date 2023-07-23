@@ -65,13 +65,13 @@ public class PanelDrawPileCards extends SAGPanel{
         this.setLayout(null);
         this.setVisible(true);
         GCard card;
-        card = ((Ca) this.uiGame.getGame().getDrawPileCards().get(0)).getGCard();
+        card = ((Ca) this.uiGame.getGame().getDrawPileCards().get(size - 1)).getGCard();
         card.setMouseEventListener(new ListenerCard(card.getGElement()));
-        int x = (int)(-210*((float)this.uiGame.getGame().getDrawPileCards().size()/8)), y=110,i=1;
+        int x = (int)(-210*((float)this.uiGame.getGame().getDrawPileCards().size()/8)), y=110,i=size - 2;
 
         groupCards.addChild(card, 0f, -200f);
 
-        for (; i < size;i++) { // Füge alle Karten aus der Hand hinzu
+        for (; i >= 0;i--) { // Füge alle Karten aus der Hand hinzu
             if(x+400 >= this.panel.VIEWPORT_WIDTH){break;}
             card = ((Ca) this.uiGame.getGame().getDrawPileCards().get(i)).getGCard();
             card.setMouseEventListener(new ListenerCard(card.getGElement()));
@@ -80,7 +80,7 @@ public class PanelDrawPileCards extends SAGPanel{
         }
 
         x = (int)(-210*((float)this.uiGame.getGame().getDrawPileCards().size()/8));y=345;
-        for(; i< size; i++ ){
+        for(; i >= 0; i-- ){
             if(x+400 >= this.panel.VIEWPORT_WIDTH){break;}
             card = ((Ca) this.uiGame.getGame().getDrawPileCards().get(i)).getGCard();
             card.setMouseEventListener(new ListenerCard(card.getGElement()));
