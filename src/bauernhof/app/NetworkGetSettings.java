@@ -23,13 +23,13 @@ public class NetworkGetSettings {
             settings.playerColors = List.of(new Color[]{Color.RED, Color.GREEN, Color.YELLOW});
             settings.playerTypes = List.of(new PlayerType[]{PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI});
             settings.gameConfigurationFile = new File("gameconfigs/bauernhof.xml");
-            settings.delay = 100L;
+            settings.delay = 1000L;
             settings.showGUI = true;
             settings.connectToHostname = null;
             settings.port = 6600;
             settings.loadSaveGameFile = null;
             settings.shouldLauncherLaunch = false;
-            settings.numTournamentRounds = 10;
+            settings.numTournamentRounds = 0;
             settings.waitAfterTournamentRound = true;
             settings.volume = 0;
         } else if(i == 1){
