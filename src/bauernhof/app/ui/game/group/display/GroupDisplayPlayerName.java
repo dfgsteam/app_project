@@ -37,18 +37,17 @@ public class GroupDisplayPlayerName extends GGroup {
     private Game game;
 
     private Color colorActive = new Color(144, 238, 144);
-    private Color colorInactive = new Color(255, 255, 255);
-    private Color colorStroke = new Color(100, 100, 100);
+    private Color colorInactive = new Color(250, 250, 250);
 
     /**
      * Constructs a new GroupDisplayPlayerName object.
      * The object represents a group for displaying player names in the game UI.
      *
-     * @param UiGame The UiGame object that represents the game UI.
+     * @param uiGame The UiGame object that represents the game UI.
      * @throws Exception If an error occurs during initialization.
      */
-    public GroupDisplayPlayerName(UiGame UiGame) throws Exception {
-        this.game = UiGame.getGame();
+    public GroupDisplayPlayerName(UiGame uiGame) throws Exception {
+        this.game = uiGame.getGame();
         GGroup panel;
         GRect area = new GRect(0f, 0f, 0f, 0f, false);
         GText text = new GText(null);
@@ -57,12 +56,11 @@ public class GroupDisplayPlayerName extends GGroup {
             switch (counter) {
                 case 0: {
                     // panel erzeugen (mit Startpunkt)
-                    panel = UiGame.getMainPanel().addLayer(LayerPosition.BOTTOM_CENTER); 
+                    panel = uiGame.getMainPanel().addLayer(LayerPosition.BOTTOM_CENTER); 
 
                     // playerBg
                     area = new GRect(0f, 0f, 400f, 50f, true, 0f, 0f);
-                    area.setFill(this.colorActive);
-                    area.setStroke(this.colorStroke, 2f);
+                    area.setStroke(this.colorActive, 3f);
                     panel.addChild(area, 0f, -210f);
 
                     // playerName
@@ -73,11 +71,10 @@ public class GroupDisplayPlayerName extends GGroup {
                 }
                 case 1: {
                     // panel erzeugen (mit Startpunkt)
-                    panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER_LEFT); 
+                    panel = uiGame.getMainPanel().addLayer(LayerPosition.CENTER_LEFT); 
                     // playerBg
                     area = new GRect(0f, 0f, 50f, 400f, true, 0f, 0f);
-                    area.setFill(this.colorInactive);
-                    area.setStroke(this.colorStroke, 2f);
+                    area.setStroke(this.colorInactive, 2f);
                     panel.addChild(area, 280f, 0f);
 
                     // playerName
@@ -90,12 +87,11 @@ public class GroupDisplayPlayerName extends GGroup {
                 }
                 case 2: {
                     // panel erzeugen (mit Startpunkt)
-                    panel = UiGame.getMainPanel().addLayer(LayerPosition.TOP_CENTER); 
+                    panel = uiGame.getMainPanel().addLayer(LayerPosition.TOP_CENTER); 
                   
                     // playerBg
                     area = new GRect(0f, 0f, 400f, 50f, true, 0f, 0f);
-                    area.setFill(this.colorInactive);
-                    area.setStroke(this.colorStroke, 2f);
+                    area.setStroke(this.colorInactive, 2f);
                     panel.addChild(area, 0f, 210f);
 
                     // playerName
@@ -107,12 +103,11 @@ public class GroupDisplayPlayerName extends GGroup {
                 }
                 case 3: {
                     // panel erzeugen (mit Startpunkt)
-                    panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER_RIGHT); 
+                    panel = uiGame.getMainPanel().addLayer(LayerPosition.CENTER_RIGHT); 
 
                     // playerBg
                     area = new GRect(0f, 0f, 50f, 400f, true, 0f, 0f);
-                    area.setFill(this.colorInactive);
-                    area.setStroke(this.colorStroke, 2f);
+                    area.setStroke(this.colorInactive, 2f);
                     panel.addChild(area, -280f, 0f);
 
                     // playerName
@@ -124,6 +119,9 @@ public class GroupDisplayPlayerName extends GGroup {
                     break;
                 }
             }
+            area.setFill(this.game.getSettings().playerColors.get(counter));
+            text.setStroke(this.colorInactive, 0.7f);
+
             this.groupPlayerBg[counter] = area;
             this.groupPlayerName[counter] = text;
         }
@@ -136,8 +134,7 @@ public class GroupDisplayPlayerName extends GGroup {
      * @throws Exception If an error occurs during the update process.
      */
     public void updatePlayerName(int playerId) throws Exception {
-        this.groupPlayerName[playerId].setText(this.game.getName(playerId) + " - " +
-                Integer.toString(this.game.getScore(playerId)));
+        this.groupPlayerName[playerId].setText(this.game.getName(playerId) + " - " + Integer.toString(this.game.getScore(playerId)));
     }
 
     /**
@@ -146,7 +143,7 @@ public class GroupDisplayPlayerName extends GGroup {
      * @param playerId The ID of the player whose panel background color should be updated.
      */
     public void updatePlayerBgInactive(int playerId) {
-        this.groupPlayerBg[playerId].setFill(this.colorInactive);
+        this.groupPlayerBg[playerId].setStroke(this.colorInactive, 5f);
     }
 
     /**
@@ -155,6 +152,6 @@ public class GroupDisplayPlayerName extends GGroup {
      * @param playerId The ID of the player whose panel background color should be updated.
      */
     public void updatePlayerBgActive(int playerId) {
-        this.groupPlayerBg[playerId].setFill(this.colorActive);
+        this.groupPlayerBg[playerId].setStroke(this.colorActive, 10f);
     }
 }

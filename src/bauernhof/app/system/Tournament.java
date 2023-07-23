@@ -1,12 +1,8 @@
 package bauernhof.app.system;
 
-import bauernhof.app.GaCoPa;
-import bauernhof.app.networking.Client;
-import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.group.popup.GroupPopupTournament;
 import bauernhof.preset.*;
 
-import java.net.Socket;
 import java.util.ArrayList;
 /**
  * @author Ramon Cemil Kimyon

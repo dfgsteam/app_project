@@ -37,15 +37,15 @@ public class GroupDisplayRound extends GGroup {
      * Constructs a new GroupDisplayRound object.
      * The object represents a display group for the round counter in the game UI.
      * 
-     * @param UiGame The UiGame object that represents the game UI.
+     * @param uiGame The UiGame object that represents the game UI.
      * @throws Exception If an error occurs during initialization.
      */
-    public GroupDisplayRound(UiGame UiGame) throws Exception {
+    public GroupDisplayRound(UiGame uiGame) throws Exception {
         // Initialize class variables
-        this.game = UiGame.getGame();
+        this.game = uiGame.getGame();
 
         // Panel
-        GGroup panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER);
+        GGroup panel = uiGame.getMainPanel().addLayer(LayerPosition.CENTER);
 
         // Feld
         GRect area = new GRect(0f, 0f, 110f, 90f, true, 0f, 0f);

@@ -1,6 +1,5 @@
 package bauernhof.app.player;
 
-import bauernhof.app.card.Ca;
 import bauernhof.preset.Either;
 import bauernhof.preset.card.Card;
 import bauernhof.preset.card.CardColor;
