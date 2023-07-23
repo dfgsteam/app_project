@@ -1,6 +1,7 @@
 package bauernhof.app.ui.game;
 
 import bauernhof.app.system.Game;
+import bauernhof.app.system.Tournament;
 import bauernhof.app.ui.game.listener.KeyboardListener;
 import bauernhof.preset.*;
 import bauernhof.preset.card.*;
@@ -13,6 +14,7 @@ import bauernhof.app.ui.game.group.display.GroupDisplayPlayerName;
 import bauernhof.app.ui.game.group.display.GroupDisplayRound;
 import bauernhof.app.ui.game.group.popup.GroupPopupCheater;
 import bauernhof.app.ui.game.group.popup.GroupPopupScore;
+import bauernhof.app.ui.game.group.popup.GroupPopupTournament;
 import bauernhof.app.ui.game.panel.*;
 import sag.ChildNotFoundException;
 import sag.SAGFrame;
@@ -104,6 +106,7 @@ public class UiGame implements PlayerGUIAccess {
     }
 
     public void clear() throws ChildNotFoundException {
+        System.out.println("test1");
         // Clear Cards and active
         for (int index = 0; index < this.getGame().getNumPlayers(); index++) {
             this.groupDisplayPlayerCards.clearPlayerPanel(index);
@@ -114,6 +117,10 @@ public class UiGame implements PlayerGUIAccess {
         this.groupDisplayDepositedDeck.clear();
         this.groupDisplayDrawPileDeck.clear();
 
+        System.out.println(this.popup.getNumChildren());
+        System.out.println("test2");
+
+        // Clear Popups
         for (int index = 0; index > this.popup.getNumChildren(); index++)
             this.popup.removeChild(this.popup.getChildByRenderingIndex(index));
     }
@@ -168,12 +175,10 @@ public class UiGame implements PlayerGUIAccess {
             this.groupDisplayPlayerName.updatePlayerBgActive(this.playerId);
             this.groupDisplayRound.update();
         } else {
-            // Show end of game panel
             this.playerId = 5;
             if (game.getSettings().delay < 1) {
                 this.FRAME.removeKeyListener(keyboardlistener);
             }
-            new GroupPopupScore(this);
         }
     }
 
@@ -237,7 +242,7 @@ public class UiGame implements PlayerGUIAccess {
      * @throws Exception If an error occurs during the creation of the panel.
      */
     public void createScorePanel() throws Exception {
-        this.popup = new GroupPopupScore(this);
+        this.popup = new GroupPopupScore(this).getPanel();
     }
 
     /**
@@ -247,7 +252,11 @@ public class UiGame implements PlayerGUIAccess {
      * @throws Exception If an error occurs during the creation of the panel.
      */
     public void createCheaterPanel(final String name) throws Exception {
-        this.popup = new GroupPopupCheater(this, name);
+        this.popup = new GroupPopupCheater(this, name).getPanel();
+    }
+
+    public void createTournamentPanel(Tournament tournament) throws Exception {
+        this.popup = new GroupPopupTournament(tournament, this.game.getSettings()).getPanel();
     }
 
     /**

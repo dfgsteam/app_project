@@ -18,6 +18,7 @@ import sag.elements.shapes.GRect;
 
 
 public class GroupPopupTournament extends GGroup {
+    GGroup panel;
     private ArrayList<Integer> winScores = new ArrayList<>();
     private GRect area, gameButton;
     private GText headline, gameHeadline, scorePlayerPosition;
@@ -30,6 +31,7 @@ public class GroupPopupTournament extends GGroup {
 
     }
     public void popupTournamentScore(final boolean last) throws ChildNotFoundException {
+
         area = new GRect(0f, 0f, 700f, 500f, true, 0f, 0f);
         area.setFill(new Color(255, 255, 255));
         area.setStroke(new Color(0, 0, 0), 5f);
@@ -41,13 +43,14 @@ public class GroupPopupTournament extends GGroup {
         gameButton.setFill(new Color(144, 238, 155, 50));
         gameButton.setStroke(new Color(0, 0, 0), 5f);
         UiGame uiGame = GameBoard.getGraphics();
-        GGroup panel = uiGame.getMainPanel().addLayer(LayerPosition.CENTER);
-        for (int i = 0; i < panel.getNumChildren(); i++) {
+        this.panel = uiGame.getMainPanel().addLayer(LayerPosition.CENTER);
+        for (int i = 0; i < this.panel.getNumChildren(); i++) {
             System.out.println("CHILDS");
             panel.removeChild(panel.getChildByRenderingIndex(i));
         }
-        panel.addChild(area, 0f, 0f);
-        panel.addChild(headline, 0f, -150f);
+        this.panel.addChild(area, 0f, 0f);
+        this.panel.addChild(headline, 0f, -150f);
+
         // Spielerreihenfolge berechnen
         /*HashMap<String, Integer> playerWins = new HashMap<>();
         ArrayList<String> scores = new ArrayList<>();
@@ -66,6 +69,7 @@ public class GroupPopupTournament extends GGroup {
         winScores.set(uiGame.getGame().getWinnerID(), winScores.get(uiGame.getGame().getWinnerID()) + 1);
         ArrayList<Integer> winsSorted = new ArrayList<Integer>(winScores);
         Collections.sort(winsSorted, Collections.reverseOrder());
+        
         // ArrayList<Integer> scorescopy = (ArrayList<Integer>) scores.clone();
         // Collections.sort(scorescopy);
         // final ArrayList<Integer> positions = new ArrayList<>();
@@ -85,13 +89,18 @@ public class GroupPopupTournament extends GGroup {
         //     }
         // }
         // Game Button
-        panel.addChild(gameButton, 0f, 175f);
+        this.panel.addChild(gameButton, 0f, 175f);
         // Game Überschrift
+
         gameHeadline = new GText(last ? "Zurück zum Hauptmenü" : "Next Game");
         gameHeadline.setBold(true);
         gameHeadline.setAlignment(GText.TextAnchor.MIDDLE);
         gameHeadline.setFontSize(25f);
         panel.addChild(gameHeadline, 0f, 183f);
         gameButton.setMouseEventListener(last ? new ListenerHomeButton(uiGame, gameHeadline) : new ListenerNextTournament(tournament, uiGame, gameHeadline));
+    }
+
+    public GGroup getPanel() {
+        return this.panel;
     }
 }
