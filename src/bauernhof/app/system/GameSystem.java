@@ -47,7 +47,7 @@ public class GameSystem extends GameBoard {
                     players[playerid] = new Random_AI(settings, getPlayerCards(playerid), this.clone());
                     break;
                 case REMOTE:
-                    //settings.playerNames.set(playerid, connections.get(remotecounter).getProjectName());
+                    ////settings.playerNames.set(playerid, connections.get(remotecounter).getProjectName());
                     players[playerid] = connections.get(remotecounter++).getRemotePlayer();
                     break;
             }
