@@ -78,9 +78,7 @@ public class UiGame implements PlayerGUIAccess {
     }
 
     public void initUI(Game game, boolean clear) throws Exception {
-        if (clear)
-            this.clear();
-
+        if (clear) this.clear();
         this.game = game;
         
         // Initialize Panels
