@@ -58,7 +58,7 @@ public class GameSystem extends GameBoard {
         for (int playerid = 1; playerid <= numplayers; playerid++)
             this.players[playerid - 1].init(configuration, getDrawPileCards(), numplayers, playerid);
         if (settings.showGUI && graphics == null)
-            graphics = new UiGame(configuration, this);
+            graphics = new UiGame(this);
             for (int playerid = 0; playerid < numplayers; playerid++) {
                 if (settings.delay <= 0) return;
                 Thread.sleep(settings.delay);

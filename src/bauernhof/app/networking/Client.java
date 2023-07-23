@@ -50,7 +50,7 @@ public class Client extends C2SConnection {
                 break;
         }
         this.player.init(game_configuration, initialDrawPile, playerNames.size(), playerid);
-        GameBoard.graphics = new UiGame(game_configuration, game);
+        GameBoard.graphics = new UiGame(game);
 
     }
 

@@ -12,6 +12,7 @@ import bauernhof.app.ui.game.listener.ListenerHomeButton;
 import bauernhof.app.ui.game.listener.ListenerNextTournament;
 import bauernhof.preset.Player;
 import bauernhof.preset.Settings;
+import sag.ChildNotFoundException;
 import sag.LayerPosition;
 import sag.elements.GGroup;
 import sag.elements.GText;
@@ -28,6 +29,10 @@ public class GroupPopupTournament extends GGroup {
         for (final String name : settings.playerNames)
             winScores.add(0);
         winScores.add(0);
+
+    }
+    public void popupTournamentScore(final boolean last) throws ChildNotFoundException {
+
         area = new GRect(0f, 0f, 700f, 500f, true, 0f, 0f);
         area.setFill(new Color(255, 255, 255));
         area.setStroke(new Color(0, 0, 0), 5f);
@@ -38,11 +43,12 @@ public class GroupPopupTournament extends GGroup {
         gameButton = new GRect(0f, 0f, 450f, 75f, true, 0f, 0f);
         gameButton.setFill(new Color(144, 238, 155, 50));
         gameButton.setStroke(new Color(0, 0, 0), 5f);
-
-    }
-    public void popupTournamentScore(final boolean last) {
         UiGame uiGame = GameBoard.getGraphics();
         GGroup panel = uiGame.getMainPanel().addLayer(LayerPosition.CENTER);
+        for (int i = 0; i < panel.getNumChildren(); i++) {
+            System.out.println("CHILDS");
+            panel.removeChild(panel.getChildByRenderingIndex(i));
+        }
         panel.addChild(area, 0f, 0f);
         panel.addChild(headline, 0f, -150f);
 

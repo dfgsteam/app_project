@@ -37,7 +37,7 @@ public class UiGame implements PlayerGUIAccess {
     public static int HEIGTH = 1080;
     private CountDownLatch count = new CountDownLatch(1);
     // Frame
-    public final SAGFrame FRAME = new SAGFrame("Hofbauern", 30, UiGame.WIDTH, UiGame.HEIGTH);
+    public SAGFrame FRAME = new SAGFrame("Hofbauern", 30, UiGame.WIDTH, UiGame.HEIGTH);
 
     // Panels
     private SAGPanel mainPanel = new SAGPanel();
@@ -62,18 +62,28 @@ public class UiGame implements PlayerGUIAccess {
     /**
      * Constructs a new UiGame object.
      *
-     * @param gameconf      The GameConfiguration object representing the game configuration.
      * @param game The GameState object representing the game board state.
      * @throws Exception If an error occurs during initialization.
      */
-    public UiGame(GameConfiguration gameconf, Game game) throws Exception {
-
-        this.game = game;
-
+    public UiGame(Game game) throws Exception {
         // Initialize Frame
         this.FRAME.setSAGPanel(this.mainPanel);
-        // Initialize Panels
         this.FRAME.setVisible(true);
+        
+        this.initUI(game, false);
+
+        // Initialize Buttons
+        new PanelButtonScreenshot(this);
+        new PanelButtonSaveGame(this);
+    }
+
+    public void initUI(Game game, boolean clear) throws Exception {
+        if (clear)
+            this.clear();
+
+        this.game = game;
+        
+        // Initialize Panels
         this.panelDepositedCards = new PanelDepositedCards(this);
         this.panelDrawPileCards = new PanelDrawPileCards(this);
         this.panelExchangeCards = new PanelExchangeCards(this);
@@ -87,17 +97,30 @@ public class UiGame implements PlayerGUIAccess {
         this.groupDisplayPlayerName = new GroupDisplayPlayerName(this);
         this.groupDisplayDrawPileDeck = new GroupDisplayDrawPileDeck(this);
         this.groupDisplayDepositedDeck = new GroupDisplayDepositedDeck(this);
-        new PanelButtonScreenshot(this);
-        new PanelButtonSaveGame(this);
 
         // Initialize playerCards
         for (int index = 0; index < this.getGame().getNumPlayers(); index++)
             this.groupDisplayPlayerCards.updatePlayer(index);
     }
+
+    public void clear() throws ChildNotFoundException {
+        // Clear Cards and active
+        for (int index = 0; index < this.getGame().getNumPlayers(); index++) {
+            this.groupDisplayPlayerCards.clearPlayerPanel(index);
+            this.groupDisplayPlayerName.updatePlayerBgInactive(index);
+        }
+
+        // Clear Draw Pile and Deposited Deck
+        this.groupDisplayDepositedDeck.clear();
+        this.groupDisplayDrawPileDeck.clear();
+    }
+
+
+
     public void reset(final Game game) throws Exception {
         this.FRAME.removeKeyListener(keyboardlistener);
         this.mainPanel = new SAGPanel();
-        this.FRAME.setSAGPanel(mainPanel);
+        this.FRAME = new SAGFrame("Hofbauern", 30, UiGame.WIDTH, UiGame.HEIGTH);
         this.FRAME.setSAGPanel(mainPanel);
         this.panelDepositedCards = new PanelDepositedCards(this);
         this.panelDrawPileCards = new PanelDrawPileCards(this);
