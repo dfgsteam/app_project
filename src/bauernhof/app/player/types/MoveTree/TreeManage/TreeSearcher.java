@@ -12,8 +12,8 @@ import bauernhof.app.player.types.MoveTree.MoveTree;
  * @author Viktor Tevosyan
  * @date 10.07.2023
  * This class reprents a search class, which will go through a given tree and be useful for finding the best Move for the Advanced_AI.
- * The Tree Searches goes through all neccessarly possible Moves of the Advacned_AI which were calculated by the TreeCreator class.
- * For each ChildrenNodes it supposes further Players making the most Scorable Moves -> that's the method how the TreeSearcher goes deeper.
+ * The TreeSearcher goes through all neccessarly possible Moves of the Advacned_AI which were calculated by the TreeCreator class.
+ * For each ChildNodes it supposes further Players making the most Scorable Moves -> that's the method how the TreeSearcher goes deeper.
  * After reaching the end of the Tree for each Advanced_AI move of the RootNode, the tree stores differences of points between Advanced_AI and the most high Enemy Score
  * The Move, which the Advanced_AI should make will be decided by picking the most best difference of points for the Advanced_AI and the enemy players at the endö.
  */
@@ -35,7 +35,7 @@ public class TreeSearcher extends AbstractCalculations {
      * @param tree
      * @throws Exception
      */
-    public TreeSearcher(MoveTree tree) throws Exception {
+    public TreeSearcher(MoveTree tree) {
         this.setTree(tree);     //Set the Tree
         next_calculations = new LinkedList<MoveNode>(this.getTree().getRootNode().getNextNodes());          //Next Calculations are all useful moves of the Advanced_AI of the begining of the tree
         differences = new ArrayList<Integer>();         //Points differences for the Advanced_AI
