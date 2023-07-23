@@ -97,7 +97,7 @@ public class GroupPopupTournament extends GGroup {
         gameHeadline.setAlignment(GText.TextAnchor.MIDDLE);
         gameHeadline.setFontSize(25f);
         panel.addChild(gameHeadline, 0f, 183f);
-        gameButton.setMouseEventListener(last ? new ListenerHomeButton(uiGame, gameHeadline) : new ListenerNextTournament(tournament, uiGame, gameHeadline));
+        gameButton.setMouseEventListener(last ? new ListenerHomeButton(uiGame, gameHeadline) : new ListenerNextTournament(tournament, gameHeadline));
     }
 
     public GGroup getPanel() {

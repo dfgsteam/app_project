@@ -44,11 +44,11 @@ public class GroupDisplayPlayerName extends GGroup {
      * Constructs a new GroupDisplayPlayerName object.
      * The object represents a group for displaying player names in the game UI.
      *
-     * @param UiGame The UiGame object that represents the game UI.
+     * @param uiGame The UiGame object that represents the game UI.
      * @throws Exception If an error occurs during initialization.
      */
-    public GroupDisplayPlayerName(UiGame UiGame) throws Exception {
-        this.game = UiGame.getGame();
+    public GroupDisplayPlayerName(UiGame uiGame) throws Exception {
+        this.game = uiGame.getGame();
         GGroup panel;
         GRect area = new GRect(0f, 0f, 0f, 0f, false);
         GText text = new GText(null);
@@ -57,7 +57,7 @@ public class GroupDisplayPlayerName extends GGroup {
             switch (counter) {
                 case 0: {
                     // panel erzeugen (mit Startpunkt)
-                    panel = UiGame.getMainPanel().addLayer(LayerPosition.BOTTOM_CENTER); 
+                    panel = uiGame.getMainPanel().addLayer(LayerPosition.BOTTOM_CENTER); 
 
                     // playerBg
                     area = new GRect(0f, 0f, 400f, 50f, true, 0f, 0f);
@@ -73,7 +73,7 @@ public class GroupDisplayPlayerName extends GGroup {
                 }
                 case 1: {
                     // panel erzeugen (mit Startpunkt)
-                    panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER_LEFT); 
+                    panel = uiGame.getMainPanel().addLayer(LayerPosition.CENTER_LEFT); 
                     // playerBg
                     area = new GRect(0f, 0f, 50f, 400f, true, 0f, 0f);
                     area.setFill(this.colorInactive);
@@ -90,7 +90,7 @@ public class GroupDisplayPlayerName extends GGroup {
                 }
                 case 2: {
                     // panel erzeugen (mit Startpunkt)
-                    panel = UiGame.getMainPanel().addLayer(LayerPosition.TOP_CENTER); 
+                    panel = uiGame.getMainPanel().addLayer(LayerPosition.TOP_CENTER); 
                   
                     // playerBg
                     area = new GRect(0f, 0f, 400f, 50f, true, 0f, 0f);
@@ -107,7 +107,7 @@ public class GroupDisplayPlayerName extends GGroup {
                 }
                 case 3: {
                     // panel erzeugen (mit Startpunkt)
-                    panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER_RIGHT); 
+                    panel = uiGame.getMainPanel().addLayer(LayerPosition.CENTER_RIGHT); 
 
                     // playerBg
                     area = new GRect(0f, 0f, 50f, 400f, true, 0f, 0f);

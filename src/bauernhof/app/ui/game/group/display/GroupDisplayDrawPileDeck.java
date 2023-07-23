@@ -12,11 +12,11 @@ import sag.elements.GGroup;
 /**
  * This class represents a group for displaying the draw pile deck in the game UI.
  * It manages the visual representation of the draw pile deck and provides methods for updating and clearing it.
- * The class is designed to be used within the UiGame class.
+ * The class is designed to be used within the uiGame class.
  * 
  * The GroupDisplayDrawPileDeck class provides the following functionality:
  * - Creates a group for displaying the draw pile deck.
- * - The group is added to the main panel of the UiGame instance.
+ * - The group is added to the main panel of the uiGame instance.
  * - The group is initially populated with the first card from the draw pile.
  * - The group provides a method to update its contents with the latest card from the draw pile.
  * - The group provides a method to clear its contents and reset the position of the cards.
@@ -29,19 +29,19 @@ import sag.elements.GGroup;
 public class GroupDisplayDrawPileDeck {
 
     GGroup panel;
-    UiGame UiGame;
+    UiGame uiGame;
 
     /**
      * Constructs a new GroupDisplayDrawPileDeck object.
      * The object represents a group for displaying the draw pile deck in the game UI.
      * 
-     * @param UiGame The UiGame object that represents the game UI.
+     * @param uiGame The UiGame object that represents the game UI.
      * @throws InterruptedException If an error occurs during initialization.
      */
-    public GroupDisplayDrawPileDeck(UiGame UiGame) throws InterruptedException {
+    public GroupDisplayDrawPileDeck(UiGame uiGame) throws InterruptedException {
         // Initialize class variables
-        this.UiGame = UiGame;
-        this.panel = this.UiGame.getMainPanel().addLayer(LayerPosition.CENTER_CENTER);
+        this.uiGame = uiGame;
+        this.panel = this.uiGame.getMainPanel().addLayer(LayerPosition.CENTER_CENTER);
 
         // Display the first card from the draw pile
         this.update();
@@ -54,9 +54,9 @@ public class GroupDisplayDrawPileDeck {
      */
     public void update() throws InterruptedException {
         // Add the first card from the draw pile and attach the appropriate listener
-        if (!this.UiGame.getGame().getDrawPileCards().isEmpty()) {
-            GCard gCard = ((Ca) this.UiGame.getGame().getDrawPileCards().get(this.UiGame.getGame().getDrawPileCards().size() - 1)).getGCard();
-            gCard.setMouseEventListener(new ListenerDrawPile(this.UiGame));
+        if (!this.uiGame.getGame().getDrawPileCards().isEmpty()) {
+            GCard gCard = ((Ca) this.uiGame.getGame().getDrawPileCards().get(this.uiGame.getGame().getDrawPileCards().size() - 1)).getGCard();
+            gCard.setMouseEventListener(new ListenerDrawPile(this.uiGame));
             this.panel.addChild(gCard, -180, 0);
         }
     }
