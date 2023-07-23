@@ -5,8 +5,8 @@ import java.util.HashSet;
 
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.PlayerCards;
-import bauernhof.app.player.types.MoveTree.Threads.SequenceThread;
-import bauernhof.app.player.types.MoveTree.Threads.WorkingThread;
+import bauernhof.app.player.types.MoveTree.TreeManage.TreeSearcher;
+import bauernhof.app.player.types.MoveTree.TreeManage.TreeCreator;
 import bauernhof.app.system.GameBoard;
 import bauernhof.preset.Move;
 import bauernhof.preset.Settings;
@@ -20,7 +20,7 @@ import bauernhof.preset.card.Card;
  * Attention: This class does not implement the AIHeader interface, because of the own structure
  */
 public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
-    private ArrayList<Long> currentimes = new ArrayList<>();
+    private ArrayList<Long> currentimes = new ArrayList<Long>();
     private long before;
     private GameBoard board_before = null;
     private Move move_before = null;
@@ -43,12 +43,12 @@ public class Advanced_AI extends AbstractGamePlayer implements AIHeader {
         }
 
         board_before = this.getGameBoard().clone();
-        WorkingThread workingThread1 = new WorkingThread(gameBoard.clone());
+        TreeCreator TreeCreator1 = new TreeCreator(gameBoard.clone());
 
-        SequenceThread sequenceThread1 = new SequenceThread(true);
+        TreeSearcher TreeSearcher1 = new TreeSearcher(TreeCreator1.getTree());
         
-        System.out.println(SequenceThread.differences);
-        Move move = WorkingThread.getTree().getRootNode().getNextNodes().get(SequenceThread.differences.indexOf(Collections.max(SequenceThread.differences))).getMove();
+        System.out.println(TreeSearcher1.differences);
+        Move move = TreeCreator1.getTree().getRootNode().getNextNodes().get(TreeSearcher1.differences.indexOf(Collections.max(TreeSearcher1.differences))).getMove();
 
         currentimes.add(System.currentTimeMillis() - before);
         int x = 0;
