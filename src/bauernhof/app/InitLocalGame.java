@@ -1,9 +1,6 @@
 package bauernhof.app;
 
-import java.awt.Color;
-
 import bauernhof.preset.GameConfiguration;
-import bauernhof.preset.PlayerType;
 import bauernhof.preset.Settings;
 
 public class InitLocalGame {
@@ -12,5 +9,4 @@ public class InitLocalGame {
         
     }
 
-    private void test() {}
 }
