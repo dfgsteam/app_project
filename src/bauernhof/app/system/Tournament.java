@@ -41,12 +41,11 @@ public class Tournament {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        states.add(new GameSystem(settings, configuration));
-        states.get(states.size() - 1).createPlayers(new ArrayList<>());
-
-        if (GameBoard.graphics != null)
-            GameBoard.graphics.reset(states.get(states.size() - 1));
-        states.get(states.size() - 1).initPlayers();
+        final GameSystem system = new GameSystem(settings, configuration);
+        if (GameBoard.graphics != null) GameBoard.graphics.reset(states.get(states.size() - 1));
+        states.add(system);
+        system.createPlayers(new ArrayList<>());
+        system.initPlayers();
 
         if (counter == settings.numTournamentRounds)
             tournament.popupTournamentScore(true);

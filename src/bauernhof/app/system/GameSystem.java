@@ -57,7 +57,8 @@ public class GameSystem extends GameBoard {
     public void initPlayers() throws Exception {
         for (int playerid = 1; playerid <= numplayers; playerid++)
             this.players[playerid - 1].init(configuration, getDrawPileCards(), numplayers, playerid);
-        if (settings.showGUI && graphics == null) graphics = new UiGame(configuration, this);
+        if (settings.showGUI && graphics == null)
+            graphics = new UiGame(configuration, this);
             for (int playerid = 0; playerid < numplayers; playerid++) {
                 if (settings.delay <= 0) return;
                 Thread.sleep(settings.delay);
