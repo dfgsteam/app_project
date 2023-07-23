@@ -22,6 +22,7 @@ public class Tournament {
     public Tournament(final Settings settings, final GameConfiguration configuration) throws Exception {
         this.settings = settings;
         this.configuration = configuration;
+
         tournament = new GroupPopupTournament(this, settings);
     }
 
