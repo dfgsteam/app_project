@@ -34,7 +34,7 @@ public class Init {
         settings.playerColors = List.of(new Color[]{Color.RED, Color.GREEN, Color.YELLOW});
         settings.playerTypes = List.of(new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI, PlayerType.HUMAN});
         settings.gameConfigurationFile = new File("gameconfigs/bauernhof.xml");
-        settings.delay = 0L;
+        settings.delay = 100L;
         settings.showGUI = true;
         settings.connectToHostname = null;
         settings.port = 6600;

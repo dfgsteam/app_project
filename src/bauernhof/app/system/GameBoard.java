@@ -146,17 +146,27 @@ public class GameBoard implements Game {
         return true;
     }
     public void updatePlayerID() {
-
         activeplayerid++;
         if (activeplayerid == playercards.length) {
             activeplayerid = 0;
             this.round++;
         }
-
     }
     public int getNumPlayers() {
         return numplayers;
     }
+
+    @Override
+    public int getWinnerID() {
+        ArrayList<Integer> scores = new ArrayList<>(getAllScores());
+        Collections.sort(scores);
+        if (scores.get(scores.size() - 1).equals(scores.get(scores.size() - 2))) return numplayers;
+        for (int i = 0; i < numplayers; i++)
+            if (playercards[i].getScore() == scores.get(scores.size() - 1))
+                return i;
+        return playercards.length;
+    }
+
     public static UiGame getGraphics() {
         return graphics;
     }

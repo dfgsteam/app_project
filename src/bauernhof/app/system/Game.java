@@ -23,6 +23,7 @@ public interface Game {
     int getRound();
     boolean executeMove(final Move move) throws Exception;
     int getNumPlayers();
+    int getWinnerID();
 
     GameConfiguration getConfiguration();
     String getName(final int playerid) throws Exception;

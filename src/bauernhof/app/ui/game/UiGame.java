@@ -37,7 +37,7 @@ public class UiGame implements PlayerGUIAccess {
     public static int HEIGTH = 1080;
     private CountDownLatch count = new CountDownLatch(1);
     // Frame
-    private final SAGFrame FRAME = new SAGFrame("Hofbauern", 30, UiGame.WIDTH, UiGame.HEIGTH);
+    public final SAGFrame FRAME = new SAGFrame("Hofbauern", 30, UiGame.WIDTH, UiGame.HEIGTH);
 
     // Panels
     private SAGPanel mainPanel = new SAGPanel();
@@ -90,6 +90,29 @@ public class UiGame implements PlayerGUIAccess {
         new PanelButtonScreenshot(this);
         new PanelButtonSaveGame(this);
 
+        // Initialize playerCards
+        for (int index = 0; index < this.getGame().getNumPlayers(); index++)
+            this.groupDisplayPlayerCards.updatePlayer(index);
+    }
+    public void reset(final Game game) throws Exception {
+        this.game = game;
+        this.mainPanel = new SAGPanel();
+        this.FRAME.setSAGPanel(this.mainPanel);
+        this.panelDepositedCards = new PanelDepositedCards(this);
+        this.panelDrawPileCards = new PanelDrawPileCards(this);
+        this.panelExchangeCards = new PanelExchangeCards(this);
+        if (game.getSettings().delay < 1) {
+            this.keyboardlistener = new KeyboardListener(game);
+            this.FRAME.addKeyListener(keyboardlistener);
+        }
+        // Initialize GGroups
+        this.groupDisplayRound = new GroupDisplayRound(this);
+        this.groupDisplayPlayerCards = new GroupDisplayPlayerCards(this);
+        this.groupDisplayPlayerName = new GroupDisplayPlayerName(this);
+        this.groupDisplayDrawPileDeck = new GroupDisplayDrawPileDeck(this);
+        this.groupDisplayDepositedDeck = new GroupDisplayDepositedDeck(this);
+        new PanelButtonScreenshot(this);
+        new PanelButtonSaveGame(this);
         // Initialize playerCards
         for (int index = 0; index < this.getGame().getNumPlayers(); index++)
             this.groupDisplayPlayerCards.updatePlayer(index);
@@ -298,11 +321,11 @@ public class UiGame implements PlayerGUIAccess {
 
     public void closeUiGame() {
         JFrame.getFrames()[0].dispose();
-        try {
+        /*try {
             Init.main(null);
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }
+        }*/
     }
 
     @Override

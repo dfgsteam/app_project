@@ -10,7 +10,6 @@ package bauernhof.app.player;
  */
 
 import bauernhof.app.system.GameBoard;
-import bauernhof.app.system.GameSystem;
 import bauernhof.preset.*;
 import bauernhof.preset.card.Card;
 
