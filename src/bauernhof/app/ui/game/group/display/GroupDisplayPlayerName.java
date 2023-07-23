@@ -37,8 +37,7 @@ public class GroupDisplayPlayerName extends GGroup {
     private Game game;
 
     private Color colorActive = new Color(144, 238, 144);
-    private Color colorInactive = new Color(255, 255, 255);
-    private Color colorStroke = new Color(100, 100, 100);
+    private Color colorInactive = new Color(250, 250, 250);
 
     /**
      * Constructs a new GroupDisplayPlayerName object.
@@ -61,8 +60,7 @@ public class GroupDisplayPlayerName extends GGroup {
 
                     // playerBg
                     area = new GRect(0f, 0f, 400f, 50f, true, 0f, 0f);
-                    area.setFill(this.colorActive);
-                    area.setStroke(this.colorStroke, 2f);
+                    area.setStroke(this.colorActive, 3f);
                     panel.addChild(area, 0f, -210f);
 
                     // playerName
@@ -76,8 +74,7 @@ public class GroupDisplayPlayerName extends GGroup {
                     panel = uiGame.getMainPanel().addLayer(LayerPosition.CENTER_LEFT); 
                     // playerBg
                     area = new GRect(0f, 0f, 50f, 400f, true, 0f, 0f);
-                    area.setFill(this.colorInactive);
-                    area.setStroke(this.colorStroke, 2f);
+                    area.setStroke(this.colorInactive, 2f);
                     panel.addChild(area, 280f, 0f);
 
                     // playerName
@@ -94,8 +91,7 @@ public class GroupDisplayPlayerName extends GGroup {
                   
                     // playerBg
                     area = new GRect(0f, 0f, 400f, 50f, true, 0f, 0f);
-                    area.setFill(this.colorInactive);
-                    area.setStroke(this.colorStroke, 2f);
+                    area.setStroke(this.colorInactive, 2f);
                     panel.addChild(area, 0f, 210f);
 
                     // playerName
@@ -111,8 +107,7 @@ public class GroupDisplayPlayerName extends GGroup {
 
                     // playerBg
                     area = new GRect(0f, 0f, 50f, 400f, true, 0f, 0f);
-                    area.setFill(this.colorInactive);
-                    area.setStroke(this.colorStroke, 2f);
+                    area.setStroke(this.colorInactive, 2f);
                     panel.addChild(area, -280f, 0f);
 
                     // playerName
@@ -124,6 +119,9 @@ public class GroupDisplayPlayerName extends GGroup {
                     break;
                 }
             }
+            area.setFill(this.game.getSettings().playerColors.get(counter));
+            text.setStroke(this.colorInactive, 0.7f);
+
             this.groupPlayerBg[counter] = area;
             this.groupPlayerName[counter] = text;
         }
@@ -136,8 +134,7 @@ public class GroupDisplayPlayerName extends GGroup {
      * @throws Exception If an error occurs during the update process.
      */
     public void updatePlayerName(int playerId) throws Exception {
-        this.groupPlayerName[playerId].setText(this.game.getName(playerId) + " - " +
-                Integer.toString(this.game.getScore(playerId)));
+        this.groupPlayerName[playerId].setText(this.game.getName(playerId) + " - " + Integer.toString(this.game.getScore(playerId)));
     }
 
     /**
@@ -146,7 +143,7 @@ public class GroupDisplayPlayerName extends GGroup {
      * @param playerId The ID of the player whose panel background color should be updated.
      */
     public void updatePlayerBgInactive(int playerId) {
-        this.groupPlayerBg[playerId].setFill(this.colorInactive);
+        this.groupPlayerBg[playerId].setStroke(this.colorInactive, 5f);
     }
 
     /**
@@ -155,6 +152,6 @@ public class GroupDisplayPlayerName extends GGroup {
      * @param playerId The ID of the player whose panel background color should be updated.
      */
     public void updatePlayerBgActive(int playerId) {
-        this.groupPlayerBg[playerId].setFill(this.colorActive);
+        this.groupPlayerBg[playerId].setStroke(this.colorActive, 10f);
     }
 }
