@@ -4,8 +4,6 @@ import bauernhof.app.card.Ca;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.listener.ListenerBackButton;
 import bauernhof.app.ui.game.listener.ListenerDeposited;
-import bauernhof.app.ui.game.listener.card.ListenerCard;
-import bauernhof.app.ui.game.listener.card.ListenerCardAdd;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
 import sag.LayerPosition;

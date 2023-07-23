@@ -3,13 +3,10 @@ package bauernhof.app.ui.game.group.popup;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.TreeMap;
 
-import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.listener.ListenerHomeButton;
-import bauernhof.preset.Player;
 import sag.LayerPosition;
 import sag.elements.GGroup;
 import sag.elements.GText;

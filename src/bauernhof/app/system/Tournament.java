@@ -51,7 +51,7 @@ public class Tournament {
         states.add(system);
         system.createPlayers(new ArrayList<>());
         if (GameBoard.graphics != null) {
-            GameBoard.graphics = new UiGame(configuration, system);
+            GameBoard.graphics = new UiGame(system);
         }
         system.initPlayers();
 

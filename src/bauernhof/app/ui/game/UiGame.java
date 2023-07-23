@@ -4,7 +4,6 @@ import bauernhof.app.system.Game;
 import bauernhof.app.ui.game.listener.KeyboardListener;
 import bauernhof.preset.*;
 import bauernhof.preset.card.*;
-import bauernhof.app.Init;
 import bauernhof.app.ui.game.group.button.PanelButtonSaveGame;
 import bauernhof.app.ui.game.group.button.PanelButtonScreenshot;
 import bauernhof.app.ui.game.group.display.GroupDisplayDepositedDeck;
@@ -184,8 +183,6 @@ public class UiGame implements PlayerGUIAccess {
         game.getCurrentPlayerCards().add(this.add);
         this.showExchangePanel();
     }
-
-
 
     /**
      * Moves the selected card from the player's hand to the discarded pile.

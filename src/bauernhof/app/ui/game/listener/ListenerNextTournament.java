@@ -1,6 +1,5 @@
 package bauernhof.app.ui.game.listener;
 
-import bauernhof.app.system.GameBoard;
 import bauernhof.app.system.Tournament;
 import bauernhof.app.ui.game.UiGame;
 import sag.elements.GElement;
@@ -9,9 +8,6 @@ import sag.events.MouseButtonEvent;
 import sag.events.MouseEventListener;
 import sag.events.MouseMotionEvent;
 import sag.events.MouseWheelEvent;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class ListenerNextTournament implements MouseEventListener {
     private GText homeHeadline;

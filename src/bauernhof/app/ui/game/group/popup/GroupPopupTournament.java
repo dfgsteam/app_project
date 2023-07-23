@@ -3,14 +3,12 @@ package bauernhof.app.ui.game.group.popup;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 
 import bauernhof.app.system.GameBoard;
 import bauernhof.app.system.Tournament;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.listener.ListenerHomeButton;
 import bauernhof.app.ui.game.listener.ListenerNextTournament;
-import bauernhof.preset.Player;
 import bauernhof.preset.Settings;
 import sag.ChildNotFoundException;
 import sag.LayerPosition;
