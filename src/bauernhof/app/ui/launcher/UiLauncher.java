@@ -3,7 +3,6 @@ package bauernhof.app.ui.launcher;
 import javax.swing.*;
 
 import bauernhof.app.Init;
-import bauernhof.app.InitLocalGame;
 import bauernhof.app.launcher.LauncherSettings;
 import bauernhof.app.ui.launcher.panel.*;
 import bauernhof.preset.LogLevel;
@@ -13,7 +12,6 @@ import bauernhof.preset.Settings;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 
