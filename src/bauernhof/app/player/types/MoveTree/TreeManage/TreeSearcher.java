@@ -19,7 +19,7 @@ public class TreeSearcher extends AbstractCalculations {
             
 
         differences = new ArrayList<Integer>();
-        while (!this.next_calculations.isEmpty()) { TreeSearcherAction(); }
+        while (!this.next_calculations.isEmpty()) { treeSearcherAction(); }
     }
 
     @Override
@@ -69,7 +69,7 @@ public class TreeSearcher extends AbstractCalculations {
     }
 
     @Override
-    public void TreeSearcherAction() {
+    public void treeSearcherAction() {
         // synchronized (next_calculations) {
             if (next_calculations.isEmpty()) {
                 return;

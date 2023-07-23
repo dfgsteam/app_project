@@ -52,7 +52,7 @@ public interface CalculationsHandler {
     /**
      * The action, the sequenceThread has to do (synchronized)
      */
-    public void TreeSearcherAction();
+    public void treeSearcherAction();
 
     /**
      * Getter for the MAX_Depth of the tree
