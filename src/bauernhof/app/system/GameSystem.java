@@ -47,7 +47,7 @@ public class GameSystem extends GameBoard {
                     players[playerid] = new Random_AI(settings, getPlayerCards(playerid), this.clone());
                     break;
                 case REMOTE:
-                    settings.playerNames.set(playerid, connections.get(remotecounter).getProjectName());
+                    //settings.playerNames.set(playerid, connections.get(remotecounter).getProjectName());
                     players[playerid] = connections.get(remotecounter++).getRemotePlayer();
                     break;
             }
@@ -78,6 +78,7 @@ public class GameSystem extends GameBoard {
             if (!player.equals(getPlayers()[getCurrentPlayerID()]))
                 player.update(move);
         // Check End Conditions
+
         if (super.executeMove(move)) {
             if (this.getRound() > 30 || getDepositedCards().size() >= configuration.getNumDepositionAreaSlots()) run = false;
             if (getGraphics() != null && settings.showGUI) graphics.update(!run);
