@@ -17,6 +17,7 @@ import bauernhof.app.ui.game.panel.*;
 import sag.ChildNotFoundException;
 import sag.SAGFrame;
 import sag.SAGPanel;
+import sag.elements.GGroup;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -50,6 +51,8 @@ public class UiGame implements PlayerGUIAccess {
     private GroupDisplayRound groupDisplayRound;
     private GroupDisplayDrawPileDeck groupDisplayDrawPileDeck;
     private GroupDisplayDepositedDeck groupDisplayDepositedDeck;
+
+    private GGroup popup;
 
     private Game game;
     private Card add, remove;
@@ -112,6 +115,9 @@ public class UiGame implements PlayerGUIAccess {
         // Clear Draw Pile and Deposited Deck
         this.groupDisplayDepositedDeck.clear();
         this.groupDisplayDrawPileDeck.clear();
+
+        for (int index = 0; index > this.popup.getNumChildren(); index++)
+            this.popup.removeChild(this.popup.getChildByRenderingIndex(index));
     }
 
 
@@ -233,7 +239,7 @@ public class UiGame implements PlayerGUIAccess {
      * @throws Exception If an error occurs during the creation of the panel.
      */
     public void createScorePanel() throws Exception {
-        new GroupPopupScore(this);
+        this.popup = new GroupPopupScore(this);
     }
 
     /**
@@ -243,7 +249,7 @@ public class UiGame implements PlayerGUIAccess {
      * @throws Exception If an error occurs during the creation of the panel.
      */
     public void createCheaterPanel(final String name) throws Exception {
-        new GroupPopupCheater(this, name);
+        this.popup = new GroupPopupCheater(this, name);
     }
 
     /**
