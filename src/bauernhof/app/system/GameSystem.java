@@ -4,7 +4,6 @@ import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.types.*;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.preset.*;
-import bauernhof.preset.networking.RemotePlayer;
 import bauernhof.preset.networking.S2CConnection;
 
 import java.awt.*;
