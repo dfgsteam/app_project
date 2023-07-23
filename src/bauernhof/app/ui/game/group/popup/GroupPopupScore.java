@@ -62,23 +62,33 @@ public class GroupPopupScore extends GGroup {
         panel.addChild(headline, 0f, -150f);
 
         // Spielerreihenfolge berechnen
-        TreeMap<Integer, String> playerScores = new TreeMap<>();
+        ArrayList<String> same_score;
+        TreeMap<Integer, ArrayList<String>> playerScores = new TreeMap<>();
         int index_of_player = 0;
-        for (Integer score : uiGame.getGame().getAllScores()) { playerScores.put(score, uiGame.getGame().getSettings().playerNames.get(index_of_player++)); }
+        for (Integer score : uiGame.getGame().getAllScores()) { 
+            if (playerScores.containsKey(score)) { playerScores.get(score).add(uiGame.getGame().getSettings().playerNames.get(index_of_player)); }
+            else {
+                same_score = new ArrayList<String>();
+                same_score.add(uiGame.getGame().getSettings().playerNames.get(index_of_player));
+                playerScores.put(score, same_score); 
+            }
+            index_of_player++;
+        }
         ArrayList<Integer> sortedScores = new ArrayList<>(uiGame.getGame().getAllScores());
         Collections.sort(sortedScores, Collections.reverseOrder());
-        System.out.println(sortedScores);
 
         // Spielerabstufung
         int position = 1;
         GText scorePlayerPosition;
 
         for (Integer item : sortedScores) {
-            scorePlayerPosition = new GText(Integer.toString(position) + ". " + playerScores.get(item) + " [" + item + "]");
+            for (String name : playerScores.get(item)) {
+            scorePlayerPosition = new GText(Integer.toString(position) + ". " + name + " [" + item + "]");
             scorePlayerPosition.setAlignment(GText.TextAnchor.MIDDLE);
             scorePlayerPosition.setFontSize((position == 1) ? 35f : 25f);
             panel.addChild(scorePlayerPosition, 0f, (-115f + 50f * position));
             position++;
+            }
         }
 
         // Hauptmenü Button

@@ -19,15 +19,15 @@ import sag.elements.shapes.GRect;
 
 
 public class GroupPopupTournament extends GGroup {
-    private ArrayList<Integer> scores = new ArrayList<>();
+    private ArrayList<Integer> winScores = new ArrayList<>();
     private GRect area, gameButton;
     private GText headline, gameHeadline, scorePlayerPosition;
     private Tournament tournament;
     public GroupPopupTournament(Tournament tournament, Settings settings) {
         this.tournament = tournament;
         for (final String name : settings.playerNames)
-            scores.add(0);
-        scores.add(0);
+            winScores.add(0);
+        winScores.add(0);
         area = new GRect(0f, 0f, 700f, 500f, true, 0f, 0f);
         area.setFill(new Color(255, 255, 255));
         area.setStroke(new Color(0, 0, 0), 5f);
@@ -61,25 +61,28 @@ public class GroupPopupTournament extends GGroup {
                 }
             }
         } */
-        scores.set(uiGame.getGame().getWinnerID(), scores.get(uiGame.getGame().getWinnerID()) + 1);
-        ArrayList<Integer> scorescopy = (ArrayList<Integer>) scores.clone();
-        Collections.sort(scorescopy);
-        final ArrayList<Integer> positions = new ArrayList<>();
-        int position = 1;
-        for (int i = scorescopy.size() - 1; i >= 0; i--) {
-            int score = scorescopy.get(i);
-            for (int x = 0; x < uiGame.getGame().getNumPlayers(); x++) {
-                if (score == scores.get(x) && !positions.contains(x)) {
-                    scorePlayerPosition = new GText(position + ". " + uiGame.getGame().getSettings().playerNames.get(x) + " Wins " + scores.get(x) + "   [" + uiGame.getGame().getAllScores().get(x) + "]");
-                    scorePlayerPosition.setAlignment(GText.TextAnchor.MIDDLE);
-                    scorePlayerPosition.setFontSize((position == 1) ? 35f : 25f);
-                    if (x == uiGame.getGame().getWinnerID()) scorePlayerPosition.setFill(Color.RED);
-                    panel.addChild(scorePlayerPosition, 0f, (-115f + 50f * position));
-                    positions.add(x);
-                    position++;
-                }
-            }
-        }
+        winScores.set(uiGame.getGame().getWinnerID(), winScores.get(uiGame.getGame().getWinnerID()) + 1);
+        ArrayList<Integer> winsSorted = new ArrayList<Integer>(winScores);
+        Collections.sort(winsSorted, Collections.reverseOrder());
+        H
+        // ArrayList<Integer> scorescopy = (ArrayList<Integer>) scores.clone();
+        // Collections.sort(scorescopy);
+        // final ArrayList<Integer> positions = new ArrayList<>();
+        // int position = 1;
+        // for (int i = scorescopy.size() - 1; i >= 0; i--) {
+        //     int score = scorescopy.get(i);
+        //     for (int x = 0; x < uiGame.getGame().getNumPlayers(); x++) {
+        //         if (score == scores.get(x) && !positions.contains(x)) {
+        //             scorePlayerPosition = new GText(position + ". " + uiGame.getGame().getSettings().playerNames.get(x) + " Wins " + scores.get(x) + "   [" + uiGame.getGame().getAllScores().get(x) + "]");
+        //             scorePlayerPosition.setAlignment(GText.TextAnchor.MIDDLE);
+        //             scorePlayerPosition.setFontSize((position == 1) ? 35f : 25f);
+        //             if (x == uiGame.getGame().getWinnerID()) scorePlayerPosition.setFill(Color.RED);
+        //             panel.addChild(scorePlayerPosition, 0f, (-115f + 50f * position));
+        //             positions.add(x);
+        //             position++;
+        //         }
+        //     }
+        // }
         // Game Button
         panel.addChild(gameButton, 0f, 175f);
         // Game Überschrift
