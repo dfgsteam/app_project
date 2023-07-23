@@ -64,7 +64,7 @@ public class PlayerCards {
 
     private Set<Card> getCardColorCardsInHand(final CardColor color) {
         Set<Card> colorcards = new HashSet<>();
-        for (final Card card : cards)
+        for (final Card card : active_cards)
             if (card.getColor().equals(color))
                 colorcards.add(card);
         return colorcards;
@@ -126,7 +126,7 @@ public class PlayerCards {
 
     private void updateBlockedCards() {
         blocked_cards.clear();
-        active_cards.clear();
+        active_cards = cards;
         HashSet<Card> eithercards;
         for (final Card hand_card : cards)
             for (final Effect effect : hand_card.getEffects()) {
@@ -156,6 +156,7 @@ public class PlayerCards {
                     default:
                 }
             }
+        active_cards.clear();
         for (final Card card : cards)
             if (!blocked_cards.contains(card))
                 active_cards.add(card);
