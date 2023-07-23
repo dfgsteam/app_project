@@ -64,7 +64,7 @@ public class GameSystem extends GameBoard {
                 initBeginnerCards(playerid);
                 updatePlayerID();
             }
-
+            if (settings.delay > 0) Thread.sleep(settings.delay);
             executeMove(this.players[getCurrentPlayerID()].request());
     }
 
@@ -77,16 +77,16 @@ public class GameSystem extends GameBoard {
             if (!player.equals(getPlayers()[getCurrentPlayerID()]))
                 player.update(move);
         // Check End Conditions
-        if (this.getRound() > 30 || getDepositedCards().size() >= configuration.getNumDepositionAreaSlots()) run = false;
         if (super.executeMove(move)) {
+            if (this.getRound() > 30 || getDepositedCards().size() >= configuration.getNumDepositionAreaSlots()) run = false;
             if (getGraphics() != null && settings.showGUI) graphics.update(!run);
             // Do Normal Move
-            if (run) {
+            if(run) {
                 if (!(getCurrentPlayer() instanceof HumanPlayer))
                     if (settings.delay <= 0 && settings.showGUI) return true;
                     else Thread.sleep(settings.delay);
                 this.executeMove(getCurrentPlayer().request());
-            } else for (final Player player : players)
+            } else  for (final Player player : players)
                 player.verifyGame(getAllScores());
         }
         return true;
