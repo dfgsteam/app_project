@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 import bauernhof.app.system.GameBoard;
 import bauernhof.app.system.Tournament;
@@ -62,8 +63,33 @@ public class GroupPopupTournament extends GGroup {
             }
         } */
         winScores.set(uiGame.getGame().getWinnerID(), winScores.get(uiGame.getGame().getWinnerID()) + 1);
+        ArrayList<String> same_score;
+        int index_of_player = 0;
         ArrayList<Integer> winsSorted = new ArrayList<Integer>(winScores);
+        System.out.println(winsSorted);
+        TreeMap<Integer, ArrayList<String>> playerScores = new TreeMap<>();
+        for (Integer score : winsSorted) { 
+            if (playerScores.containsKey(score)) { playerScores.get(score).add(uiGame.getGame().getSettings().playerNames.get(index_of_player)); }
+            else {
+                same_score = new ArrayList<String>();
+                same_score.add(uiGame.getGame().getSettings().playerNames.get(index_of_player));
+                playerScores.put(score, same_score); 
+            }
+            index_of_player++;
+        }
         Collections.sort(winsSorted, Collections.reverseOrder());
+
+        int position = 1;
+        for (Integer score : winsSorted)  {
+            for (String player : playerScores.get(score)) {
+                scorePlayerPosition = new GText(position + ". " + player + " Wins " + score + "   [" + uiGame.getGame().getAllScores().get(score) + "]");
+                scorePlayerPosition.setAlignment(GText.TextAnchor.MIDDLE);
+                scorePlayerPosition.setFontSize((position == 1) ? 35f : 25f);
+                if (score == uiGame.getGame().getWinnerID()) scorePlayerPosition.setFill(Color.RED);
+                panel.addChild(scorePlayerPosition, 0f, (-115f + 50f * position));
+                position++;
+            }
+        }
         
         // ArrayList<Integer> scorescopy = (ArrayList<Integer>) scores.clone();
         // Collections.sort(scorescopy);
