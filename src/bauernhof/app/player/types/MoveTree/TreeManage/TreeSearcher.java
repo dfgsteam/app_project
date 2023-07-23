@@ -97,7 +97,6 @@ public class TreeSearcher extends AbstractCalculations {
      */
     @Override
     public boolean calcNextNode(int cardNumTake, int cardNumPut) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'calcNextNode'");
     }
 
@@ -106,7 +105,6 @@ public class TreeSearcher extends AbstractCalculations {
      */
     @Override
     public boolean treeCreatorAction() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'treeCreatorAction'");
     }
 
