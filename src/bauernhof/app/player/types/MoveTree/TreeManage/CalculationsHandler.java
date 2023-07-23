@@ -42,15 +42,11 @@ public interface CalculationsHandler {
      */
     public MoveNode getCurrentNode();
 
-    /*
-     * Get the "best" MoveNode from next 
-     * @return MoveNode
-     * @throws Exception
-     */
-    public MoveNode getBestOfActual() throws Exception;
-
     /**
-     * The action, the sequenceThread has to do (synchronized)
+     * Tree Searcher Enters a Move of the Advanced_AI and supposes, that all Players are going to make the Moves, which give them the Most points.
+     * After Reaching last Node, Points difference between Advanced_AI and highest Enemy are calculated, so the most advantageable MOve can be found
+     * @return true, if successful
+     * @return false, if no calculations left
      */
     public boolean treeSearcherAction();
 

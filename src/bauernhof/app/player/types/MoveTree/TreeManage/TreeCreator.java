@@ -128,19 +128,20 @@ public class TreeCreator extends AbstractCalculations {
     }
 
 
-    //This methods are not used by this Thread
-    @Override
-    public MoveNode getBestOfActual() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBest'");
-    }
+    //This methods are not used by this CalculationClass
 
+    /**
+     * @throws UnsupportedOperationException
+     */
     @Override
     public boolean treeSearcherAction() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'sequenceThreadAction'");
     }
 
+    /**
+     * @throws UnsupportedOperationException
+     */
     @Override
     public boolean goDeeper() {
         // TODO Auto-generated method stub
