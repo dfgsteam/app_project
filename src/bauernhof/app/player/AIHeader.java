@@ -1,4 +1,4 @@
-package bauernhof.app.player.types;
+package bauernhof.app.player;
 
 import bauernhof.preset.card.Card;
 

@@ -43,7 +43,7 @@ public class Init {
         settings.numTournamentRounds = 0;
         settings.waitAfterTournamentRound = false;
         settings.volume = 0;
-        Init.initGame(NetworkGetSettings.getSettings(Integer.parseInt(args[0])));
+        Init.initGame(NetworkGetSettings.getSettings(0));
     }
     public static void initGame(final Settings settings) throws Exception {
         final GaCoPa gacopa = new GaCoPa();

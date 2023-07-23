@@ -2,6 +2,7 @@ package bauernhof.app.player.types;
 import java.util.Collections;
 import java.util.HashSet;
 
+import bauernhof.app.player.AIHeader;
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.player.PlayerCards;
 import bauernhof.app.player.types.MoveTree.TreeManage.TreeSearcher;

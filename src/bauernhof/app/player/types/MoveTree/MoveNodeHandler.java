@@ -56,13 +56,13 @@ public interface MoveNodeHandler<T> {
 
     /**
      * Setter for the prev_node
-     * @param PrevNode
+     * @param prev_node
      */
     public void setPrevNode(T prev_node);
 
     /**
      * Set a new moveNode to the ArrayList of Next_Moves (AND SET THE PREV_NODE OF ADDED MOVE TO THE ACTUAL_NODE)
-     * @param ChildMoveNode
+     * @param nextMoveNode
      */
     public void addNextMoveNode(T nextMoveNode);
 
@@ -74,7 +74,7 @@ public interface MoveNodeHandler<T> {
 
     /**
      * Set the GameBoard for the Actual MoveNode
-     * @param GameBoard
+     * @param gameboard
      */
-    public void setActualBoardState(GameBoard state);
+    public void setActualBoardState(GameBoard gameboard);
 }

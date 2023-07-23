@@ -2,7 +2,9 @@ package bauernhof.app.ui.game.group.popup;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.UiGame;
@@ -60,28 +62,19 @@ public class GroupPopupScore extends GGroup {
         panel.addChild(headline, 0f, -150f);
 
         // Spielerreihenfolge berechnen
-        HashMap<String, Integer> playerScores = new HashMap<>();
-        ArrayList<String> scores = new ArrayList<>();
-
-        for (int i = 0; i < uiGame.getGame().getNumPlayers(); i++) {
-            playerScores.put(uiGame.getGame().getName(i), uiGame.getGame().getScore(i));
-            scores.add(uiGame.getGame().getName(i));
-            String temp;
-            for (int index = 0; index < playerScores.size() - 1; index++) {
-                if (playerScores.get(scores.get(index)) < playerScores.get(scores.get(index + 1))) {
-                    temp = scores.get(index);
-                    scores.set(index, scores.get(index + 1));
-                    scores.set(index + 1, temp);
-                }
-            }
-        }
+        TreeMap<Integer, String> playerScores = new TreeMap<>();
+        int index_of_player = 0;
+        for (Integer score : uiGame.getGame().getAllScores()) { playerScores.put(score, uiGame.getGame().getSettings().playerNames.get(index_of_player++)); }
+        ArrayList<Integer> sortedScores = new ArrayList<>(uiGame.getGame().getAllScores());
+        Collections.sort(sortedScores, Collections.reverseOrder());
+        System.out.println(sortedScores);
 
         // Spielerabstufung
         int position = 1;
         GText scorePlayerPosition;
 
-        for (var item : scores) {
-            scorePlayerPosition = new GText(Integer.toString(position) + ". " + item + " [" + playerScores.get(scores.get(position - 1)) + "]");
+        for (Integer item : sortedScores) {
+            scorePlayerPosition = new GText(Integer.toString(position) + ". " + playerScores.get(item) + " [" + item + "]");
             scorePlayerPosition.setAlignment(GText.TextAnchor.MIDDLE);
             scorePlayerPosition.setFontSize((position == 1) ? 35f : 25f);
             panel.addChild(scorePlayerPosition, 0f, (-115f + 50f * position));
