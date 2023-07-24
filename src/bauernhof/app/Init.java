@@ -13,7 +13,21 @@ import bauernhof.app.system.Tournament;
 import bauernhof.preset.*;
 import bauernhof.preset.networking.S2CConnection;
 
+/**
+ * The Init class is the entry point for the "Hofbauern" game application.
+ * It handles the initialization of the game and tournament based on the provided settings.
+ * @author Florian Will
+ */
+
 public class Init {
+
+    /**
+     * The main method that is called when starting the "Hofbauern" game application.
+     * It parses the command-line arguments to create the game settings and then initializes the game or tournament accordingly.
+     *
+     * @param args The command-line arguments provided to the application.
+     * @throws Exception If an error occurs during game or tournament initialization.
+     */
 
     public static void main(String[] args) throws Exception {
         List<String> names = new ArrayList<>(List.of("Kirill Rokhilenko", "Ramon Cemil Kimyon", "Viktor Tevosyan", "Florian Will", "Julius Hunold"));
@@ -29,6 +43,14 @@ public class Init {
             new InitLauncher();
         else initGame(settings);
     }
+
+    /**
+     * Initializes the game based on the provided settings.
+     *
+     * @param settings The game settings.
+     * @throws Exception If an error occurs during game initialization.
+     */
+
     public static void initGame(final Settings settings) throws Exception {
         final GaCoPa gacopa = new GaCoPa();
         ArrayList<S2CConnection> connections = new ArrayList<>();
@@ -53,6 +75,15 @@ public class Init {
         }
     }
 
+    /**
+     * Checks the provided game settings for validity.
+     * Throws exceptions if there are any wrong inputs or invalid configurations.
+     *
+     * @param settings The game settings.
+     * @throws WrongInputException If there are wrong inputs in the settings.
+     * @throws NoTournamentGUIException If a tournament is configured to use GUI, which is not allowed.
+     */
+    
     public static void checkSettings(Settings settings) throws WrongInputException, NoTournamentGUIException {
         if (settings.playerNames.size() != settings.playerColors.size() || settings.playerTypes.size() != settings.playerNames.size() || settings.playerTypes.size() != settings.playerColors.size()) { throw new WrongInputException(); }
         if (settings.numTournamentRounds > 0 && settings.showGUI) { throw new NoTournamentGUIException(); }
