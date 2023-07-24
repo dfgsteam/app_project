@@ -15,7 +15,7 @@ import bauernhof.preset.GameConfiguration;
 /**
  * SettingsParser create from xml files a Setting object.
  *
- * @author julius.hunold
+ * @author Julius Hunold
  * @version 1.0
  * @since 2023-06-27
  */
@@ -39,10 +39,10 @@ public class LauncherSettingsParser {
             StringBuilder stringBuilder = new StringBuilder();
             String line;
             
-            // Liest und fügt jede Zeile dem SringBuilder hinzu
+            // Reads and appends each line to the StringBuilder
             while ((line = bufferedReader.readLine()) != null) {
                 stringBuilder.append(line);
-                stringBuilder.append("\n");  // füge Zeilenumbbruch hinzu
+                stringBuilder.append("\n");  // Add line break
             }
 
             String fileContents = stringBuilder.toString();
@@ -52,7 +52,7 @@ public class LauncherSettingsParser {
                 Document document = null;
                 Element root = null;
                 
-                // XML-Datei einlesen
+                // Read XML file
                 try {
                     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                     DocumentBuilder builder = factory.newDocumentBuilder();
@@ -62,14 +62,14 @@ public class LauncherSettingsParser {
                     throw new LauncherSettingsException("xml build not loading", e);
                 }
 
-                // Root-Element erhalten
+                // Get Root Element
                 try {
                     root = document.getDocumentElement();
                 } catch(Exception e) {
                     throw new LauncherSettingsException("rootElement not loading", e);
                 }
 
-                // Sound-Element erhalten
+                // Receive Sound Element
                 try {
                     Element soundElement = (Element) root.getElementsByTagName("Sound").item(0);
                     Settings.setSound(Integer.parseInt(soundElement.getTextContent()));
@@ -77,7 +77,7 @@ public class LauncherSettingsParser {
                     throw new LauncherSettingsException("soundElement not loading", e);
                 }
 
-                // Cardset-Element erhalten
+                // Receive Cardset Element
                 try {
                     Element cardSetElement = (Element) root.getElementsByTagName("CardSet").item(0);
                     if (Settings.GameConfigurations.containsKey(cardSetElement.getTextContent())) {
@@ -90,7 +90,7 @@ public class LauncherSettingsParser {
                     throw new LauncherSettingsException("cardSetElement not loading", e);
                 }
 
-                // AI-Element erhalten
+                // Receive AI element
                 try {
                     Element aiElement = (Element) root.getElementsByTagName("AI").item(0);
                     Settings.setAi(Integer.parseInt(aiElement.getTextContent()));
@@ -98,7 +98,7 @@ public class LauncherSettingsParser {
                     throw new LauncherSettingsException("aiElement not loading", e);
                 }
 
-                // Name-Element erhalten
+                // Receive Name Element
                 try {
                     Element nameElement = (Element) root.getElementsByTagName("Name").item(0);
                     Settings.setName(nameElement.getTextContent());

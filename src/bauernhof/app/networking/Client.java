@@ -48,6 +48,8 @@ public class Client extends C2SConnection {
             case RANDOM_AI:
                 this.player = new Random_AI(settings, playercards[playerid - 1], game);
                 break;
+            default:
+                break;
         }
         this.player.init(game_configuration, initialDrawPile, playerNames.size(), playerid);
         GameBoard.graphics = new UiGame(game);
