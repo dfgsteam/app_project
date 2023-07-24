@@ -61,8 +61,8 @@ public class GameSystem extends GameBoard {
             for (int playerid = 0; playerid < numplayers; playerid++) {
                 if (settings.delay <= 0) return;
                 Thread.sleep(settings.delay);
-                initBeginnerCards(playerid);
                 updatePlayerID();
+                initBeginnerCards(playerid);
             }
             if (settings.delay > 0) Thread.sleep(settings.delay);
             executeMove(this.players[getCurrentPlayerID()].request());

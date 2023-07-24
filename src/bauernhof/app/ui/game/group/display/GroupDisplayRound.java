@@ -30,7 +30,7 @@ import sag.elements.shapes.GRect;
 
 public class GroupDisplayRound extends GGroup {
 
-    private GText roundCounter = new GText("1");
+    private GText roundCounter = new GText("0");
     private Game game;
 
     /**

@@ -83,6 +83,7 @@ public class UiGame implements PlayerGUIAccess {
 
     public void initUI(Game game, boolean clear) throws Exception {
         if (clear) this.clear();
+        this.playerId = 0;
         this.game = game;
         
         // Initialize Panels//
@@ -106,12 +107,13 @@ public class UiGame implements PlayerGUIAccess {
     }
 
     public void clear() throws ChildNotFoundException {
-        System.out.println("test1");
+
         // Clear Cards and active
         for (int index = 0; index < this.getGame().getNumPlayers(); index++) {
             this.groupDisplayPlayerCards.clearPlayerPanel(index);
             this.groupDisplayPlayerName.updatePlayerBgInactive(index);
         }
+        System.out.println("CLEAR");
 
         // Clear Draw Pile and Deposited Deck
         this.groupDisplayDepositedDeck.clear();
@@ -258,6 +260,11 @@ public class UiGame implements PlayerGUIAccess {
     public void createTournamentPanel(Tournament tournament) throws Exception {
         this.popup = new GroupPopupTournament(tournament, this.game.getSettings()).getPanel();
     }
+
+    public void setTournamentPanel(GroupPopupTournament tournament) throws Exception {
+        this.popup = tournament;
+    }
+
 
     /**
      * Sets the main panel based on the specified value.

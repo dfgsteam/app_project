@@ -5,6 +5,7 @@ import java.awt.Color;
 import bauernhof.app.card.Ca;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.listener.ListenerBackButton;
+import bauernhof.app.ui.game.listener.SwipeListener;
 import bauernhof.app.ui.game.listener.card.ListenerCard;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
@@ -19,6 +20,7 @@ public class PanelDrawPileCards extends SAGPanel{
     private SAGPanel panel;
     private UiGame uiGame;
     private GGroup groupCards;
+    private GGroup topcard;
 
     public PanelDrawPileCards(UiGame uiGame) {
         // Definiere uiGame
@@ -29,6 +31,7 @@ public class PanelDrawPileCards extends SAGPanel{
         GGroup headlinePanel = this.panel.addLayer(LayerPosition.TOP_CENTER);
         this.groupCards = this.panel.addLayer(LayerPosition.CENTER);
         GGroup buttonBackPanel = this.panel.addLayer(LayerPosition.BOTTOM_CENTER);
+        topcard = this.panel.addLayer(LayerPosition.CENTER_LEFT);
 
         // Überschrift
         GText headlineHeadline = new GText("Ziehstapel");
@@ -59,17 +62,68 @@ public class PanelDrawPileCards extends SAGPanel{
         // Es muss mittels for-loop alle Karten nach System (x/y) in die GroupCards mittels addChild(gcard, x, y) geladen werden. Die GGroup ist immer leer, wenn diese geladen wird.
         // Platziere bitte die erste Karte in einer Zeile in der mitte alleine (keine anderen Karten). Gib dieser den CardPopListener, alle anderen den CardListener
         // G-Cards bekommst du mit ((Ca) this.uiGame.getGame().getDepositedCards().get(index)).getGCard()
-        groupCards = this.panel.addLayer(LayerPosition.CENTER_CENTER);
+        groupCards = this.panel.addLayer(LayerPosition.CENTER_LEFT);
         groupCards.setScale(0.68f);
         int size = this.uiGame.getGame().getDrawPileCards().size();
         this.setLayout(null);
         this.setVisible(true);
-        GCard card;
+
+        /*GCard card;
         card = ((Ca) this.uiGame.getGame().getDrawPileCards().get(size - 1)).getGCard();
         card.setMouseEventListener(new ListenerCard(card.getGElement()));
+        card.setScale(1.5F);
+        card.setStroke(Color.GREEN, 20);
+        System.out.println(card.getGElement().getScaleY());
+        topcard.addChild(card, 180, 100);
+        GText text = new GText("TOP CARD");
+        topcard.setFill(Color.BLACK);
+        text.setScale(1.5F);
+        text.setBold(true);
+        text.setAlignment(GText.TextAnchor.MIDDLE);
+        topcard.addChild(text, 180, -150);
+
+
+        int rows = 0;
+        int columns = 0;
+        size--;
+        for (int i = 0; i < 5; i++) {
+            columns = size/i;
+            if (columns/i <= 2) {
+                rows = i;
+                i = size;
+            }
+            if (rows * size != size) columns++;
+        }
+        */
+
+        groupCards.setMouseEventListener(new SwipeListener(uiGame));
+        if (size < 11) {
+            for (int i = size - 1; i >= 0; i--) {
+                GCard card = ((Ca) uiGame.getGame().getDrawPileCards().get(i)).getGCard();
+                groupCards.addChild(card, (size - i) * 225, 0);
+
+                card.setScale(1F);
+            }
+        } else if (size < 21) {
+            for (int i = size - 1; i >= 10; i--) {
+                GCard card = ((Ca) uiGame.getGame().getDrawPileCards().get(i)).getGCard();
+                groupCards.addChild(card, (size - i) * 225, -200);
+                card.setScale(1.1F);
+            }
+            for (int i = 10; i >= 0; i--) {
+                GCard card = ((Ca) uiGame.getGame().getDrawPileCards().get(i)).getGCard();
+                groupCards.addChild(card, (size - i - (size - 10)) * 225, 200);
+                card.setScale(1.1F);
+            }
+
+        } else {
+
+        }
+
+        /*
         int x = (int)(-210*((float)this.uiGame.getGame().getDrawPileCards().size()/8)), y=110,i=size - 2;
 
-        groupCards.addChild(card, 0f, -200f);
+        //groupCards.addChild(card, 0f, -200f);
 
         for (; i >= 0;i--) { // Füge alle Karten aus der Hand hinzu
             if(x+400 >= this.panel.VIEWPORT_WIDTH){break;}
@@ -87,7 +141,7 @@ public class PanelDrawPileCards extends SAGPanel{
             groupCards.addChild(card, x, y);
             x+=210;
         }
-
+*/
         /*
         this.gameBoard = gameBoard;
         CardListener cardListener = new ListenerCard();

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <BauernhofGameConfiguration version="1">
 	<Description>Die standard Spielkonfiguration für das Spiel Bauernhof.</Description>
-	<NumCardsPerPlayerHand>7</NumCardsPerPlayerHand>
+	<NumCardsPerPlayerHand>10</NumCardsPerPlayerHand>
 	<NumDepositionAreaSlots>10</NumDepositionAreaSlots>
 	<CardColors>
 		<CardColor color="#c0809c">Person</CardColor>

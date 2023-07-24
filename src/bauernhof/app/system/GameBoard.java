@@ -27,7 +27,7 @@ public class GameBoard implements Game {
     protected GameConfiguration configuration;
     protected Settings settings;
     public GameBoard(final int numplayers, Settings settings, final GameConfiguration configuration) {
-        this(numplayers, settings, configuration, 1, 0);
+        this(numplayers, settings, configuration, 0, 0);
     }
 
     public GameBoard(final int numplayers, final Settings settings, final GameConfiguration configuration, final int round, final int activeplayerid) {

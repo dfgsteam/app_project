@@ -18,7 +18,6 @@ public class Tournament {
     public Tournament(final Settings settings, final GameConfiguration configuration) throws Exception {
         this.settings = settings;
         this.configuration = configuration;
-
         tournament = new GroupPopupTournament(this, settings);
     }
 
@@ -39,6 +38,7 @@ public class Tournament {
         states.add(system);
         system.createPlayers(new ArrayList<>());
         if (GameBoard.graphics != null) {
+            GameBoard.graphics.setTournamentPanel(tournament);
             GameBoard.graphics.initUI(system, true);
         }
         System.out.println("GAME");

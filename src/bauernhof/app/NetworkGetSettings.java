@@ -19,11 +19,11 @@ public class NetworkGetSettings {
             settings.showGUI = true;
             settings.volume = 0;
             settings.logLevel = LogLevel.INFO;
-            settings.playerNames = List.of(new String[]{"Player 1", "Player 2", "Player 3"});
-            settings.playerColors = List.of(new Color[]{Color.RED, Color.GREEN, Color.YELLOW});
-            settings.playerTypes = List.of(new PlayerType[]{PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI});
+            settings.playerNames = List.of(new String[]{"REMOTE", "Player 2", "Player 3", "Wasser"});
+            settings.playerColors = List.of(new Color[]{Color.RED, Color.GREEN, Color.YELLOW, Color.PINK});
+            settings.playerTypes = List.of(new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI, PlayerType.HUMAN, PlayerType.HUMAN});
             settings.gameConfigurationFile = new File("gameconfigs/bauernhof.xml");
-            settings.delay = 1000L;
+            settings.delay = 500L;
             settings.showGUI = true;
             settings.connectToHostname = null;
             settings.port = 6600;
@@ -39,7 +39,7 @@ public class NetworkGetSettings {
             settings.logLevel = LogLevel.INFO;
             settings.playerNames = List.of(new String[]{"Player 1", "Player 2", "Player 3"});//
             settings.playerColors = List.of(new Color[]{Color.RED, Color.GREEN, Color.YELLOW});
-            settings.playerTypes = List.of(new PlayerType[]{PlayerType.RANDOM_AI, PlayerType.REMOTE, PlayerType.RANDOM_AI});
+            settings.playerTypes = List.of(new PlayerType[]{PlayerType.HUMAN, PlayerType.REMOTE, PlayerType.RANDOM_AI});
             settings.gameConfigurationFile = new File("gameconfigs/bauernhof.xml");
             settings.delay = 1000L;
             settings.showGUI = true;

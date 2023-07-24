@@ -30,11 +30,11 @@ public class Init {
         settings.showGUI = true;
         settings.volume = 0;
         settings.logLevel = LogLevel.INFO;
-        settings.playerNames = List.of(new String[]{"REMOTE", "Player 2", "Player 3"});
-        settings.playerColors = List.of(new Color[]{Color.RED, Color.GREEN, Color.YELLOW});
-        settings.playerTypes = List.of(new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI, PlayerType.HUMAN});
+        settings.playerNames = List.of(new String[]{"REMOTE", "Player 2", "Player 3", "Wasser"});
+        settings.playerColors = List.of(new Color[]{Color.RED, Color.GREEN, Color.YELLOW, Color.PINK});
+        settings.playerTypes = List.of(new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI, PlayerType.HUMAN, PlayerType.HUMAN});
         settings.gameConfigurationFile = new File("gameconfigs/bauernhof.xml");
-        settings.delay = 100L;
+        settings.delay = 500L;
         settings.showGUI = true;
         settings.connectToHostname = null;
         settings.port = 6600;
