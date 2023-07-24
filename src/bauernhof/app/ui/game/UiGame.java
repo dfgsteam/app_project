@@ -1,7 +1,6 @@
 package bauernhof.app.ui.game;
 
 import bauernhof.app.system.Game;
-import bauernhof.app.system.Tournament;
 import bauernhof.app.ui.game.listener.KeyboardListener;
 import bauernhof.preset.*;
 import bauernhof.preset.card.*;
@@ -26,12 +25,27 @@ import java.util.concurrent.CountDownLatch;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+
 /**
  * This class represents the game UI for the Hofbauern game.
+ * It provides the graphical user interface for players to interact with the game board.
+ * The UI displays various game elements such as player cards, draw pile, deposited deck,
+ * and other relevant information related to the game state.
+ * The UI also allows players to perform actions like making moves, exchanging cards,
+ * and viewing the game score.
+ *
+ * The UiGame class implements the PlayerGUIAccess interface, which facilitates communication
+ * between the UI and the game logic to handle human player moves.
+ * 
+ * This class also provides methods to create and manage different panels, such as the draw pile panel,
+ * the deposited deck panel, the exchange panel, and popups to display scores and cheater information.
+ * Additionally, it allows users to take screenshots of the game UI and save the current game state.
+ *
  * @author Julius Hunold
  * @version 1.0
  * @since 2023-07-14
  */
+
 public class UiGame implements PlayerGUIAccess {
 
     public static int WIDTH = 1920;
@@ -80,6 +94,15 @@ public class UiGame implements PlayerGUIAccess {
         new PanelButtonSaveGame(this);
     }
 
+    /**
+     * Initializes the game UI based on the provided game state.
+     * If the "clear" parameter is set to true, the existing UI elements are cleared before reinitialization.
+     *
+     * @param game  The GameState object representing the game board state.
+     * @param clear A boolean value indicating whether to clear existing UI elements before initialization.
+     * @throws Exception If an error occurs during UI initialization.
+     */
+
     public void initUI(Game game, boolean clear) throws Exception {
         if (clear) this.clear();
         this.playerId = 0;
@@ -104,7 +127,12 @@ public class UiGame implements PlayerGUIAccess {
         for (int index = 0; index < this.getGame().getNumPlayers(); index++)
             this.groupDisplayPlayerCards.updatePlayer(index);
     }
-
+    /**
+     * Clears the UI by removing all existing elements from the display.
+     * It resets the UI to its initial state.
+     *
+     * @throws ChildNotFoundException If a child element is not found in the group.
+     */
     public void clear() throws ChildNotFoundException {
 
         // Clear Cards and active
