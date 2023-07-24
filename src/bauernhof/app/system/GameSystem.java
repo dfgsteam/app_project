@@ -85,7 +85,7 @@ public class GameSystem extends GameBoard {
         if (settings.showGUI && graphics == null)
             graphics = new UiGame(this);
             for (int playerid = 0; playerid < numplayers; playerid++) {
-                if (settings.delay <= 0) return;
+                if (settings.delay <= 0 && settings.numTournamentRounds == 0) return;
                 Thread.sleep(settings.delay);
                 updatePlayerID();
                 initBeginnerCards(playerid);
@@ -118,11 +118,12 @@ public class GameSystem extends GameBoard {
             // Do Normal Move
             if(run) {
                 if (!(getCurrentPlayer() instanceof HumanPlayer))
-                    if (settings.delay <= 0 && settings.showGUI) return true;
+                    if (settings.delay <= 0 && settings.showGUI && settings.numTournamentRounds == 0) return true;
                     else Thread.sleep(settings.delay);
                 this.executeMove(getCurrentPlayer().request());
             } else  for (final Player player : players) {
                 player.verifyGame(getAllScores());
+                if (getGraphics() != null && settings.numTournamentRounds < 1)
                 getGraphics().showScorePopup();
             }
         }

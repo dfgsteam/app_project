@@ -34,10 +34,8 @@ public class Tournament {
         }
         System.out.println("\n\nErgebnis: ");
         for (int i = 0; i <= settings.playerTypes.size(); i++)
-            if (i != settings.playerTypes.size()) {
-                System.out.println(settings.playerTypes.get(i).name() + " --> " + settings.playerNames.get(i) + "\t|| \t" + wins.get(i));
-            } else {
+            if (i != settings.playerTypes.size())
+                System.out.println(settings.playerTypes.get(i).name() + " --> " + settings.playerNames.get(i) + "\t|| \t" + wins.get(i));else
                 System.out.println("Unentschieden: \t\t" + wins.get(i));
-            }
     }
 }

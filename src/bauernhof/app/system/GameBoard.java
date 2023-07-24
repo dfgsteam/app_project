@@ -14,6 +14,7 @@ import java.util.Stack;
 
 /**
  * @author Ramon Cemil Kimyon
+ * @date 15.07.2023 09:57
  */
 public class GameBoard implements Game {
     protected int activeplayerid;
