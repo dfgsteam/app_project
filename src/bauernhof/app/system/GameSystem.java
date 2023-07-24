@@ -87,8 +87,10 @@ public class GameSystem extends GameBoard {
                     if (settings.delay <= 0 && settings.showGUI) return true;
                     else Thread.sleep(settings.delay);
                 this.executeMove(getCurrentPlayer().request());
-            } else  for (final Player player : players)
+            } else  for (final Player player : players) {
                 player.verifyGame(getAllScores());
+                getGraphics().showScorePopup();
+            }
         }
         return true;
     }

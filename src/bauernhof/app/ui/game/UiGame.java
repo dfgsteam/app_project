@@ -224,6 +224,10 @@ public class UiGame implements PlayerGUIAccess {
      *
      * @throws ChildNotFoundException If a child element is not found in the group.
      */
+
+    public void showScorePopup() throws Exception {
+        new GroupPopupScore(this);
+    }
     public void showPanelDepositedCards() throws ChildNotFoundException {
         this.groupDisplayDepositedDeck.clear(); // Clear reference to card in the deck
         this.panelDepositedCards.update();
