@@ -12,7 +12,6 @@ import sag.events.*;
  * 
  * @author Julius Hunold
  * @version 1.0
- * @since 2023-07-14
  */
 
 public class ListenerDeposited implements MouseEventListener {

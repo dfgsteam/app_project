@@ -10,7 +10,6 @@ import bauernhof.app.ui.launcher.UiLauncher;
  * It implements the ActionListener interface.
  * @author Julius Hunold
  * @version 1.0
- * @since 2023-07-14
  */
 
 public class ListenerToLocal implements ActionListener {

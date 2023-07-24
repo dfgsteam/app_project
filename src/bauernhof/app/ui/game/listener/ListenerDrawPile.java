@@ -11,7 +11,6 @@ import sag.events.*;
  * It implements the MouseEventListener interface from the sag.events package.
  * @author Julius Hunold
  * @version 1.0
- * @since 2023-07-14
  */
 
 public class ListenerDrawPile implements MouseEventListener {

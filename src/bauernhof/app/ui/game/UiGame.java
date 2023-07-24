@@ -43,8 +43,7 @@ import javax.swing.JFrame;
  *
  * @author Julius Hunold
  * @version 1.0
- * @since 2023-07-14
- */
+s */
 
 public class UiGame implements PlayerGUIAccess {
 

@@ -17,7 +17,6 @@ import java.awt.*;
  * It extends the SAGPanel class from the sag package.
  * @author Julius Hunold
  * @version 1.0
- * @since 2023-07-14
 */
 
 public class PanelExchangeCards extends SAGPanel {
