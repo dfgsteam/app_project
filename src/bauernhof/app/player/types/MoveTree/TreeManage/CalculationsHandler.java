@@ -14,8 +14,8 @@ public interface CalculationsHandler {
     /**
      * Calculates a nextNode in dependence of which card should be taken and which card should be put
      * Connects actualNode with the child and sets the calculated Child to the Actual
-     * @param NumberOfTakenCard
-     * @param NumberOfCardToPut
+     * @param cardNumTake
+     * @param cardNumPut
      * @return true, if Calculation successful
      * @return false, if calculation not possible (for example maxDepth or game Over)
      * @throws Exception

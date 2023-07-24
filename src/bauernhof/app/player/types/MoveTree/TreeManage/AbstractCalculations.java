@@ -35,7 +35,7 @@ public abstract class AbstractCalculations implements CalculationsHandler {
 
     /**
      * Parametrized constructor, which creates a Tree with empty RootNode with actual GameBoard
-     * @param GameBoard
+     * @param actual_state
      */
     public AbstractCalculations(GameBoard actual_state) {
         move_tree = new MoveTree(new MoveNode(actual_state));

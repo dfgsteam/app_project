@@ -65,8 +65,8 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     /**
      * Parametrized constructor
      * Creates a Node with a Move and with contact to a parent
-     * @param Move
-     * @param ParentNode
+     * @param move
+     * @param prev_node
      */
     public MoveNode(Move move, MoveNode prev_node) {
         this(move);
@@ -86,8 +86,8 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     /**
      * Parametrized constructor
      * Creates a Node, containing a Move and the GameBoard, where the Move was executed on
-     * @param Move
-     * @param GameBoard
+     * @param move
+     * @param state
      */
     public MoveNode(Move move, GameBoard state) {
         this(state);
@@ -97,9 +97,9 @@ public class MoveNode implements MoveNodeHandler<MoveNode> {
     /**
      * Parametrized constructor
      * Creates a Node, containing a Move, the Parent Node and the GameBoard, where the Move was executed on
-     * @param Move
-     * @param ParentNode
-     * @param GameBoard
+     * @param move
+     * @param prev_Node
+     * @param state
      */
     public MoveNode(Move move, MoveNode prev_Node, GameBoard state) {
         this(move, state);

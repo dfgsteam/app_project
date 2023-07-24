@@ -25,9 +25,9 @@ public class Random_AI extends AbstractGamePlayer implements AIHeader{
 
     /**
      * Parametrized constructor, which creates a Random_AI with given settings playercards at the begining of the game and the given GameBoard
-     * @param Settings
-     * @param Playercards
-     * @param Gamesystem
+     * @param settings
+     * @param playercards
+     * @param gamesystem
      */
     public Random_AI(final Settings settings, final PlayerCards playercards, final GameBoard gamesystem) {
         super(settings, playercards, gamesystem);
