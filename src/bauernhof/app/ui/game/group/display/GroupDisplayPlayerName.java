@@ -70,7 +70,7 @@ public class GroupDisplayPlayerName extends GGroup {
                     break;
                 }
                 case 1: {
-                    // panel erzeugen (mit Startpunkt)
+                    // creates panel (with startpoint)
                     panel = uiGame.getMainPanel().addLayer(LayerPosition.CENTER_LEFT); 
                     // playerBg
                     area = new GRect(0f, 0f, 50f, 400f, true, 0f, 0f);
@@ -86,7 +86,7 @@ public class GroupDisplayPlayerName extends GGroup {
                     break;
                 }
                 case 2: {
-                    // panel erzeugen (mit Startpunkt)
+                    // creates panel (with startpoint)
                     panel = uiGame.getMainPanel().addLayer(LayerPosition.TOP_CENTER); 
                   
                     // playerBg
@@ -102,7 +102,7 @@ public class GroupDisplayPlayerName extends GGroup {
                     break;
                 }
                 case 3: {
-                    // panel erzeugen (mit Startpunkt)
+                    // creates panel (with startpoint)
                     panel = uiGame.getMainPanel().addLayer(LayerPosition.CENTER_RIGHT); 
 
                     // playerBg

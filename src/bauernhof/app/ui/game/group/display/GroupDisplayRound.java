@@ -53,13 +53,13 @@ public class GroupDisplayRound extends GGroup {
         area.setStroke(new Color(0, 0, 0), 3f);
         panel.addChild(area, 0f, -10f);
 
-        // Überschrift
+        // Headline
         GText headline = new GText("Runde");
         headline.setAlignment(GText.TextAnchor.MIDDLE);
         headline.setFontSize(25f);
         panel.addChild(headline, 0f, -15f);
 
-        // Rundenzähler
+        // round counter
         this.roundCounter.setAlignment(GText.TextAnchor.MIDDLE);
         this.roundCounter.setFontSize(25f);
         panel.addChild(this.roundCounter, 0f, 15f);

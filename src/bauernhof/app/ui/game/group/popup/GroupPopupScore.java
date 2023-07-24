@@ -53,14 +53,14 @@ public class GroupPopupScore extends GGroup {
         area.setStroke(new Color(0, 0, 0), 5f);
         this.panel.addChild(area, 0f, 0f);
 
-        // Überschrift
+        // Headline
         GText headline = new GText("Spielende");
         headline.setBold(true);
         headline.setAlignment(GText.TextAnchor.MIDDLE);
         headline.setFontSize(55f);
         this.panel.addChild(headline, 0f, -150f);
 
-        // Spielerreihenfolge berechnen
+        // Calculate player order
         ArrayList<String> same_score;
         TreeMap<Integer, ArrayList<String>> playerScores = new TreeMap<>();
         int index_of_player = 0;
@@ -76,7 +76,7 @@ public class GroupPopupScore extends GGroup {
         ArrayList<Integer> sortedScores = new ArrayList<>(uiGame.getGame().getAllScores());
         Collections.sort(sortedScores, Collections.reverseOrder());
 
-        // Spielerabstufung
+        // Player ranking
         int position = 1;
         GText scorePlayerPosition;
 
@@ -90,13 +90,13 @@ public class GroupPopupScore extends GGroup {
             }
         }
 
-        // Hauptmenü Button
+        // Main Menu Button
         GRect homeButton = new GRect(0f, 0f, 450f, 75f, true, 0f, 0f);
         homeButton.setFill(new Color(144, 238, 155, 50));
         homeButton.setStroke(new Color(0, 0, 0), 5f);
         this.panel.addChild(homeButton, 0f, 175f);
 
-        // Hauptmenü Überschrift
+        // Main Menu Headline
         GText homeHeadline = new GText("Zurück zum Hauptmenü");
         homeHeadline.setBold(true);
         homeHeadline.setAlignment(GText.TextAnchor.MIDDLE);

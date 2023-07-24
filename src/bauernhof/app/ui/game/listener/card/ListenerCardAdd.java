@@ -18,7 +18,7 @@ import sag.events.MouseWheelEvent;
  * - The clicked GElement is then scaled and passed to the UiGame instance for processing.
  * - It also handles mouse enter and mouse exit events to adjust the scale of the GElement for visual feedback.
  * 
- * @author [Your Name]
+ * @author Julius Hunold
  * @version 1.0
  * @since 2023-07-14
  */

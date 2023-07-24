@@ -19,7 +19,7 @@ import sag.events.MouseWheelEvent;
  * - Handling of mouse exit events on card elements, which resets the card element's scale to the original size.
  * - Empty implementations for mouse move and mouse wheel events.
   * 
- * @author [Your Name]
+ * @author Julius Hunold
  * @version 1.0
  * @since 2023-07-14
  */

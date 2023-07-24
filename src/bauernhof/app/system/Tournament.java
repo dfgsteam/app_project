@@ -4,7 +4,7 @@ import bauernhof.preset.*;
 
 import java.util.ArrayList;
 /**
- * @author Ramon Cemil Kimyon
+ * @author Florian Will
  * @date 13.07.2023 14:05
  */
 public class Tournament {

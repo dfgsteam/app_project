@@ -26,7 +26,7 @@ import sag.elements.shapes.GRect;
  * - The button displays a bold text for indicating the action of returning to the main menu.
  * - The button triggers an event listener when clicked, redirecting to the main menu.
  *
- * @author Juliud Hunold
+ * @author Julius Hunold
  * @version 1.0
  * @since 2023-07-14
  */
@@ -53,26 +53,26 @@ public class GroupPopupCheater extends GGroup {
         area.setStroke(new Color(0, 0, 0), 5f);
         this.panel.addChild(area, 0f, 0f);
 
-        // Überschrift
+        // Headline
         GText headline = new GText("Cheater erkannt!");
         headline.setBold(true);
         headline.setAlignment(GText.TextAnchor.MIDDLE);
         headline.setFontSize(55f);
         this.panel.addChild(headline, 0f, -150f);
 
-        // Cheaternamen
+        // Cheaternames
         GText playerName = new GText("\u2620\uFE0F " + name + " \u2620\uFE0F");
         playerName.setAlignment(GText.TextAnchor.MIDDLE);
         playerName.setFontSize(40f);
         this.panel.addChild(playerName, 0f, 0f);
 
-        // Hauptmenü Button
+        // Main Menu Button
         GRect homeButton = new GRect(0f, 0f, 450f, 75f, true, 0f, 0f);
         homeButton.setFill(new Color(255, 255, 0, 70));
         homeButton.setStroke(new Color(0, 0, 0), 5f);
         this.panel.addChild(homeButton, 0f, 175f);
 
-        // Hauptmenü Überschrift
+        // Main Menu Headline
         GText homeHeadline = new GText("Zurück zum Hauptmenü");
         homeHeadline.setBold(true);
         homeHeadline.setAlignment(GText.TextAnchor.MIDDLE);
