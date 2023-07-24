@@ -14,7 +14,6 @@ import bauernhof.app.ui.game.group.display.GroupDisplayPlayerName;
 import bauernhof.app.ui.game.group.display.GroupDisplayRound;
 import bauernhof.app.ui.game.group.popup.GroupPopupCheater;
 import bauernhof.app.ui.game.group.popup.GroupPopupScore;
-import bauernhof.app.ui.game.group.popup.GroupPopupTournament;
 import bauernhof.app.ui.game.panel.*;
 import sag.ChildNotFoundException;
 import sag.SAGFrame;
@@ -125,26 +124,6 @@ public class UiGame implements PlayerGUIAccess {
         // Clear Popups
         for (int index = 0; index > this.popup.getNumChildren(); index++)
             this.popup.removeChild(this.popup.getChildByRenderingIndex(index));
-    }
-
-
-
-    public void reset(final Game game) throws Exception {
-        this.FRAME.removeKeyListener(keyboardlistener);
-        this.mainPanel = new SAGPanel();
-        this.FRAME = new SAGFrame("Hofbauern", 30, UiGame.WIDTH, UiGame.HEIGTH);
-        this.FRAME.setSAGPanel(mainPanel);
-        this.panelDepositedCards = new PanelDepositedCards(this);
-        this.panelDrawPileCards = new PanelDrawPileCards(this);
-        this.panelExchangeCards = new PanelExchangeCards(this);
-        this.groupDisplayRound = new GroupDisplayRound(this);
-        this.groupDisplayPlayerCards = new GroupDisplayPlayerCards(this);
-        this.groupDisplayPlayerName = new GroupDisplayPlayerName(this);
-        this.groupDisplayDrawPileDeck = new GroupDisplayDrawPileDeck(this);
-        this.groupDisplayDepositedDeck = new GroupDisplayDepositedDeck(this);
-        for (int index = 0; index < this.getGame().getNumPlayers(); index++)
-            this.groupDisplayPlayerCards.updatePlayer(index);
-
     }
 
     /**
@@ -261,15 +240,6 @@ public class UiGame implements PlayerGUIAccess {
         this.popup = new GroupPopupCheater(this, name).getPanel();
     }
 
-    public void createTournamentPanel(Tournament tournament) throws Exception {
-        this.popup = new GroupPopupTournament(tournament, this.game.getSettings()).getPanel();
-    }
-
-    public void setTournamentPanel(GroupPopupTournament tournament) throws Exception {
-        this.popup = tournament;
-    }
-
-
     /**
      * Sets the main panel based on the specified value.
      *
@@ -356,11 +326,7 @@ public class UiGame implements PlayerGUIAccess {
 
     public void closeUiGame() {
         JFrame.getFrames()[0].dispose();
-        /*try {
-            Init.main(null);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }*/
+        System.exit(0);
     }
 
     @Override

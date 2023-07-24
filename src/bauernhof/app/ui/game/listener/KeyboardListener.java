@@ -26,17 +26,14 @@ public class KeyboardListener implements KeyListener {
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             try {
-                if (game.getRound() == 1) {
-                    if (playerid == game.getNumPlayers())
-                        game.setRound(game.getRound() + 1);
-                    else {
+                if (game.getRound() == 0) {
+                        System.out.println("HALLO");
+                        if (playerid == game.getNumPlayers()- 1)
+                            game.setRound(game.getRound() + 1);
+                        System.out.println(game.getRound());
                         game.initBeginnerCards(playerid);
                         playerid++;
-                    }
-                    if (game instanceof GameSystem) {
-                    } else if (!(game.getCurrentPlayer() instanceof HumanPlayer || game.getCurrentPlayer() instanceof RemotePlayer))
-                        game.executeMove(game.getCurrentPlayer().request());
-                }
+                }else if (game.getCurrentPlayer() instanceof HumanPlayer)game.executeMove(game.getCurrentPlayer().request());
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }

@@ -32,9 +32,9 @@ public class Init {
         settings.logLevel = LogLevel.INFO;
         settings.playerNames = List.of(new String[]{"REMOTE", "Player 2", "Player 3", "Wasser"});
         settings.playerColors = List.of(new Color[]{Color.RED, Color.GREEN, Color.YELLOW, Color.PINK});
-        settings.playerTypes = List.of(new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI, PlayerType.HUMAN, PlayerType.HUMAN});
+        settings.playerTypes = List.of(new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI});
         settings.gameConfigurationFile = new File("gameconfigs/bauernhof.xml");
-        settings.delay = 500L;
+        settings.delay = 50L;
         settings.showGUI = true;
         settings.connectToHostname = null;
         settings.port = 6600;

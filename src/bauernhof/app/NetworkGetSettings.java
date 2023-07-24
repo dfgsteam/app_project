@@ -21,15 +21,15 @@ public class NetworkGetSettings {
             settings.logLevel = LogLevel.INFO;
             settings.playerNames = List.of(new String[]{"REMOTE", "Player 2", "Player 3", "Wasser"});
             settings.playerColors = List.of(new Color[]{Color.RED, Color.GREEN, Color.YELLOW, Color.PINK});
-            settings.playerTypes = List.of(new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI, PlayerType.HUMAN, PlayerType.HUMAN});
+            settings.playerTypes = List.of(new PlayerType[]{PlayerType.HUMAN, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI, PlayerType.RANDOM_AI});
             settings.gameConfigurationFile = new File("gameconfigs/bauernhof.xml");
-            settings.delay = 500L;
+            settings.delay = 0L;
             settings.showGUI = true;
             settings.connectToHostname = null;
             settings.port = 6600;
             settings.loadSaveGameFile = null;
             settings.shouldLauncherLaunch = false;
-            settings.numTournamentRounds = 10;
+            settings.numTournamentRounds = 0;
             settings.waitAfterTournamentRound = true;
             settings.volume = 0;
         } else if(i == 1){
