@@ -20,12 +20,10 @@ import java.util.ArrayList;
 public class Client extends C2SConnection {
     private Settings settings;
     private AbstractGamePlayer player;
-
     public Client(final Settings settings, final Socket socket, final GameConfigurationParser parser, final String porjectname) throws IOException, RemoteException {
         super(socket, parser, porjectname);
         this.settings = settings;
         handlePackets();
-
     }
 
     @Override
@@ -48,12 +46,12 @@ public class Client extends C2SConnection {
             case RANDOM_AI:
                 this.player = new Random_AI(settings, playercards[playerid - 1], game);
                 break;
+            default:
+                break;
         }
         this.player.init(game_configuration, initialDrawPile, playerNames.size(), playerid);
-        GameBoard.graphics = new UiGame(game_configuration, game);
-
+        GameBoard.graphics = new UiGame(game);
     }
-
 
     @Override
     protected Move onRequest() throws Exception {

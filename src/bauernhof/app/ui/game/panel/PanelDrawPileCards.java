@@ -5,7 +5,6 @@ import java.awt.Color;
 import bauernhof.app.card.Ca;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.listener.ListenerBackButton;
-import bauernhof.app.ui.game.listener.card.ListenerCard;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
 import sag.LayerPosition;
@@ -14,14 +13,32 @@ import sag.elements.GGroup;
 import sag.elements.GText;
 import sag.elements.shapes.GRect;
 
+/**
+ * PanelDrawPileCards represents the panel for displaying the draw pile of cards in the game UI.
+ * This panel shows the draw pile cards, and it provides a "Back" button to return to the previous view.
+ * It handles card rendering and event listeners for the back button.
+ * 
+ * The class extends SAGPanel, a custom panel class provided by the SAG library, to create the UI elements.
+ * It manages the layout of cards and the "Back" button within the panel.
+ * 
+ * @author Kiril Pokhilenko
+ * @version 1.0
+ */
+
 public class PanelDrawPileCards extends SAGPanel{
     
     private SAGPanel panel;
     private UiGame uiGame;
     private GGroup groupCards;
 
+    /**
+     * Constructs a new PanelDrawPileCards instance.
+     * 
+     * @param uiGame The UiGame instance representing the game UI.
+     */
+
     public PanelDrawPileCards(UiGame uiGame) {
-        // Definiere uiGame
+        // define uiGame
         this.uiGame = uiGame;
 
         // Panel
@@ -30,12 +47,12 @@ public class PanelDrawPileCards extends SAGPanel{
         this.groupCards = this.panel.addLayer(LayerPosition.CENTER);
         GGroup buttonBackPanel = this.panel.addLayer(LayerPosition.BOTTOM_CENTER);
 
-        // Überschrift
+        // Headline
         GText headlineHeadline = new GText("Ziehstapel");
         headlineHeadline.setAlignment(GText.TextAnchor.MIDDLE);
         headlineHeadline.setFontSize(40f);
         headlineHeadline.setBold(true);
-        headlinePanel.addChild(headlineHeadline, 0f, 100f);
+        headlinePanel.addChild(headlineHeadline, 0f, 50f);
 
         // Button (Button)
         GRect buttonBackBG = new GRect(0f, 0f, 140f, 35f, true, 0f, 0f);
@@ -43,7 +60,7 @@ public class PanelDrawPileCards extends SAGPanel{
         buttonBackBG.setStroke(new Color(0, 0, 0), 2f);
         buttonBackPanel.addChild(buttonBackBG, 0f, -85f);
 
-        // Button-Schrift
+        // Button-Text
         GText buttonBackHeadline = new GText("Zurück");
         buttonBackHeadline.setAlignment(GText.TextAnchor.MIDDLE);
         buttonBackHeadline.setFontSize(15f);
@@ -53,90 +70,43 @@ public class PanelDrawPileCards extends SAGPanel{
         buttonBackBG.setMouseEventListener(new ListenerBackButton(this.uiGame, buttonBackHeadline, 1));
     }
 
+    /**
+     * Updates the panel to display the draw pile cards.
+     * This method clears the panel, re-adds the draw pile cards, and renders them within the panel.
+     * It sets the card positions and scales them accordingly for display.
+     * 
+     * @throws ChildNotFoundException If a child element is not found within the panel.
+     */
+
     public void update() throws ChildNotFoundException {
         clear();
-        // Bitte schreibe die Kartenerstellung in die update()-Methode. So müssen wir nicht mehr das Panel komplett neuladen.
-        // Es muss mittels for-loop alle Karten nach System (x/y) in die GroupCards mittels addChild(gcard, x, y) geladen werden. Die GGroup ist immer leer, wenn diese geladen wird.
-        // Platziere bitte die erste Karte in einer Zeile in der mitte alleine (keine anderen Karten). Gib dieser den CardPopListener, alle anderen den CardListener
-        // G-Cards bekommst du mit ((Ca) this.uiGame.getGame().getDepositedCards().get(index)).getGCard()
-        groupCards = this.panel.addLayer(LayerPosition.CENTER_CENTER);
+        groupCards = this.panel.addLayer(LayerPosition.CENTER_LEFT);
         groupCards.setScale(0.68f);
         int size = this.uiGame.getGame().getDrawPileCards().size();
         this.setLayout(null);
         this.setVisible(true);
         GCard card;
-        card = ((Ca) this.uiGame.getGame().getDrawPileCards().get(size - 1)).getGCard();
-        card.setMouseEventListener(new ListenerCard(card.getGElement()));
-        int x = (int)(-210*((float)this.uiGame.getGame().getDrawPileCards().size()/8)), y=110,i=size - 2;
-
-        groupCards.addChild(card, 0f, -200f);
-
-        for (; i >= 0;i--) { // Füge alle Karten aus der Hand hinzu
-            if(x+400 >= this.panel.VIEWPORT_WIDTH){break;}
-            card = ((Ca) this.uiGame.getGame().getDrawPileCards().get(i)).getGCard();
-            card.setMouseEventListener(new ListenerCard(card.getGElement()));
-            groupCards.addChild(card, x, y);
-            x+=210;
+        int x = 1;
+        int row = 0;
+        for (int i = size - 1; i >= 0; i--) {
+            card = ((Ca) uiGame.getGame().getDrawPileCards().get(i)).getGCard();
+            if (x % 13 != 0) x++;
+            else {
+                x = 1;
+                row++;
+            }
+            groupCards.addChild(card, -100 + (x - 1) * 200 , -425 + row * 270);
+            card.setScale(1.0F);
         }
-
-        x = (int)(-210*((float)this.uiGame.getGame().getDrawPileCards().size()/8));y=345;
-        for(; i >= 0; i-- ){
-            if(x+400 >= this.panel.VIEWPORT_WIDTH){break;}
-            card = ((Ca) this.uiGame.getGame().getDrawPileCards().get(i)).getGCard();
-            card.setMouseEventListener(new ListenerCard(card.getGElement()));
-            groupCards.addChild(card, x, y);
-            x+=210;
-        }
-
-        /*
-        this.gameBoard = gameBoard;
-        CardListener cardListener = new ListenerCard();
-        
-        GGroup top = this.addLayer(LayerPosition.TOP_LEFT);
-        top.setScale(0.5f);
-        GGroup cen = this.addLayer(LayerPosition.CENTER_LEFT);
-        cen.setScale(0.5f);
-        GGroup bot = this.addLayer(LayerPosition.BOTTOM_LEFT);
-        bot.setScale(0.5f);
-        this.setLayout(null);
-        int x=100,y=120,i=0;
-
-        this.setVisible(true);
-
-        GCard card;
-
-        for(; i< stack.size(); i++ ){
-            if(x+200 >= this.gameBoard.WIDTH*2){break;}
-            card = new GCard(stack.get(i));
-            card.setMouseEventListener(cardListener);
-            top.addChild(card,x,y);
-            x+=200;
-            
-        }
-        x=100;y=-150;
-        for(; i< stack.size(); i++ ){
-            if(x+200 >= this.gameBoard.WIDTH*2){break;}
-            card = new GCard(stack.get(i));
-            card.setMouseEventListener(cardListener);
-            cen.addChild(card,x,y);
-            x+=200;
-        
-        }
-        x=100;y=-350;
-        for(; i< stack.size(); i++ ){
-            card = new GCard(stack.get(i));
-            card.setMouseEventListener(cardListener);
-            bot.addChild(card,x,y);
-            x+=200;
-
-        }
-        try {
-            new BackButton(this, gameBoard);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-         */
     }
+
+    /**
+     * Clears the panel by removing all card elements.
+     * This method removes all child elements within the groupCards layer to clear the panel's contents.
+     * It also sets the card event listeners to null to remove any attached event listeners.
+     * 
+     * @throws ChildNotFoundException If a child element is not found within the panel.
+     */
 
     public void clear() throws ChildNotFoundException {
         for (int cardIndex=this.groupCards.getNumChildren()-1; cardIndex >= 0 ; cardIndex--) {
@@ -144,6 +114,12 @@ public class PanelDrawPileCards extends SAGPanel{
             this.groupCards.removeChild(this.groupCards.getChildByRenderingIndex(cardIndex));
         }
     }
+
+    /**
+     * Gets the SAGPanel representing the panel with the draw pile cards.
+     * 
+     * @return The SAGPanel representing the draw pile cards panel.
+     */
 
     public SAGPanel getPanel() {
         return this.panel;

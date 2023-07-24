@@ -4,7 +4,6 @@ import bauernhof.app.system.Game;
 import bauernhof.app.ui.game.listener.KeyboardListener;
 import bauernhof.preset.*;
 import bauernhof.preset.card.*;
-import bauernhof.app.Init;
 import bauernhof.app.ui.game.group.button.PanelButtonSaveGame;
 import bauernhof.app.ui.game.group.button.PanelButtonScreenshot;
 import bauernhof.app.ui.game.group.display.GroupDisplayDepositedDeck;
@@ -18,6 +17,7 @@ import bauernhof.app.ui.game.panel.*;
 import sag.ChildNotFoundException;
 import sag.SAGFrame;
 import sag.SAGPanel;
+import sag.elements.GGroup;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -25,19 +25,33 @@ import java.util.concurrent.CountDownLatch;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+
 /**
  * This class represents the game UI for the Hofbauern game.
+ * It provides the graphical user interface for players to interact with the game board.
+ * The UI displays various game elements such as player cards, draw pile, deposited deck,
+ * and other relevant information related to the game state.
+ * The UI also allows players to perform actions like making moves, exchanging cards,
+ * and viewing the game score.
+ *
+ * The UiGame class implements the PlayerGUIAccess interface, which facilitates communication
+ * between the UI and the game logic to handle human player moves.
+ * 
+ * This class also provides methods to create and manage different panels, such as the draw pile panel,
+ * the deposited deck panel, the exchange panel, and popups to display scores and cheater information.
+ * Additionally, it allows users to take screenshots of the game UI and save the current game state.
+ *
  * @author Julius Hunold
  * @version 1.0
- * @since 2023-07-14
- */
+s */
+
 public class UiGame implements PlayerGUIAccess {
 
     public static int WIDTH = 1920;
     public static int HEIGTH = 1080;
     private CountDownLatch count = new CountDownLatch(1);
     // Frame
-    public final SAGFrame FRAME = new SAGFrame("Hofbauern", 30, UiGame.WIDTH, UiGame.HEIGTH);
+    public SAGFrame FRAME = new SAGFrame("Hofbauern", 30, UiGame.WIDTH, UiGame.HEIGTH);
 
     // Panels
     private SAGPanel mainPanel = new SAGPanel();
@@ -52,6 +66,8 @@ public class UiGame implements PlayerGUIAccess {
     private GroupDisplayDrawPileDeck groupDisplayDrawPileDeck;
     private GroupDisplayDepositedDeck groupDisplayDepositedDeck;
 
+    private GGroup popup;
+
     private Game game;
     private Card add, remove;
 
@@ -62,18 +78,36 @@ public class UiGame implements PlayerGUIAccess {
     /**
      * Constructs a new UiGame object.
      *
-     * @param gameconf      The GameConfiguration object representing the game configuration.
      * @param game The GameState object representing the game board state.
      * @throws Exception If an error occurs during initialization.
      */
-    public UiGame(GameConfiguration gameconf, Game game) throws Exception {
-
-        this.game = game;
-
+    public UiGame(Game game) throws Exception {
         // Initialize Frame
         this.FRAME.setSAGPanel(this.mainPanel);
-        // Initialize Panels
         this.FRAME.setVisible(true);
+        
+        this.initUI(game, false);
+
+        // Initialize Buttons
+        new PanelButtonScreenshot(this);
+        new PanelButtonSaveGame(this);
+    }
+
+    /**
+     * Initializes the game UI based on the provided game state.
+     * If the "clear" parameter is set to true, the existing UI elements are cleared before reinitialization.
+     *
+     * @param game  The GameState object representing the game board state.
+     * @param clear A boolean value indicating whether to clear existing UI elements before initialization.
+     * @throws Exception If an error occurs during UI initialization.
+     */
+
+    public void initUI(Game game, boolean clear) throws Exception {
+        if (clear) this.clear();
+        this.playerId = 0;
+        this.game = game;
+        
+        // Initialize Panels//
         this.panelDepositedCards = new PanelDepositedCards(this);
         this.panelDrawPileCards = new PanelDrawPileCards(this);
         this.panelExchangeCards = new PanelExchangeCards(this);
@@ -87,29 +121,36 @@ public class UiGame implements PlayerGUIAccess {
         this.groupDisplayPlayerName = new GroupDisplayPlayerName(this);
         this.groupDisplayDrawPileDeck = new GroupDisplayDrawPileDeck(this);
         this.groupDisplayDepositedDeck = new GroupDisplayDepositedDeck(this);
-        new PanelButtonScreenshot(this);
-        new PanelButtonSaveGame(this);
 
         // Initialize playerCards
         for (int index = 0; index < this.getGame().getNumPlayers(); index++)
             this.groupDisplayPlayerCards.updatePlayer(index);
     }
-    public void reset(final Game game) throws Exception {
-        this.FRAME.removeKeyListener(keyboardlistener);
-        this.mainPanel = new SAGPanel();
-        this.FRAME.setSAGPanel(mainPanel);
-        this.FRAME.setSAGPanel(mainPanel);
-        this.panelDepositedCards = new PanelDepositedCards(this);
-        this.panelDrawPileCards = new PanelDrawPileCards(this);
-        this.panelExchangeCards = new PanelExchangeCards(this);
-        this.groupDisplayRound = new GroupDisplayRound(this);
-        this.groupDisplayPlayerCards = new GroupDisplayPlayerCards(this);
-        this.groupDisplayPlayerName = new GroupDisplayPlayerName(this);
-        this.groupDisplayDrawPileDeck = new GroupDisplayDrawPileDeck(this);
-        this.groupDisplayDepositedDeck = new GroupDisplayDepositedDeck(this);
-        for (int index = 0; index < this.getGame().getNumPlayers(); index++)
-            this.groupDisplayPlayerCards.updatePlayer(index);
+    /**
+     * Clears the UI by removing all existing elements from the display.
+     * It resets the UI to its initial state.
+     *
+     * @throws ChildNotFoundException If a child element is not found in the group.
+     */
+    public void clear() throws ChildNotFoundException {
 
+        // Clear Cards and active
+        for (int index = 0; index < this.getGame().getNumPlayers(); index++) {
+            this.groupDisplayPlayerCards.clearPlayerPanel(index);
+            this.groupDisplayPlayerName.updatePlayerBgInactive(index);
+        }
+        System.out.println("CLEAR");
+
+        // Clear Draw Pile and Deposited Deck
+        this.groupDisplayDepositedDeck.clear();
+        this.groupDisplayDrawPileDeck.clear();
+
+        System.out.println(this.popup.getNumChildren());
+        System.out.println("test2");
+
+        // Clear Popups
+        for (int index = 0; index > this.popup.getNumChildren(); index++)
+            this.popup.removeChild(this.popup.getChildByRenderingIndex(index));
     }
 
     /**
@@ -142,12 +183,10 @@ public class UiGame implements PlayerGUIAccess {
             this.groupDisplayPlayerName.updatePlayerBgActive(this.playerId);
             this.groupDisplayRound.update();
         } else {
-            // Show end of game panel
             this.playerId = 5;
             if (game.getSettings().delay < 1) {
                 this.FRAME.removeKeyListener(keyboardlistener);
             }
-            new GroupPopupScore(this);
         }
     }
 
@@ -161,8 +200,6 @@ public class UiGame implements PlayerGUIAccess {
         game.getCurrentPlayerCards().add(this.add);
         this.showExchangePanel();
     }
-
-
 
     /**
      * Moves the selected card from the player's hand to the discarded pile.
@@ -193,6 +230,10 @@ public class UiGame implements PlayerGUIAccess {
      *
      * @throws ChildNotFoundException If a child element is not found in the group.
      */
+
+    public void showScorePopup() throws Exception {
+        new GroupPopupScore(this);
+    }
     public void showPanelDepositedCards() throws ChildNotFoundException {
         this.groupDisplayDepositedDeck.clear(); // Clear reference to card in the deck
         this.panelDepositedCards.update();
@@ -213,7 +254,7 @@ public class UiGame implements PlayerGUIAccess {
      * @throws Exception If an error occurs during the creation of the panel.
      */
     public void createScorePanel() throws Exception {
-        new GroupPopupScore(this);
+        this.popup = new GroupPopupScore(this).getPanel();
     }
 
     /**
@@ -223,7 +264,7 @@ public class UiGame implements PlayerGUIAccess {
      * @throws Exception If an error occurs during the creation of the panel.
      */
     public void createCheaterPanel(final String name) throws Exception {
-        new GroupPopupCheater(this, name);
+        this.popup = new GroupPopupCheater(this, name).getPanel();
     }
 
     /**
@@ -312,11 +353,7 @@ public class UiGame implements PlayerGUIAccess {
 
     public void closeUiGame() {
         JFrame.getFrames()[0].dispose();
-        /*try {
-            Init.main(null);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }*/
+        System.exit(0);
     }
 
     @Override

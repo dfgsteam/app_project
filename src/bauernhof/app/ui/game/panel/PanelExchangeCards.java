@@ -17,7 +17,6 @@ import java.awt.*;
  * It extends the SAGPanel class from the sag package.
  * @author Julius Hunold
  * @version 1.0
- * @since 2023-07-14
 */
 
 public class PanelExchangeCards extends SAGPanel {
@@ -65,6 +64,11 @@ public class PanelExchangeCards extends SAGPanel {
         }
     }
 
+    /**
+     * Updates the panel with the current player's cards and their positions.
+     *
+     * @throws ChildNotFoundException If there is an error finding a child in the cardGroup.
+     */
 
     public void update() throws ChildNotFoundException {
         for (int index = 0; index < this.uiGame.getGame().getCurrentPlayerCards().getCards().size(); index++) {
@@ -79,6 +83,12 @@ public class PanelExchangeCards extends SAGPanel {
             
     }
 
+    /**
+     * Clears the panel by removing all cards from the cardGroup.
+     *
+     * @throws ChildNotFoundException If there is an error finding a child in the cardGroup.
+     */
+    
     public void clear() throws ChildNotFoundException {
         for (int index=this.cardGroup.getNumChildren()-1; index >= 0 ; index--) {
             this.cardGroup.removeChild(this.cardGroup.getChildByRenderingIndex(index));

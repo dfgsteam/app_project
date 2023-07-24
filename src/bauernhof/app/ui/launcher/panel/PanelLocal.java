@@ -13,6 +13,22 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * The PanelLocal class represents the local player panel of the game launcher.
+ * It provides a graphical interface for the user to configure local player options, such as player types, names, and colors.
+ *
+ * The local player panel allows the user to set up and configure local players for a single-player or local multiplayer game.
+ * It includes options to choose player types (e.g., computer AI or human) and set player names and colors.
+ *
+ * The class includes methods to add buttons, input fields, and labels to the panel for user interaction and configuration.
+ *
+ * Note: The PanelLocal may throw IOException when reading graphics resources.
+ *
+ * @see UiLauncher
+ * @author Julius Hunold
+ * @version 1.0
+ */
+
 public class PanelLocal {
     private UiLauncher uiLauncher;
     private JPanel panel;
@@ -29,6 +45,13 @@ public class PanelLocal {
     @SuppressWarnings("unchecked")
     private JComboBox<String> playerColorCombo[] = new JComboBox[4];
 
+    /**
+     * Constructs a new PanelLocal instance.
+     * It initializes the local player panel and creates UI components such as buttons, input fields, and labels for player configuration.
+     *
+     * @param uiLauncher The UiLauncher object associated with the local player panel.
+     * @throws IOException If there is an I/O error while loading graphics resources.
+     */
 
     public PanelLocal(UiLauncher uiLauncher) throws IOException {
         // Init Klassenvariablen
@@ -60,6 +83,11 @@ public class PanelLocal {
         this.createPlayerView();
         //this.addButtonAddPlayer();
     }
+
+    /**
+     * Creates and displays the player view in the local player panel.
+     * The player view includes options to set player types, names, and colors for the local players.
+     */
 
     public void createPlayerView() {
         int xPos = 218; // xPos wird pro Player statisch verändert. Die yPos wird anhand deinzelnen Objektlängen + 5px/15px Abstand berechnet
@@ -135,6 +163,11 @@ public class PanelLocal {
         }  
     }
 
+    /**
+     * Reads all player configurations from the local player panel and starts the game with the selected players.
+     * It retrieves the player types, names, and colors for the local players and initiates the game with the provided configurations.
+     */
+
     public void readAllPlayer() {
         // ArrayListen (weil es kann ein leerer Player dazuwischen sein)
         ArrayList<PlayerType> playerTypes = new ArrayList<>(4);
@@ -154,6 +187,13 @@ public class PanelLocal {
         this.uiLauncher.startGame("local", playerTypes.toArray(new PlayerType[playerTypes.size()]), playerNames.toArray(new String[playerNames.size()]), playerColors.toArray(new Color[playerColors.size()]));        
     }
     
+    /**
+     * Adds a new player to the local player panel with the specified player ID.
+     * It enables input fields for the new player to set player type, name, and color.
+     *
+     * @param playerId The ID of the new player to be added.
+     */
+
     public void addPlayer(int playerId) {
         // Nur Spieler 2, 3 
         if (playerId < 2) 
@@ -166,6 +206,13 @@ public class PanelLocal {
         // Farbe aktivieren
         this.playerColorCombo[playerId].setEditable(true);
     }
+
+    /**
+     * Removes a player from the local player panel with the specified player ID.
+     * It resets the input fields for the removed player and disables them.
+     *
+     * @param playerId The ID of the player to be removed.
+     */
 
     public void removePlayer(int playerId) {
         // Nur Spieler 2, 3 
@@ -183,6 +230,11 @@ public class PanelLocal {
         this.playerColorCombo[playerId].setEditable(false);
     }
 
+    /**
+     * Adds a "return" button to the local player panel.
+     * The button allows the user to navigate back to the home panel when pressed.
+     */
+
     public void addButtonReturn() {
         // Erstelle den JButton
         JButton button = new JButton();
@@ -198,6 +250,11 @@ public class PanelLocal {
         // Füge Button Panel hinzu
         this.panel.add(button);
     }
+
+    /**
+     * Adds a "Start Game" button to the local player panel.
+     * The button allows the user to start the game with the selected local player configurations when pressed.
+     */
 
     public void addButtonStartGame() {
         // Erstelle den JButton
@@ -215,6 +272,12 @@ public class PanelLocal {
         this.panel.add(button);
     }
 
+    /**
+     * Retrieves the local player panel.
+     *
+     * @return The JPanel representing the local player panel.
+     */
+    
     public JPanel getPanel() {
         return this.panel;
     }

@@ -10,9 +10,8 @@ import java.util.*;
  * including the number of deposition area slots, the number of cards per player hand,
  * the cards and card colors, and the raw configuration.
  *
- * @author julius.hunold
+ * @author Julius Hunold
  * @version 1.0
- * @since 2023-06-27
  */
 
 public class GaCo implements GameConfiguration{

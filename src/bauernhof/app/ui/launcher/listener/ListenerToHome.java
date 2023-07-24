@@ -8,9 +8,8 @@ import bauernhof.app.ui.launcher.UiLauncher;
 /**
  * This class represents an action listener for navigating to the home panel in the launcher UI.
  * It implements the ActionListener interface from the java.awt.event package.
- * @author [Your Name]
+ * @author Julius Hunold
  * @version 1.0
- * @since 2023-07-14
  */
 
 public class ListenerToHome implements ActionListener {

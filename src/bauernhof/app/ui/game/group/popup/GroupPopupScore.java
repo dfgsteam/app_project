@@ -3,13 +3,10 @@ package bauernhof.app.ui.game.group.popup;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.TreeMap;
 
-import bauernhof.app.player.AbstractGamePlayer;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.listener.ListenerHomeButton;
-import bauernhof.preset.Player;
 import sag.LayerPosition;
 import sag.elements.GGroup;
 import sag.elements.GText;
@@ -32,10 +29,11 @@ import sag.elements.shapes.GRect;
  *
  * @author Julius Hunold
  * @version 1.0
- * @since 2023-07-14
  */
 
 public class GroupPopupScore extends GGroup {
+
+    GGroup panel;
 
     /**
      * Constructs a new GroupPopupScore object.
@@ -46,22 +44,22 @@ public class GroupPopupScore extends GGroup {
      */
     public GroupPopupScore(UiGame uiGame) throws Exception {
         // Panel
-        GGroup panel = uiGame.getMainPanel().addLayer(LayerPosition.CENTER);
+        this.panel = uiGame.getMainPanel().addLayer(LayerPosition.CENTER);
 
         // Feld
         GRect area = new GRect(0f, 0f, 700f, 500f, true, 0f, 0f);
         area.setFill(new Color(255, 255, 255));
         area.setStroke(new Color(0, 0, 0), 5f);
-        panel.addChild(area, 0f, 0f);
+        this.panel.addChild(area, 0f, 0f);
 
-        // Überschrift
+        // Headline
         GText headline = new GText("Spielende");
         headline.setBold(true);
         headline.setAlignment(GText.TextAnchor.MIDDLE);
         headline.setFontSize(55f);
-        panel.addChild(headline, 0f, -150f);
+        this.panel.addChild(headline, 0f, -150f);
 
-        // Spielerreihenfolge berechnen
+        // Calculate player order
         ArrayList<String> same_score;
         TreeMap<Integer, ArrayList<String>> playerScores = new TreeMap<>();
         int index_of_player = 0;
@@ -77,7 +75,7 @@ public class GroupPopupScore extends GGroup {
         ArrayList<Integer> sortedScores = new ArrayList<>(uiGame.getGame().getAllScores());
         Collections.sort(sortedScores, Collections.reverseOrder());
 
-        // Spielerabstufung
+        // Player ranking
         int position = 1;
         GText scorePlayerPosition;
 
@@ -86,24 +84,28 @@ public class GroupPopupScore extends GGroup {
                 scorePlayerPosition = new GText(Integer.toString(position) + ". " + name + " [" + item + "]");
                 scorePlayerPosition.setAlignment(GText.TextAnchor.MIDDLE);
                 scorePlayerPosition.setFontSize((position == 1) ? 35f : 25f);
-                panel.addChild(scorePlayerPosition, 0f, (-115f + 50f * position));
+                this.panel.addChild(scorePlayerPosition, 0f, (-115f + 50f * position));
                 position++;
             }
         }
 
-        // Hauptmenü Button
+        // Main Menu Button
         GRect homeButton = new GRect(0f, 0f, 450f, 75f, true, 0f, 0f);
         homeButton.setFill(new Color(144, 238, 155, 50));
         homeButton.setStroke(new Color(0, 0, 0), 5f);
-        panel.addChild(homeButton, 0f, 175f);
+        this.panel.addChild(homeButton, 0f, 175f);
 
-        // Hauptmenü Überschrift
+        // Main Menu Headline
         GText homeHeadline = new GText("Zurück zum Hauptmenü");
         homeHeadline.setBold(true);
         homeHeadline.setAlignment(GText.TextAnchor.MIDDLE);
         homeHeadline.setFontSize(25f);
-        panel.addChild(homeHeadline, 0f, 183f);
+        this.panel.addChild(homeHeadline, 0f, 183f);
 
         homeButton.setMouseEventListener(new ListenerHomeButton(uiGame, homeHeadline));
+    }
+
+    public GGroup getPanel() {
+        return this.panel;
     }
 }

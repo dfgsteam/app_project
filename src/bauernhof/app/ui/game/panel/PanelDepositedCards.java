@@ -4,8 +4,6 @@ import bauernhof.app.card.Ca;
 import bauernhof.app.ui.game.UiGame;
 import bauernhof.app.ui.game.listener.ListenerBackButton;
 import bauernhof.app.ui.game.listener.ListenerDeposited;
-import bauernhof.app.ui.game.listener.card.ListenerCard;
-import bauernhof.app.ui.game.listener.card.ListenerCardAdd;
 import bauernhof.preset.card.GCard;
 import sag.ChildNotFoundException;
 import sag.LayerPosition;
@@ -17,11 +15,26 @@ import sag.elements.shapes.GRect;
 
 import java.awt.Color;
 
+/**
+ * PanelDepositedCards class represents a panel displaying deposited cards in the game UI.
+ * It handles the display and updates of the deposited cards.
+ * The panel also contains a "Back" button that allows the user to return to the previous screen.
+ * 
+ * @author Kirill Pokhilenko
+ * @version 1.0
+ */
+
 public class PanelDepositedCards extends SAGPanel {
 
     private SAGPanel panel;
     private UiGame uiGame;
     private GGroup groupCards;
+
+    /**
+     * Constructs a new PanelDepositedCards object.
+     *
+     * @param uiGame The UiGame instance associated with this panel.
+     */
 
     public PanelDepositedCards(UiGame uiGame) {
         // Definiere uiGame
@@ -56,13 +69,14 @@ public class PanelDepositedCards extends SAGPanel {
         buttonBackBG.setMouseEventListener(new ListenerBackButton(this.uiGame, buttonBackHeadline, 2));
     }
 
+    /**
+     * Updates the panel to display the deposited cards.
+     *
+     * @throws ChildNotFoundException If a child element is not found in the panel.
+     */
+
     public void update() throws ChildNotFoundException {
 
-        // Bitte schreibe die Kartenerstellung in die update()-Methode. So müssen wir nicht mehr das Panel komplett neuladen.
-
-        // Es muss mittels for-loop alle Karten nach System (x/y) in die GroupCards mittels addChild(gcard, x, y) geladen werden. Die GGroup ist immer leer, wenn diese geladen wird.
-
-        // G-Cards bekommst du mit ((Ca) this.uiGame.getGameBoardState().getDepositedCards().get(index)).getGCard()
         int size = this.uiGame.getGame().getDepositedCards().size();
         clear();
         groupCards = this.panel.addLayer(LayerPosition.CENTER_CENTER);
@@ -84,34 +98,14 @@ public class PanelDepositedCards extends SAGPanel {
                 groupCards.addChild(card, (size % 2 == 0 ? i % 2 == 0 ? 110 : 0 : 0 ) + 110*(-(size/2) + i), i % 2 == 0 ? -150 : 150); // Vllt nicht soviel elvis
             }
         }
-        /*card = ((Ca) this.uiGame.getGame().getDepositedCards().get(0)).getGCard();
-        card.setMouseEventListener(new ListenerCard());
 
-        int x = (int)(-210*((float)this.uiGame.getGame().getDepositedCards().size()/8)),y=110,i=1;
-
-        groupCards.addChild(card, 0, -200);
-
-        for(; i< size; i++ ){
-            if(x+400 >= this.panel.VIEWPORT_WIDTH){
-                break;
-            }
-            card =((Ca) this.uiGame.getGame().getDepositedCards().get(i)).getGCard();
-            card.setMouseEventListener(new ListenerCard());
-            groupCards.addChild(card,x,y);
-            x+=210;
-
-        }
-        x = (int)(-210*((float)this.uiGame.getGame().getDepositedCards().size()/8));
-        y=-3450;
-        for(; i< size; i++ ){
-            if(x+400 >= this.panel.VIEWPORT_WIDTH){break;}
-            card =((Ca) this.uiGame.getGame().getDepositedCards().get(i)).getGCard();
-            card.setMouseEventListener(new ListenerCard());
-            groupCards.addChild(card,x,y);
-            x+=210;
-
-        }*/
     }
+
+    /**
+     * Clears the panel by removing all child elements.
+     *
+     * @throws ChildNotFoundException If a child element is not found in the panel.
+     */
 
     public void clear() throws ChildNotFoundException {
         for (int cardIndex=this.groupCards.getNumChildren()-1; cardIndex >= 0 ; cardIndex--) {
@@ -120,6 +114,12 @@ public class PanelDepositedCards extends SAGPanel {
         }
     }
 
+    /**
+     * Gets the SAGPanel associated with this PanelDepositedCards object.
+     *
+     * @return The SAGPanel associated with this object.
+     */
+    
     public SAGPanel getPanel() {
         return this.panel;
     }

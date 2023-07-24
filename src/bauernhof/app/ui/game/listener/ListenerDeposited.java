@@ -10,9 +10,8 @@ import sag.events.*;
  * This class represents a mouse event listener for deposited cards in the game UI.
  * It implements the MouseEventListener interface from the sag.events package.
  * 
- * @author [Your Name]
+ * @author Julius Hunold
  * @version 1.0
- * @since 2023-07-14
  */
 
 public class ListenerDeposited implements MouseEventListener {

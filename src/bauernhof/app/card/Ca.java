@@ -8,7 +8,7 @@ import java.util.*;
  * Represents a card in a card game.
  * 
  * @author Julius Hunold
- * Georg-August-Universität in Göttingen
+ * 
  */
 
 public class Ca implements Card {
@@ -145,7 +145,7 @@ public class Ca implements Card {
     * @return the GCard object.
     */
     public GCard getGCard() {        
-        // Erzeuge neues Kartenobjekte, bei der ersten Abfrage
+        // Create new card objects only at the first query
         if (this.gCard == null)
             this.gCard = new GCard(this);
         return (GCard) this.gCard.setPosition(0f, 0f);

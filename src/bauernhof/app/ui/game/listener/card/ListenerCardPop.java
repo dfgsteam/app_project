@@ -19,9 +19,8 @@ import sag.events.MouseWheelEvent;
  * - Handles mouse enter events to scale the GCard element by a factor of 1.1.
  * - Handles mouse exit events to restore the original scale of the GCard element.
  * 
- * @author [Your Name]
+ * @author Julius Hunold
  * @version 1.0
- * @since 2023-07-14
  */
 
 public class ListenerCardPop implements MouseEventListener {

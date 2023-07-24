@@ -25,27 +25,26 @@ import sag.elements.shapes.GRect;
  * 
  * @author Julius Hunold
  * @version 1.0
- * @since 2023-07-14
  */
 
 public class GroupDisplayRound extends GGroup {
 
-    private GText roundCounter = new GText("1");
+    private GText roundCounter = new GText("0");
     private Game game;
 
     /**
      * Constructs a new GroupDisplayRound object.
      * The object represents a display group for the round counter in the game UI.
      * 
-     * @param UiGame The UiGame object that represents the game UI.
+     * @param uiGame The UiGame object that represents the game UI.
      * @throws Exception If an error occurs during initialization.
      */
-    public GroupDisplayRound(UiGame UiGame) throws Exception {
+    public GroupDisplayRound(UiGame uiGame) throws Exception {
         // Initialize class variables
-        this.game = UiGame.getGame();
+        this.game = uiGame.getGame();
 
         // Panel
-        GGroup panel = UiGame.getMainPanel().addLayer(LayerPosition.CENTER);
+        GGroup panel = uiGame.getMainPanel().addLayer(LayerPosition.CENTER);
 
         // Feld
         GRect area = new GRect(0f, 0f, 110f, 90f, true, 0f, 0f);
@@ -53,13 +52,13 @@ public class GroupDisplayRound extends GGroup {
         area.setStroke(new Color(0, 0, 0), 3f);
         panel.addChild(area, 0f, -10f);
 
-        // Überschrift
+        // Headline
         GText headline = new GText("Runde");
         headline.setAlignment(GText.TextAnchor.MIDDLE);
         headline.setFontSize(25f);
         panel.addChild(headline, 0f, -15f);
 
-        // Rundenzähler
+        // round counter
         this.roundCounter.setAlignment(GText.TextAnchor.MIDDLE);
         this.roundCounter.setFontSize(25f);
         panel.addChild(this.roundCounter, 0f, 15f);

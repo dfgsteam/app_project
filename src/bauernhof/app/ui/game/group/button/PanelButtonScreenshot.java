@@ -17,7 +17,6 @@ import sag.elements.shapes.GRect;
 
  * @author Julius Hunold
  * @version 1.0
- * @since 2023-07-14
 */
 
 public class PanelButtonScreenshot extends GGroup {
@@ -38,7 +37,7 @@ public PanelButtonScreenshot(UiGame UiGame) throws Exception {
     area.setStroke(new Color(0, 0, 0), 2f);
     panel.addChild(area, -90f, -40f);
 
-    // Button-Schrift
+    // Button text
     GText headline = new GText("+ Screenshot");
     headline.setAlignment(GText.TextAnchor.MIDDLE);
     headline.setFontSize(15f);

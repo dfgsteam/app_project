@@ -15,9 +15,8 @@ import java.util.*;
  * GaCoPa class that implements the GameConfigurationParser interface.
  *  GameConfigurationParser create from xml files a GameConfiguration object.
  *
- * @author julius.hunold
+ * @author Julius Hunold
  * @version 1.0
- * @since 2023-06-27
  */
 public class
 GaCoPa implements GameConfigurationParser{
@@ -36,7 +35,7 @@ GaCoPa implements GameConfigurationParser{
             Element root = null;
             GaCo gameConfiguration = new GaCo(null, 0, 0, null, null, null);
             
-            // XML-Datei einlesen
+            // Read XML file
             try {
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder builder = factory.newDocumentBuilder();
@@ -46,14 +45,14 @@ GaCoPa implements GameConfigurationParser{
                 throw new GameConfigurationException("xml build not loading", e);
             }
 
-            // Root-Element erhalten
+            // Get Root Element
             try {
                 root = document.getDocumentElement();
             } catch(Exception e) {
                 throw new GameConfigurationException("rootElement not loading", e);
             }
 
-            // Description-Element erhalten
+            // Receive Description Element
             try {
                 Element descriptionElement = (Element) root.getElementsByTagName("Description").item(0);
                 gameConfiguration.setConfigDescription(descriptionElement.getTextContent());
@@ -61,7 +60,7 @@ GaCoPa implements GameConfigurationParser{
                 throw new GameConfigurationException("descriptionElement not loading", e);
             }
 
-            // NumCardsPerPlayerHand-Element erhalten
+            // Receive NumCardsPerPlayerHand element
             try {
                 Element numCardsPerPlayerHandElement = (Element) root.getElementsByTagName("NumCardsPerPlayerHand").item(0);
                 gameConfiguration.setNumCardsPerPlayerHand(Integer.parseInt(numCardsPerPlayerHandElement.getTextContent()));
@@ -69,7 +68,7 @@ GaCoPa implements GameConfigurationParser{
                 throw new GameConfigurationException("numCardsPerPlayerHandElement not loading", e);
             }
 
-            // numDepositionAreaSlots-Element erhalten
+            // Receive numDepositionAreaSlots element
             try {
                 Element numDepositionAreaSlotsElement = (Element) root.getElementsByTagName("NumDepositionAreaSlots").item(0);
                 gameConfiguration.setNumDepositionAreaSlots(Integer.parseInt(numDepositionAreaSlotsElement.getTextContent()));
@@ -77,7 +76,7 @@ GaCoPa implements GameConfigurationParser{
                 throw new GameConfigurationException("setNumDepositionAreaSlots not loading", e);
             }
 
-            // CardColors erhalten
+            // Receive Card Colors
             Map<String, CardColor> cardColors = new HashMap<String, CardColor>();
             CardColor cardColorTemp = null;
             try {
@@ -86,7 +85,7 @@ GaCoPa implements GameConfigurationParser{
                 for (int i=0; i<cardColorElements.getLength(); i++) {
                     Element cardColorElement = (Element) cardColorElements.item(i);
 
-                    //-> Erst Karten, dann Effekte und mit einem NEUEN Setter in Karte hinzufügen
+                    // -> First add cards, then effects, and use a NEW setter in the card to add them.
                     if (!cardColors.containsKey(cardColorElement.getTextContent())) {
                         cardColorTemp = new CardColor(cardColorElement.getTextContent(), cardColorElement.getAttribute("color"));
                         cardColors.put(cardColorElement.getTextContent(), cardColorTemp);
@@ -99,7 +98,7 @@ GaCoPa implements GameConfigurationParser{
                 throw new GameConfigurationException("cardColors not loading", e);
             }
 
-            // Card erhalten
+            // Receive card
             Set<Map<String, Object>> effects = new HashSet<Map<String, Object>>();
             Map<String, Card> cards = new HashMap<String, Card>();
 
@@ -108,41 +107,40 @@ GaCoPa implements GameConfigurationParser{
                 for (int i=0; i<cardsElements.getLength(); i++) {
                     Element cardElement = (Element) cardsElements.item(i);
                     
-                    // check, ob karte ist doppelt
+                    // Check if the card is a duplicate
                     if (cards.containsKey(cardElement.getAttribute("name"))) {
                         throw new GameConfigurationException("cardNameDuplicate");
                     } 
 
-                    // Erstelle Karten Map
+                    // Create cards map
                     Map<String, Object> card = new HashMap<String, Object>();
                     
-                    // Erstelle Karten Objekt und füge es zur Karten-Map hinzu 
+                    // Create a card object and add it to the card map
                     Card cardObject = new Ca(cardElement.getAttribute("name"), Integer.parseInt(cardElement.getAttribute("basevalue")), cardColors.get(cardElement.getAttribute("color")), cardElement.getAttribute("image"), null);
                     cards.put(cardElement.getAttribute("name"), cardObject);
 
 
-                    // Weise Map Kartenobjekt zu
+                    // Assign Map Card object
                     card.put("object", cardObject);
                     
-                    // Erstelle Set für betroffenen Karten/Farben eines Effekts
+                    // Create a Set for the affected cards/colors of an effect.
                     Set<Map<String, Object>> cardEffects = new HashSet<Map<String, Object>>();
 
-                    // Erstelle Effect HashMaps
+                    // Create Effect HashMaps
                     NodeList cardEffectElements = cardElement.getElementsByTagName("Effect");
                     for (int x=0; x<cardEffectElements.getLength(); x++) {
-                        // XML Bereich von Hashmaps
+                        // XML section of Hashmaps
                         Element cardEffectElement = (Element) cardEffectElements.item(x);
                         
-                        // Füge zu Hashmap hinzu
+                        // Add to Hashmap
                         Map<String, Object> effect = new HashMap<String, Object>();
                         effect.put("type", (Object) EffectType.valueOf(cardEffectElement.getAttribute("type")));
                         effect.put("effectValue", (Object) Integer.parseInt(cardEffectElement.getAttribute("effectvalue")));
                         
-                        //Set<Either<Card,CardColor>> effectedCards = new HashSet<Either<Card,CardColor>>();
                         Set<String> effectedCards = new HashSet<>();
 
                     
-                        // For-Loop durch XML File. Erst ColorRef, dann CardRef
+                        // For-loop through XML file. First ColorRef, then CardRef
                         NodeList effectElements;
                         try {
                             effectElements = cardEffectElement.getElementsByTagName("CardColorRef");
@@ -152,7 +150,7 @@ GaCoPa implements GameConfigurationParser{
                                     effectedCards.add(effectElement.getTextContent());
                                 }
                         } catch (Exception e) {
-                            System.out.println(e); // Wenn keine CardCorlorRef vorhanden ist
+                            System.out.println(e); // If there is no CardColorRef available
                         }
                         try {  
                             effectElements = cardEffectElement.getElementsByTagName("CardRef");
@@ -162,7 +160,7 @@ GaCoPa implements GameConfigurationParser{
                                     effectedCards.add(effectElement.getTextContent());
                                 }
                         } catch (Exception e) {
-                            System.out.println(e); // Wenn keine CardRef vorhanden ist
+                            System.out.println(e); // If there is no CardRef available
                         }
 
                         if (effectedCards.isEmpty()) {
@@ -175,7 +173,7 @@ GaCoPa implements GameConfigurationParser{
 
                     card.put("effects", cardEffects);
 
-                    // für Karte zu Effekt Map hinzu
+                    // Add to the card-to-effect map
                     effects.add(card);
                     
 
@@ -184,7 +182,7 @@ GaCoPa implements GameConfigurationParser{
                 throw new GameConfigurationException("cardColors not loading", e);
             }
 
-            // Weise Karten Effekte zu
+            // Assign card effects
             
             Either<Card,CardColor> inp = null;
 
@@ -244,10 +242,10 @@ GaCoPa implements GameConfigurationParser{
             StringBuilder stringBuilder = new StringBuilder();
             String line;
             
-            // Liest und fügt jede Zeile dem SringBuilder hinzu
+            // Reads and appends each line to the StringBuilder.
             while ((line = bufferedReader.readLine()) != null) {
                 stringBuilder.append(line);
-                stringBuilder.append("\n");  // füge Zeilenumbbruch hinzu
+                stringBuilder.append("\n");  // add line break
             }
 
             String fileContents = stringBuilder.toString();

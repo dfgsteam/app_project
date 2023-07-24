@@ -18,9 +18,8 @@ import sag.events.MouseWheelEvent;
  * - Enlarges the button and increases the font size when the mouse enters the button area.
  * - Restores the button size and font size when the mouse exits the button area.
 
- * @author [Your Name]
+ * @author Julius Hunold
  * @version 1.0
- * @since 2023-07-14
  */
 
 

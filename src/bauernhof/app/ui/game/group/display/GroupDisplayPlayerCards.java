@@ -27,7 +27,6 @@ import java.awt.*;
  * 
  * @author Julius Hunold
  * @version 1.0
- * @since 2023-07-14
  */
 
 public class GroupDisplayPlayerCards extends GGroup {
@@ -130,18 +129,18 @@ public class GroupDisplayPlayerCards extends GGroup {
 
                 gCard.setMouseEventListener(new ListenerCard(gCard.getGElement()));
 
-                // Wenn Karte blockiert = rote umrandung
+                // if card blocked red stroke
             if (playerCards.getBlockedCards().contains(cards[item])) {
                 gCard.setStroke(Color.RED, 20.0F);
             } else
                 gCard.unsetStroke();
 
-                // Karte der Gruppe hinzufügen
+                // adds card to group
                 this.groupPlayer[playerId].addChild(gCard, this.pos[playerId][item][0], this.pos[playerId][item][1]);
             }
     }
 
-    private void clearPlayerPanel(int playerId) throws ChildNotFoundException {
+    public void clearPlayerPanel(int playerId) throws ChildNotFoundException {
         for (int cardIndex=this.groupPlayer[playerId].getNumChildren()-1; cardIndex >= 0 ; cardIndex--) {
             this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex).unsetStrokeWidth();
             this.groupPlayer[playerId].getChildByRenderingIndex(cardIndex).setMouseEventListener(null);

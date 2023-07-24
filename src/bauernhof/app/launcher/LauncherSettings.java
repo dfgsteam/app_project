@@ -11,7 +11,7 @@ import java.util.*;
  * Represents the settings (Se) of the game.
  * 
  * @author Julius Hunold
- * Georg-August-Universität in Göttingen
+ * 
  */
 public class LauncherSettings {
     private GameConfiguration GameConf;
