@@ -59,9 +59,7 @@ Preset: v1.2.1 (Thu Jul 06 03:48:56 CEST 2023)
 SAG: v2.1.0 (Mon Jul 03 07:30:41 CEST 2023)
 Implemented optional features:
   - ADVANCED_AI
-  - LAUNCHER
-  - SAVEGAMES
+  - (LAUNCHER)
   - SCREENSHOTS
   - SIMPLE_AI
-  - SOUNDEFFECTS
   - TOURNAMENTS
