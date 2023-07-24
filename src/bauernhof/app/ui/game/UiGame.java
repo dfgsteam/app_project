@@ -21,6 +21,8 @@ import sag.elements.GGroup;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.CountDownLatch;
 
 import javax.imageio.ImageIO;
@@ -298,7 +300,16 @@ public class UiGame implements PlayerGUIAccess {
     public void createScreenshot() {
         BufferedImage img = new BufferedImage(this.FRAME.getWidth(), this.FRAME.getHeight(), BufferedImage.TYPE_INT_RGB);
         this.FRAME.paint(img.getGraphics());
-        File outputfile = new File("saved.png");
+
+        // Get the current date and time
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        // Create a DateTimeFormatter object with desired date format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH_mm_ss");
+
+        // Format the date to a string
+        String dateString = currentDateTime.format(formatter);
+        File outputfile = new File(dateString + ".png");
         try {
             ImageIO.write(img, "png", outputfile);
         } catch (Exception e) {
