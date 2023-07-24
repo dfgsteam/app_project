@@ -6,7 +6,6 @@ package bauernhof.app.player;
  * erben wird.
  *
  * @author Ramon Cemil Kimyon
- * @date 09.06.2023 00:55
  */
 
 import bauernhof.app.system.GameBoard;

@@ -130,13 +130,13 @@ public class GroupDisplayPlayerCards extends GGroup {
 
                 gCard.setMouseEventListener(new ListenerCard(gCard.getGElement()));
 
-                // Wenn Karte blockiert = rote umrandung
+                // if card blocked red stroke
             if (playerCards.getBlockedCards().contains(cards[item])) {
                 gCard.setStroke(Color.RED, 20.0F);
             } else
                 gCard.unsetStroke();
 
-                // Karte der Gruppe hinzufügen
+                // adds card to group
                 this.groupPlayer[playerId].addChild(gCard, this.pos[playerId][item][0], this.pos[playerId][item][1]);
             }
     }

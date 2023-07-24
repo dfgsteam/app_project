@@ -8,7 +8,7 @@ import bauernhof.app.ui.launcher.UiLauncher;
 /**
  * This class represents an action listener for the "Local" button in the launcher UI.
  * It implements the ActionListener interface.
- * @author [Your Name]
+ * @author Julius Hunold
  * @version 1.0
  * @since 2023-07-14
  */

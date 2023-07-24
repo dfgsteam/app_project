@@ -4,8 +4,7 @@ import bauernhof.preset.*;
 
 import java.util.ArrayList;
 /**
- * @author Ramon Cemil Kimyon
- * @date 13.07.2023 14:05
+ * @author Florian Will
  */
 public class Tournament {
     private ArrayList<Integer> wins = new ArrayList<>();
