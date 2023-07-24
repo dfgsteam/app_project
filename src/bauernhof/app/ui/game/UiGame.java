@@ -85,7 +85,7 @@ public class UiGame implements PlayerGUIAccess {
         if (clear) this.clear();
         this.game = game;
         
-        // Initialize Panels
+        // Initialize Panels//
         this.panelDepositedCards = new PanelDepositedCards(this);
         this.panelDrawPileCards = new PanelDrawPileCards(this);
         this.panelExchangeCards = new PanelExchangeCards(this);
