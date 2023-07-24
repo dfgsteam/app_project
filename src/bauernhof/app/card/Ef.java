@@ -10,7 +10,7 @@ import java.util.*;
  * An effect can have a type, effect value, and a selector that determines which cards or card colors are affected.
  *
  * @author Julius Hunold
- * Georg-August-Universität in Göttingen
+ * 
  */
 public class Ef implements Effect {
 	EffectType type;
