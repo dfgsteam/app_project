@@ -23,7 +23,9 @@ import bauernhof.app.ui.launcher.UiLauncher;
  * @author Julius Hunold
  * @version 1.0
  */
+
 public class InitLauncher {
+
     /**
      * Constructs a new InitLauncher instance.
      * It initializes the game launcher by reading the configuration settings from the "general.xml" file
@@ -33,6 +35,7 @@ public class InitLauncher {
      * @throws InterruptedException If the current thread is interrupted during the execution.
      * @throws LauncherSettingsException If there is an error parsing the launcher settings from the XML file.
      */
+    
     public InitLauncher() throws IOException, InterruptedException, LauncherSettingsException {
         new UiLauncher(new LauncherSettingsParser().parse(new File("gameconfigs/game/general.xml")));
     }

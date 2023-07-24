@@ -25,7 +25,6 @@ import sag.elements.shapes.GRect;
  * 
  * @author Julius Hunold
  * @version 1.0
- * @since 2023-07-14
  */
 
 public class GroupDisplayRound extends GGroup {

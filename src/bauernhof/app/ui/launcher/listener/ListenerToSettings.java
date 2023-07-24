@@ -10,7 +10,6 @@ import bauernhof.app.ui.launcher.UiLauncher;
  * It implements the ActionListener interface from the java.awt.event package.
  * @author Julius Hunold
  * @version 1.0
- * @since 2023-07-14
  */
 public class ListenerToSettings implements ActionListener {
 

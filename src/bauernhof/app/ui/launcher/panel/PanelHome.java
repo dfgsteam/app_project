@@ -14,7 +14,6 @@ import java.io.IOException;
  * This class represents the home panel in the launcher UI.
  * @author Julius Hunold
  * @version 1.0
- * @since 2023-07-14
  */
 
 public class PanelHome {

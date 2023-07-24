@@ -10,17 +10,42 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Klasse für um die Player Karten zu managen
+ * The PlayerCards class is responsible for managing the cards held by a player in the game.
+ * It keeps track of the player's active cards, blocked cards, and the player's score based on the card combinations.
  *
- * @author Ramon Cemil  Kimyon
+ * Each player has a set of cards that they hold, which can be either active or blocked based on the card effects.
+ * The class provides methods to add and remove cards, calculate the score, and retrieve the active, blocked, and all cards.
+ *
+ * The PlayerCards class also supports cloning to create a copy of the player's card set for game simulations.
+ *
+ * @see Card
+ * @see CardColor
+ * @see Effect
+ * @see Either
+ * @see java.util.Set
+ * @see java.util.HashSet
+ * @see java.util.ArrayList
+ * @author Ramon Cemil Kimyon
  */
+
 public class PlayerCards {
     protected Set<Card> cards = new HashSet<>(), blocked_cards = new HashSet<>(), active_cards = new HashSet<>();
     protected int score = 0;
-
+    /**
+     * Constructs an empty PlayerCards object.
+     */
     public PlayerCards() {
 
     }
+
+    /**
+     * Constructs a PlayerCards object with the given score, cards, blocked cards, and active cards.
+     *
+     * @param score         The current score of the player.
+     * @param cards         The Set of Card objects representing all the cards held by the player.
+     * @param blocked_cards The Set of Card objects representing the blocked cards of the player.
+     * @param active_cards  The Set of Card objects representing the active cards of the player.
+     */
 
     public PlayerCards(final int score, final Set<Card> cards, final Set<Card> blocked_cards, final Set<Card> active_cards) {
         this.score = score;
@@ -28,6 +53,12 @@ public class PlayerCards {
         this.blocked_cards = blocked_cards;
         this.active_cards = active_cards;
     }
+
+    /**
+     * Adds a card to the player's card set.
+     *
+     * @param added_card The Card object to be added.
+     */
 
     public void add(final Card added_card) {
         if (!cards.contains(added_card)) {
@@ -37,12 +68,26 @@ public class PlayerCards {
         }
     }
 
+    /**
+     * Removes a card from the player's card set.
+     *
+     * @param removed_card The Card object to be removed.
+     * @return True if the card is successfully removed, false otherwise.
+     */
+
     public boolean remove(final Card removed_card) {
         cards.remove(removed_card);
         updateBlockedCards();
         updateScore();
         return true;
     }
+
+    /**
+     * Calculates the score after adding a specific card to the player's card set.
+     *
+     * @param card The Card object to be added temporarily for score calculation.
+     * @return The calculated score after adding the card.
+     */
 
     public int getAddScore(final Card card) {
         add(card);
@@ -51,6 +96,14 @@ public class PlayerCards {
         return score_state;
     }
 
+    /**
+     * Calculates the score after adding a specific card and removing another card from the player's card set.
+     *
+     * @param add    The Card object to be added temporarily for score calculation.
+     * @param remove The Card object to be removed temporarily for score calculation.
+     * @return The calculated score after adding the card and removing another card.
+     */
+    
     public int getAddRemoveScore(final Card add, final Card remove) {
         add(add);
         remove(remove);
@@ -67,6 +120,10 @@ public class PlayerCards {
                 colorcards.add(card);
         return colorcards;
     }
+
+    /**
+     * Calculates the player's score based on the active cards and their effects.
+     */
 
     private void updateScore() {
         score = 0;
@@ -122,6 +179,10 @@ public class PlayerCards {
         this.score = score;
     }
 
+    /**
+     * Updates the active cards based on the card effects.
+     */
+
     private void updateBlockedCards() {
         blocked_cards.clear();
         active_cards = new HashSet<>(cards);
@@ -167,21 +228,52 @@ public class PlayerCards {
         return score_state;
     }
 
+    /**
+     * Gets the cards of the player.
+     *
+     * @return An ArrayList of Card objects representing all the cards held by the player.
+     */
+
     public ArrayList<Card> getCards() {
         return new ArrayList<>(this.cards);
     }
+
+    /**
+     * Gets the blocked cards of the player.
+     *
+     * @return An ArrayList of Card objects representing the blocked cards of the player.
+     */
 
     public ArrayList<Card> getBlockedCards() {
         return new ArrayList<>(this.blocked_cards);
     }
 
+    /**
+     * Gets the active cards of the player.
+     *
+     * @return An ArrayList of Card objects representing the active cards of the player.
+     */
+
     public ArrayList<Card> getActiveCards() {
         return new ArrayList<>(this.active_cards);
     }
 
+    /**
+     * Creates a clone of the PlayerCards object, including the score, cards, blocked cards, and active cards.
+     *
+     * @return A new PlayerCards object that is a clone of the original.
+     */
+
     public PlayerCards clone() {
         return new PlayerCards(score, new HashSet<>(cards), new HashSet<>(blocked_cards), new HashSet<>(active_cards));
-    }
+    }   
+    
+    /**
+     * Gets the player's score.
+     *
+     * @return The score of the player.
+     */
+    
     public int getScore() {
         return this.score;
     }
