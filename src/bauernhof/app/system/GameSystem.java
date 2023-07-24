@@ -22,7 +22,6 @@ import java.util.*;
  * The GameSystem also provides methods to retrieve player information, such as name and score.
  *
  * @author Ramon Cemil Kimyon
- * @date 09.06.2023 00:55
  */
 
 public class GameSystem extends GameBoard {

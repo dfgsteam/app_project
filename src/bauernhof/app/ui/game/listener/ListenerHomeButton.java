@@ -24,7 +24,6 @@ import sag.events.MouseWheelEvent;
  *
  * @author Julius Hunold
  * @version 1.0
- * @date 2023-07-14
  */
 public class ListenerHomeButton implements MouseEventListener {
     private GText homeHeadline;

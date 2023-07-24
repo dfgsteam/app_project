@@ -17,7 +17,6 @@ import java.awt.event.KeyListener;
  * During the actual game rounds, pressing the spacebar will execute the move of the current player if the player is a HumanPlayer.
  *
  * @author Ramon Cemil Kimyon
- * @date 17.07.2023 02:14
  */
 
 public class KeyboardListener implements KeyListener {

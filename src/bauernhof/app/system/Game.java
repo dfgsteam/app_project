@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 /**
  * @author Ramon Cemil Kimyon
- * @date 20.07.2023 15:33
  */
 public interface Game {
     int getCurrentPlayerID();

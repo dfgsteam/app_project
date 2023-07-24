@@ -23,7 +23,6 @@ import sag.elements.shapes.GRect;
  * 
  * @author Kiril Pokhilenko
  * @version 1.0
- * @date 23.07
  */
 
 public class PanelDrawPileCards extends SAGPanel{

@@ -5,7 +5,6 @@ import bauernhof.preset.*;
 import java.util.ArrayList;
 /**
  * @author Florian Will
- * @date 13.07.2023 14:05
  */
 public class Tournament {
     private ArrayList<Integer> wins = new ArrayList<>();

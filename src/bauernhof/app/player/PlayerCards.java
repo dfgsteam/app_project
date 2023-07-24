@@ -12,8 +12,7 @@ import java.util.Set;
 /**
  * Klasse für um die Player Karten zu managen
  *
- * @auth#cor Ramon Cemil  Kimyon
- * @date 12.06.2023 00:40
+ * @author Ramon Cemil  Kimyon
  */
 public class PlayerCards {
     protected Set<Card> cards = new HashSet<>(), blocked_cards = new HashSet<>(), active_cards = new HashSet<>();
