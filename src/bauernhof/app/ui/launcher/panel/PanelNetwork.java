@@ -128,6 +128,7 @@ public class PanelNetwork {
      * If the current view is the "select" view, it navigates back to the home panel.
      * Otherwise, it sets the network panel back to the "select" view.
      */
+
     public void doReturn() {
         if (this.status == 0)
             this.uiLauncher.setPanelHome();
@@ -293,12 +294,12 @@ public class PanelNetwork {
         serverAdress.setBounds(200, 150, 300, 45); 
         this.panel.add(serverAdress);
 
-        int xPos = 218; // xPos wird pro Player statisch verändert. Die yPos wird anhand deinzelnen Objektlängen + 5px/15px Abstand berechnet
+        int xPos = 218; // The xPos is statically changed for each player. The yPos is calculated based on the individual object lengths + 5px/15px spacing
         int yPos = 50;
-        // Erstelle für jeden Spieler inputs
+        // Create inputs for each player
         for (int index=0; index < 4; index ++) { // playerId = 0, 1, 2, 3
             
-            // Spielertyp //
+            // playertip //
 
             // -> JLabel
             JLabel addPlayerTypeLabel = new JLabel("Spielertyp:");
@@ -311,14 +312,13 @@ public class PanelNetwork {
             addPlayerTypeCombo.setBounds(yPos, xPos+40, 180, 45);
             if (index > 1) {
                 addPlayerTypeCombo.addItem("Keiner");
-                //addPlayerTypeCombo.addItemListener(new ListenerLocalAddUser(this, index));
             }
             this.panel.add(addPlayerTypeCombo);
             this.playerTypeCombo[index] = addPlayerTypeCombo;
 
             yPos += 200;
 
-            // Spielernamen //
+            // playernames //
 
             // -> Label
             JLabel addPlayerNameLabel = new JLabel("Name:");
@@ -334,7 +334,7 @@ public class PanelNetwork {
 
             yPos += 200;
 
-            // Spielerfarbe
+            // playercolor
 
             // -> Label
             JLabel addPlayerColoLabel = new JLabel("Farbe:");
@@ -353,14 +353,14 @@ public class PanelNetwork {
 
             // Delete Button //
             
-            if (index > 1) { // 2 Spieler sind verpflichtend -> Spieler 1, 2 kann man löschen
+            if (index > 1) { // 2 players are mandatory -> Player 1, 2 can be deleted.
                 JButton addPlayerDelButton = new JButton("Löschen");
                 addPlayerDelButton.setBounds(yPos, xPos+17, 100, 68);
                 addPlayerDelButton.addActionListener(null);
                 this.panel.add(addPlayerDelButton);
             }
 
-            // Nächste Zeile
+            // next collum
             yPos = 50;
             xPos += 112;
         }  
