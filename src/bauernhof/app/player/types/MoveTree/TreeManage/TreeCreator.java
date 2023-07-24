@@ -135,7 +135,6 @@ public class TreeCreator extends AbstractCalculations {
      */
     @Override
     public boolean treeSearcherAction() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'sequenceThreadAction'");
     }
 
@@ -144,7 +143,6 @@ public class TreeCreator extends AbstractCalculations {
      */
     @Override
     public boolean goDeeper() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'goDeeper'");
     }
 }

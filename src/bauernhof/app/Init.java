@@ -5,6 +5,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import bauernhof.app.exceptions.NoTournamentGUIException;
+import bauernhof.app.exceptions.WrongInputException;
 import bauernhof.app.networking.Client;
 import bauernhof.app.system.GameSystem;
 import bauernhof.app.system.Tournament;
@@ -22,6 +24,7 @@ public class Init {
                 OptionalFeature.SIMPLE_AI,
                 OptionalFeature.TOURNAMENTS));
         final Settings settings = new ArgumentParser(args, "Hofbauern", "1.2.1", names, optionalFeatures);
+        checkSettings(settings);
         if (settings.shouldLauncherLaunch)
             new InitLauncher();
         else initGame(settings);
@@ -49,4 +52,10 @@ public class Init {
             tournament.initTournament();
         }
     }
+
+    public static void checkSettings(Settings settings) throws WrongInputException, NoTournamentGUIException {
+        if (settings.playerNames.size() != settings.playerColors.size() || settings.playerTypes.size() != settings.playerNames.size() || settings.playerTypes.size() != settings.playerColors.size()) { throw new WrongInputException(); }
+        if (settings.numTournamentRounds > 0 && settings.showGUI) { throw new NoTournamentGUIException(); }
+    }
+
 }
