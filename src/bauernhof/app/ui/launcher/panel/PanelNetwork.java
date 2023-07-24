@@ -11,6 +11,20 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+/**
+ * The PanelNetwork class represents the network panel of the game launcher.
+ * It provides a graphical interface for the user to set up network game options, such as creating a game server or joining a server.
+ *
+ * The network panel allows the user to choose between creating a game server or joining an existing server.
+ * It includes options to input server address and port number for joining a server, and it displays the local IP address and port for the game server.
+ *
+ * The class includes methods to add buttons, input fields, and labels to the panel for user interaction and configuration.
+ *
+ * @see UiLauncher
+ * @author Julius Hunold
+ * @version 1.0
+ */
+
 public class PanelNetwork {
     private UiLauncher uiLauncher;
     private JPanel panel;
@@ -27,6 +41,14 @@ public class PanelNetwork {
     private JComboBox<String> playerColorCombo[] = new JComboBox[4];
 
     private JButton buttonCreateServer, buttonJoinServer, buttonStartServer;
+    
+    /**
+     * Constructs a new PanelNetwork instance.
+     * It initializes the network panel and creates UI components such as buttons, input fields, and labels for user interaction.
+     *
+     * @param uiLauncher The UiLauncher object associated with the network panel.
+     * @throws IOException If there is an I/O error while loading graphics resources or retrieving local IP address.
+     */
 
     public PanelNetwork(UiLauncher uiLauncher) throws IOException {
         this.panel = new JPanel();
@@ -57,6 +79,12 @@ public class PanelNetwork {
 
     // Different views //
 
+    /**
+     * Sets the network panel to the "select" view.
+     * In the "select" view, the user can choose between creating a game server or joining a server.
+     * This method also updates the frame to display the network panel.
+     */
+
     public void setSelect(boolean updateFrame) {
         this.status = 0;
         this.createNewPanal("multiSelect");
@@ -67,6 +95,12 @@ public class PanelNetwork {
             this.uiLauncher.setPanelNetworkPlayer();
     }
 
+    /**
+     * Sets the network panel to the "server" view.
+     * In the "server" view, the user can start the game server and view the server address and port.
+     * This method also updates the frame to display the network panel.
+     */
+
     public void setServer() {
         this.status = 1;
         this.createNewPanal("multiGameServer");
@@ -74,6 +108,12 @@ public class PanelNetwork {
         this.createServerView();
         this.uiLauncher.setPanelNetworkPlayer();
     }
+
+    /**
+     * Sets the network panel to the "client" view.
+     * In the "client" view, the user can input the server address and port to join an existing server.
+     * This method also updates the frame to display the network panel.
+     */
 
     public void setClient() {
         this.status = 2;
@@ -83,6 +123,11 @@ public class PanelNetwork {
 
     // Move //
 
+    /**
+     * Handles the action of returning to the previous view when the return button is pressed.
+     * If the current view is the "select" view, it navigates back to the home panel.
+     * Otherwise, it sets the network panel back to the "select" view.
+     */
     public void doReturn() {
         if (this.status == 0)
             this.uiLauncher.setPanelHome();
@@ -91,6 +136,11 @@ public class PanelNetwork {
     }
 
     // Buttons //
+
+    /**
+     * Creates and adds a "return" button to the network panel.
+     * The button allows the user to navigate back to the previous view when pressed.
+     */
 
     public void addButtonReturn() {
         PanelNetwork networkPanel = this;
@@ -110,6 +160,11 @@ public class PanelNetwork {
         this.panel.add(button);
     }
 
+    /**
+     * Creates and adds a "Create Server" button to the network panel.
+     * The button allows the user to set up a game server when pressed, leading to the "server" view.
+     */
+
     public void addButtonCreateServer() {
         PanelNetwork networkPanel = this;
         // Erstelle den JButton
@@ -127,6 +182,11 @@ public class PanelNetwork {
 
         this.panel.add(button);
     }
+
+    /**
+     * Creates and adds a "Join Server" button to the network panel.
+     * The button allows the user to join an existing server when pressed, leading to the "client" view.
+     */
 
     public void addButtonCreateClient() {
         PanelNetwork networkPanel = this;
@@ -146,6 +206,11 @@ public class PanelNetwork {
         this.panel.add(button);
     }
 
+    /**
+     * Creates and adds a "Start Game" button to the network panel in the "server" view.
+     * The button allows the user to start the game when pressed.
+     */
+
     public void addButtonStartGame() {
         // Erstelle den JButton
         JButton button = new JButton();
@@ -164,6 +229,11 @@ public class PanelNetwork {
     }
 
     // Inputs//
+
+    /**
+     * Adds input fields for server address and port to the network panel in the "client" view.
+     * The user can input the server address and port number to join an existing server.
+     */
 
     public void addInputAdress() {
         // IP Part 1
@@ -193,10 +263,22 @@ public class PanelNetwork {
         this.panel.add(addInputAdressField5);
     }
 
+    /**
+     * Retrieves the network panel.
+     *
+     * @return The JPanel representing the network panel.
+     */
+
     public JPanel getPanel() {
         return this.panel;
     }
 
+    /**
+     * Creates and displays the server view with player options and server information.
+     * The server view shows the local IP address and port number for the game server.
+     * It allows the user to set player types, names, and colors for the game.
+     */
+    
     public void createServerView() {
         InetAddress IP = null;
         try {

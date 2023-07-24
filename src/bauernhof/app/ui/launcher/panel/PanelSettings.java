@@ -9,9 +9,31 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
+/**
+ * The PanelSettings class represents the settings panel of the game launcher.
+ * It provides a graphical interface for the user to configure various game settings, such as sound volume and AI difficulty.
+ *
+ * The settings panel allows the user to adjust the game configurations before starting a new game.
+ * It includes options to change the selected card deck, adjust sound volume, and set the AI difficulty level.
+ *
+ * The class includes methods to add buttons, sliders, and combo boxes to the panel for user interaction and configuration.
+ *
+ * @see UiLauncher
+ * @author Julius Hunold
+ * @version 1.0
+ */
+
 public class PanelSettings {
     private UiLauncher launcher;
     private JPanel panel;
+
+    /**
+     * Constructs a new PanelSettings instance.
+     * It initializes the settings panel and creates UI components such as buttons, combo boxes, and sliders for user interaction.
+     *
+     * @param launcher The UiLauncher object associated with the settings panel.
+     * @throws IOException If there is an I/O error while loading graphics resources or updating settings.
+     */
 
     public PanelSettings(UiLauncher launcher) throws IOException {
         this.launcher = launcher;
@@ -45,6 +67,13 @@ public class PanelSettings {
 
     }
 
+    /**
+     * Creates and returns a JButton to navigate back to the home panel.
+     * The button is configured with an ActionListener to handle the return action.
+     *
+     * @return The JButton for returning to the home panel.
+     */
+
     public JButton addButtonReturn() {
         UiLauncher launcher = this.launcher;
         // Erstelle den JButton
@@ -62,6 +91,14 @@ public class PanelSettings {
 
         return button;
     }
+
+    /**
+     * Creates and returns a JComboBox for selecting different card decks.
+     * The combo box allows the user to choose from available game configurations.
+     * It includes an ItemListener to handle the selection change event.
+     *
+     * @return The JComboBox for selecting card decks.
+     */
 
     public JComboBox<?> addComboBoxCards() {
         JComboBox<String> comboBoxCards = new JComboBox<>(launcher.getSettings().getGameConfs().toArray(new String[0]));
@@ -82,6 +119,14 @@ public class PanelSettings {
 
         return comboBoxCards;
     }
+
+    /**
+     * Creates and returns a JSlider for adjusting the sound volume.
+     * The slider allows the user to set the sound volume level.
+     * It includes a ChangeListener to handle the slider value changes and update the sound settings.
+     *
+     * @return The JSlider for adjusting sound volume.
+     */
 
     public JSlider addSoundSlider() {
         JSlider slider = new JSlider(0, 10, launcher.getSettings().getSound());
@@ -109,6 +154,14 @@ public class PanelSettings {
         return slider;
     }
 
+    /**
+     * Creates and returns a JSlider for adjusting the AI difficulty level.
+     * The slider allows the user to set the AI difficulty from 1 to 4.
+     * It includes a ChangeListener to handle the slider value changes and update the AI settings.
+     *
+     * @return The JSlider for adjusting AI difficulty.
+     */
+
     public JSlider addAiSlider() {
         JSlider slider = new JSlider(1, 4, launcher.getSettings().getAi());
         slider.setMajorTickSpacing(1);
@@ -135,6 +188,12 @@ public class PanelSettings {
         return slider;
     }
 
+    /**
+     * Retrieves the settings panel.
+     *
+     * @return The JPanel representing the settings panel.
+     */
+    
     public JPanel getPanel() {
         return this.panel;
     }
