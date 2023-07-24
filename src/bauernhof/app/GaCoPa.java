@@ -28,6 +28,7 @@ GaCoPa implements GameConfigurationParser{
      * @return The parsed GameConfiguration object.
      * @throws GameConfigurationException If there is an error parsing the game configuration.
      */
+
     @SuppressWarnings("unchecked") // Suppress unchecked cast warning
     public GameConfiguration parse(String filecontents) throws GameConfigurationException {
         try {
@@ -235,6 +236,7 @@ GaCoPa implements GameConfigurationParser{
      * @throws GameConfigurationException if there is an error in the game configuration
      * @throws IOException if an I/O error occurs while reading the file
      */
+    
     public GameConfiguration parse(File file) throws GameConfigurationException, IOException {
         try (FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader)) {

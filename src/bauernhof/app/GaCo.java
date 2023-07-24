@@ -32,6 +32,7 @@ public class GaCo implements GameConfiguration{
      * @param cardColors A set of CardColor objects representing the card colors in the game.
      * @param rawConfiguration The raw configuration data.
      */
+
     public GaCo(String configDescription, int numDepositionAreaSlots, int numCardsPerPlayerHand, Set<Card> cards, Set<CardColor> cardColors, String rawConfiguration) {
         this.configDescription = configDescription;
         this.numDepositionAreaSlots = numDepositionAreaSlots;
@@ -46,6 +47,7 @@ public class GaCo implements GameConfiguration{
      *
      * @return The configuration description of the game.
      */
+
     public String getConfigDescription() {
         return this.configDescription;
     }
@@ -55,6 +57,7 @@ public class GaCo implements GameConfiguration{
      *
      * @return The number of deposition area slots.
      */
+
     public int getNumDepositionAreaSlots() {
         return this.numDepositionAreaSlots;
     }
@@ -64,6 +67,7 @@ public class GaCo implements GameConfiguration{
      *
      * @return The number of cards per player hand.
      */
+
     public int getNumCardsPerPlayerHand() {
         return this.numCardsPerPlayerHand;
     }
@@ -73,6 +77,7 @@ public class GaCo implements GameConfiguration{
      *
      * @return The set of Card objects representing the cards in the game.
      */
+
     public Set<Card> getCards() {
         return this.cards;
     }
@@ -82,6 +87,7 @@ public class GaCo implements GameConfiguration{
      *
      * @return The set of CardColor objects representing the card colors in the game.
      */
+
     public Set<CardColor> getCardColors() {
         return this.cardColors;
     }
@@ -91,6 +97,7 @@ public class GaCo implements GameConfiguration{
      *
      * @return The raw configuration data.
      */
+
     public String getRawConfiguration() {
         return this.rawConfiguration;
     }
@@ -100,6 +107,7 @@ public class GaCo implements GameConfiguration{
      *
      * @param configDescription The new configuration description.
      */
+
     public void setConfigDescription(String configDescription) {
         this.configDescription = configDescription;
     }
@@ -109,6 +117,7 @@ public class GaCo implements GameConfiguration{
      *
      * @param numDepositionAreaSlots The new number of deposition area slots.
      */
+
     public void setNumDepositionAreaSlots(int numDepositionAreaSlots) {
         this.numDepositionAreaSlots = numDepositionAreaSlots;
     }
@@ -118,6 +127,7 @@ public class GaCo implements GameConfiguration{
      *
      * @param numCardsPerPlayerHand The new number of cards per player hand.
      */
+
     public void setNumCardsPerPlayerHand(int numCardsPerPlayerHand) {
         this.numCardsPerPlayerHand = numCardsPerPlayerHand;
     }
@@ -127,6 +137,7 @@ public class GaCo implements GameConfiguration{
      *
      * @param cards The new set of cards.
      */
+
     public void setCards(Set<Card> cards) {
         this.cards = cards;
     }
@@ -136,6 +147,7 @@ public class GaCo implements GameConfiguration{
      *
      * @param card The card to add.
      */
+
     public void addCard(Card card) {
         this.cards.add(card);
     }
@@ -145,6 +157,7 @@ public class GaCo implements GameConfiguration{
      *
      * @param cardColors The new set of card colors.
      */
+
     public void setCardColors(Set<CardColor> cardColors) {
         this.cardColors = cardColors;
     }
@@ -154,6 +167,7 @@ public class GaCo implements GameConfiguration{
      *
      * @param cardColor The card color to add.
      */
+
     public void addCardColor(CardColor cardColor) {
         this.cardColors.add(cardColor);
     }
@@ -163,6 +177,7 @@ public class GaCo implements GameConfiguration{
      *
      * @param rawConfiguration The new raw configuration data.
      */
+
     public void setRawConfiguration(String rawConfiguration) {
         this.rawConfiguration = rawConfiguration;
     }
@@ -173,6 +188,7 @@ public class GaCo implements GameConfiguration{
      * @param cardname The name of the card to retrieve.
      * @return The Card object with the specified name, or null if not found.
      */
+    
     public Card getCardByName(String cardname) {
         for (var item : this.cards) 
             if (item.getName().equals(cardname))

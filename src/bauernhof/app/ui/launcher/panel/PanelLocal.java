@@ -54,29 +54,29 @@ public class PanelLocal {
      */
 
     public PanelLocal(UiLauncher uiLauncher) throws IOException {
-        // Init Klassenvariablen
+        // Init classvariables
         this.uiLauncher = uiLauncher;
 
-        // JPanel erstellen
+        // create JPanel
         this.panel = new JPanel() {
 
-            // Erstelle Hintergrundbild
+            // create background
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
 
-                // Zeichne den Hintergrund
+                // draw background
                 ImageIcon backgroundImage = new ImageIcon("graphics/launcher/local.jpg");
                 Image image = backgroundImage.getImage();
                 g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
             }
         };
 
-        // JPanel Einstellungen
+        // JPanel settings
         this.panel.setPreferredSize(new Dimension(UiLauncher.WIDTH, UiLauncher.HEIGTH));
         this.panel.setLayout(null);
 
-        // Füge Buttons hinzu
+        // add buttons
         this.addButtonReturn();
         this.addButtonStartGame();
 
@@ -90,12 +90,12 @@ public class PanelLocal {
      */
 
     public void createPlayerView() {
-        int xPos = 218; // xPos wird pro Player statisch verändert. Die yPos wird anhand deinzelnen Objektlängen + 5px/15px Abstand berechnet
+        int xPos = 218; // The xPos is statically changed for each player. The yPos is calculated based on the individual object lengths plus a 5px/15px spacing.
         int yPos = 50;
-        // Erstelle für jeden Spieler inputs
+        // creates inputs for every player
         for (int index=0; index < 4; index ++) { // playerId = 0, 1, 2, 3
             
-            // Spielertyp //
+            // playertype //
 
             // -> JLabel
             JLabel addPlayerTypeLabel = new JLabel("Spielertyp:");
@@ -115,7 +115,7 @@ public class PanelLocal {
 
             yPos += 200;
 
-            // Spielernamen //
+            // playernames //
 
             // -> Label
             JLabel addPlayerNameLabel = new JLabel("Name:");
@@ -131,7 +131,7 @@ public class PanelLocal {
 
             yPos += 200;
 
-            // Spielerfarbe
+            // playercolor
 
             // -> Label
             JLabel addPlayerColoLabel = new JLabel("Farbe:");
@@ -157,7 +157,7 @@ public class PanelLocal {
                 this.panel.add(addPlayerDelButton);
             }
 
-            // Nächste Zeile
+            // next collum
             yPos = 50;
             xPos += 112;
         }  
@@ -169,12 +169,12 @@ public class PanelLocal {
      */
 
     public void readAllPlayer() {
-        // ArrayListen (weil es kann ein leerer Player dazuwischen sein)
+        // ArrayLists (since there can be an empty player in between).
         ArrayList<PlayerType> playerTypes = new ArrayList<>(4);
         ArrayList<String> playerNames = new ArrayList<>(4);
         ArrayList<Color> playerColors = new ArrayList<>(4);
 
-        // Fülle Listen für jeden spieler (4, weil das max spieler anzahl ist)
+        // fill list for every player up to 4
         for (int index=0; index < 4; index++) { 
             if (!(this.playerTypeCombo[index].getSelectedItem() == "Keiner") && this.playerNameField[index].getText() != "") { // Überprüfen, ob Spieler leer/aktiv ist
                 playerTypes.add(this.playerTypeType[this.playerTypeCombo[index].getSelectedIndex()]);
@@ -183,7 +183,7 @@ public class PanelLocal {
             }
         }
 
-        // Starte das Game
+        // start the game
         this.uiLauncher.startGame("local", playerTypes.toArray(new PlayerType[playerTypes.size()]), playerNames.toArray(new String[playerNames.size()]), playerColors.toArray(new Color[playerColors.size()]));        
     }
     
@@ -195,15 +195,15 @@ public class PanelLocal {
      */
 
     public void addPlayer(int playerId) {
-        // Nur Spieler 2, 3 
+        // only player 2 and 3
         if (playerId < 2) 
             return;
 
-        // Textfeld Prev + aktivieren
+        // textfield prev + activate
         this.playerNameField[playerId].setText(this.examPlayerNames[playerId]);
         this.playerNameField[playerId].setEditable(true);
 
-        // Farbe aktivieren
+        // activate color
         this.playerColorCombo[playerId].setEditable(true);
     }
 
@@ -215,18 +215,18 @@ public class PanelLocal {
      */
 
     public void removePlayer(int playerId) {
-        // Nur Spieler 2, 3 
+        // Only player 2 and 3 
         if (playerId < 2) 
             return;
 
-        // Auswahlbox auf Keine
+        // The selection box is set to "None"
         this.playerTypeCombo[playerId].setSelectedItem("Keiner");
 
-        // Textfeld leer + deaktivieren
+        // The text field empty and disable
         this.playerNameField[playerId].setText("");
         this.playerNameField[playerId].setEditable(false);
 
-        // Farbe deaktivieren
+        // deactivate color
         this.playerColorCombo[playerId].setEditable(false);
     }
 
@@ -236,10 +236,10 @@ public class PanelLocal {
      */
 
     public void addButtonReturn() {
-        // Erstelle den JButton
+        // Create the JButton
         JButton button = new JButton();
 
-        // Füge Listener hinzu
+        // Add a Listener
         button.addActionListener(new ListenerToHome(this.uiLauncher));
         
         // Styles
@@ -247,7 +247,7 @@ public class PanelLocal {
         button.setBorderPainted(UiLauncher.debug);
         button.setBounds(994, 532, 260, 125);  
 
-        // Füge Button Panel hinzu
+        // Add the JButton to the Button Panel
         this.panel.add(button);
     }
 
@@ -257,10 +257,10 @@ public class PanelLocal {
      */
 
     public void addButtonStartGame() {
-        // Erstelle den JButton
+        // Create the JButton
         JButton button = new JButton();
 
-        // Füge Listener hinzu
+        // Add a Listener
         button.addActionListener(new ListenerStartLocalGame(this));
         
         // Styles
@@ -268,7 +268,7 @@ public class PanelLocal {
         button.setBorderPainted(UiLauncher.debug);
         button.setBounds(995, 280, 261, 125);
 
-        // Füge Button Panel hinzu
+        // Add the JButton
         this.panel.add(button);
     }
 
