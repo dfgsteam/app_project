@@ -54,7 +54,6 @@ public class Init {
     }
 
     public static void checkSettings(Settings settings) throws WrongInputException, NoTournamentGUIException {
-        //
         if (settings.playerNames.size() != settings.playerColors.size() || settings.playerTypes.size() != settings.playerNames.size() || settings.playerTypes.size() != settings.playerColors.size()) { throw new WrongInputException(); }
         if (settings.numTournamentRounds > 0 && settings.showGUI) { throw new NoTournamentGUIException(); }
     }
